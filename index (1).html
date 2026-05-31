@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Retro Price Museum 🍄</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Inter:wght@400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+
+/* ══════════════════════════════════════════
+   CSS VARIABLES — swapped by theme toggle
+══════════════════════════════════════════ */
+:root{
+  /* shared palette */
+  --red:#e52222;--yellow:#f7c948;--green:#3abf3a;
+  --sky:#5bc8f5;--brick:#c84c0c;--dark:#1a0a00;
+}
+
+/* ── 16-BIT MODE (default) ── */
+body.mode-pixel{
+  --bg:#111827;--card:#162418;--card2:#0f1e0c;
+  --border:#2a4a22;--border2:#1e3a16;
+  --text:#fff;--text2:#ccc;--text3:#4a7a3a;
+  --accent:var(--yellow);--accent2:var(--sky);
+  --header-bg:#1a0a00;--tabs-bg:#0d1f0a;
+  --controls-bg:#0f1e0c;--price-bg:#0a1508;
+  --price-adj:#1a1000;--hours-bg:#0d1a0a;
+  --font-main:'Press Start 2P',monospace;
+  --font-vt:'VT323',monospace;
+  --font-size-base:9px;--font-size-title:clamp(10px,2.2vw,18px);
+  --font-size-card:8px;--font-size-small:6px;--font-size-label:7px;
+  --radius:0px;--card-shadow:4px 4px 0;
+  --scanlines:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 4px);
+  background:var(--bg);font-family:var(--font-main);color:var(--text);min-height:100vh;overflow-x:hidden;
+}
+
+/* ── SMOOTH MODE ── */
+body.mode-smooth{
+  --bg:#0f0f1a;--card:#1a1a2e;--card2:#16213e;
+  --border:#2a2a4a;--border2:#1e1e3a;
+  --text:#f0f0ff;--text2:#a0a0c0;--text3:#5a5a8a;
+  --accent:#f7c948;--accent2:#5bc8f5;
+  --header-bg:#0a0a14;--tabs-bg:#0d0d1e;
+  --controls-bg:#111124;--price-bg:#0a0a18;
+  --price-adj:#1a1408;--hours-bg:#0d0d1a;
+  --font-main:'Inter',sans-serif;
+  --font-vt:'Inter',sans-serif;
+  --font-size-base:13px;--font-size-title:clamp(18px,4vw,36px);
+  --font-size-card:13px;--font-size-small:11px;--font-size-label:11px;
+  --radius:12px;--card-shadow:0 8px 32px;
+  --scanlines:none;
+  background:var(--bg);font-family:var(--font-main);color:var(--text);min-height:100vh;overflow-x:hidden;
+}
+
+/* Scanline overlay — pixel only */
+body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:var(--scanlines);pointer-events:none;z-index:9999}
+
+/* ══════════════════════════════════════════
+   THEME TOGGLE BUTTON
+══════════════════════════════════════════ */
+.theme-toggle{
+  position:absolute;top:12px;right:12px;
+  display:flex;align-items:center;gap:8px;
+  background:rgba(0,0,0,0.4);border:1px solid rgba(247,201,72,0.4);
+  padding:6px 10px;cursor:pointer;z-index:10;
+  border-radius:var(--radius);transition:all 0.2s;
+}
+.mode-smooth .theme-toggle{border-radius:20px;background:rgba(255,255,255,0.08)}
+.theme-toggle:hover{border-color:var(--accent);background:rgba(247,201,72,0.15)}
+.theme-toggle-icon{font-size:16px}
+.theme-toggle-label{font-size:9px;color:var(--accent);letter-spacing:1px;white-space:nowrap}
+.mode-smooth .theme-toggle-label{font-size:11px;letter-spacing:0;font-weight:600}
+
+/* ══════════════════════════════════════════
+   HEADER
+══════════════════════════════════════════ */
+.header{background:var(--header-bg);border-bottom:4px solid var(--accent);text-align:center;overflow:hidden;position:relative}
+.mode-smooth .header{border-bottom:none;border-bottom:3px solid;border-image:linear-gradient(90deg,var(--red),var(--yellow),var(--green),var(--sky)) 1}
+.header-clouds{background:#5bc8f5;height:56px;display:flex;align-items:center;justify-content:center;gap:40px;font-size:26px;position:relative}
+.mode-smooth .header-clouds{display:none}
+.header-clouds::before{content:'';position:absolute;bottom:0;left:0;right:0;height:10px;background:repeating-linear-gradient(90deg,#5bc8f5 0,#5bc8f5 16px,#4ab5e8 16px,#4ab5e8 32px)}
+.header-ground{background:var(--header-bg);padding:20px 60px 14px;display:flex;flex-direction:column;align-items:center;gap:8px}
+.mode-smooth .header-ground{padding:32px 60px 24px}
+.header-title{font-size:var(--font-size-title);color:var(--accent);letter-spacing:2px}
+.mode-pixel .header-title{text-shadow:3px 3px 0 #c84c0c,-1px -1px 0 #000}
+.mode-smooth .header-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(28px,6vw,56px);letter-spacing:6px;background:linear-gradient(135deg,var(--yellow),var(--red));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.header-subtitle{font-family:var(--font-vt);font-size:18px;color:var(--accent2);letter-spacing:2px}
+.mode-smooth .header-subtitle{font-family:'Inter',sans-serif;font-size:13px;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:var(--text2);-webkit-text-fill-color:var(--text2)}
+
+/* ══════════════════════════════════════════
+   MOST EXPENSIVE STRIP
+══════════════════════════════════════════ */
+.expensive-hero{background:var(--header-bg);border-bottom:3px solid var(--red);padding:16px}
+.mode-smooth .expensive-hero{border-bottom:1px solid rgba(228,50,50,0.3);background:var(--card2)}
+.expensive-hero-title{font-size:var(--font-size-label);color:var(--red);letter-spacing:2px;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.mode-smooth .expensive-hero-title{font-size:11px;font-weight:700;letter-spacing:3px}
+.expensive-hero-title::before{content:'';display:block;width:14px;height:2px;background:var(--red)}
+.expensive-hero-sub{font-family:var(--font-vt);font-size:15px;color:var(--text3);letter-spacing:1px;margin-bottom:12px}
+.mode-smooth .expensive-hero-sub{font-family:'Inter',sans-serif;font-size:12px;color:var(--text2);letter-spacing:0}
+.expensive-scroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:var(--border) var(--price-bg)}
+.expensive-scroll::-webkit-scrollbar{height:4px}
+.expensive-scroll::-webkit-scrollbar-track{background:var(--price-bg)}
+.expensive-scroll::-webkit-scrollbar-thumb{background:var(--border)}
+.exp-card{flex-shrink:0;width:140px;background:var(--card);border:2px solid #5a1a1a;position:relative;cursor:pointer;transition:all 0.15s;border-radius:var(--radius)}
+.mode-smooth .exp-card{border:1px solid rgba(228,50,50,0.25);box-shadow:0 2px 12px rgba(0,0,0,0.4)}
+.exp-card:hover{border-color:var(--red);transform:translateY(-3px)}
+.mode-pixel .exp-card:hover{transform:translate(-2px,-2px);box-shadow:3px 3px 0 #8b0000}
+.exp-rank{position:absolute;top:6px;left:6px;background:var(--red);color:#fff;font-size:var(--font-size-small);padding:3px 5px;z-index:2;letter-spacing:1px;border-radius:var(--radius)}
+.exp-art{width:100%;aspect-ratio:3/4;background:#0a1508;overflow:hidden;border-radius:var(--radius) var(--radius) 0 0}
+.exp-art img{width:100%;height:100%;object-fit:cover}
+.exp-art-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:26px}
+.exp-info{padding:8px}
+.exp-title{font-size:var(--font-size-small);color:var(--text);letter-spacing:.5px;margin-bottom:4px;line-height:1.5;min-height:18px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.mode-smooth .exp-title{font-size:11px;font-weight:600}
+.exp-year{font-size:var(--font-size-small);color:var(--accent2);margin-bottom:5px}
+.exp-orig{font-size:var(--font-size-label);color:var(--text2);text-decoration:line-through;text-decoration-color:var(--red)}
+.mode-smooth .exp-orig{font-size:11px}
+.exp-2026{font-size:11px;color:var(--red);margin-top:2px;font-weight:600}
+.exp-note{font-family:var(--font-vt);font-size:12px;color:var(--text3);letter-spacing:1px;margin-top:2px}
+.mode-smooth .exp-note{font-family:'Inter',sans-serif;font-size:10px;font-weight:500;letter-spacing:.5px}
+
+/* ══════════════════════════════════════════
+   TABS
+══════════════════════════════════════════ */
+.tabs{display:flex;background:var(--tabs-bg);border-bottom:3px solid var(--accent);overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.mode-smooth .tabs{border-bottom:1px solid var(--border);gap:4px;padding:8px 12px;background:var(--card2)}
+.tabs::-webkit-scrollbar{display:none}
+.tab{font-family:var(--font-main);font-size:var(--font-size-base);padding:12px 14px;cursor:pointer;color:var(--text3);border:none;background:transparent;white-space:nowrap;border-right:2px solid var(--border2);transition:all 0.15s;letter-spacing:.5px;min-height:44px;display:flex;align-items:center}
+.mode-smooth .tab{font-family:'Inter',sans-serif;font-size:13px;font-weight:500;letter-spacing:.5px;border-right:none;border-radius:8px;padding:8px 14px;min-height:36px;color:var(--text2)}
+.tab:hover{color:var(--accent);background:var(--card)}
+.tab.active{color:var(--dark);background:var(--accent);border-color:var(--accent);font-weight:700}
+.mode-smooth .tab.active{color:#1a0a00}
+
+/* ══════════════════════════════════════════
+   CONTROLS / SEARCH
+══════════════════════════════════════════ */
+.controls{padding:12px 16px;background:var(--controls-bg);border-bottom:1px solid var(--border2);display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.pixel-input{font-family:var(--font-main);font-size:var(--font-size-base);background:var(--price-bg);border:2px solid var(--green);color:var(--text);padding:10px 12px;outline:none;flex:1;min-width:120px;border-radius:var(--radius);min-height:44px}
+.mode-smooth .pixel-input{font-family:'Inter',sans-serif;font-size:14px;border:1px solid var(--border);border-radius:10px;padding:10px 14px}
+.pixel-input:focus{border-color:var(--accent)}
+.pixel-select{font-family:var(--font-main);font-size:var(--font-size-small);background:var(--price-bg);border:2px solid var(--green);color:var(--text);padding:10px 8px;outline:none;cursor:pointer;border-radius:var(--radius);min-height:44px}
+.mode-smooth .pixel-select{font-family:'Inter',sans-serif;font-size:13px;border:1px solid var(--border);border-radius:10px;padding:10px 12px}
+.controls-label{font-size:var(--font-size-label);color:var(--accent);white-space:nowrap}
+
+/* ══════════════════════════════════════════
+   GAME CARDS
+══════════════════════════════════════════ */
+.main{padding:12px 12px 24px}
+.games-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+@media(min-width:480px){.games-grid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px}}
+@media(min-width:768px){.games-grid{grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}}
+
+.game-card{background:var(--card);border:2px solid var(--border);cursor:pointer;transition:all 0.15s;position:relative;overflow:hidden;border-radius:var(--radius)}
+.mode-smooth .game-card{border:1px solid var(--border);box-shadow:0 2px 12px rgba(0,0,0,0.3)}
+.game-card:hover{border-color:var(--accent);transform:translateY(-3px)}
+.mode-pixel .game-card:hover{transform:translate(-2px,-2px);box-shadow:var(--card-shadow) var(--brick)}
+.mode-smooth .game-card:hover{box-shadow:0 8px 28px rgba(0,0,0,0.5)}
+.game-card:hover .card-overlay{opacity:1}
+.card-overlay{position:absolute;top:6px;right:6px;background:var(--accent);color:#000;font-size:var(--font-size-small);padding:4px 6px;opacity:0;transition:opacity 0.15s;letter-spacing:.5px;z-index:2;border-radius:var(--radius);font-weight:700}
+.box-art-wrap{width:100%;aspect-ratio:3/4;background:var(--price-bg);position:relative;overflow:hidden;border-radius:var(--radius) var(--radius) 0 0}
+.box-art-wrap img{width:100%;height:100%;object-fit:cover;display:block}
+.box-art-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;padding:12px;text-align:center}
+.placeholder-icon{font-size:32px}
+.placeholder-text{font-size:var(--font-size-small);color:var(--text3);letter-spacing:.5px;line-height:1.4}
+.console-badge{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.8);font-size:var(--font-size-small);padding:4px 8px;color:var(--accent2);letter-spacing:.5px}
+.mode-smooth .console-badge{font-family:'Inter',sans-serif;font-size:11px;font-weight:500}
+.card-info{padding:10px 10px 12px;border-top:1px solid var(--border2)}
+.card-title{font-size:var(--font-size-card);color:var(--text);letter-spacing:.5px;margin-bottom:6px;line-height:1.5;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;min-height:24px}
+.mode-smooth .card-title{font-weight:600;font-size:13px;letter-spacing:0}
+.card-year{font-size:var(--font-size-small);color:var(--accent2);margin-bottom:8px}
+.price-table-mini{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.price-cell{background:var(--price-bg);border:1px solid var(--border2);padding:5px 6px;text-align:center;border-radius:var(--radius)}
+.price-cell-label{font-size:var(--font-size-small);color:var(--text3);display:block;margin-bottom:2px}
+.mode-smooth .price-cell-label{font-family:'Inter',sans-serif;font-size:10px}
+.price-cell-val{font-size:var(--font-size-label);color:var(--accent)}
+.mode-smooth .price-cell-val{font-family:'Inter',sans-serif;font-size:13px;font-weight:600}
+.price-cell.adjusted{border-color:var(--accent);grid-column:1/-1;background:var(--price-adj);position:relative}
+.price-cell.adjusted .price-cell-label{color:var(--accent)}
+.price-cell.adjusted .price-cell-val{color:var(--text);font-size:var(--font-size-label)}
+.mode-smooth .price-cell.adjusted .price-cell-val{font-size:14px}
+.hours-cell{grid-column:1/-1;background:var(--hours-bg);border:1px solid var(--border2);padding:5px 8px;display:flex;justify-content:space-between;align-items:center;border-radius:var(--radius)}
+.hours-cell-label{font-size:var(--font-size-small);color:var(--text3)}
+.mode-smooth .hours-cell-label{font-family:'Inter',sans-serif;font-size:10px}
+.hours-cell-vals{font-size:var(--font-size-label);color:var(--sky)}
+.mode-smooth .hours-cell-vals{font-family:'Inter',sans-serif;font-size:12px;font-weight:600}
+
+/* ══════════════════════════════════════════
+   TOOLTIP
+══════════════════════════════════════════ */
+.tooltip-wrap{position:relative;display:inline-block}
+.tooltip-btn{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:var(--border);border:1px solid var(--accent);color:var(--accent);font-size:8px;cursor:pointer;font-family:var(--font-main);line-height:1;vertical-align:middle;margin-left:4px;flex-shrink:0}
+.tooltip-box{display:none;position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);width:200px;background:var(--card2);border:1px solid var(--accent);padding:8px 10px;z-index:200;pointer-events:none;border-radius:var(--radius)}
+.tooltip-box::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--accent)}
+.tooltip-box-text{font-size:var(--font-size-small);color:var(--text2);line-height:1.8;letter-spacing:.5px}
+.mode-smooth .tooltip-box-text{font-family:'Inter',sans-serif;font-size:11px;line-height:1.5}
+.tooltip-wrap:hover .tooltip-box,.tooltip-wrap:focus-within .tooltip-box{display:block}
+
+/* ══════════════════════════════════════════
+   CONSOLE CARDS — bigger, image-ready
+══════════════════════════════════════════ */
+.consoles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+@media(max-width:600px){.consoles-grid{grid-template-columns:1fr}}
+@media(min-width:900px){.consoles-grid{grid-template-columns:repeat(auto-fill,minmax(320px,1fr))}}
+
+.console-card{background:var(--card);border:2px solid var(--border);cursor:pointer;transition:all 0.15s;border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column}
+.mode-smooth .console-card{border:1px solid var(--border);box-shadow:0 2px 16px rgba(0,0,0,0.3)}
+.console-card:hover{border-color:var(--accent);transform:translateY(-3px)}
+.mode-pixel .console-card:hover{transform:translate(-2px,-2px);box-shadow:var(--card-shadow) var(--brick)}
+.mode-smooth .console-card:hover{box-shadow:0 8px 32px rgba(0,0,0,0.5)}
+
+/* Big image area — 16:9 landscape ready for console photos */
+.console-art-wrap{width:100%;aspect-ratio:16/9;background:var(--price-bg);overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;border-bottom:2px solid var(--border2)}
+.mode-smooth .console-art-wrap{border-bottom:1px solid var(--border)}
+.console-art-wrap img{width:100%;height:100%;object-fit:cover;display:block}
+.console-icon-big{font-size:64px;line-height:1}
+.mode-smooth .console-icon-big{font-size:72px}
+
+.console-info{padding:14px 16px;flex:1;display:flex;flex-direction:column;gap:10px}
+.console-name{font-size:clamp(9px,2vw,12px);color:var(--accent);letter-spacing:1px}
+.mode-smooth .console-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(18px,3vw,24px);letter-spacing:2px;color:var(--accent)}
+.console-meta{display:flex;gap:12px;flex-wrap:wrap}
+.console-meta-item{font-size:var(--font-size-small);color:var(--text2)}
+.mode-smooth .console-meta-item{font-family:'Inter',sans-serif;font-size:12px}
+.console-desc{font-family:var(--font-vt);font-size:16px;color:var(--text2);line-height:1.5;letter-spacing:.5px}
+.mode-smooth .console-desc{font-family:'Inter',sans-serif;font-size:13px;line-height:1.6;letter-spacing:0}
+.console-prices{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:4px}
+.console-prices .price-cell{padding:7px 8px}
+
+/* ══════════════════════════════════════════
+   MODAL
+══════════════════════════════════════════ */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:1000;align-items:flex-end;justify-content:center;padding:0}
+@media(min-width:600px){.modal-bg{align-items:center;padding:16px}}
+.modal-bg.open{display:flex}
+.modal{background:var(--card2);border-top:3px solid var(--accent);width:100%;max-width:700px;max-height:92vh;overflow-y:auto;position:relative;border-radius:var(--radius) var(--radius) 0 0}
+@media(min-width:600px){.modal{border:2px solid var(--accent);border-radius:var(--radius);box-shadow:6px 6px 0 #000}}
+.mode-smooth .modal{border-top:none;border-radius:16px 16px 0 0;border:none;box-shadow:0 -8px 40px rgba(0,0,0,0.6)}
+@media(min-width:600px){.mode-smooth .modal{border-radius:16px;border:1px solid var(--border)}}
+.modal::-webkit-scrollbar{width:6px}
+.modal::-webkit-scrollbar-track{background:var(--price-bg)}
+.modal::-webkit-scrollbar-thumb{background:var(--green)}
+.modal-header{background:var(--accent);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10;border-radius:var(--radius) var(--radius) 0 0}
+.mode-smooth .modal-header{background:linear-gradient(135deg,var(--yellow),var(--brick));border-radius:16px 16px 0 0}
+@media(min-width:600px){.mode-smooth .modal-header{border-radius:16px 16px 0 0}}
+.modal-title{font-size:10px;color:#000;letter-spacing:.5px;flex:1;padding-right:8px}
+.mode-smooth .modal-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px}
+.modal-close{font-family:var(--font-main);font-size:10px;background:var(--red);border:2px solid #000;color:#fff;padding:6px 10px;cursor:pointer;border-radius:var(--radius);min-height:36px;min-width:36px;display:flex;align-items:center;justify-content:center}
+.mode-smooth .modal-close{font-family:'Inter',sans-serif;font-size:13px;font-weight:700;border-radius:8px;border:none}
+.modal-body{padding:16px}
+@media(min-width:600px){.modal-body{padding:20px}}
+.modal-layout{display:grid;grid-template-columns:140px 1fr;gap:16px;margin-bottom:16px}
+@media(min-width:480px){.modal-layout{grid-template-columns:170px 1fr}}
+.modal-box-art{border:2px solid var(--border);overflow:hidden;aspect-ratio:3/4;border-radius:var(--radius)}
+.mode-smooth .modal-box-art{border:none;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.5)}
+.modal-box-art img{width:100%;height:100%;object-fit:cover}
+.modal-info h2{font-size:10px;color:var(--accent);margin-bottom:8px;line-height:1.6;letter-spacing:.5px}
+.mode-smooth .modal-info h2{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px}
+.info-row{display:flex;gap:6px;align-items:flex-start;margin-bottom:6px;border-bottom:1px dashed var(--border2);padding-bottom:6px}
+.info-label{font-size:var(--font-size-small);color:var(--text3);min-width:72px;padding-top:1px}
+.mode-smooth .info-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:500;min-width:80px}
+.info-val{font-size:var(--font-size-label);color:var(--text)}
+.mode-smooth .info-val{font-family:'Inter',sans-serif;font-size:13px}
+.hours-block{background:var(--hours-bg);border:1px solid var(--border2);padding:10px 12px;margin-bottom:6px;border-radius:var(--radius)}
+.hours-block-title{font-size:var(--font-size-small);color:var(--text3);letter-spacing:.5px;margin-bottom:8px}
+.mode-smooth .hours-block-title{font-family:'Inter',sans-serif;font-size:11px;font-weight:600}
+.hours-cols{display:flex;gap:12px}
+.hours-col{flex:1;text-align:center}
+.hours-col-lbl{font-size:var(--font-size-small);color:var(--text3);margin-bottom:4px}
+.mode-smooth .hours-col-lbl{font-family:'Inter',sans-serif;font-size:11px}
+.hours-col-val{font-size:16px;color:var(--sky)}
+.mode-smooth .hours-col-val{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:1px}
+.hours-col-sub{font-size:var(--font-size-small);color:var(--text3);margin-top:2px}
+.mode-smooth .hours-col-sub{font-family:'Inter',sans-serif;font-size:10px}
+.price-breakdown{margin-top:14px;border:2px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.mode-smooth .price-breakdown{border:1px solid var(--border)}
+.price-breakdown-header{background:var(--border);padding:8px 12px;font-size:var(--font-size-small);color:var(--accent);letter-spacing:.5px}
+.mode-smooth .price-breakdown-header{font-family:'Inter',sans-serif;font-size:12px;font-weight:700;background:var(--card)}
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--border2)}
+@media(max-width:380px){.price-grid{grid-template-columns:1fr}}
+.price-col{padding:10px 8px;border-right:1px solid var(--border2);text-align:center}
+.price-col:last-child{border-right:none}
+.price-currency{font-size:var(--font-size-small);color:var(--text3);margin-bottom:4px;letter-spacing:.5px}
+.mode-smooth .price-currency{font-family:'Inter',sans-serif;font-size:11px;font-weight:600}
+.price-original{font-size:13px;color:var(--text2);margin-bottom:6px;display:block;text-decoration:line-through;text-decoration-color:var(--red)}
+.mode-smooth .price-original{font-family:'Inter',sans-serif;font-size:14px}
+.price-arrow{font-size:14px;color:var(--green);display:block;margin:3px 0}
+.price-2026{font-size:15px;color:var(--accent);display:block;font-weight:700}
+.mode-smooth .price-2026{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px}
+.inflation-note{background:var(--price-bg);border:1px solid var(--border2);padding:10px 12px;margin-top:10px;font-size:var(--font-size-small);color:var(--text3);line-height:2;letter-spacing:.5px;border-radius:var(--radius)}
+.mode-smooth .inflation-note{font-family:'Inter',sans-serif;font-size:11px;line-height:1.7}
+.modal-desc{font-family:var(--font-vt);font-size:17px;color:var(--text2);line-height:1.6;margin-top:10px;letter-spacing:.5px}
+.mode-smooth .modal-desc{font-family:'Inter',sans-serif;font-size:14px;line-height:1.7;letter-spacing:0}
+
+/* ══════════════════════════════════════════
+   LOADING / FOOTER
+══════════════════════════════════════════ */
+.loading-state{text-align:center;padding:60px 20px;color:var(--green);font-size:var(--font-size-base);letter-spacing:1px}
+.mode-smooth .loading-state{font-family:'Inter',sans-serif;font-size:14px}
+.blink{animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.pixel-bar-wrap{background:var(--price-bg);border:2px solid var(--border2);height:14px;margin-top:14px;max-width:280px;margin-left:auto;margin-right:auto;overflow:hidden;border-radius:var(--radius)}
+.pixel-bar-fill{height:100%;background:repeating-linear-gradient(90deg,var(--green) 0,var(--green) 8px,#2a8f2a 8px,#2a8f2a 16px);width:0%;animation:loadBar 2s ease forwards}
+.mode-smooth .pixel-bar-fill{background:linear-gradient(90deg,var(--green),var(--sky));border-radius:var(--radius)}
+@keyframes loadBar{to{width:100%}}
+.footer-stats{background:var(--tabs-bg);border-top:1px solid var(--border2);padding:12px 16px;display:flex;gap:20px;flex-wrap:wrap}
+.stat-item{font-size:var(--font-size-small);color:var(--text3);letter-spacing:.5px}
+.mode-smooth .stat-item{font-family:'Inter',sans-serif;font-size:11px}
+.stat-item span{color:var(--accent)}
+.tab-content{display:none}
+.tab-content.active{display:block}
+.sub-tabs{display:flex;background:var(--card2);border-bottom:2px solid var(--border2);overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:0 4px}
+.sub-tabs::-webkit-scrollbar{display:none}
+.sub-tab{font-family:var(--font-main);font-size:var(--font-size-small);padding:10px 14px;cursor:pointer;color:var(--text3);border:none;background:transparent;white-space:nowrap;border-right:1px solid var(--border2);transition:all 0.15s;letter-spacing:.5px;min-height:40px;display:flex;align-items:center}
+.mode-smooth .sub-tab{font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:.5px}
+.sub-tab:hover{color:var(--accent);background:var(--card)}
+.sub-tab.active{color:var(--dark);background:var(--accent)}
+.sub-tab-coming{font-family:var(--font-main);font-size:var(--font-size-small);padding:10px 12px;color:var(--text3);opacity:0.35;white-space:nowrap;border-right:1px solid var(--border2);display:flex;align-items:center;min-height:40px;letter-spacing:.5px}
+.mode-smooth .sub-tab-coming{font-family:'Inter',sans-serif;font-size:12px}
+.console-panel{display:none}
+.console-panel.active{display:block}
+@keyframes coinSpin{0%,100%{transform:scaleX(1)}50%{transform:scaleX(0.1)}}
+.coin{display:inline-block;animation:coinSpin 0.8s infinite;color:var(--accent)}
+
+/* ══════════════════════════════════════════
+   EXPLAINER TAB
+══════════════════════════════════════════ */
+.exp-tab{padding:0 0 40px}
+.exp-hero{background:var(--header-bg);border-bottom:3px solid var(--accent);padding:24px 20px;text-align:center}
+.mode-smooth .exp-hero{border-bottom:1px solid var(--border);background:var(--card2)}
+.exp-hero-title{font-size:clamp(10px,2vw,14px);color:var(--accent);letter-spacing:2px;margin-bottom:8px}
+.mode-smooth .exp-hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(24px,5vw,40px);letter-spacing:4px}
+.exp-hero-sub{font-family:var(--font-vt);font-size:18px;color:var(--accent2);letter-spacing:1px}
+.mode-smooth .exp-hero-sub{font-family:'Inter',sans-serif;font-size:14px;color:var(--text2);letter-spacing:.5px}
+.exp-section{padding:20px 16px;border-bottom:1px solid var(--border2)}
+@media(min-width:600px){.exp-section{padding:24px 24px}}
+.exp-section-title{font-size:var(--font-size-label);color:var(--accent);letter-spacing:1px;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.mode-smooth .exp-section-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px}
+.exp-section-title::before{content:'';display:block;height:2px;width:18px;background:var(--accent);flex-shrink:0}
+.vt{font-family:var(--font-vt);font-size:18px;line-height:1.7;color:var(--text2);letter-spacing:.5px}
+.mode-smooth .vt{font-family:'Inter',sans-serif;font-size:15px;line-height:1.8;letter-spacing:0}
+.vt b{color:var(--text)}.vt .hi{color:var(--accent)}.vt .red{color:#ff8888}.vt .grn{color:var(--green)}
+.formula-box{background:var(--price-bg);border:2px solid var(--accent);padding:14px;margin:14px 0;text-align:center;border-radius:var(--radius)}
+.mode-smooth .formula-box{border:1px solid var(--accent);border-radius:12px;background:rgba(247,201,72,0.05)}
+.formula{font-size:11px;color:var(--accent);letter-spacing:1px;line-height:2}
+.mode-smooth .formula{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px}
+.formula .op{color:var(--sky)}.formula .eq{color:var(--green)}
+.cpi-basket{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+@media(min-width:480px){.cpi-basket{grid-template-columns:repeat(6,1fr)}}
+.basket-item{background:var(--card);border:1px solid var(--border);padding:8px 4px;text-align:center;border-radius:var(--radius)}
+.basket-icon{font-size:18px;margin-bottom:4px}
+.basket-name{font-size:var(--font-size-small);color:var(--text3);letter-spacing:.5px}
+.mode-smooth .basket-name{font-family:'Inter',sans-serif;font-size:10px;font-weight:600}
+.basket-change{font-size:var(--font-size-small);margin-top:3px}
+.mode-smooth .basket-change{font-family:'Inter',sans-serif;font-size:10px;font-weight:600}
+.basket-change.up{color:#ff8888}.basket-change.down{color:var(--green)}
+.wage-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.wage-card{background:var(--card);border:2px solid var(--border);padding:12px;border-radius:var(--radius)}
+.mode-smooth .wage-card{border:1px solid var(--border)}
+.wage-card.then{border-color:#5a1a1a}
+.wage-card.now{border-color:#1a3a1a}
+.wage-flag{font-size:var(--font-size-small);letter-spacing:.5px;margin-bottom:5px}
+.mode-smooth .wage-flag{font-family:'Inter',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.wage-flag.then{color:#ff8888}.wage-flag.now{color:var(--green)}
+.wage-country{font-size:13px;color:var(--accent);margin-bottom:8px}
+.mode-smooth .wage-country{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px}
+.wage-stat{margin-bottom:6px;border-bottom:1px dashed var(--border2);padding-bottom:6px}
+.wage-stat:last-child{border:none;margin:0;padding:0}
+.wage-stat-lbl{font-size:var(--font-size-small);color:var(--text3);letter-spacing:.5px;margin-bottom:2px}
+.mode-smooth .wage-stat-lbl{font-family:'Inter',sans-serif;font-size:10px;font-weight:600}
+.wage-stat-val{font-size:var(--font-size-label);color:var(--text)}
+.mode-smooth .wage-stat-val{font-family:'Inter',sans-serif;font-size:14px;font-weight:600}
+.wage-stat-sub{font-size:var(--font-size-small);color:var(--text3);letter-spacing:.5px}
+.mode-smooth .wage-stat-sub{font-family:'Inter',sans-serif;font-size:10px}
+.pain-row{display:flex;gap:8px;margin-bottom:8px;align-items:center}
+.pain-game{font-size:var(--font-size-small);color:var(--accent2);width:160px;flex-shrink:0;letter-spacing:.5px;line-height:1.5}
+.mode-smooth .pain-game{font-family:'Inter',sans-serif;font-size:11px;font-weight:500}
+.pain-bar-wrap{flex:1;background:var(--price-bg);border:1px solid var(--border2);height:22px;overflow:hidden;border-radius:var(--radius)}
+.pain-bar-fill{height:100%;display:flex;align-items:center;justify-content:flex-end;padding-right:6px;border-radius:var(--radius)}
+.pain-bar-fill.low{background:repeating-linear-gradient(90deg,#1a4a1a,#1a4a1a 8px,#142e14 8px,#142e14 16px)}
+.pain-bar-fill.mid{background:repeating-linear-gradient(90deg,#4a3a00,#4a3a00 8px,#2e2400 8px,#2e2400 16px)}
+.pain-bar-fill.high{background:repeating-linear-gradient(90deg,#4a1a1a,#4a1a1a 8px,#2e1010 8px,#2e1010 16px)}
+.mode-smooth .pain-bar-fill.low{background:linear-gradient(90deg,#1a4a1a,#2a7a2a);border-radius:var(--radius)}
+.mode-smooth .pain-bar-fill.mid{background:linear-gradient(90deg,#4a3a00,#7a6000);border-radius:var(--radius)}
+.mode-smooth .pain-bar-fill.high{background:linear-gradient(90deg,#6a1a1a,#c84c0c);border-radius:var(--radius)}
+.pain-bar-val{font-size:var(--font-size-small);color:#fff;letter-spacing:.5px;white-space:nowrap}
+.mode-smooth .pain-bar-val{font-family:'Inter',sans-serif;font-size:11px;font-weight:600}
+.note-box{background:var(--header-bg);border-left:3px solid var(--accent);padding:12px 14px;margin:14px 0;border-radius:0 var(--radius) var(--radius) 0}
+.mode-smooth .note-box{border-left:3px solid var(--accent);background:rgba(247,201,72,0.06);border-radius:0 12px 12px 0}
+.note-text{font-family:var(--font-vt);font-size:17px;color:var(--text2);line-height:1.6;letter-spacing:.5px}
+.mode-smooth .note-text{font-family:'Inter',sans-serif;font-size:14px;line-height:1.7;letter-spacing:0}
+.note-text b{color:var(--accent)}
+.calc-box{background:var(--price-bg);border:2px solid var(--green);padding:16px;margin:14px 0;border-radius:var(--radius)}
+.mode-smooth .calc-box{border:1px solid var(--border);border-radius:12px}
+.calc-row{display:flex;gap:10px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+.calc-lbl{font-size:var(--font-size-small);color:var(--text3);min-width:72px;letter-spacing:.5px}
+.mode-smooth .calc-lbl{font-family:'Inter',sans-serif;font-size:12px;font-weight:600}
+.pix-sel{font-family:var(--font-main);font-size:var(--font-size-small);background:var(--price-bg);border:2px solid var(--green);color:var(--text);padding:8px;outline:none;cursor:pointer;border-radius:var(--radius);min-height:44px;flex:1}
+.mode-smooth .pix-sel{font-family:'Inter',sans-serif;font-size:13px;border:1px solid var(--border);border-radius:10px;min-height:44px;background:var(--card)}
+.pix-inp{font-family:var(--font-main);font-size:var(--font-size-small);background:var(--price-bg);border:2px solid var(--green);color:var(--text);padding:8px;outline:none;width:90px;border-radius:var(--radius);min-height:44px}
+.mode-smooth .pix-inp{font-family:'Inter',sans-serif;font-size:13px;border:1px solid var(--border);border-radius:10px;background:var(--card)}
+.calc-result{background:var(--header-bg);border:2px solid var(--accent);padding:10px 14px;margin-top:10px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;border-radius:var(--radius)}
+.mode-smooth .calc-result{border:1px solid var(--accent);border-radius:10px;background:rgba(247,201,72,0.06)}
+.calc-result-lbl{font-size:var(--font-size-small);color:var(--text3);letter-spacing:.5px}
+.mode-smooth .calc-result-lbl{font-family:'Inter',sans-serif;font-size:11px;font-weight:600}
+.calc-result-val{font-size:18px;color:var(--accent);font-weight:700}
+.mode-smooth .calc-result-val{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px}
+.calc-ctx{font-family:var(--font-vt);font-size:15px;color:var(--text2);margin-top:8px;letter-spacing:.5px;line-height:1.6}
+.mode-smooth .calc-ctx{font-family:'Inter',sans-serif;font-size:13px;letter-spacing:0}
+</style>
+</head>
+<body class="mode-pixel">
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-clouds">☁️ &nbsp; ☁️ &nbsp; ☁️ &nbsp; ☁️</div>
+  <div class="header-ground">
+    <div class="header-title">🍄 RETRO PRICE MUSEUM 🍄</div>
+    <div class="header-subtitle">WHAT DID GAMES ACTUALLY COST?</div>
+  </div>
+  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Switch theme">
+    <span class="theme-toggle-icon" id="themeIcon">🎮</span>
+    <span class="theme-toggle-label" id="themeLabel">SMOOTH MODE</span>
+  </button>
+</div>
+
+<!-- MOST EXPENSIVE STRIP -->
+<div class="expensive-hero">
+  <div class="expensive-hero-title">💸 MOST EXPENSIVE GAMES IN HISTORY</div>
+  <div class="expensive-hero-sub">Inflation-adjusted to 2026 USD — the true cost of gaming's priciest releases</div>
+  <div class="expensive-scroll" id="expensiveStrip"></div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('games',this)">🎮 GAMES</button>
+  <button class="tab" onclick="switchTab('byConsole',this)">🕹️ GAMES BY CONSOLE</button>
+  <button class="tab" onclick="switchTab('consoles',this)">📺 CONSOLES</button>
+  <button class="tab" onclick="switchTab('explainer',this)">❓ HOW IT WORKS</button>
+</div>
+
+<div class="controls" id="controls">
+  <div class="controls-label">🔍</div>
+  <input class="pixel-input" type="text" id="searchInput" placeholder="SEARCH..." oninput="filterGames()">
+  <select class="pixel-select" id="consoleFilter" onchange="filterGames()">
+    <option value="">ALL CONSOLES</option>
+  </select>
+  <select class="pixel-select" id="eraFilter" onchange="filterGames()">
+    <option value="">ALL ERAS</option>
+    <option value="70s">70s</option>
+    <option value="80s">80s</option>
+    <option value="90s">90s</option>
+    <option value="00s">2000s</option>
+  </select>
+</div>
+
+<!-- GAMES TAB -->
+<div id="gamesTab" class="tab-content active">
+  <div class="main">
+    <div id="loadingState" class="loading-state">
+      <div><span class="coin">🪙</span> LOADING CARTRIDGE DATABASE <span class="blink">_</span></div>
+      <div class="pixel-bar-wrap"><div class="pixel-bar-fill"></div></div>
+    </div>
+    <div id="gamesGrid" class="games-grid" style="display:none"></div>
+  </div>
+  <div class="footer-stats" id="footerStats" style="display:none">
+    <div class="stat-item">GAMES: <span id="statGames">-</span></div>
+    <div class="stat-item">CONSOLES: <span id="statConsoles">-</span></div>
+    <div class="stat-item">ERAS: <span id="statEras">-</span></div>
+    <div class="stat-item">DATA: <span>🟢 LIVE</span></div>
+  </div>
+</div>
+
+<!-- CONSOLES TAB -->
+<div id="consolesTab" class="tab-content">
+  <div class="main">
+    <div id="consolesGrid" class="consoles-grid"></div>
+  </div>
+</div>
+
+<!-- GAMES BY CONSOLE TAB -->
+<div id="byConsoleTab" class="tab-content">
+  <!-- Console sub-tabs -->
+  <div class="sub-tabs" id="subTabs">
+    <button class="sub-tab active" onclick="switchConsole('nes',this)">🎮 NES</button>
+    <span class="sub-tab-coming">SNES ›</span>
+    <span class="sub-tab-coming">MEGA DRIVE ›</span>
+    <span class="sub-tab-coming">N64 ›</span>
+    <span class="sub-tab-coming">PLAYSTATION ›</span>
+    <span class="sub-tab-coming">GAME BOY ›</span>
+    <span class="sub-tab-coming">MORE SOON...</span>
+  </div>
+
+  <!-- NES sub-panel -->
+  <div id="consolePanel-nes" class="console-panel active">
+    <div style="background:var(--header-bg);border-bottom:2px solid var(--border2);padding:12px 16px;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+      <div class="controls-label">🔍</div>
+      <input class="pixel-input" type="text" id="nesSearch" placeholder="SEARCH NES..." oninput="filterNES()">
+      <select class="pixel-select" id="nesGenre" onchange="filterNES()">
+        <option value="">ALL GENRES</option>
+      </select>
+      <select class="pixel-select" id="nesYear" onchange="filterNES()">
+        <option value="">ALL YEARS</option>
+      </select>
+      <div style="font-size:var(--font-size-small);color:var(--text3);margin-left:auto" id="nesCount"></div>
+    </div>
+    <div style="background:#1a0500;border-bottom:1px solid var(--border2);padding:8px 16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+      <span style="font-size:var(--font-size-small);color:var(--accent)">🖼️ ART:</span>
+      <span style="font-size:var(--font-size-small);color:var(--text3)">Placeholders — wire Drive on GitHub deploy. Files: <code style="font-size:10px;color:var(--sky)">Game Title (USA).png</code></span>
+    </div>
+    <div class="main">
+      <div id="nesGrid" class="games-grid"></div>
+    </div>
+    <div class="footer-stats">
+      <div class="stat-item">NES IN DB: <span>210</span></div>
+      <div class="stat-item">FULL LIBRARY: <span>677</span></div>
+      <div class="stat-item">ART: <span>PENDING</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- EXPLAINER TAB -->
+<div id="explainerTab" class="tab-content exp-tab">
+  <div class="exp-hero">
+    <div class="exp-hero-title">WHY YOUR $50 ISN'T $50 ANYMORE</div>
+    <div class="exp-hero-sub">A plain-english guide to inflation and gaming costs</div>
+  </div>
+  <div class="exp-section">
+    <div class="exp-section-title">THE CORE IDEA</div>
+    <div class="vt">Imagine a <span class="hi">magic shrinking machine</span> that quietly makes your money worth less every year.<br><br>Your $50 note still says $50. But each year it buys you slightly <span class="red">less stuff</span> — smaller shopping, fewer litres of petrol, a shorter taxi ride.<br><br>That's <b>inflation</b>. Over 40 years it adds up to something enormous.</div>
+    <div class="formula-box"><div class="formula">$50 in 1985 <span class="op">×</span> 3.2 <span class="op">=</span> <span class="eq">$160 in 2026</span></div><div style="font-size:var(--font-size-small);color:var(--text3);margin-top:6px">THE SAME PURCHASING POWER — 41 YEARS APART</div></div>
+    <div class="vt">So when we say Super Mario Bros cost <span class="hi">$29.99 in 1985</span>, in today's money that's closer to <span class="red">$96</span>. For a single cartridge.</div>
+  </div>
+  <div class="exp-section">
+    <div class="exp-section-title">HOW WE MEASURE IT: THE BASKET</div>
+    <div class="vt">Governments use the <b>Consumer Price Index (CPI)</b> — they track the price of a fixed "basket" of everyday things. When the basket costs more than last year, that rise <span class="hi">is</span> the inflation rate.</div>
+    <div style="background:var(--price-bg);border:1px solid var(--border2);padding:14px;margin:14px 0;border-radius:var(--radius)">
+      <div style="font-size:var(--font-size-label);color:var(--accent);letter-spacing:.5px;margin-bottom:10px">TYPICAL ITEMS IN THE INFLATION BASKET</div>
+      <div class="cpi-basket">
+        <div class="basket-item"><div class="basket-icon">🍞</div><div class="basket-name">FOOD</div><div class="basket-change up">+178%</div></div>
+        <div class="basket-item"><div class="basket-icon">🏠</div><div class="basket-name">RENT</div><div class="basket-change up">+412%</div></div>
+        <div class="basket-item"><div class="basket-icon">⛽</div><div class="basket-name">PETROL</div><div class="basket-change up">+290%</div></div>
+        <div class="basket-item"><div class="basket-icon">👕</div><div class="basket-name">CLOTHING</div><div class="basket-change down">-12%</div></div>
+        <div class="basket-item"><div class="basket-icon">📺</div><div class="basket-name">ELECTRO</div><div class="basket-change down">-74%</div></div>
+        <div class="basket-item"><div class="basket-icon">🏥</div><div class="basket-name">HEALTH</div><div class="basket-change up">+620%</div></div>
+      </div>
+    </div>
+    <div class="vt">Electronics got <span class="grn">cheaper</span> — which makes it even more striking that <span class="hi">game prices barely dropped at all</span>.</div>
+  </div>
+  <div class="exp-section">
+    <div class="exp-section-title">WHAT PEOPLE ACTUALLY EARNED</div>
+    <div class="vt" style="margin-bottom:12px">A $50 game means something very different on a $10,000 salary vs a $100,000 one.</div>
+    <div class="wage-grid">
+      <div class="wage-card then"><div class="wage-flag then">THEN — 1983</div><div class="wage-country">🇺🇸 USA</div><div class="wage-stat"><div class="wage-stat-lbl">AVERAGE ANNUAL WAGE</div><div class="wage-stat-val">$15,239</div><div class="wage-stat-sub">≈ $293/wk</div></div><div class="wage-stat"><div class="wage-stat-lbl">NES PRICE</div><div class="wage-stat-val">$179.99</div><div class="wage-stat-sub" style="color:#ff8888">61% of weekly pay</div></div><div class="wage-stat"><div class="wage-stat-lbl">TYPICAL GAME</div><div class="wage-stat-val" style="color:#ff8888">13.6% of weekly pay</div></div></div>
+      <div class="wage-card then"><div class="wage-flag then">THEN — 1986</div><div class="wage-country">🇬🇧 UK</div><div class="wage-stat"><div class="wage-stat-lbl">AVERAGE ANNUAL WAGE</div><div class="wage-stat-val">£8,900</div><div class="wage-stat-sub">≈ £171/wk</div></div><div class="wage-stat"><div class="wage-stat-lbl">NES PRICE</div><div class="wage-stat-val">£89.99</div><div class="wage-stat-sub" style="color:#ff8888">53% of weekly pay</div></div><div class="wage-stat"><div class="wage-stat-lbl">TYPICAL GAME</div><div class="wage-stat-val" style="color:#ff8888">17.5% of weekly pay</div></div></div>
+      <div class="wage-card now"><div class="wage-flag now">NOW — 2026</div><div class="wage-country">🇺🇸 USA</div><div class="wage-stat"><div class="wage-stat-lbl">AVERAGE ANNUAL WAGE</div><div class="wage-stat-val">$63,800</div><div class="wage-stat-sub">≈ $1,227/wk</div></div><div class="wage-stat"><div class="wage-stat-lbl">PS5 PRICE</div><div class="wage-stat-val">$499.99</div><div class="wage-stat-sub" style="color:var(--green)">41% of weekly pay ↓</div></div><div class="wage-stat"><div class="wage-stat-lbl">TYPICAL GAME</div><div class="wage-stat-val" style="color:var(--green)">5.7% of weekly pay ↓</div></div></div>
+      <div class="wage-card now"><div class="wage-flag now">NOW — 2026</div><div class="wage-country">🇬🇧 UK</div><div class="wage-stat"><div class="wage-stat-lbl">AVERAGE ANNUAL WAGE</div><div class="wage-stat-val">£37,500</div><div class="wage-stat-sub">≈ £721/wk</div></div><div class="wage-stat"><div class="wage-stat-lbl">PS5 PRICE</div><div class="wage-stat-val">£479.99</div><div class="wage-stat-sub" style="color:#ff8888">67% of weekly pay →</div></div><div class="wage-stat"><div class="wage-stat-lbl">TYPICAL GAME</div><div class="wage-stat-val" style="color:var(--green)">9.7% of weekly pay ↓</div></div></div>
+    </div>
+    <div class="note-box"><div class="note-text"><b>The UK finding:</b> A NES in 1986 cost 53% of a week's wages. A PS5 in 2026 costs 67%. Console hardware has tracked wages almost exactly for 40 years — but individual games have become far cheaper relative to income.</div></div>
+  </div>
+  <div class="exp-section">
+    <div class="exp-section-title">THE PAIN INDEX</div>
+    <div class="vt" style="margin-bottom:12px">Each game's price as % of the average <b>US weekly wage</b> in its launch year.</div>
+    <div class="pain-row"><div class="pain-game">Duck Hunt · 1984 ($19.99)</div><div class="pain-bar-wrap"><div class="pain-bar-fill low" style="width:27%"><span class="pain-bar-val">6.8%</span></div></div></div>
+    <div class="pain-row"><div class="pain-game">Super Mario · 1985 ($29.99)</div><div class="pain-bar-wrap"><div class="pain-bar-fill mid" style="width:42%"><span class="pain-bar-val">10.2%</span></div></div></div>
+    <div class="pain-row"><div class="pain-game">Zelda · 1986 ($49.99)</div><div class="pain-bar-wrap"><div class="pain-bar-fill mid" style="width:52%"><span class="pain-bar-val">17%</span></div></div></div>
+    <div class="pain-row"><div class="pain-game">Street Fighter II · 1992 ($69.99)</div><div class="pain-bar-wrap"><div class="pain-bar-fill high" style="width:68%"><span class="pain-bar-val">22%</span></div></div></div>
+    <div class="pain-row"><div class="pain-game">Chrono Trigger · 1995 ($69.99)</div><div class="pain-bar-wrap"><div class="pain-bar-fill high" style="width:80%"><span class="pain-bar-val">25% 🔥</span></div></div></div>
+    <div class="pain-row"><div class="pain-game">Modern game · 2026 ($69.99)</div><div class="pain-bar-wrap"><div class="pain-bar-fill low" style="width:16%"><span class="pain-bar-val">5.7%</span></div></div></div>
+    <div class="vt" style="margin-top:12px">Chrono Trigger cost <span class="red">a quarter of the average American's weekly wage</span>. Today's $70 games are a genuine bargain by historical standards.</div>
+  </div>
+  <div class="exp-section" style="border:none">
+    <div class="exp-section-title">TRY IT YOURSELF</div>
+    <div class="calc-box">
+      <div style="font-size:var(--font-size-label);color:var(--green);letter-spacing:.5px;margin-bottom:12px;font-weight:600">PURCHASING POWER CALCULATOR</div>
+      <div class="calc-row"><div class="calc-lbl">AMOUNT</div><input class="pix-inp" type="number" id="calcAmt" value="50" min="1" max="9999" oninput="doCalc()"></div>
+      <div class="calc-row"><div class="calc-lbl">FROM YEAR</div><select class="pix-sel" id="calcYear" onchange="doCalc()"><option value="1977">1977 — Atari 2600</option><option value="1983">1983 — NES Famicom</option><option value="1985" selected>1985 — NES US launch</option><option value="1989">1989 — Game Boy</option><option value="1990">1990 — SNES</option><option value="1991">1991 — Mega Drive</option><option value="1994">1994 — PlayStation</option><option value="1996">1996 — N64</option><option value="2000">2000 — PS2</option></select></div>
+      <div class="calc-row"><div class="calc-lbl">CURRENCY</div><select class="pix-sel" id="calcCur" onchange="doCalc()"><option value="USD">USD ($)</option><option value="GBP">GBP (£)</option><option value="JPY">JPY (¥)</option></select></div>
+      <div class="calc-result"><div><div class="calc-result-lbl">2026 EQUIVALENT</div><div class="calc-result-val" id="calcRes">$160</div></div><div><div class="calc-result-lbl">MULTIPLIER</div><div class="calc-result-val" id="calcMul">3.2×</div></div></div>
+      <div class="calc-ctx" id="calcCtx">That $50 in 1985 had the same buying power as $160 today.</div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-bg" id="modalBg" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">LOADING...</div>
+      <button class="modal-close" onclick="closeModalBtn()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+// ── Theme toggle ─────────────────────────────────────────────────
+function toggleTheme(){
+  const body=document.body;
+  if(body.classList.contains('mode-pixel')){
+    body.classList.replace('mode-pixel','mode-smooth');
+    document.getElementById('themeIcon').textContent='👾';
+    document.getElementById('themeLabel').textContent='16-BIT MODE';
+  } else {
+    body.classList.replace('mode-smooth','mode-pixel');
+    document.getElementById('themeIcon').textContent='🎮';
+    document.getElementById('themeLabel').textContent='SMOOTH MODE';
+  }
+}
+
+// ── Inflation tables ─────────────────────────────────────────────
+const inflationUSD={1972:7.8,1973:7.4,1974:6.7,1975:6.2,1976:5.9,1977:5.5,1978:5.2,1979:4.7,1980:4.1,1981:3.8,1982:3.6,1983:3.5,1984:3.3,1985:3.2,1986:3.1,1987:3.0,1988:2.85,1989:2.7,1990:2.55,1991:2.45,1992:2.38,1993:2.32,1994:2.25,1995:2.2,1996:2.14,1997:2.1,1998:2.07,1999:2.02,2000:1.96,2001:1.9,2002:1.87,2003:1.83,2004:1.78,2005:1.72,2006:1.67,2007:1.62,2008:1.55,2009:1.56,2010:1.52,2011:1.46,2012:1.43,2013:1.41,2014:1.38,2015:1.38,2016:1.36,2017:1.33,2018:1.29,2019:1.26,2020:1.25,2021:1.18,2022:1.06,2023:1.03,2024:1.02,2025:1.01};
+const inflationGBP={1972:14.1,1973:12.8,1974:11.2,1975:9.1,1976:7.8,1977:6.9,1978:6.5,1979:5.9,1980:5.1,1981:4.7,1982:4.4,1983:4.2,1984:4.0,1985:3.8,1986:3.7,1987:3.5,1988:3.3,1989:3.1,1990:2.85,1991:2.7,1992:2.62,1993:2.58,1994:2.52,1995:2.46,1996:2.40,1997:2.34,1998:2.28,1999:2.24,2000:2.18,2001:2.14,2002:2.1,2003:2.04,2004:2.0,2005:1.96,2006:1.91,2007:1.86,2008:1.78,2009:1.76,2010:1.68,2011:1.59,2012:1.54,2013:1.5,2014:1.47,2015:1.46,2016:1.43,2017:1.38,2018:1.34,2019:1.31,2020:1.29,2021:1.24,2022:1.1,2023:1.04,2024:1.02,2025:1.01};
+const inflationJPY={1972:5.8,1973:5.0,1974:4.0,1975:3.7,1976:3.4,1977:3.2,1978:3.1,1979:2.95,1980:2.7,1981:2.6,1982:2.55,1983:2.5,1984:2.45,1985:2.4,1986:2.38,1987:2.36,1988:2.34,1989:2.3,1990:2.2,1991:2.1,1992:2.06,1993:2.04,1994:2.04,1995:2.04,1996:2.02,1997:1.98,1998:1.98,1999:1.98,2000:1.97,2001:1.98,2002:1.98,2003:1.97,2004:1.97,2005:1.97,2006:1.96,2007:1.95,2008:1.93,2009:1.95,2010:1.95,2011:1.95,2012:1.95,2013:1.92,2014:1.87,2015:1.86,2016:1.86,2017:1.85,2018:1.84,2019:1.83,2020:1.83,2021:1.82,2022:1.74,2023:1.67,2024:1.63,2025:1.6};
+const hourlyUS={1977:5.25,1978:5.69,1979:6.16,1980:6.66,1981:7.25,1982:7.68,1983:8.02,1984:8.32,1985:8.57,1986:8.76,1987:8.98,1988:9.28,1989:9.66,1990:10.01,1991:10.32,1992:10.57,1993:10.83,1994:11.12,1995:11.43,1996:11.82,1997:12.28,1998:12.77,1999:13.24,2000:13.76,2001:14.32,2002:14.73,2003:15.13,2004:15.48,2005:15.91,2006:16.46,2007:17.10,2008:17.67,2009:17.93};
+const hourlyUK={1977:1.80,1978:2.05,1979:2.42,1980:2.95,1981:3.38,1982:3.66,1983:3.89,1984:4.15,1985:4.42,1986:4.67,1987:4.97,1988:5.38,1989:5.88,1990:6.48,1991:6.96,1992:7.27,1993:7.50,1994:7.71,1995:8.02,1996:8.38,1997:8.78,1998:9.23,1999:9.62,2000:10.08,2001:10.58,2002:11.03,2003:11.53,2004:12.06,2005:12.60,2006:13.19,2007:13.83,2008:14.39,2009:14.72};
+
+function applyInflation(a,c,y){const m=c==='USD'?inflationUSD[y]:c==='GBP'?inflationGBP[y]:inflationJPY[y];return Math.round(a*(m||1));}
+function fmt(a,c){if(c==='USD')return'$'+a.toLocaleString();if(c==='GBP')return'£'+a.toLocaleString();if(c==='JPY')return'¥'+a.toLocaleString();return a.toLocaleString();}
+function hoursWorked(usd,gbp,year){const us=hourlyUS[year]||hourlyUS[2009];const uk=hourlyUK[year]||hourlyUK[2009];return{hUS:(Math.round((usd/us)*10)/10),hUK:(Math.round((gbp/uk)*10)/10),wUS:us.toFixed(2),wUK:uk.toFixed(2)};}
+function tooltipHTML(origUSD,year){const m=(inflationUSD[year]||1).toFixed(1);return `<span class="tooltip-wrap"><span class="tooltip-btn">?</span><span class="tooltip-box"><span class="tooltip-box-text">Original: $${origUSD} in ${year}. Multiplied by ${m}× using the US Consumer Price Index (CPI) — the official measure of how the cost of living has risen since then.</span></span></span>`;}
+
+const GAMES=[
+  {id:1,title:'Super Mario Bros.',console:'NES',year:1985,genre:'Platformer',publisher:'Nintendo',prices:{USD:29.99,GBP:19.99,JPY:4900},rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co2qn1.jpg',desc:"The game that changed everything. Mario's first side-scrolling adventure set the blueprint for all platformers to come."},
+  {id:2,title:'The Legend of Zelda',console:'NES',year:1986,genre:'Action RPG',publisher:'Nintendo',prices:{USD:49.99,GBP:34.99,JPY:6500},rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co6cl0.jpg',desc:"Link's first quest to rescue Zelda and defeat Ganon. Came in a gold cartridge that became iconic."},
+  {id:3,title:'Mega Man 2',console:'NES',year:1988,genre:'Platformer',publisher:'Capcom',prices:{USD:39.99,GBP:27.99,JPY:5500},rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co1rsz.jpg',desc:"Often considered the pinnacle of the Mega Man series. Eight robot masters, unforgettable music."},
+  {id:4,title:'Contra',console:'NES',year:1988,genre:'Run & Gun',publisher:'Konami',prices:{USD:39.99,GBP:27.99,JPY:5500},rating:4,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co24nu.jpg',desc:"Up up down down left right left right B A. The Konami code was born here."},
+  {id:5,title:'Tetris',console:'NES',year:1989,genre:'Puzzle',publisher:'Nintendo',prices:{USD:29.99,GBP:19.99,JPY:4500},rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co7p5l.jpg',desc:"The Russian puzzle game that conquered the world."},
+  {id:6,title:'Castlevania',console:'NES',year:1987,genre:'Action',publisher:'Konami',prices:{USD:39.99,GBP:27.99,JPY:5500},rating:4,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co1vfi.jpg',desc:"Simon Belmont's whip-cracking journey through Dracula's castle."},
+  {id:7,title:'Duck Hunt',console:'NES',year:1984,genre:'Light Gun',publisher:'Nintendo',prices:{USD:19.99,GBP:14.99,JPY:3000},rating:3,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co5x9y.jpg',desc:"That laughing dog. You know the one. Came bundled with the Zapper."},
+  {id:8,title:"Mike Tyson's Punch-Out!!",console:'NES',year:1987,genre:'Sports',publisher:'Nintendo',prices:{USD:49.99,GBP:34.99,JPY:6500},rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co5t5i.jpg',desc:"Little Mac vs the world. One of the hardest and most beloved NES games."},
+  {id:9,title:'Super Mario World',console:'SNES',year:1990,genre:'Platformer',publisher:'Nintendo',prices:{USD:49.99,GBP:39.99,JPY:8000},rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co2lbd.jpg',desc:"Mario's SNES debut introduced Yoshi and 96 exits."},
+  {id:10,title:'A Link to the Past',console:'SNES',year:1991,genre:'Action RPG',publisher:'Nintendo',prices:{USD:49.99,GBP:39.99,JPY:8000},rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co1snh.jpg',desc:"The definitive Zelda blueprint. Dark World, Master Sword, six sages."},
+  {id:11,title:'Street Fighter II',console:'SNES',year:1992,genre:'Fighting',publisher:'Capcom',prices:{USD:69.99,GBP:54.99,JPY:9800},rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co1rie.jpg',desc:"The fighting game that defined a genre."},
+  {id:12,title:'Donkey Kong Country',console:'SNES',year:1994,genre:'Platformer',publisher:'Rare/Nintendo',prices:{USD:59.99,GBP:49.99,JPY:9000},rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co1tmu.jpg',desc:"Pre-rendered 3D graphics that blew everyone's mind in 1994."},
+  {id:13,title:'Super Metroid',console:'SNES',year:1994,genre:'Action-Adventure',publisher:'Nintendo',prices:{USD:59.99,GBP:49.99,JPY:9000},rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co633w.jpg',desc:"The definitive 2D Metroid. Atmosphere, controls, ending — perfect."},
+  {id:14,title:'Chrono Trigger',console:'SNES',year:1995,genre:'RPG',publisher:'Square',prices:{USD:69.99,GBP:54.99,JPY:11400},rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co1iqr.jpg',desc:"The greatest JRPG ever made. Time travel, 13 endings."},
+  {id:15,title:'Final Fantasy VI',console:'SNES',year:1994,genre:'RPG',publisher:'Square',prices:{USD:69.99,GBP:54.99,JPY:11400},rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co1sbe.jpg',desc:"Opera scene. Terra's theme. Kefka as the greatest villain in gaming."},
+  {id:16,title:'Mortal Kombat',console:'SNES',year:1993,genre:'Fighting',publisher:'Acclaim',prices:{USD:59.99,GBP:49.99,JPY:9800},rating:4,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co3vd2.jpg',desc:"GET OVER HERE. The SNES version had no blood by default."},
+  {id:17,title:'Pokémon Red',console:'Game Boy',year:1996,genre:'RPG',publisher:'Nintendo',prices:{USD:29.99,GBP:24.99,JPY:2800},rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co2i7s.jpg',desc:"Gotta catch 'em all. 151 Pokémon, infinite childhood memories."},
+  {id:18,title:'Tetris (Game Boy)',console:'Game Boy',year:1989,genre:'Puzzle',publisher:'Nintendo',prices:{USD:24.99,GBP:19.99,JPY:2600},rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co5x9p.jpg',desc:"Bundled with the original Game Boy. The reason it sold 119 million units."},
+  {id:19,title:"Link's Awakening",console:'Game Boy',year:1993,genre:'Action RPG',publisher:'Nintendo',prices:{USD:29.99,GBP:24.99,JPY:3500},rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co3p2d.jpg',desc:"A dream — literally. One of the most emotional endings in gaming history."},
+  {id:20,title:'Super Mario Land',console:'Game Boy',year:1989,genre:'Platformer',publisher:'Nintendo',prices:{USD:24.99,GBP:19.99,JPY:2600},rating:4,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co5x0x.jpg',desc:"Mario goes to Egypt, China, and the moon."},
+  {id:21,title:'Sonic the Hedgehog',console:'Mega Drive',year:1991,genre:'Platformer',publisher:'Sega',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co6hh7.jpg',desc:"SEGA! Sonic vs Mario was THE console war of the early 90s."},
+  {id:22,title:'Sonic the Hedgehog 2',console:'Mega Drive',year:1992,genre:'Platformer',publisher:'Sega',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co1rc9.jpg',desc:"Tails joins the party. Chemical Plant Zone. The spin dash."},
+  {id:23,title:'Streets of Rage 2',console:'Mega Drive',year:1992,genre:"Beat 'em up",publisher:'Sega',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co1xt3.jpg',desc:"The definitive side-scrolling brawler. Yuzo Koshiro's soundtrack is legendary."},
+  {id:24,title:'Road Rash',console:'Mega Drive',year:1991,genre:'Racing',publisher:'EA',prices:{USD:44.99,GBP:34.99,JPY:7000},rating:4,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co3o8i.jpg',desc:"Motorcycle racing where you could punch opponents. Peak 90s energy."},
+  {id:25,title:'Aladdin',console:'Mega Drive',year:1993,genre:'Platformer',publisher:'Virgin/Sega',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:4,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co2el7.jpg',desc:"Animated directly by Disney animators."},
+  {id:26,title:'Super Mario 64',console:'N64',year:1996,genre:'Platformer',publisher:'Nintendo',prices:{USD:59.99,GBP:49.99,JPY:9800},rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co6mwt.jpg',desc:"The game that invented 3D gaming as we know it."},
+  {id:27,title:'Ocarina of Time',console:'N64',year:1998,genre:'Action RPG',publisher:'Nintendo',prices:{USD:59.99,GBP:49.99,JPY:9800},rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co5vmg.jpg',desc:"The greatest game ever made according to many. Perfection."},
+  {id:28,title:'GoldenEye 007',console:'N64',year:1997,genre:'FPS',publisher:'Rare',prices:{USD:59.99,GBP:49.99,JPY:9800},rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co5w2h.jpg',desc:"Four-player split-screen. The FPS that defined console multiplayer."},
+  {id:29,title:'Mario Kart 64',console:'N64',year:1996,genre:'Racing',publisher:'Nintendo',prices:{USD:59.99,GBP:49.99,JPY:9800},rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co1rml.jpg',desc:"Rainbow Road. Blue shells. Four-player chaos that destroyed friendships."},
+  {id:30,title:'Banjo-Kazooie',console:'N64',year:1998,genre:'Platformer',publisher:'Rare',prices:{USD:59.99,GBP:49.99,JPY:9800},rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co1tne.jpg',desc:"A bear and a bird collect jiggies. One of the finest N64 platformers."},
+  {id:31,title:'Star Fox 64',console:'N64',year:1997,genre:'Rail Shooter',publisher:'Nintendo',prices:{USD:59.99,GBP:49.99,JPY:9800},rating:4,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co1vr4.jpg',desc:"DO A BARREL ROLL! The game that made the Rumble Pak worth buying."},
+  {id:32,title:'Final Fantasy VII',console:'PlayStation',year:1997,genre:'RPG',publisher:'Square',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co6x9u.jpg',desc:"Aerith. Midgar. That moment. Three CDs of JRPG excellence."},
+  {id:33,title:'Metal Gear Solid',console:'PlayStation',year:1998,genre:'Stealth',publisher:'Konami',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co18if.jpg',desc:"Snake? SNAKE! SNAAAAKE! Psycho Mantis reads your memory card."},
+  {id:34,title:'Crash Bandicoot',console:'PlayStation',year:1996,genre:'Platformer',publisher:'Naughty Dog',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:4,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co8sj4.jpg',desc:"Naughty Dog's first hit. Whoa! Spinning through crates at 30fps."},
+  {id:35,title:'Resident Evil',console:'PlayStation',year:1996,genre:'Survival Horror',publisher:'Capcom',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co1rp6.jpg',desc:"Jill sandwich. The zombie dog jump scare. Tank controls defined survival horror."},
+  {id:36,title:'Tomb Raider',console:'PlayStation',year:1996,genre:'Action-Adventure',publisher:'Eidos',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:4,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co1rcw.jpg',desc:"Lara Croft became a global icon overnight."},
+  {id:37,title:'Space Invaders',console:'Atari 2600',year:1980,genre:'Shooter',publisher:'Atari',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:4,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co3n3f.jpg',desc:"The game that sold the Atari 2600. Four million cartridges."},
+  {id:38,title:'Pitfall!',console:'Atari 2600',year:1982,genre:'Platformer',publisher:'Activision',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:4,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co5wr9.jpg',desc:"Swing on vines, avoid crocodiles. The original Indiana Jones of gaming."},
+  {id:39,title:'Pac-Man (2600)',console:'Atari 2600',year:1982,genre:'Arcade',publisher:'Atari',prices:{USD:34.99,GBP:26.99,JPY:5000},rating:2,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co5wpw.jpg',desc:"The infamous port. 12 million copies sold, quality so poor it helped cause the 1983 crash."},
+  {id:40,title:"Bonk's Adventure",console:'PC Engine',year:1990,genre:'Platformer',publisher:'Hudson Soft',prices:{USD:49.99,GBP:39.99,JPY:6800},rating:4,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co6bfp.jpg',desc:"PC Engine's mascot. A caveman who headbutts everything."},
+  {id:41,title:'NiGHTS into Dreams',console:'Sega Saturn',year:1996,genre:'Action',publisher:'Sega',prices:{USD:49.99,GBP:39.99,JPY:6980},rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co1rag.jpg',desc:"Yuji Naka's psychedelic dream-flying game. Unfairly underappreciated."}
+];
+
+const EXPENSIVE=[
+  {rank:1,title:'Nintendo World Championships 1990',console:'NES',year:1990,origUSD:null,adj2026:156000,note:'AUCTION RECORD',icon:'🏆',color:'#3a1a00'},
+  {rank:2,title:'Stadium Events',console:'NES',year:1987,origUSD:25,adj2026:95000,note:'RAREST NES CART',icon:'🎽',color:'#2a1000'},
+  {rank:3,title:'1990 Nintendo Campus Challenge',console:'NES',year:1990,origUSD:null,adj2026:24000,note:'CONTEST ONLY',icon:'🎓',color:'#1a0a00'},
+  {rank:4,title:'Hagane: The Final Conflict',console:'SNES',year:1994,origUSD:65,adj2026:12000,note:'LOW PRINT RUN',icon:'⚔️',color:'#1a1a00'},
+  {rank:5,title:'Mega Man (Original)',console:'NES',year:1987,origUSD:50,adj2026:9500,note:'SEALED COPY',icon:'🤖',color:'#00001a'},
+  {rank:6,title:'Chrono Trigger',console:'SNES',year:1995,origUSD:69.99,adj2026:154,note:'AT LAUNCH',icon:'⏰',color:'#1a0a00'},
+  {rank:7,title:'Street Fighter II',console:'SNES',year:1992,origUSD:69.99,adj2026:166,note:'AT LAUNCH',icon:'👊',color:'#1a0000'},
+  {rank:8,title:'Final Fantasy VI',console:'SNES',year:1994,origUSD:69.99,adj2026:157,note:'AT LAUNCH',icon:'🔮',color:'#0a001a'},
+];
+
+const CONSOLES=[
+  {id:'c-01',name:'Atari 2600',maker:'Atari',type:'home',year:1977,disc:1992,origUSD:199,adj2025:1034,origGBP:119,origJPY:null,units:'30M',img:'https://www.inflationstation.net/img/Atari-2600-Wood-4Sw-Set-a8b273f55719570da9c91ea301f5782ab7229de797dd408a4d9aeec3c372dac3-300.jpg',wiki:'https://en.wikipedia.org/wiki/Atari_2600',desc:"The console that launched the home gaming revolution. Defined what a games console was for an entire generation."},
+  {id:'c-02',name:'Intellivision',maker:'Mattel',type:'home',year:1980,disc:1990,origUSD:299,adj2025:1209,origGBP:199,origJPY:null,units:'3M',img:'https://www.inflationstation.net/img/Intellivision-Console-Set-e49213f72a277a16d9c68c3e5df9be10a4cf1d6ef8f47ea5c74f36d767308c45-300.jpg',wiki:'https://en.wikipedia.org/wiki/Intellivision',desc:"Mattel's answer to Atari. Advertised as the first 16-direction controller. Nearly $1,200 in today's money at launch."},
+  {id:'c-03',name:'Atari 5200',maker:'Atari',type:'home',year:1982,disc:1984,origUSD:269,adj2025:876,origGBP:199,origJPY:null,units:'1M',img:'https://www.inflationstation.net/img/Atari-5200-4-Port-wController-L-1a987e46ad75a94053a8f7df4051a3f53c7c506b80b371692b8a62f1ec81ff08-300.jpg',wiki:'https://en.wikipedia.org/wiki/Atari_5200',desc:"Atari's failed successor to the 2600. Notoriously unreliable joysticks and no backwards compatibility doomed it."},
+  {id:'c-04',name:'ColecoVision',maker:'Coleco',type:'home',year:1982,disc:1985,origUSD:175,adj2025:572,origGBP:129,origJPY:null,units:'6M',img:'https://www.inflationstation.net/img/ColecoVision-wController-L-1b6f0a4089007b9c52b8165e91564158d0717d7b9e7aa4107fe8b0ddadc63b09-300.jpg',wiki:'https://en.wikipedia.org/wiki/ColecoVision',desc:"Impressive arcade ports gave ColecoVision a strong start. Donkey Kong as a pack-in was a killer app."},
+  {id:'c-05',name:'Nintendo Entertainment System',maker:'Nintendo',type:'home',year:1985,disc:1995,origUSD:199,adj2025:584,origGBP:99,origJPY:14800,units:'61.9M',img:'https://www.inflationstation.net/img/NES-Console-Set-d77dc9042e3f9e32c081a3114566fb467b6809b3cd79b202e1df4cc40d7693f4-300.jpg',wiki:'https://en.wikipedia.org/wiki/Nintendo_Entertainment_System',desc:"Nintendo saved the video game industry after the 1983 crash. Super Mario Bros, Zelda, Metroid — the NES defined gaming."},
+  {id:'c-06',name:'Atari 7800',maker:'Atari',type:'home',year:1986,disc:1992,origUSD:139,adj2025:407,origGBP:99,origJPY:null,units:'3.77M',img:'https://www.inflationstation.net/img/Atari-7800-Console-Set-fbf2b913f8852d81b77e591b7006f192849c9397f2136f68de6a0a3115a872eb-300.jpg',wiki:'https://en.wikipedia.org/wiki/Atari_7800',desc:"Backwards compatible with the 2600, which was both its selling point and its curse. Couldn't compete with the NES."},
+  {id:'c-07',name:'Sega Master System',maker:'Sega',type:'home',year:1986,disc:1996,origUSD:200,adj2025:579,origGBP:99,origJPY:15000,units:'13M',img:'https://www.inflationstation.net/img/Sega-Master-System-Set-587432fc20a6014bb24918386eebcfcd4796daf2cd4347ebbcf23d5535e8ade5-300.jpg',wiki:'https://en.wikipedia.org/wiki/Master_System',desc:"More powerful than the NES but couldn't crack Nintendo's third-party exclusivity deals in North America. Huge in Brazil."},
+  {id:'c-08',name:'Atari Lynx',maker:'Atari',type:'handheld',year:1989,disc:1995,origUSD:179,adj2025:457,origGBP:139,origJPY:null,units:'3M',img:'https://www.inflationstation.net/img/Atari-Lynx-Handheld-Angled-7a415e971edb206faf44d28c1bfb7798d69797be5fb7a0595fa7f36efa3633c9-300.jpg',wiki:'https://en.wikipedia.org/wiki/Atari_Lynx',desc:"First handheld with a colour backlit LCD. Landscape orientation, ambidextrous design. Battery life of ~4 hours killed it."},
+  {id:'c-09',name:'Sega Genesis',maker:'Sega',type:'home',year:1989,disc:1997,origUSD:189,adj2025:484,origGBP:149,origJPY:21000,units:'30.75M',img:'https://www.inflationstation.net/img/Sega-Genesis-Mk2-6button-68c7a716c05ff8280ecb96643ab5f0467f116b5dfaa4d376c4269a392911e8fd-300.jpg',wiki:'https://en.wikipedia.org/wiki/Sega_Genesis',desc:"SEGA DOES WHAT NINTENDON'T. Sonic, blast processing, a sports library — Sega's peak console."},
+  {id:'c-10',name:'TurboGrafx-16',maker:'NEC',type:'home',year:1989,disc:1994,origUSD:199,adj2025:510,origGBP:null,origJPY:24800,units:'10M',img:'https://www.inflationstation.net/img/TurboGrafx16-Console-Set-6ef207d9472edf70023b42d8dac728243520724aa09700441d19f5edbff1e897-300.jpg',wiki:'https://en.wikipedia.org/wiki/TurboGrafx-16',desc:"Japan's secret weapon. Technically 8-bit CPU but 16-bit graphics. First console with a CD-ROM drive add-on."},
+  {id:'c-11',name:'Game Boy',maker:'Nintendo',type:'handheld',year:1989,disc:2003,origUSD:89,adj2025:228,origGBP:67,origJPY:12500,units:'118.7M',img:'https://www.inflationstation.net/img/Game-Boy-FL-6a29dff73e407cb2fac7c77eccc890c2cff53bf2cd1343cd64a4af646dc1765b-300.jpg',wiki:'https://en.wikipedia.org/wiki/Game_Boy',desc:"Tetris bundled. Grey screen in bright light only. 30-hour battery life on 4 AAs. Sold 119 million. Indestructible."},
+  {id:'c-12',name:'Neo Geo',maker:'SNK',type:'home',year:1990,disc:1997,origUSD:649,adj2025:1574,origGBP:499,origJPY:58000,units:'1M',img:'https://www.inflationstation.net/img/Neo-Geo-AES-Console-Set-4584d07b8e492add67585d859ea0a06ccd1c8412c815b29696ab78359b2087b0-300.jpg',wiki:'https://en.wikipedia.org/wiki/Neo_Geo_(system)',desc:"Arcade hardware in your living room. Games cost $200+ each. The most expensive home console of its era by far."},
+  {id:'c-13',name:'Super Nintendo',maker:'Nintendo',type:'home',year:1991,disc:2003,origUSD:199,adj2025:465,origGBP:149,origJPY:25000,units:'49.1M',img:'https://www.inflationstation.net/img/SNES-Mod1-Console-Set-68e4d91f2f8d5afe054cc44a4352b636e3cc48abc0e15191e86f39fd0242b581-300.jpg',wiki:'https://en.wikipedia.org/wiki/Super_Nintendo_Entertainment_System',desc:"The peak of 16-bit gaming. Mode 7, the best third-party library ever assembled, and Chrono Trigger. A perfect console."},
+  {id:'c-14',name:'Sega Game Gear',maker:'Sega',type:'handheld',year:1991,disc:1997,origUSD:149,adj2025:352,origGBP:99,origJPY:19800,units:'10.6M',img:'https://www.inflationstation.net/img/Game-Gear-Handheld-bac3cb675f608cecad08af702648ba184ecb482c0bf1a7161a1e1c435cd8d8cb-300.jpg',wiki:'https://en.wikipedia.org/wiki/Game_Gear',desc:"Colour Game Boy rival with a backlit screen. Ate 6 AA batteries in ~3 hours. Game Boy outsold it 10 to 1."},
+  {id:'c-15',name:'TurboExpress',maker:'NEC',type:'handheld',year:1990,disc:1994,origUSD:249,adj2025:594,origGBP:null,origJPY:null,units:'null',img:'https://www.inflationstation.net/img/NEC-TurboExpress-Upright-FL-f3456865b81dd5ea00cda4668191b802fb48212d296450627fe100cdd0154b73-300.jpg',wiki:'https://en.wikipedia.org/wiki/TurboExpress',desc:"A handheld TurboGrafx-16. Played the same HuCards as the home console. Stunning for its time, wildly expensive."},
+  {id:'c-16',name:'3DO Interactive Multiplayer',maker:'3DO',type:'home',year:1993,disc:1996,origUSD:699,adj2025:1531,origGBP:599,origJPY:79800,units:'2M',img:'https://www.inflationstation.net/img/3DO-FZ1-Console-Set-e54aba8766d7aec4a5fa95806d1e64357e77a9f6a98641cc01a103e548eb4b67-300.jpg',wiki:'https://en.wikipedia.org/wiki/3DO_Interactive_Multiplayer',desc:"$699 at launch — over $1,500 in today's money. CD games, impressive FMV. Too expensive to survive."},
+  {id:'c-17',name:'Atari Jaguar',maker:'Atari',type:'home',year:1993,disc:1996,origUSD:249,adj2025:545,origGBP:199,origJPY:null,units:'0.25M',img:'https://www.inflationstation.net/img/Atari-Jaguar-Console-Set-0fe4ef8f6bc6779f3ed88b437b3307316a16a9eaff8bd2083118b23c5e5a4c6f-300.jpg',wiki:'https://en.wikipedia.org/wiki/Atari_Jaguar',desc:"Do the math. 64-bit marketing, complex development, tiny library. Atari's last home console."},
+  {id:'c-18',name:'Sega Saturn',maker:'Sega',type:'home',year:1995,disc:1998,origUSD:399,adj2025:836,origGBP:399,origJPY:44800,units:'9.5M',img:'https://www.inflationstation.net/img/Sega-Saturn-Console-Set-Mk1-db5969d493e28c8568de4acf90ec012e335790404d09ec6ff3b837c4ea12a076-300.jpg',wiki:'https://en.wikipedia.org/wiki/Sega_Saturn',desc:"Launched at $399 in a surprise E3 announcement, $100 more than anticipated. Retailers furious. Lost to PlayStation decisively."},
+  {id:'c-19',name:'Virtual Boy',maker:'Nintendo',type:'home',year:1995,disc:1995,origUSD:179,adj2025:374,origGBP:149,origJPY:15000,units:'0.77M',img:'https://www.inflationstation.net/img/Virtual-Boy-Set-2e5e5b3348eafb1e1affeae3a02c82ba017e6269bf60c27b1de01e49fe35e208-300.jpg',wiki:'https://en.wikipedia.org/wiki/Virtual_Boy',desc:"Nintendo's biggest flop. Red monochrome 3D display that caused headaches. Discontinued after just 22 games."},
+  {id:'c-20',name:'PlayStation',maker:'Sony',type:'home',year:1995,disc:2006,origUSD:299,adj2025:622,origGBP:299,origJPY:39800,units:'102.5M',img:'https://www.inflationstation.net/img/PSX-Console-wController-f55f4acd1f102d245d5caad6f2f3b466feb04199255fba43dbc67dd3b550d85d-300.jpg',wiki:'https://en.wikipedia.org/wiki/PlayStation',desc:"Sony enters gaming and immediately wins. CDs beat cartridges. Final Fantasy VII. Metal Gear Solid. 102 million sold."},
+  {id:'c-21',name:'Sega Nomad',maker:'Sega',type:'handheld',year:1995,disc:1999,origUSD:180,adj2025:374,origGBP:null,origJPY:null,units:'1M',img:'https://www.inflationstation.net/img/Sega-Nomad-Front-9724a4ead8f82e95a6975925e97910f5311be013bfc0e1c5b3af103bc3bcc525-300.jpg',wiki:'https://en.wikipedia.org/wiki/Sega_Nomad',desc:"A handheld Mega Drive. Played all Genesis cartridges. 3-hour battery life on 6 AAs made it impractical."},
+  {id:'c-22',name:'Nintendo 64',maker:'Nintendo',type:'home',year:1996,disc:2002,origUSD:199,adj2025:402,origGBP:249,origJPY:25000,units:'32.93M',img:'https://www.inflationstation.net/img/Nintendo-64-wController-L-97657400ac72b56691e5e72fcd5e517703ef1d5b436ac50f32e7eaf74c23da3c-300.jpg',wiki:'https://en.wikipedia.org/wiki/Nintendo_64',desc:"64-bit power and a revolutionary 3D controller. Mario 64, Zelda: OoT, GoldenEye. Cartridges kept third parties away."},
+  {id:'c-23',name:'Game Boy Color',maker:'Nintendo',type:'handheld',year:1998,disc:2003,origUSD:69,adj2025:134,origGBP:49,origJPY:6800,units:'32.5M',img:'https://www.inflationstation.net/img/Nintendo-Game-Boy-Color-FL-b7a2e9c7bf38a76aac4e858e870f19ea8f32d7d1b1da10642bdf3cc23f9a6d4f-300.jpg',wiki:'https://en.wikipedia.org/wiki/Game_Boy_Color',desc:"Colour at last. Backwards compatible with all original Game Boy games. Pokémon Gold & Silver sold 23 million copies on it."},
+  {id:'c-24',name:'Neo Geo Pocket Color',maker:'SNK',type:'handheld',year:1999,disc:2001,origUSD:69,adj2025:132,origGBP:49,origJPY:null,units:'2M',img:'https://www.inflationstation.net/img/Neo-Geo-Pocket-Color-Blue-Left-299ef0590fb9b35d9c37d2ce3901d10a3423b7395a454f94f21520a2b453e4c4-300.jpg',wiki:'https://en.wikipedia.org/wiki/Neo_Geo_Pocket_Color',desc:"SNK's excellent handheld. Fantastic clicky thumbstick, great fighting games. Discontinued when SNK went bankrupt."},
+  {id:'c-25',name:'Sega Dreamcast',maker:'Sega',type:'home',year:1999,disc:2001,origUSD:199,adj2025:378,origGBP:199,origJPY:29800,units:'10.6M',img:'https://www.inflationstation.net/img/Dreamcast-Console-Set-9c3ab2e248ee57121ba17a689b0c544c6fca291a45113927d693a31a01d8db23-300.jpg',wiki:'https://en.wikipedia.org/wiki/Dreamcast',desc:"The first console with a built-in modem. Sonic Adventure, Soul Calibur, Shenmue. Ahead of its time. Sega's swan song."},
+  {id:'c-26',name:'PlayStation 2',maker:'Sony',type:'home',year:2000,disc:2013,origUSD:299,adj2025:548,origGBP:299,origJPY:39800,units:'155M',img:'https://www.inflationstation.net/img/Sony-PlayStation-2-30001-Console-FL-9ded397feade5d7b6cd1d7b03da96928dc7eb47b190707b09e29017c87693c71-300.jpg',wiki:'https://en.wikipedia.org/wiki/PlayStation_2',desc:"The best-selling console of all time. 155 million sold. Built-in DVD player drove sales as much as the games."},
+  {id:'c-27',name:'Game Boy Advance',maker:'Nintendo',type:'handheld',year:2001,disc:2008,origUSD:99,adj2025:177,origGBP:79,origJPY:9800,units:'81.5M',img:'https://www.inflationstation.net/img/Nintendo-Game-Boy-Advance-Purple-FL-b813e292851f33cf231e3fa50a55ca706494e904710121e3859f5c9fb4263c26-300.jpg',wiki:'https://en.wikipedia.org/wiki/Game_Boy_Advance',desc:"32-bit handheld that played the best portable games of its era. No backlight originally — fixed with the SP revision."},
+  {id:'c-28',name:'GameCube',maker:'Nintendo',type:'home',year:2001,disc:2007,origUSD:199,adj2025:358,origGBP:149,origJPY:25000,units:'21.74M',img:'https://www.inflationstation.net/img/GameCube-Set-6fb912e7e9274d15fb4e03ae791adc689c7fb85582025a03ccc8597e6ec39351-300.jpg',wiki:'https://en.wikipedia.org/wiki/GameCube',desc:"Nintendo's lunchbox. Resident Evil 4, Wind Waker, Metroid Prime. Underappreciated library on a mini-disc format."},
+  {id:'c-29',name:'Xbox',maker:'Microsoft',type:'home',year:2001,disc:2006,origUSD:299,adj2025:538,origGBP:299,origJPY:34800,units:'24M',img:'https://www.inflationstation.net/img/Xbox-Console-wDuke-L-2dfa55c9dd5a1f116fc07ba1454f835a821feddd2427580024e4839663320ab5-300.jpg',wiki:'https://en.wikipedia.org/wiki/Xbox_(console)',desc:"Microsoft enters gaming with a hard drive, ethernet, and Halo. The Duke controller was comically large."},
+  {id:'c-30',name:'Nokia N-Gage',maker:'Nokia',type:'handheld',year:2003,disc:2005,origUSD:299,adj2025:516,origGBP:299,origJPY:null,units:'3M',img:'https://www.inflationstation.net/img/Nokia-NGage-LL-62e04762f0b03ada72a83cfda778881b7545b1c55cd5da51990beb51000b94b4-300.jpg',wiki:'https://en.wikipedia.org/wiki/N-Gage_(device)',desc:"A phone that played games, or a games console you could call people on. You had to remove the battery to change games."},
+  {id:'c-31',name:'Nintendo DS',maker:'Nintendo',type:'handheld',year:2004,disc:2013,origUSD:149,adj2025:249,origGBP:99,origJPY:15000,units:'154M',img:'https://www.inflationstation.net/img/Nintendo-DS-Lite-Black-Open-e2d67708826bdefada1f727e1971aad57e3f28300e455c5798680d7cb0d97a6c-300.jpg',wiki:'https://en.wikipedia.org/wiki/Nintendo_DS',desc:"Dual screens, touch interface, wireless play. Second best-selling console ever at 154 million. Brain Training sold to everyone's parents."},
+  {id:'c-32',name:'PlayStation Portable',maker:'Sony',type:'handheld',year:2005,disc:2014,origUSD:249,adj2025:411,origGBP:179,origJPY:19800,units:'80M',img:'https://www.inflationstation.net/img/Psp-1000-4380d4426878e37882e34ca3461e1813bf83d976182c5720193827369ecdd9d0-300.jpg',wiki:'https://en.wikipedia.org/wiki/PlayStation_Portable',desc:"Sony's first handheld. UMD discs, gorgeous widescreen. Became the piracy king — CFW was trivially easy to install."},
+  {id:'c-33',name:'Xbox 360',maker:'Microsoft',type:'home',year:2005,disc:2016,origUSD:299,adj2025:483,origGBP:279,origJPY:37900,units:'84M',img:'https://www.inflationstation.net/img/Microsoft-Xbox-360-Pro-Flat-wController-L-28b0f36fe58b386e3c1ce250f189f1b48ae7c7799c2f4bdcc1fe6d543a349fa3-300.jpg',wiki:'https://en.wikipedia.org/wiki/Xbox_360',desc:"Won the early 7th gen battle with great multiplayer and Xbox Live. Red Ring of Death failure rate was catastrophic."},
+  {id:'c-34',name:'Wii',maker:'Nintendo',type:'home',year:2006,disc:2013,origUSD:249,adj2025:394,origGBP:179,origJPY:25000,units:'101.6M',img:'https://www.inflationstation.net/img/Wii-console-5f36b295634af44235783d80d1b116c71139d2719e7bc7ef8876caaa27e0f639-300.jpg',wiki:'https://en.wikipedia.org/wiki/Wii',desc:"Motion controls brought gaming to everyone's living room. Wii Sports pack-in. 101 million sold across all demographics."},
+  {id:'c-35',name:'PlayStation 3',maker:'Sony',type:'home',year:2006,disc:2017,origUSD:499,adj2025:790,origGBP:425,origJPY:59800,units:'87.4M',img:'https://www.inflationstation.net/img/Sony-PlayStation-3-CECHA01-wController-L-dab6f43fdc644e6e1fcef15e76e9f6fc2c17d8640035e659c1fc5f12854fbf6c-300.jpg',wiki:'https://en.wikipedia.org/wiki/PlayStation_3',desc:"Launched at $499-599. Trojan horse for Blu-ray. Cell processor was a nightmare to develop for. Free online rescued it."},
+  {id:'c-36',name:'Nintendo 3DS',maker:'Nintendo',type:'handheld',year:2011,disc:2020,origUSD:249,adj2025:356,origGBP:219,origJPY:25000,units:'75.94M',img:'https://www.inflationstation.net/img/Nintendo-3DS-AquaOpen-8faaaefa23f2cdfe31c4dc71b775386b3b638d4e8e919ac9326565f333261386-300.jpg',wiki:'https://en.wikipedia.org/wiki/3ds',desc:"Glasses-free 3D that most people turned off. Price cut from $249 to $169 within 5 months. Great library rescued it."},
+  {id:'c-37',name:'PlayStation Vita',maker:'Sony',type:'handheld',year:2012,disc:2019,origUSD:249,adj2025:349,origGBP:229,origJPY:24980,units:'16M',img:'https://www.inflationstation.net/img/PlayStation-Vita-1101-FL-493af012cffa51f9f1303db998ccda1519cc9bfb7e19e021d6f5b2e204634aa0-300.jpg',wiki:'https://en.wikipedia.org/wiki/PlayStation_Vita',desc:"Stunning hardware let down by proprietary memory cards and Sony abandoning it. Became an indie darling in its twilight."},
+  {id:'c-38',name:'Wii U',maker:'Nintendo',type:'home',year:2012,disc:2017,origUSD:349,adj2025:484,origGBP:299,origJPY:32000,units:'13.56M',img:'https://www.inflationstation.net/img/Wii_U_Console_and_Gamepad-327c9e537536df72ae5b8f2e0aef4892e7c2a89012ce9c9594642fbdae701979-300.jpg',wiki:'https://en.wikipedia.org/wiki/Wii_U',desc:"Confusing tablet controller, poor third-party support, dismal marketing. Donkey Kong Tropical Freeze and Mario Maker were sublime though."},
+  {id:'c-39',name:'PlayStation 4',maker:'Sony',type:'home',year:2013,disc:2023,origUSD:399,adj2025:546,origGBP:349,origJPY:39800,units:'117.2M',img:'https://www.inflationstation.net/img/Sony-PlayStation-4-wController-a31a3b28a3e66aaebf08f1f3ac612449b78525c39c47b738cf5b666c8e33bbd9-300.jpg',wiki:'https://en.wikipedia.org/wiki/PlayStation_4',desc:"Sony's clean sweep of the 8th gen. Simple messaging, dev-friendly hardware, incredible exclusives. 117 million sold."},
+  {id:'c-40',name:'Xbox One',maker:'Microsoft',type:'home',year:2013,disc:2020,origUSD:499,adj2025:683,origGBP:429,origJPY:49800,units:'51M',img:'https://www.inflationstation.net/img/Xbox-One-Console-wController-FL-96a90c60dbd2e30e9bad4f4f18ccee2a6be39d5ee6c42dea302aa2c323d5cb66-300.jpg',wiki:'https://en.wikipedia.org/wiki/Xbox_One',desc:"Always-online DRM controversy, $499 launch, mandatory Kinect. Microsoft walked back almost every decision pre-launch."},
+  {id:'c-41',name:'Nintendo Switch',maker:'Nintendo',type:'home',year:2017,disc:null,origUSD:299,adj2025:391,origGBP:279,origJPY:29980,units:'146M',img:'https://www.inflationstation.net/img/Nintendo-Switch-wJoyCons-BlRd-Standing-FL-ca69cccc17749db8a4021b23721468011c8cc93876cefe70aa648e06e624971a-300.jpg',wiki:'https://en.wikipedia.org/wiki/Nintendo_Switch',desc:"The hybrid console concept that finally worked. Dock it for TV, undock for handheld. Zelda: BOTW at launch. 146 million and counting."},
+  {id:'c-42',name:'Nintendo Switch Lite',maker:'Nintendo',type:'handheld',year:2019,disc:null,origUSD:199,adj2025:247,origGBP:199,origJPY:19980,units:'22.82M',img:'https://www.inflationstation.net/img/Nintendo_Switch_Lite_representation-976fad24a1c074c1c862d5aa5c2edda08a9161480f73b9da9fc0c2f1c6cfccfc-300.jpg',wiki:'https://en.wikipedia.org/wiki/Nintendo_Switch_Lite',desc:"Handheld-only Switch at a lower price point. No TV mode, no removable Joy-Con. Perfect for dedicated portable gaming."},
+  {id:'c-43',name:'Xbox Series S',maker:'Microsoft',type:'home',year:2020,disc:null,origUSD:299,adj2025:367,origGBP:249,origJPY:32978,units:'null',img:'https://www.inflationstation.net/img/xbox_series_s-0d2a7ef7e9ca5d9973db0afd516783569f7b535e8224d6df9ee600c913bafebe-300.jpg',wiki:'https://en.wikipedia.org/wiki/Xbox_Series_X_and_Series_S',desc:"Digital-only next-gen at an accessible price. 1440p, 120fps capable. No disc drive and smaller SSD remain limitations."},
+  {id:'c-44',name:'Xbox Series X',maker:'Microsoft',type:'home',year:2020,disc:null,origUSD:499,adj2025:612,origGBP:449,origJPY:54978,units:'null',img:'https://www.inflationstation.net/img/xbox_series_x-d858efbc744a4943168f2e2c4157c2ae48784c76367650a91ade56dbc3630514-300.jpg',wiki:'https://en.wikipedia.org/wiki/Xbox_Series_X_and_Series_S',desc:"The most powerful console ever made at launch. 12 teraflops, 4K/120fps, 1TB NVMe SSD. Matched immediately by PS5."},
+  {id:'c-45',name:'PlayStation 5',maker:'Sony',type:'home',year:2020,disc:null,origUSD:499,adj2025:612,origGBP:449,origJPY:54978,units:'null',img:'https://www.inflationstation.net/img/playstation-5-with-dualsense-front-product-shot-01-ps5-en-30jul20-3158de0f914bf23ae6c4b22f7e74728952f34d2642234ecfae92b3a626ed5e14-300.jpg',wiki:'https://en.wikipedia.org/wiki/PlayStation_5',desc:"DualSense haptic feedback changed how games feel. Fastest load times ever. Impossible to buy for the first two years."},
+  {id:'c-46',name:'PlayStation 5 Digital Edition',maker:'Sony',type:'home',year:2020,disc:null,origUSD:399,adj2025:489,origGBP:359,origJPY:43978,units:'null',img:'https://www.inflationstation.net/img/playstation-5-digital-edition-with-dualsense-front-product-shot-01-ps5-en-30jul20-bd7008cdd03c8eef71104bf26a0d90de93405abfb5310403f000c8f03c23bcb8-300.jpg',wiki:'https://en.wikipedia.org/wiki/PlayStation_5',desc:"No disc drive, $100 cheaper. As supply improved, became the default recommendation for most buyers."},
+  {id:'c-47',name:'Steam Deck',maker:'Valve',type:'handheld',year:2021,disc:null,origUSD:399,adj2025:484,origGBP:349,origJPY:null,units:'null',img:'https://www.inflationstation.net/img/Steam-Deck-fbb06b3a13479461bd8413bc97f569422bdd14233043db59c4c69f52a884b7e2-300.jpg',wiki:'https://en.wikipedia.org/wiki/Steam_Deck',desc:"A full PC in handheld form. Runs your entire Steam library. Linux-based SteamOS. Changed the handheld market overnight."},
+  {id:'c-48',name:'Nintendo Switch (OLED)',maker:'Nintendo',type:'home',year:2021,disc:null,origUSD:349,adj2025:403,origGBP:309,origJPY:37980,units:'null',img:'https://www.inflationstation.net/img/Nintendo-Switch-wJoyCons-BlRd-Standing-FL-ca69cccc17749db8a4021b23721468011c8cc93876cefe70aa648e06e624971a-300.jpg',wiki:'https://en.wikipedia.org/wiki/Nintendo_Switch#OLED_model',desc:"7-inch OLED screen, wider kickstand, improved speakers. Not the Pro model everyone expected, but a worthwhile upgrade."},
+  {id:'c-49',name:'PlayStation 5 Pro',maker:'Sony',type:'home',year:2024,disc:null,origUSD:699,adj2025:707,origGBP:699,origJPY:null,units:'null',img:'https://www.inflationstation.net/img/ps5-pro-745b766392396b34f2a5d9f2cfbaf9aac8ab89fff8fa2f96c40fd14545a17e5b-300.jpg',wiki:'https://en.wikipedia.org/wiki/PlayStation_5',desc:"45% more GPU power, PlayStation Spectral Super Resolution upscaling. $699 with no disc drive and no stand included."},
+  {id:'c-50',name:'Nintendo Switch 2',maker:'Nintendo',type:'home',year:2025,disc:null,origUSD:449,adj2025:449,origGBP:395,origJPY:49980,units:'null',img:'https://www.inflationstation.net/img/radio-times-switch-2-size-comparison1-3ef5e14-a8e9a862b64a8f30cfb46bfb70d29b0fb76f037eef59538f93c3832d17b33f79-300.jpg',wiki:'https://en.wikipedia.org/wiki/Nintendo_Switch_2',desc:"Nintendo's follow-up to their biggest console ever. Backwards compatible with Switch games, new magnetic Joy-Con, GameChat."},
+];
+
+
+let allGames=[...GAMES],filteredGames=[...GAMES];
+const CONSOLE_COLORS={'NES':'#8b1a00','SNES':'#6a0080','Mega Drive':'#001a8b','N64':'#005500','PlayStation':'#00006b','Game Boy':'#3a4e1e','Atari 2600':'#6b3000','PC Engine':'#6b0000','Sega Saturn':'#350060'};
+function fallbackHTML(cons,title){const bg=CONSOLE_COLORS[cons]||'#1a3a12';return `<div class="box-art-placeholder" style="background:${bg}"><div class="placeholder-icon">🎮</div><div class="placeholder-text">${(title||'').substring(0,20)}</div></div>`;}
+function renderExpensive(){const strip=document.getElementById('expensiveStrip');EXPENSIVE.forEach(e=>{const card=document.createElement('div');card.className='exp-card';const adj=e.adj2026>=1000?'$'+Math.round(e.adj2026/1000)+'k+':'$'+e.adj2026;const orig=e.origUSD?`<div class="exp-orig">$${e.origUSD} at launch</div>`:'<div class="exp-orig">Not sold retail</div>';card.innerHTML=`<div class="exp-rank">#${e.rank}</div><div class="exp-art" style="background:${e.color}"><div class="exp-art-placeholder">${e.icon}</div></div><div class="exp-info"><div class="exp-title">${e.title}</div><div class="exp-year">${e.console} · ${e.year}</div>${orig}<div class="exp-2026">${adj} today</div><div class="exp-note">${e.note}</div></div>`;strip.appendChild(card);});}
+function tooltipHTML(origUSD,year){const m=(inflationUSD[year]||1).toFixed(1);return `<span class="tooltip-wrap"><span class="tooltip-btn">?</span><span class="tooltip-box"><span class="tooltip-box-text">Original: $${origUSD} in ${year}. Multiplied by ${m}× using the US Consumer Price Index (CPI) — the official measure of how the cost of living has risen since then.</span></span></span>`;}
+function renderGames(games){const grid=document.getElementById('gamesGrid');grid.innerHTML='';if(!games.length){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px;font-size:10px;color:var(--text3)">NO GAMES FOUND</div>';return;}games.forEach(game=>{const adj=applyInflation(game.prices.USD,'USD',game.year);const hw=hoursWorked(game.prices.USD,game.prices.GBP,game.year);const stars='★'.repeat(game.rating)+'☆'.repeat(5-game.rating);const card=document.createElement('div');card.className='game-card';card.onclick=()=>openGameModal(game);const artId='art_'+game.id;card.innerHTML=`<div class="card-overlay">VIEW ▶</div><div class="box-art-wrap"><div id="${artId}" style="width:100%;height:100%">${fallbackHTML(game.console,game.title)}</div><div class="console-badge">${game.console} · ${game.year}</div></div><div class="card-info"><div class="card-title">${game.title}</div><div class="card-year"><span style="color:var(--text3)">${stars}</span></div><div class="price-table-mini"><div class="price-cell"><span class="price-cell-label">USD ${game.year}</span><span class="price-cell-val">${fmt(game.prices.USD,'USD')}</span></div><div class="price-cell"><span class="price-cell-label">GBP ${game.year}</span><span class="price-cell-val">${fmt(game.prices.GBP,'GBP')}</span></div><div class="price-cell adjusted"><span class="price-cell-label">🪙 2026 VALUE ${tooltipHTML(game.prices.USD,game.year)}</span><span class="price-cell-val">${fmt(adj,'USD')}</span></div><div class="hours-cell"><span class="hours-cell-label">⏱ HRS TO BUY</span><span class="hours-cell-vals">🇺🇸${hw.hUS}h &nbsp;🇬🇧${hw.hUK}h</span></div></div></div>`;grid.appendChild(card);if(game.art){const img=new Image();img.onload=()=>{const w=document.getElementById(artId);if(w)w.innerHTML=`<img src="${game.art}" alt="${game.title}" style="width:100%;height:100%;object-fit:cover;display:block">`;};img.src=game.art;}});}
+function populateFilters(){const sel=document.getElementById('consoleFilter');[...new Set(GAMES.map(g=>g.console))].sort().forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o);});}
+function filterGames(){const s=document.getElementById('searchInput').value.toLowerCase();const c=document.getElementById('consoleFilter').value;const e=document.getElementById('eraFilter').value;filteredGames=allGames.filter(g=>{const ms=!s||g.title.toLowerCase().includes(s)||g.console.toLowerCase().includes(s)||g.genre.toLowerCase().includes(s);const mc=!c||g.console===c;const me=!e||(e==='70s'&&g.year<1980||e==='80s'&&g.year>=1980&&g.year<1990||e==='90s'&&g.year>=1990&&g.year<2000||e==='00s'&&g.year>=2000);return ms&&mc&&me;});renderGames(filteredGames);}
+function switchTab(tab,btn){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  const map={games:'gamesTab',byConsole:'byConsoleTab',consoles:'consolesTab',explainer:'explainerTab'};
+  document.getElementById(map[tab]).classList.add('active');
+  document.getElementById('controls').style.display=tab==='games'?'flex':'none';
+}
+function switchConsole(console_id,btn){
+  document.querySelectorAll('.sub-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.console-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  const panel=document.getElementById('consolePanel-'+console_id);
+  if(panel) panel.classList.add('active');
+}
+function renderConsoles(){
+  const grid=document.getElementById('consolesGrid');
+  // Filter controls
+  const filterBar=document.createElement('div');
+  filterBar.style.cssText='grid-column:1/-1;display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:4px';
+  filterBar.innerHTML=`
+    <select class="pixel-select" id="consoleTypeFilter" onchange="renderConsoles()" style="min-height:40px">
+      <option value="">ALL TYPES</option>
+      <option value="home">🏠 HOME</option>
+      <option value="handheld">🎯 HANDHELD</option>
+    </select>
+    <select class="pixel-select" id="consoleMakerFilter" onchange="renderConsoles()" style="min-height:40px">
+      <option value="">ALL MAKERS</option>
+      ${[...new Set(CONSOLES.map(c=>c.maker))].sort().map(m=>`<option value="${m}">${m}</option>`).join('')}
+    </select>
+    <div style="font-size:var(--font-size-small);color:var(--text3);margin-left:auto" id="consoleCount"></div>`;
+  grid.innerHTML='';
+  grid.appendChild(filterBar);
+
+  const typeF=(document.getElementById('consoleTypeFilter')||{}).value||'';
+  const makerF=(document.getElementById('consoleMakerFilter')||{}).value||'';
+  const filtered=CONSOLES.filter(c=>(!typeF||c.type===typeF)&&(!makerF||c.maker===makerF));
+  const countEl=document.getElementById('consoleCount');
+  if(countEl) countEl.textContent=filtered.length+' consoles';
+
+  filtered.forEach(c=>{
+    // adj2026 from their adj2025 figure × our remaining multiplier (~1.01)
+    const adj2026=Math.round(c.adj2025*1.01);
+    const discStr=c.disc?c.disc:'present';
+    const card=document.createElement('div');
+    card.className='console-card';
+    card.onclick=()=>openConsoleModal(c);
+    const gbpStr=c.origGBP?`<div class="price-cell"><span class="price-cell-label">GBP ${c.year}</span><span class="price-cell-val">£${c.origGBP}</span></div>`:'';
+    const jpyStr=c.origJPY?`<div class="price-cell"><span class="price-cell-label">JPY ${c.year}</span><span class="price-cell-val">¥${c.origJPY.toLocaleString()}</span></div>`:'';
+    const typeBadge=c.type==='handheld'?'🎯 HANDHELD':'🏠 HOME';
+    card.innerHTML=`
+      <div class="console-art-wrap">
+        <img src="${c.img}" alt="${c.name}" style="width:100%;height:100%;object-fit:contain;padding:8px" onerror="this.style.display='none'">
+      </div>
+      <div class="console-info">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:6px">
+          <div class="console-name">${c.name}</div>
+          <div style="font-size:var(--font-size-small);color:var(--text3);white-space:nowrap;flex-shrink:0">${typeBadge}</div>
+        </div>
+        <div class="console-meta">
+          <span class="console-meta-item">📅 ${c.year}–${discStr}</span>
+          <span class="console-meta-item">🏭 ${c.maker}</span>
+          ${c.units!=='null'?`<span class="console-meta-item">📦 ${c.units} sold</span>`:''}
+        </div>
+        <div class="console-desc">${c.desc}</div>
+        <div class="console-prices">
+          <div class="price-cell"><span class="price-cell-label">USD ${c.year}</span><span class="price-cell-val">$${c.origUSD}</span></div>
+          ${gbpStr}
+          ${jpyStr}
+          <div class="price-cell adjusted" style="grid-column:1/-1"><span class="price-cell-label">🪙 2026 VALUE ${tooltipHTML(c.origUSD,c.year)}</span><span class="price-cell-val">$${adj2026.toLocaleString()}</span></div>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+function openGameModal(game){document.getElementById('modalTitle').textContent=game.title;document.getElementById('modalBg').classList.add('open');document.body.style.overflow='hidden';const adjUSD=applyInflation(game.prices.USD,'USD',game.year);const adjGBP=applyInflation(game.prices.GBP,'GBP',game.year);const adjJPY=applyInflation(game.prices.JPY,'JPY',game.year);const mult=(inflationUSD[game.year]||1).toFixed(1);const hw=hoursWorked(game.prices.USD,game.prices.GBP,game.year);const stars='★'.repeat(game.rating)+'☆'.repeat(5-game.rating);const artHtml=game.art?`<img src="${game.art}" alt="${game.title}" style="width:100%;height:100%;object-fit:cover">`:fallbackHTML(game.console,game.title);document.getElementById('modalBody').innerHTML=`<div class="modal-layout"><div class="modal-box-art">${artHtml}</div><div class="modal-info"><h2>${game.title}</h2><div class="info-row"><span class="info-label">CONSOLE</span><span class="info-val">${game.console}</span></div><div class="info-row"><span class="info-label">YEAR</span><span class="info-val">${game.year}</span></div><div class="info-row"><span class="info-label">GENRE</span><span class="info-val">${game.genre}</span></div><div class="info-row"><span class="info-label">PUBLISHER</span><span class="info-val">${game.publisher}</span></div><div class="info-row"><span class="info-label">RATING</span><span class="info-val" style="color:var(--accent)">${stars}</span></div><div class="hours-block"><div class="hours-block-title">⏱ HOURS WORKED TO BUY AT LAUNCH</div><div class="hours-cols"><div class="hours-col"><div class="hours-col-lbl">🇺🇸 USA</div><div class="hours-col-val">${hw.hUS}h</div><div class="hours-col-sub">avg $${hw.wUS}/hr in ${game.year}</div></div><div class="hours-col"><div class="hours-col-lbl">🇬🇧 UK</div><div class="hours-col-val">${hw.hUK}h</div><div class="hours-col-sub">avg £${hw.wUK}/hr in ${game.year}</div></div></div></div></div></div><p class="modal-desc">${game.desc}</p><div class="price-breakdown"><div class="price-breakdown-header">💰 LAUNCH PRICE vs 2026 MONEY</div><div class="price-grid"><div class="price-col"><div class="price-currency">🇺🇸 USD</div><span class="price-original">${fmt(game.prices.USD,'USD')} in ${game.year}</span><span class="price-arrow">↓</span><span class="price-2026">${fmt(adjUSD,'USD')} today</span></div><div class="price-col"><div class="price-currency">🇬🇧 GBP</div><span class="price-original">${fmt(game.prices.GBP,'GBP')} in ${game.year}</span><span class="price-arrow">↓</span><span class="price-2026">${fmt(adjGBP,'GBP')} today</span></div><div class="price-col"><div class="price-currency">🇯🇵 JPY</div><span class="price-original">${fmt(game.prices.JPY,'JPY')} in ${game.year}</span><span class="price-arrow">↓</span><span class="price-2026">${fmt(adjJPY,'JPY')} today</span></div></div></div><div class="inflation-note">📊 Inflation factor: ${mult}× from ${game.year} to 2026 (US CPI). EUR didn't exist at this time.</div>`;}
+function openConsoleModal(c){
+  document.getElementById('modalTitle').textContent=c.name;
+  document.getElementById('modalBg').classList.add('open');
+  document.body.style.overflow='hidden';
+  const adj2026=Math.round(c.adj2025*1.01);
+  const mult=(c.adj2025/c.origUSD).toFixed(1);
+  const discStr=c.disc?c.disc:'present';
+  const gbpRow=c.origGBP?`<div class="price-col"><div class="price-currency">🇬🇧 GBP</div><span class="price-original">£${c.origGBP} in ${c.year}</span><span class="price-arrow">↓</span><span class="price-2026">£${Math.round(c.origGBP*(inflationGBP[c.year]||1)).toLocaleString()} today</span></div>`:'<div class="price-col"><div class="price-currency">🇬🇧 GBP</div><span style="font-size:11px;color:var(--text3)">N/A</span></div>';
+  const jpyRow=c.origJPY?`<div class="price-col"><div class="price-currency">🇯🇵 JPY</div><span class="price-original">¥${c.origJPY.toLocaleString()} in ${c.year}</span><span class="price-arrow">↓</span><span class="price-2026">¥${Math.round(c.origJPY*(inflationJPY[c.year]||1)).toLocaleString()} today</span></div>`:'<div class="price-col"><div class="price-currency">🇯🇵 JPY</div><span style="font-size:11px;color:var(--text3)">N/A</span></div>';
+  document.getElementById('modalBody').innerHTML=`
+    <div style="background:var(--price-bg);border-radius:var(--radius);overflow:hidden;margin-bottom:16px;max-height:200px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border)">
+      <img src="${c.img}" alt="${c.name}" style="max-height:200px;max-width:100%;object-fit:contain;padding:12px">
+    </div>
+    <div class="modal-info" style="margin-bottom:14px">
+      <h2>${c.name}</h2>
+      <div class="info-row"><span class="info-label">MAKER</span><span class="info-val">${c.maker}</span></div>
+      <div class="info-row"><span class="info-label">TYPE</span><span class="info-val">${c.type==='handheld'?'🎯 Handheld':'🏠 Home console'}</span></div>
+      <div class="info-row"><span class="info-label">LAUNCHED</span><span class="info-val">${c.year}</span></div>
+      <div class="info-row"><span class="info-label">DISCONTINUED</span><span class="info-val">${discStr}</span></div>
+      ${c.units!=='null'?`<div class="info-row"><span class="info-label">UNITS SOLD</span><span class="info-val">${c.units}</span></div>`:''}
+    </div>
+    <p class="modal-desc">${c.desc}</p>
+    <div class="price-breakdown">
+      <div class="price-breakdown-header">💰 LAUNCH PRICE vs 2026 MONEY</div>
+      <div class="price-grid">
+        <div class="price-col"><div class="price-currency">🇺🇸 USD</div><span class="price-original">$${c.origUSD} in ${c.year}</span><span class="price-arrow">↓</span><span class="price-2026">$${adj2026.toLocaleString()} today</span></div>
+        ${gbpRow}
+        ${jpyRow}
+      </div>
+    </div>
+    <div class="inflation-note">📊 Inflation factor: ~${mult}× from ${c.year} to 2026 (US CPI data via inflationstation.net).<br>Source: <span style="color:var(--sky)">inflationstation.net</span> · ${c.disc?'':'Still available today.'}</div>`;
+}
+function closeModal(e){if(e.target===document.getElementById('modalBg'))closeModalBtn();}
+function closeModalBtn(){document.getElementById('modalBg').classList.remove('open');document.body.style.overflow='';}
+function doCalc(){const amt=parseFloat(document.getElementById('calcAmt').value)||0;const year=parseInt(document.getElementById('calcYear').value);const cur=document.getElementById('calcCur').value;const table=cur==='USD'?inflationUSD:cur==='GBP'?inflationGBP:inflationJPY;const mult=table[year]||1;const result=Math.round(amt*mult);const sym=cur==='USD'?'$':cur==='GBP'?'£':'¥';document.getElementById('calcRes').textContent=sym+result.toLocaleString();document.getElementById('calcMul').textContent=mult.toFixed(1)+'×';document.getElementById('calcCtx').textContent=`That ${sym}${amt} in ${year} had the same buying power as ${sym}${result.toLocaleString()} in 2026.`;}
+const NES_GAMES=[
+  {id:'nes-001',title:'720°',publisher:'Mindscape',year:1989,genre:'Sports',prices:{USD:39.99,GBP:29.99,JPY:5500},rating:3},
+  {id:'nes-002',title:'1942',publisher:'Capcom',year:1986,genre:'Shooter',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:3},
+  {id:'nes-003',title:'10-Yard Fight',publisher:'Nintendo',year:1985,genre:'Sports',prices:{USD:19.99,GBP:14.99,JPY:3500},rating:2},
+  {id:'nes-004',title:'1943: The Battle of Midway',publisher:'Capcom',year:1988,genre:'Shooter',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:3},
+  {id:'nes-005',title:'8 Eyes',publisher:'Taxan',year:1990,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:3},
+  {id:'nes-006',title:'A Nightmare on Elm Street',publisher:'LJN',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:2},
+  {id:'nes-007',title:'Abadox',publisher:'Milton Bradley',year:1990,genre:'Shooter',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
+  {id:'nes-008',title:'Adventure Island',publisher:'Hudson',year:1988,genre:'Platformer',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:3},
+  {id:'nes-009',title:'Adventure Island II',publisher:'Hudson',year:1991,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
+  {id:'nes-010',title:'Adventure Island 3',publisher:'Hudson',year:1992,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
+  {id:'nes-011',title:'Adventures of Bayou Billy',publisher:'Konami',year:1989,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:2},
+  {id:'nes-012',title:'Adventures of Lolo',publisher:'HAL',year:1989,genre:'Puzzle',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:4},
+  {id:'nes-013',title:'Adventures of Lolo 2',publisher:'HAL',year:1990,genre:'Puzzle',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:4},
+  {id:'nes-014',title:'Adventures of Lolo 3',publisher:'HAL',year:1991,genre:'Puzzle',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
+  {id:'nes-015',title:'Air Fortress',publisher:'HAL',year:1989,genre:'Shooter',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:3},
+  {id:'nes-016',title:'Airwolf',publisher:'Acclaim',year:1988,genre:'Action',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:2},
+  {id:'nes-017',title:'Arkanoid',publisher:'Taito',year:1987,genre:'Arcade',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:3},
+  {id:'nes-018',title:'Astyanax',publisher:'Jaleco',year:1990,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:3},
+  {id:'nes-019',title:'Back to the Future',publisher:'LJN',year:1989,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:1},
+  {id:'nes-020',title:'Bad Dudes',publisher:'Data East',year:1990,genre:"Beat'em Up",prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
+  {id:'nes-021',title:'Balloon Fight',publisher:'Nintendo',year:1986,genre:'Arcade',prices:{USD:19.99,GBP:14.99,JPY:3500},rating:3},
+  {id:'nes-022',title:'Baseball',publisher:'Nintendo',year:1985,genre:'Sports',prices:{USD:19.99,GBP:14.99,JPY:3500},rating:2},
+  {id:'nes-023',title:'Baseball Stars',publisher:'SNK',year:1989,genre:'Sports',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:4},
+  {id:'nes-024',title:'Bases Loaded',publisher:'Jaleco',year:1988,genre:'Sports',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:3},
+  {id:'nes-025',title:'Batman: The Video Game',publisher:'Sunsoft',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:4},
+  {id:'nes-026',title:'Batman Returns',publisher:'Konami',year:1993,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:3},
+  {id:'nes-027',title:'Battle Chess',publisher:'Data East',year:1990,genre:'Strategy',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
+  {id:'nes-028',title:'Battletoads',publisher:'Tradewest',year:1991,genre:"Beat'em Up",prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
+  {id:'nes-029',title:'Bionic Commando',publisher:'Capcom',year:1988,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:4},
+  {id:'nes-030',title:'Blades of Steel',publisher:'Konami',year:1988,genre:'Sports',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:4},
+  {id:'nes-031',title:'Blaster Master',publisher:'Sunsoft',year:1988,genre:'Action',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:5},
+  {id:'nes-032',title:'Bomberman',publisher:'Hudson',year:1990,genre:'Puzzle-Action',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:4},
+  {id:'nes-033',title:'Bomberman II',publisher:'Hudson',year:1993,genre:'Puzzle-Action',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:3},
+  {id:'nes-034',title:'Bubble Bobble',publisher:'Taito',year:1988,genre:'Arcade',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:5},
+  {id:'nes-035',title:"Bucky O'Hare",publisher:'Konami',year:1992,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
+  {id:'nes-036',title:'Bugs Bunny Birthday Blowout',publisher:'Kemco',year:1990,genre:'Platformer',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
+  {id:'nes-037',title:'BurgerTime',publisher:'Data East',year:1987,genre:'Arcade',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:3},
+  {id:'nes-038',title:'California Games',publisher:'Milton Bradley',year:1989,genre:'Sports',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:3},
+  {id:'nes-039',title:'Captain America and the Avengers',publisher:'Data East',year:1991,genre:"Beat'em Up",prices:{USD:49.99,GBP:39.99,JPY:7200},rating:3},
+  {id:'nes-040',title:'Captain Skyhawk',publisher:'Milton Bradley',year:1990,genre:'Shooter',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
+  {id:'nes-041',title:'Castlevania',publisher:'Konami',year:1987,genre:'Action',prices:{USD:39.99,GBP:27.99,JPY:5500},rating:5},
+  {id:'nes-042',title:"Castlevania II: Simon's Quest",publisher:'Konami',year:1988,genre:'Action-RPG',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:4},
+  {id:'nes-043',title:"Castlevania III: Dracula's Curse",publisher:'Konami',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:5},
+  {id:'nes-044',title:"Chip 'n Dale: Rescue Rangers",publisher:'Capcom',year:1990,genre:'Platformer',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:4},
+  {id:'nes-045',title:"Chip 'n Dale: Rescue Rangers 2",publisher:'Capcom',year:1994,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
+  {id:'nes-046',title:'Clash at Demonhead',publisher:'Vic Tokai',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:4},
+  {id:'nes-047',title:'Clu Clu Land',publisher:'Nintendo',year:1987,genre:'Arcade',prices:{USD:19.99,GBP:14.99,JPY:3500},rating:3},
+  {id:'nes-048',title:'Cobra Triangle',publisher:'Nintendo',year:1989,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:4},
+  {id:'nes-049',title:'Commando',publisher:'Capcom',year:1986,genre:'Shooter',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:3},
+  {id:'nes-050',title:'Contra',publisher:'Konami',year:1988,genre:"Run 'n Gun",prices:{USD:39.99,GBP:27.99,JPY:5500},rating:5},
+  {id:'nes-051',title:'Crystalis',publisher:'SNK',year:1990,genre:'Action-RPG',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:5},
+  {id:'nes-052',title:'Darkwing Duck',publisher:'Capcom',year:1992,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
+  {id:'nes-053',title:'A Boy and His Blob',publisher:'Absolute',year:1990,genre:'Puzzle',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
+  {id:'nes-054',title:'Deja Vu',publisher:'Kemco',year:1990,genre:'Adventure',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
+  {id:'nes-055',title:'Demon Sword',publisher:'Taito',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
+  {id:'nes-056',title:'Dick Tracy',publisher:'Bandai',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:2},
+  {id:'nes-057',title:'Donkey Kong',publisher:'Nintendo',year:1986,genre:'Arcade',prices:{USD:24.99,GBP:19.99,JPY:3900},rating:4},
+  {id:'nes-058',title:'Donkey Kong Jr.',publisher:'Nintendo',year:1986,genre:'Arcade',prices:{USD:24.99,GBP:19.99,JPY:3900},rating:3},
+  {id:'nes-059',title:'Double Dragon',publisher:'Tradewest',year:1988,genre:"Beat'em Up",prices:{USD:34.99,GBP:24.99,JPY:4900},rating:4},
+  {id:'nes-060',title:'Double Dragon II: The Revenge',publisher:'Acclaim',year:1990,genre:"Beat'em Up",prices:{USD:44.99,GBP:34.99,JPY:6500},rating:4},
+  {id:'nes-061',title:'Double Dragon III',publisher:'Acclaim',year:1992,genre:"Beat'em Up",prices:{USD:49.99,GBP:39.99,JPY:7200},rating:2},
+  {id:'nes-062',title:'Double Dribble',publisher:'Konami',year:1987,genre:'Sports',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:3},
+  {id:'nes-063',title:'Dr. Mario',publisher:'Nintendo',year:1990,genre:'Puzzle',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:5},
+  {id:'nes-064',title:'Dragon Warrior',publisher:'Nintendo',year:1989,genre:'RPG',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
+  {id:'nes-065',title:'Dragon Warrior II',publisher:'Enix',year:1990,genre:'RPG',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
+  {id:'nes-066',title:'Dragon Warrior III',publisher:'Enix',year:1992,genre:'RPG',prices:{USD:59.99,GBP:49.99,JPY:8700},rating:5},
+  {id:'nes-067',title:'Dragon Warrior IV',publisher:'Enix',year:1992,genre:'RPG',prices:{USD:59.99,GBP:49.99,JPY:8700},rating:5},
+  {id:'nes-068',title:'Duck Hunt',publisher:'Nintendo',year:1985,genre:'Light Gun',prices:{USD:14.99,GBP:12.99,JPY:3000},rating:3},
+  {id:'nes-069',title:'DuckTales',publisher:'Capcom',year:1989,genre:'Platformer',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:5},
+  {id:'nes-070',title:'DuckTales 2',publisher:'Capcom',year:1993,genre:'Platformer',prices:{USD:54.99,GBP:44.99,JPY:8000},rating:4},
+  {id:'nes-071',title:'Excitebike',publisher:'Nintendo',year:1985,genre:'Racing',prices:{USD:19.99,GBP:14.99,JPY:3500},rating:4},
+  {id:'nes-072',title:'Faxanadu',publisher:'Nintendo',year:1989,genre:'Action-RPG',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:4},
+  {id:'nes-073',title:'Felix the Cat',publisher:'Hudson',year:1992,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:3},
+  {id:'nes-074',title:"Fester's Quest",publisher:'Sunsoft',year:1989,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:3},
+  {id:'nes-075',title:'Final Fantasy',publisher:'Nintendo',year:1990,genre:'RPG',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:5},
+  {id:'nes-076',title:'Flintstones: Rescue of Dino',publisher:'Taito',year:1991,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:3},
+  {id:'nes-077',title:'Friday the 13th',publisher:'LJN',year:1989,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:1},
+  {id:'nes-078',title:'G.I. Joe',publisher:'Taxan',year:1991,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:3},
+  {id:'nes-079',title:'Galaga',publisher:'Bandai',year:1988,genre:'Shooter',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:4},
+  {id:'nes-080',title:"Gargoyle's Quest II",publisher:'Capcom',year:1992,genre:'Action-RPG',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
+  {id:'nes-081',title:'Ghostbusters',publisher:'Activision',year:1988,genre:'Action',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:2},
+  {id:'nes-082',title:"Ghosts 'n Goblins",publisher:'Capcom',year:1986,genre:'Action',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:4},
+  {id:'nes-083',title:'Godzilla: Monster of Monsters',publisher:'Toho',year:1989,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:3},
+  {id:'nes-084',title:'Golf',publisher:'Nintendo',year:1985,genre:'Sports',prices:{USD:19.99,GBP:14.99,JPY:3500},rating:2},
+  {id:'nes-085',title:'Golgo 13: Top Secret Episode',publisher:'Vic Tokai',year:1988,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:3},
+  {id:'nes-086',title:'Goonies II',publisher:'Konami',year:1987,genre:'Action-Adventure',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:3},
+  {id:'nes-087',title:'Gradius',publisher:'Konami',year:1986,genre:'Shooter',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:4},
+  {id:'nes-088',title:'Guardian Legend',publisher:'Broderbund',year:1989,genre:'Shooter',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:5},
+  {id:'nes-089',title:'Gun.Smoke',publisher:'Capcom',year:1988,genre:'Shooter',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:3},
+  {id:'nes-090',title:'Gyromite',publisher:'Nintendo',year:1985,genre:'Puzzle',prices:{USD:19.99,GBP:14.99,JPY:3500},rating:2},
+  {id:'nes-091',title:'Gyruss',publisher:'Konami',year:1989,genre:'Shooter',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:4},
+  {id:'nes-092',title:"Hogan's Alley",publisher:'Nintendo',year:1985,genre:'Light Gun',prices:{USD:14.99,GBP:12.99,JPY:3000},rating:3},
+  {id:'nes-093',title:'Ice Climber',publisher:'Nintendo',year:1985,genre:'Platformer',prices:{USD:19.99,GBP:14.99,JPY:3500},rating:3},
+  {id:'nes-094',title:'Ice Hockey',publisher:'Nintendo',year:1988,genre:'Sports',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:3},
+  {id:'nes-095',title:'Ikari Warriors',publisher:'SNK',year:1987,genre:'Shooter',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:3},
+  {id:'nes-096',title:'Image Fight',publisher:'IREM',year:1990,genre:'Shooter',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
+  {id:'nes-097',title:'Indiana Jones and the Temple of Doom',publisher:'Mindscape',year:1988,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:3},
+  {id:'nes-098',title:'Iron Tank',publisher:'SNK',year:1988,genre:'Action',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:3},
+  {id:'nes-099',title:'Jackal',publisher:'Konami',year:1988,genre:'Shooter',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:4},
+  {id:'nes-100',title:'Jaws',publisher:'LJN',year:1987,genre:'Action',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:2},
+  {id:'nes-101',title:'Journey to Silius',publisher:'Sunsoft',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:5},
+  {id:'nes-102',title:'Kabuki Quantum Fighter',publisher:'HAL',year:1991,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
+  {id:'nes-103',title:'Karate Champ',publisher:'Data East',year:1986,genre:'Fighting',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:2},
+  {id:'nes-104',title:'Kickle Cubicle',publisher:'IREM',year:1990,genre:'Puzzle',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:4},
+  {id:'nes-105',title:'Kid Icarus',publisher:'Nintendo',year:1987,genre:'Platformer',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:4},
+  {id:'nes-106',title:'Kid Niki: Radical Ninja',publisher:'Data East',year:1987,genre:'Action',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:3},
+  {id:'nes-107',title:"Kirby's Adventure",publisher:'Nintendo',year:1993,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:5},
+  {id:'nes-108',title:'Kung Fu',publisher:'Nintendo',year:1985,genre:"Beat'em Up",prices:{USD:19.99,GBP:14.99,JPY:3500},rating:3},
+  {id:'nes-109',title:'Legacy of the Wizard',publisher:'Broderbund',year:1989,genre:'Action-RPG',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
+  {id:'nes-110',title:'The Legend of Zelda',publisher:'Nintendo',year:1987,genre:'Action-RPG',prices:{USD:39.99,GBP:29.99,JPY:6500},rating:5},
+  {id:'nes-111',title:'Life Force',publisher:'Konami',year:1988,genre:'Shooter',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:5},
+  {id:'nes-112',title:'Little Mermaid',publisher:'Capcom',year:1991,genre:'Platformer',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
+  {id:'nes-113',title:'Little Nemo: The Dream Master',publisher:'Capcom',year:1990,genre:'Platformer',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:4},
+  {id:'nes-114',title:'Little Samson',publisher:'Taito',year:1992,genre:'Action',prices:{USD:54.99,GBP:44.99,JPY:8000},rating:5},
+  {id:'nes-115',title:'Lode Runner',publisher:'Broderbund',year:1987,genre:'Puzzle',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:4},
+  {id:'nes-116',title:'Mach Rider',publisher:'Nintendo',year:1985,genre:'Racing',prices:{USD:19.99,GBP:14.99,JPY:3500},rating:2},
+  {id:'nes-117',title:'Maniac Mansion',publisher:'Jaleco',year:1990,genre:'Adventure',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:4},
+  {id:'nes-118',title:'Marble Madness',publisher:'Milton Bradley',year:1989,genre:'Arcade',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:3},
+  {id:'nes-119',title:'Mega Man',publisher:'Capcom',year:1987,genre:'Platformer',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:4},
+  {id:'nes-120',title:'Mega Man 2',publisher:'Capcom',year:1989,genre:'Platformer',prices:{USD:39.99,GBP:27.99,JPY:5500},rating:5},
+  {id:'nes-121',title:'Mega Man 3',publisher:'Capcom',year:1990,genre:'Platformer',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:5},
+  {id:'nes-122',title:'Mega Man 4',publisher:'Capcom',year:1992,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
+  {id:'nes-123',title:'Mega Man 5',publisher:'Capcom',year:1992,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
+  {id:'nes-124',title:'Mega Man 6',publisher:'Nintendo',year:1994,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
+  {id:'nes-125',title:'Metal Gear',publisher:'Konami',year:1988,genre:'Stealth',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:4},
+  {id:'nes-126',title:'Metal Storm',publisher:'IREM',year:1991,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
+  {id:'nes-127',title:'Metroid',publisher:'Nintendo',year:1987,genre:'Action-Adventure',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:5},
+  {id:'nes-128',title:'Mighty Final Fight',publisher:'Capcom',year:1993,genre:"Beat'em Up",prices:{USD:54.99,GBP:44.99,JPY:8000},rating:4},
+  {id:'nes-129',title:"Mike Tyson's Punch-Out!!",publisher:'Nintendo',year:1987,genre:'Sports',prices:{USD:49.99,GBP:34.99,JPY:6500},rating:5},
+  {id:'nes-130',title:'Millipede',publisher:'HAL',year:1988,genre:'Shooter',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:2},
+  {id:'nes-131',title:"Milon's Secret Castle",publisher:'Hudson',year:1988,genre:'Action',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:3},
+  {id:'nes-132',title:'Monopoly',publisher:'Parker Brothers',year:1991,genre:'Board Game',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:2},
+  {id:'nes-133',title:'Ms. Pac-Man',publisher:'Namco',year:1993,genre:'Arcade',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
+  {id:'nes-134',title:'NARC',publisher:'Acclaim',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:2},
+  {id:'nes-135',title:'NES Open Tournament Golf',publisher:'Nintendo',year:1991,genre:'Sports',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
+  {id:'nes-136',title:'Ninja Gaiden',publisher:'Tecmo',year:1989,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:5},
+  {id:'nes-137',title:'Ninja Gaiden II',publisher:'Tecmo',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:5},
+  {id:'nes-138',title:'Ninja Gaiden III',publisher:'Tecmo',year:1991,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
+  {id:'nes-139',title:'Nintendo World Cup',publisher:'Nintendo',year:1991,genre:'Sports',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:4},
+  {id:'nes-140',title:'Operation Wolf',publisher:'Taito',year:1992,genre:'Light Gun',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:3},
+  {id:'nes-141',title:'Pac-Man',publisher:'Namco',year:1993,genre:'Arcade',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:3},
+  {id:'nes-142',title:'Paperboy',publisher:'Mindscape',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
+  {id:'nes-143',title:'Pinball',publisher:'Nintendo',year:1985,genre:'Arcade',prices:{USD:14.99,GBP:12.99,JPY:2900},rating:2},
+  {id:'nes-144',title:'Pipe Dream',publisher:'Bullet-Proof',year:1990,genre:'Puzzle',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:3},
+  {id:'nes-145',title:'Platoon',publisher:'Sunsoft',year:1988,genre:'Action',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:3},
+  {id:'nes-146',title:'Popeye',publisher:'Nintendo',year:1986,genre:'Arcade',prices:{USD:19.99,GBP:14.99,JPY:3500},rating:3},
+  {id:'nes-147',title:'Power Blade',publisher:'Taito',year:1991,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
+  {id:'nes-148',title:'Prince of Persia',publisher:'Virgin',year:1992,genre:'Platformer',prices:{USD:54.99,GBP:44.99,JPY:8000},rating:4},
+  {id:'nes-149',title:'Princess Tomato in the Salad Kingdom',publisher:'Hudson',year:1991,genre:'Adventure',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:3},
+  {id:'nes-150',title:'Pro Wrestling',publisher:'Nintendo',year:1987,genre:'Sports',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:4},
+  {id:'nes-151',title:'Punch-Out!!',publisher:'Nintendo',year:1990,genre:'Sports',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:5},
+  {id:'nes-152',title:'R.C. Pro-Am',publisher:'Nintendo',year:1988,genre:'Racing',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:4},
+  {id:'nes-153',title:'Rad Racer',publisher:'Nintendo',year:1987,genre:'Racing',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:3},
+  {id:'nes-154',title:'Rampage',publisher:'Data East',year:1988,genre:'Action',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:3},
+  {id:'nes-155',title:'River City Ransom',publisher:'American Technos',year:1990,genre:"Beat'em Up",prices:{USD:44.99,GBP:34.99,JPY:6500},rating:5},
+  {id:'nes-156',title:'RoboCop',publisher:'Data East',year:1989,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:3},
+  {id:'nes-157',title:"Rockin' Kats",publisher:'Atlus',year:1991,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
+  {id:'nes-158',title:'Rollerball',publisher:'HAL',year:1990,genre:'Arcade',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
+  {id:'nes-159',title:"Rush'n Attack",publisher:'Konami',year:1987,genre:'Action',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:3},
+  {id:'nes-160',title:'Rygar',publisher:'Tecmo',year:1987,genre:'Action',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:4},
+  {id:'nes-161',title:'S.C.A.T.',publisher:'Natsume',year:1991,genre:'Shooter',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
+  {id:'nes-162',title:'Section-Z',publisher:'Capcom',year:1987,genre:'Shooter',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:3},
+  {id:'nes-163',title:'Shadow of the Ninja',publisher:'Natsume',year:1991,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
+  {id:'nes-164',title:'Shadowgate',publisher:'Kemco',year:1989,genre:'Adventure',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:4},
+  {id:'nes-165',title:'Shatterhand',publisher:'Jaleco',year:1991,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
+  {id:'nes-166',title:'Silver Surfer',publisher:'Arcadia',year:1990,genre:'Shooter',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
+  {id:'nes-167',title:'Simpsons: Bart vs the Space Mutants',publisher:'Acclaim',year:1992,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:2},
+  {id:'nes-168',title:'Skate or Die',publisher:'Konami',year:1988,genre:'Sports',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:3},
+  {id:'nes-169',title:'Slalom',publisher:'Nintendo',year:1987,genre:'Sports',prices:{USD:24.99,GBP:19.99,JPY:3900},rating:3},
+  {id:'nes-170',title:'Smash T.V.',publisher:'Acclaim',year:1991,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
+  {id:'nes-171',title:"Snake Rattle 'n Roll",publisher:'Nintendo',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
+  {id:'nes-172',title:"Snake's Revenge",publisher:'Konami',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
+  {id:'nes-173',title:'Soccer',publisher:'Nintendo',year:1987,genre:'Sports',prices:{USD:24.99,GBP:19.99,JPY:3900},rating:2},
+  {id:'nes-174',title:'Solar Jetman',publisher:'Tradewest',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:4},
+  {id:'nes-175',title:"Solomon's Key",publisher:'Tecmo',year:1987,genre:'Puzzle',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:4},
+  {id:'nes-176',title:'Solstice',publisher:'Sony Imagesoft',year:1990,genre:'Puzzle',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:4},
+  {id:'nes-177',title:'Spy Hunter',publisher:'Sunsoft',year:1987,genre:'Racing',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:3},
+  {id:'nes-178',title:'StarTropics',publisher:'Nintendo',year:1990,genre:'Action-Adventure',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
+  {id:'nes-179',title:"StarTropics II: Zoda's Revenge",publisher:'Nintendo',year:1994,genre:'Action-Adventure',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
+  {id:'nes-180',title:'Star Wars',publisher:'JVC',year:1991,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:3},
+  {id:'nes-181',title:'Star Wars: The Empire Strikes Back',publisher:'JVC',year:1992,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:3},
+  {id:'nes-182',title:'Stinger',publisher:'Konami',year:1987,genre:'Shooter',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:3},
+  {id:'nes-183',title:'Super Mario Bros.',publisher:'Nintendo',year:1985,genre:'Platformer',prices:{USD:29.99,GBP:19.99,JPY:4900},rating:5},
+  {id:'nes-184',title:'Super Mario Bros. 2',publisher:'Nintendo',year:1988,genre:'Platformer',prices:{USD:34.99,GBP:24.99,JPY:5200},rating:4},
+  {id:'nes-185',title:'Super Mario Bros. 3',publisher:'Nintendo',year:1990,genre:'Platformer',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:5},
+  {id:'nes-186',title:'Tecmo Bowl',publisher:'Tecmo',year:1989,genre:'Sports',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:4},
+  {id:'nes-187',title:'Tecmo Super Bowl',publisher:'Tecmo',year:1991,genre:'Sports',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:5},
+  {id:'nes-188',title:'Teenage Mutant Ninja Turtles',publisher:'Ultra',year:1989,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:3},
+  {id:'nes-189',title:'TMNT II: The Arcade Game',publisher:'Ultra',year:1990,genre:"Beat'em Up",prices:{USD:44.99,GBP:34.99,JPY:6500},rating:4},
+  {id:'nes-190',title:'TMNT III: The Manhattan Project',publisher:'Ultra',year:1992,genre:"Beat'em Up",prices:{USD:54.99,GBP:44.99,JPY:8000},rating:4},
+  {id:'nes-191',title:'Tetris',publisher:'Nintendo',year:1989,genre:'Puzzle',prices:{USD:29.99,GBP:19.99,JPY:4500},rating:5},
+  {id:'nes-192',title:'Tiny Toon Adventures',publisher:'Ultra',year:1991,genre:'Platformer',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:4},
+  {id:'nes-193',title:'Tiny Toon Adventures 2',publisher:'Ultra',year:1994,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:3},
+  {id:'nes-194',title:'Top Gun',publisher:'Ultra',year:1987,genre:'Shooter',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:2},
+  {id:'nes-195',title:'Urban Champion',publisher:'Nintendo',year:1986,genre:'Fighting',prices:{USD:19.99,GBP:14.99,JPY:3500},rating:2},
+  {id:'nes-196',title:"Wario's Woods",publisher:'Nintendo',year:1994,genre:'Puzzle',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
+  {id:'nes-197',title:'Willow',publisher:'Capcom',year:1989,genre:'Action-RPG',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
+  {id:'nes-198',title:'Wizards & Warriors',publisher:'Acclaim',year:1990,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:4},
+  {id:'nes-199',title:'Wolverine',publisher:'LJN',year:1991,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:2},
+  {id:'nes-200',title:'World Class Track Meet',publisher:'Nintendo',year:1988,genre:'Sports',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:2},
+  {id:'nes-201',title:'Xexyz',publisher:'Hudson',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
+  {id:'nes-202',title:"Yo! Noid",publisher:'Capcom',year:1990,genre:'Platformer',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
+  {id:'nes-203',title:'Zelda II: The Adventure of Link',publisher:'Nintendo',year:1988,genre:'Action-RPG',prices:{USD:39.99,GBP:27.99,JPY:5500},rating:4},
+  {id:'nes-204',title:'Zombie Nation',publisher:'Meldac',year:1991,genre:'Shooter',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:3},
+  {id:'nes-205',title:'Battletoads & Double Dragon',publisher:'Tradewest',year:1993,genre:"Beat'em Up",prices:{USD:54.99,GBP:44.99,JPY:8000},rating:4},
+  {id:'nes-206',title:"Bram Stoker's Dracula",publisher:'Sony Imagesoft',year:1993,genre:'Action',prices:{USD:54.99,GBP:44.99,JPY:8000},rating:2},
+  {id:'nes-207',title:'Gremlins 2: The New Batch',publisher:'Sunsoft',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
+  {id:'nes-208',title:'Home Alone',publisher:'THQ',year:1991,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:2},
+  {id:'nes-209',title:'Hook',publisher:'Sony Imagesoft',year:1992,genre:'Action',prices:{USD:54.99,GBP:44.99,JPY:8000},rating:3},
+  {id:'nes-210',title:'Jurassic Park',publisher:'Ocean',year:1993,genre:'Action',prices:{USD:54.99,GBP:44.99,JPY:8000},rating:3},
+];
+
+// NES GENRE/YEAR colours for placeholders
+const NES_GENRE_COLORS={
+  'Platformer':'#2a0080','Shooter':'#003a00','Action':'#4a0000',
+  "Beat'em Up":'#3a2000','RPG':'#001a4a','Action-RPG':'#002a3a',
+  'Puzzle':'#1a003a','Sports':'#003020','Racing':'#2a1a00',
+  'Arcade':'#1a1a00','Adventure':'#00202a','Puzzle-Action':'#2a0030',
+  'Strategy':'#001a00',"Run 'n Gun":'#3a1a00','Fighting':'#3a0020',
+  'Action-Adventure':'#002020','Light Gun':'#1a1a1a','Board Game':'#1a1000',
+  'Stealth':'#0a0a1a'
+};
+
+let nesFiltered=[...NES_GAMES];
+
+function initNESFilters(){
+  const genres=[...new Set(NES_GAMES.map(g=>g.genre))].sort();
+  const years=[...new Set(NES_GAMES.map(g=>g.year))].sort();
+  const gSel=document.getElementById('nesGenre');
+  const ySel=document.getElementById('nesYear');
+  genres.forEach(g=>{const o=document.createElement('option');o.value=g;o.textContent=g;gSel.appendChild(o);});
+  years.forEach(y=>{const o=document.createElement('option');o.value=y;o.textContent=y;ySel.appendChild(o);});
+}
+
+function filterNES(){
+  const s=document.getElementById('nesSearch').value.toLowerCase();
+  const g=document.getElementById('nesGenre').value;
+  const y=document.getElementById('nesYear').value;
+  nesFiltered=NES_GAMES.filter(n=>{
+    const ms=!s||n.title.toLowerCase().includes(s)||n.publisher.toLowerCase().includes(s);
+    const mg=!g||n.genre===g;
+    const my=!y||n.year==y;
+    return ms&&mg&&my;
+  });
+  renderNES();
+}
+
+function renderNES(){
+  const grid=document.getElementById('nesGrid');
+  grid.innerHTML='';
+  document.getElementById('nesCount').textContent=`${nesFiltered.length} of ${NES_GAMES.length} games`;
+  if(!nesFiltered.length){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px;font-size:10px;color:var(--text3)">NO GAMES FOUND — GAME OVER</div>';return;}
+  nesFiltered.forEach(game=>{
+    const adj=applyInflation(game.prices.USD,'USD',game.year);
+    const hw=hoursWorked(game.prices.USD,game.prices.GBP,game.year);
+    const stars='★'.repeat(game.rating)+'☆'.repeat(5-game.rating);
+    const bg=NES_GENRE_COLORS[game.genre]||'#1a1a1a';
+    const card=document.createElement('div');
+    card.className='game-card';
+    card.onclick=()=>openNESModal(game);
+    card.innerHTML=`<div class="card-overlay">VIEW ▶</div>
+      <div class="box-art-wrap" style="background:${bg}">
+        <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px">
+          <div style="font-size:10px;color:#666;letter-spacing:1px;text-align:center;line-height:1.4;font-family:var(--font-main)">${game.title.substring(0,22)}</div>
+          <div style="font-size:8px;color:#444;margin-top:4px;letter-spacing:1px">🖼️ ART PENDING</div>
+        </div>
+        <div class="console-badge">NES · ${game.year}</div>
+      </div>
+      <div class="card-info">
+        <div class="card-title">${game.title}</div>
+        <div class="card-year"><span style="color:var(--text3)">${stars}</span></div>
+        <div class="price-table-mini">
+          <div class="price-cell"><span class="price-cell-label">USD ${game.year}</span><span class="price-cell-val">${fmt(game.prices.USD,'USD')}</span></div>
+          <div class="price-cell"><span class="price-cell-label">GBP ${game.year}</span><span class="price-cell-val">${fmt(game.prices.GBP,'GBP')}</span></div>
+          <div class="price-cell adjusted"><span class="price-cell-label">🪙 2026 VALUE ${tooltipHTML(game.prices.USD,game.year)}</span><span class="price-cell-val">${fmt(adj,'USD')}</span></div>
+          <div class="hours-cell"><span class="hours-cell-label">⏱ HRS TO BUY</span><span class="hours-cell-vals">🇺🇸${hw.hUS}h 🇬🇧${hw.hUK}h</span></div>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+function openNESModal(game){
+  document.getElementById('modalTitle').textContent=game.title;
+  document.getElementById('modalBg').classList.add('open');
+  document.body.style.overflow='hidden';
+  const adjUSD=applyInflation(game.prices.USD,'USD',game.year);
+  const adjGBP=applyInflation(game.prices.GBP,'GBP',game.year);
+  const adjJPY=applyInflation(game.prices.JPY,'JPY',game.year);
+  const mult=(inflationUSD[game.year]||1).toFixed(1);
+  const hw=hoursWorked(game.prices.USD,game.prices.GBP,game.year);
+  const stars='★'.repeat(game.rating)+'☆'.repeat(5-game.rating);
+  const bg=NES_GENRE_COLORS[game.genre]||'#1a1a1a';
+  document.getElementById('modalBody').innerHTML=`
+    <div class="modal-layout">
+      <div class="modal-box-art" style="background:${bg};display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;padding:16px">
+        <div style="font-size:9px;color:#666;text-align:center;line-height:1.8;letter-spacing:1px;font-family:var(--font-main)">${game.title}</div>
+        <div style="font-size:7px;color:#444;letter-spacing:1px">🖼️ ART PENDING DEPLOY</div>
+      </div>
+      <div class="modal-info">
+        <h2>${game.title}</h2>
+        <div class="info-row"><span class="info-label">CONSOLE</span><span class="info-val">NES</span></div>
+        <div class="info-row"><span class="info-label">YEAR</span><span class="info-val">${game.year}</span></div>
+        <div class="info-row"><span class="info-label">GENRE</span><span class="info-val">${game.genre}</span></div>
+        <div class="info-row"><span class="info-label">PUBLISHER</span><span class="info-val">${game.publisher}</span></div>
+        <div class="info-row"><span class="info-label">RATING</span><span class="info-val" style="color:var(--accent)">${stars}</span></div>
+        <div class="hours-block">
+          <div class="hours-block-title">⏱ HOURS WORKED TO BUY AT LAUNCH</div>
+          <div class="hours-cols">
+            <div class="hours-col"><div class="hours-col-lbl">🇺🇸 USA</div><div class="hours-col-val">${hw.hUS}h</div><div class="hours-col-sub">avg $${hw.wUS}/hr in ${game.year}</div></div>
+            <div class="hours-col"><div class="hours-col-lbl">🇬🇧 UK</div><div class="hours-col-val">${hw.hUK}h</div><div class="hours-col-sub">avg £${hw.wUK}/hr in ${game.year}</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="price-breakdown">
+      <div class="price-breakdown-header">💰 LAUNCH PRICE vs 2026 MONEY</div>
+      <div class="price-grid">
+        <div class="price-col"><div class="price-currency">🇺🇸 USD</div><span class="price-original">${fmt(game.prices.USD,'USD')} in ${game.year}</span><span class="price-arrow">↓</span><span class="price-2026">${fmt(adjUSD,'USD')} today</span></div>
+        <div class="price-col"><div class="price-currency">🇬🇧 GBP</div><span class="price-original">${fmt(game.prices.GBP,'GBP')} in ${game.year}</span><span class="price-arrow">↓</span><span class="price-2026">${fmt(adjGBP,'GBP')} today</span></div>
+        <div class="price-col"><div class="price-currency">🇯🇵 JPY</div><span class="price-original">${fmt(game.prices.JPY,'JPY')} in ${game.year}</span><span class="price-arrow">↓</span><span class="price-2026">${fmt(adjJPY,'JPY')} today</span></div>
+      </div>
+    </div>
+    <div class="inflation-note">📊 Inflation factor: ${mult}× from ${game.year} to 2026 (US CPI).<br>🖼️ Box art file: <span style="color:var(--sky)">${game.title} (USA).png</span> — ready to wire from Drive/GitHub.</div>`;
+}
+
+window.onload=()=>{populateFilters();renderExpensive();renderConsoles();doCalc();initNESFilters();renderNES();setTimeout(()=>{document.getElementById('loadingState').style.display='none';document.getElementById('gamesGrid').style.display='grid';document.getElementById('footerStats').style.display='flex';document.getElementById('statGames').textContent=GAMES.length;document.getElementById('statConsoles').textContent=new Set(GAMES.map(g=>g.console)).size;document.getElementById('statEras').textContent='1977–2000';renderGames(allGames);},2000);};
+</script>
+</body>
+</html>
