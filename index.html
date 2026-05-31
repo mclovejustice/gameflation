@@ -513,7 +513,7 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
       <div id="nesGrid" class="games-grid"></div>
     </div>
     <div class="footer-stats">
-      <div class="stat-item">NES IN DB: <span>210</span></div>
+      <div class="stat-item">NES IN DB: <span>229</span></div>
       <div class="stat-item">FULL LIBRARY: <span>677</span></div>
       <div class="stat-item">ART: <span>PENDING</span></div>
     </div>
@@ -872,6 +872,7 @@ function openConsoleModal(c){
 function closeModal(e){if(e.target===document.getElementById('modalBg'))closeModalBtn();}
 function closeModalBtn(){document.getElementById('modalBg').classList.remove('open');document.body.style.overflow='';}
 function doCalc(){const amt=parseFloat(document.getElementById('calcAmt').value)||0;const year=parseInt(document.getElementById('calcYear').value);const cur=document.getElementById('calcCur').value;const table=cur==='USD'?inflationUSD:cur==='GBP'?inflationGBP:inflationJPY;const mult=table[year]||1;const result=Math.round(amt*mult);const sym=cur==='USD'?'$':cur==='GBP'?'£':'¥';document.getElementById('calcRes').textContent=sym+result.toLocaleString();document.getElementById('calcMul').textContent=mult.toFixed(1)+'×';document.getElementById('calcCtx').textContent=`That ${sym}${amt} in ${year} had the same buying power as ${sym}${result.toLocaleString()} in 2026.`;}
+const NES_ART_BASE='https://gameflation.netlify.app/art/nes/';
 const NES_GAMES=[
   {id:'nes-001',title:'720°',publisher:'Mindscape',year:1989,genre:'Sports',prices:{USD:39.99,GBP:29.99,JPY:5500},rating:3},
   {id:'nes-002',title:'1942',publisher:'Capcom',year:1986,genre:'Shooter',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:3},
@@ -1083,6 +1084,25 @@ const NES_GAMES=[
   {id:'nes-208',title:'Home Alone',publisher:'THQ',year:1991,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:2},
   {id:'nes-209',title:'Hook',publisher:'Sony Imagesoft',year:1992,genre:'Action',prices:{USD:54.99,GBP:44.99,JPY:8000},rating:3},
   {id:'nes-210',title:'Jurassic Park',publisher:'Ocean',year:1993,genre:'Action',prices:{USD:54.99,GBP:44.99,JPY:8000},rating:3},
+  {id:'nes-211',title:'WWF WrestleMania',publisher:'Acclaim',year:1989,genre:'Sports',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:2,driveFile:'WWF WrestleMania (USA).png'},
+  {id:'nes-212',title:'WWF WrestleMania Challenge',publisher:'Acclaim',year:1990,genre:'Sports',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:2,driveFile:'WWF WrestleMania Challenge (USA).png'},
+  {id:'nes-213',title:'WWF WrestleMania Steel Cage Challenge',publisher:'Acclaim',year:1992,genre:'Sports',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:3,driveFile:'WWF Wrestlemania - Steel Cage Challenge (USA).png'},
+  {id:'nes-214',title:'WWF King of the Ring',publisher:'Acclaim',year:1993,genre:'Sports',prices:{USD:54.99,GBP:44.99,JPY:8000},rating:3,driveFile:'WWF King of the Ring (USA).png'},
+  {id:'nes-215',title:'Tecmo World Wrestling',publisher:'Tecmo',year:1990,genre:'Sports',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3,driveFile:'Tecmo World Wrestling (USA).png'},
+  {id:'nes-216',title:'Yoshi',publisher:'Nintendo',year:1992,genre:'Puzzle',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:3,driveFile:"Yoshi (USA).png"},
+  {id:'nes-217',title:"Yoshi's Cookie",publisher:'Nintendo',year:1993,genre:'Puzzle',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3,driveFile:"Yoshi's Cookie (USA).png"},
+  {id:'nes-218',title:'Wrecking Crew',publisher:'Nintendo',year:1985,genre:'Action',prices:{USD:19.99,GBP:14.99,JPY:3500},rating:3,driveFile:'Wrecking Crew (USA).png'},
+  {id:'nes-219',title:'Xenophobe',publisher:'Jaleco',year:1990,genre:'Shooter',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:2,driveFile:'Xenophobe (USA).png'},
+  {id:'nes-220',title:'Xevious',publisher:'Bandai',year:1988,genre:'Shooter',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:3,driveFile:'Xevious (USA).png'},
+  {id:'nes-221',title:'Zanac',publisher:'FCI',year:1987,genre:'Shooter',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:4,driveFile:'Zanac (USA).png'},
+  {id:'nes-222',title:'Zen Intergalactic Ninja',publisher:'Konami',year:1993,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:3,driveFile:'Zen - Intergalactic Ninja (USA).png'},
+  {id:'nes-223',title:'Zombie Nation',publisher:'Meldac',year:1991,genre:'Shooter',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:3,driveFile:'Zombie Nation (USA).png'},
+  {id:'nes-224',title:'Wurm',publisher:'ASMIK',year:1991,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:3,driveFile:'WURM (USA).png'},
+  {id:'nes-225',title:'Wrath of the Black Manta',publisher:'Taito',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:2,driveFile:'Wrath of the Black Manta (USA).png'},
+  {id:'nes-226',title:'World Games',publisher:'Broderbund',year:1989,genre:'Sports',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:3,driveFile:'World Games (USA).png'},
+  {id:'nes-227',title:'World Class Track Meet',publisher:'Nintendo',year:1988,genre:'Sports',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:2,driveFile:'World Class Track Meet (USA).png'},
+  {id:'nes-228',title:'Young Indiana Jones Chronicles',publisher:'Jaleco',year:1992,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:2,driveFile:'Young Indiana Jones Chronicles, The (USA).png'},
+  {id:'nes-229',title:'Zelda II: The Adventure of Link',publisher:'Nintendo',year:1988,genre:'Action-RPG',prices:{USD:39.99,GBP:27.99,JPY:5500},rating:4,driveFile:'Zelda II - The Adventure of Link (USA).png'},
 ];
 
 // NES GENRE/YEAR colours for placeholders
@@ -1108,11 +1128,12 @@ function initNESFilters(){
 }
 
 function filterNES(){
-  const s=document.getElementById('nesSearch').value.toLowerCase();
+  const s=document.getElementById('nesSearch').value.toLowerCase().trim();
   const g=document.getElementById('nesGenre').value;
   const y=document.getElementById('nesYear').value;
   nesFiltered=NES_GAMES.filter(n=>{
-    const ms=!s||n.title.toLowerCase().includes(s)||n.publisher.toLowerCase().includes(s);
+    const searchIn=[n.title,n.publisher,n.genre,n.driveFile||''].join(' ').toLowerCase();
+    const ms=!s||s.split(' ').every(word=>searchIn.includes(word));
     const mg=!g||n.genre===g;
     const my=!y||n.year==y;
     return ms&&mg&&my;
@@ -1135,9 +1156,10 @@ function renderNES(){
     card.onclick=()=>openNESModal(game);
     card.innerHTML=`<div class="card-overlay">VIEW ▶</div>
       <div class="box-art-wrap" style="background:${bg}">
-        <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px">
-          <div style="font-size:10px;color:#666;letter-spacing:1px;text-align:center;line-height:1.4;font-family:var(--font-main)">${game.title.substring(0,22)}</div>
-          <div style="font-size:8px;color:#444;margin-top:4px;letter-spacing:1px">🖼️ ART PENDING</div>
+        <div id="nesart_${game.id}" style="width:100%;height:100%">
+          <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px">
+            <div style="font-size:10px;color:#666;letter-spacing:1px;text-align:center;line-height:1.4;font-family:var(--font-main)">${game.title.substring(0,22)}</div>
+          </div>
         </div>
         <div class="console-badge">NES · ${game.year}</div>
       </div>
@@ -1152,6 +1174,14 @@ function renderNES(){
         </div>
       </div>`;
     grid.appendChild(card);
+    if(game.driveFile){
+      const img=new Image();
+      img.onload=()=>{
+        const w=document.getElementById('nesart_'+game.id);
+        if(w) w.innerHTML=`<img src="${NES_ART_BASE}${game.driveFile}" alt="${game.title}" style="width:100%;height:100%;object-fit:cover;display:block">`;
+      };
+      img.src=NES_ART_BASE+game.driveFile;
+    }
   });
 }
 
@@ -1168,9 +1198,8 @@ function openNESModal(game){
   const bg=NES_GENRE_COLORS[game.genre]||'#1a1a1a';
   document.getElementById('modalBody').innerHTML=`
     <div class="modal-layout">
-      <div class="modal-box-art" style="background:${bg};display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;padding:16px">
-        <div style="font-size:9px;color:#666;text-align:center;line-height:1.8;letter-spacing:1px;font-family:var(--font-main)">${game.title}</div>
-        <div style="font-size:7px;color:#444;letter-spacing:1px">🖼️ ART PENDING DEPLOY</div>
+      <div class="modal-box-art" style="background:${bg}">
+        ${game.driveFile?`<img src="${NES_ART_BASE}${game.driveFile}" alt="${game.title}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.style.display='flex';this.parentElement.style.alignItems='center';this.parentElement.style.justifyContent='center';this.remove()">`:''}
       </div>
       <div class="modal-info">
         <h2>${game.title}</h2>
