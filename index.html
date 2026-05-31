@@ -484,7 +484,7 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
   <!-- Console sub-tabs -->
   <div class="sub-tabs" id="subTabs">
     <button class="sub-tab active" onclick="switchConsole('nes',this)">🎮 NES</button>
-    <span class="sub-tab-coming">SNES ›</span>
+    <button class="sub-tab" onclick="switchConsole('snes',this)">🕹️ SNES</button>
     <span class="sub-tab-coming">MEGA DRIVE ›</span>
     <span class="sub-tab-coming">N64 ›</span>
     <span class="sub-tab-coming">PLAYSTATION ›</span>
@@ -518,6 +518,29 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
       <div class="stat-item">ART: <span>PENDING</span></div>
     </div>
   </div>
+  <!-- SNES sub-panel -->
+  <div id="consolePanel-snes" class="console-panel">
+    <div style="background:var(--header-bg);border-bottom:2px solid var(--border2);padding:12px 16px;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+      <div class="controls-label">🔍</div>
+      <input class="pixel-input" type="text" id="snesSearch" placeholder="SEARCH SNES..." oninput="filterSNES()">
+      <select class="pixel-select" id="snesGenre" onchange="filterSNES()">
+        <option value="">ALL GENRES</option>
+      </select>
+      <div style="font-size:var(--font-size-small);color:var(--text3);margin-left:auto" id="snesCount"></div>
+    </div>
+    <div style="background:#1a0500;border-bottom:1px solid var(--border2);padding:8px 16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+      <span style="font-size:var(--font-size-small);color:var(--accent)">🖼️ ART:</span>
+      <span style="font-size:var(--font-size-small);color:var(--text3)">Placeholders — wire on GitHub deploy</span>
+    </div>
+    <div class="main">
+      <div id="snesGrid" class="games-grid"></div>
+    </div>
+    <div class="footer-stats">
+      <div class="stat-item">SNES IN DB: <span>75</span></div>
+      <div class="stat-item">ART: <span>PENDING</span></div>
+    </div>
+  </div>
+
 </div>
 
 <!-- EXPLAINER TAB -->
@@ -1176,7 +1199,198 @@ function openNESModal(game){
     <div class="inflation-note">📊 Inflation factor: ${mult}× from ${game.year} to 2026 (US CPI).<br>🖼️ Box art file: <span style="color:var(--sky)">${game.title} (USA).png</span> — ready to wire from Drive/GitHub.</div>`;
 }
 
-window.onload=()=>{populateFilters();renderExpensive();renderConsoles();doCalc();initNESFilters();renderNES();setTimeout(()=>{document.getElementById('loadingState').style.display='none';document.getElementById('gamesGrid').style.display='grid';document.getElementById('footerStats').style.display='flex';document.getElementById('statGames').textContent=GAMES.length;document.getElementById('statConsoles').textContent=new Set(GAMES.map(g=>g.console)).size;document.getElementById('statEras').textContent='1977–2000';renderGames(allGames);},2000);};
+const SNES_GAMES=[
+  // ── PLATFORMERS ────────────────────────────────────
+  {id:'snes-001',title:'Super Mario World',publisher:'Nintendo',year:1990,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:8000},rating:5,driveFile:'Super Mario World (USA).png'},
+  {id:'snes-002',title:"Super Mario World 2: Yoshi's Island",publisher:'Nintendo',year:1995,genre:'Platformer',prices:{USD:59.99,GBP:49.99,JPY:9800},rating:5,driveFile:"Super Mario World 2 - Yoshi's Island (USA).png"},
+  {id:'snes-003',title:'Donkey Kong Country',publisher:'Nintendo',year:1994,genre:'Platformer',prices:{USD:59.99,GBP:49.99,JPY:9000},rating:5,driveFile:'Donkey Kong Country (USA).png'},
+  {id:'snes-004',title:'Donkey Kong Country 2',publisher:'Nintendo',year:1995,genre:'Platformer',prices:{USD:59.99,GBP:49.99,JPY:9800},rating:5,driveFile:"Donkey Kong Country 2 - Diddy's Kong Quest (USA).png"},
+  {id:'snes-005',title:'Donkey Kong Country 3',publisher:'Nintendo',year:1996,genre:'Platformer',prices:{USD:59.99,GBP:49.99,JPY:9800},rating:4,driveFile:"Donkey Kong Country 3 - Dixie Kong's Double Trouble! (USA).png"},
+  {id:'snes-006',title:'Super Mario Kart',publisher:'Nintendo',year:1992,genre:'Racing',prices:{USD:49.99,GBP:39.99,JPY:7000},rating:5,driveFile:'Super Mario Kart (USA).png'},
+  {id:'snes-007',title:'Mega Man X',publisher:'Capcom',year:1993,genre:'Platformer',prices:{USD:54.99,GBP:44.99,JPY:8000},rating:5,driveFile:'Mega Man X (USA).png'},
+  {id:'snes-008',title:'Mega Man X2',publisher:'Capcom',year:1994,genre:'Platformer',prices:{USD:59.99,GBP:49.99,JPY:9800},rating:5,driveFile:'Mega Man X2 (USA).png'},
+  {id:'snes-009',title:'Mega Man X3',publisher:'Capcom',year:1995,genre:'Platformer',prices:{USD:64.99,GBP:54.99,JPY:9800},rating:4,driveFile:'Mega Man X3 (USA).png'},
+  {id:'snes-010',title:'Kirby Super Star',publisher:'Nintendo',year:1996,genre:'Platformer',prices:{USD:54.99,GBP:44.99,JPY:8800},rating:5,driveFile:'Kirby Super Star (USA).png'},
+  {id:'snes-011',title:"Kirby's Dream Land 3",publisher:'Nintendo',year:1997,genre:'Platformer',prices:{USD:54.99,GBP:44.99,JPY:8800},rating:4,driveFile:"Kirby's Dream Land 3 (USA).png"},
+  {id:'snes-012',title:'Plok',publisher:'Tradewest',year:1993,genre:'Platformer',prices:{USD:54.99,GBP:44.99,JPY:8000},rating:3,driveFile:'Plok (USA).png'},
+  {id:'snes-013',title:'Earthworm Jim',publisher:'Playmates',year:1994,genre:'Platformer',prices:{USD:54.99,GBP:44.99,JPY:8800},rating:4,driveFile:'Earthworm Jim (USA).png'},
+  {id:'snes-014',title:'Earthworm Jim 2',publisher:'Playmates',year:1995,genre:'Platformer',prices:{USD:59.99,GBP:49.99,JPY:9800},rating:4,driveFile:'Earthworm Jim 2 (USA).png'},
+  {id:'snes-015',title:'Aladdin',publisher:'Capcom',year:1993,genre:'Platformer',prices:{USD:54.99,GBP:44.99,JPY:8000},rating:4,driveFile:'Aladdin (USA).png'},
+  {id:'snes-016',title:'The Lion King',publisher:'Virgin',year:1994,genre:'Platformer',prices:{USD:54.99,GBP:44.99,JPY:8800},rating:3,driveFile:'Lion King, The (USA).png'},
+  // ── ACTION / ADVENTURE ────────────────────────────
+  {id:'snes-017',title:'The Legend of Zelda: A Link to the Past',publisher:'Nintendo',year:1991,genre:'Action-RPG',prices:{USD:49.99,GBP:39.99,JPY:8000},rating:5,driveFile:'Legend of Zelda, The - A Link to the Past (USA).png'},
+  {id:'snes-018',title:'Super Metroid',publisher:'Nintendo',year:1994,genre:'Action-Adventure',prices:{USD:59.99,GBP:49.99,JPY:9000},rating:5,driveFile:'Super Metroid (USA).png'},
+  {id:'snes-019',title:'Castlevania IV',publisher:'Konami',year:1991,genre:'Action',prices:{USD:54.99,GBP:44.99,JPY:8000},rating:5,driveFile:'Super Castlevania IV (USA).png'},
+  {id:'snes-020',title:'Castlevania: Dracula X',publisher:'Konami',year:1995,genre:'Action',prices:{USD:64.99,GBP:54.99,JPY:9800},rating:4,driveFile:'Castlevania - Dracula X (USA).png'},
+  {id:'snes-021',title:'Actraiser',publisher:'Enix',year:1991,genre:'Action',prices:{USD:54.99,GBP:44.99,JPY:8000},rating:4,driveFile:'ActRaiser (USA).png'},
+  {id:'snes-022',title:"Demon's Crest",publisher:'Capcom',year:1994,genre:'Action',prices:{USD:59.99,GBP:49.99,JPY:9800},rating:5,driveFile:"Demon's Crest (USA).png"},
+  {id:'snes-023',title:'Batman Returns',publisher:'Konami',year:1993,genre:'Action',prices:{USD:54.99,GBP:44.99,JPY:8000},rating:3,driveFile:'Batman Returns (USA).png'},
+  {id:'snes-024',title:'Teenage Mutant Ninja Turtles IV: Turtles in Time',publisher:'Konami',year:1992,genre:"Beat'em Up",prices:{USD:59.99,GBP:49.99,JPY:9000},rating:5,driveFile:'Teenage Mutant Ninja Turtles IV - Turtles in Time (USA).png'},
+  {id:'snes-025',title:'Final Fight',publisher:'Capcom',year:1991,genre:"Beat'em Up",prices:{USD:54.99,GBP:44.99,JPY:8000},rating:4,driveFile:'Final Fight (USA).png'},
+  {id:'snes-026',title:'Final Fight 2',publisher:'Capcom',year:1993,genre:"Beat'em Up",prices:{USD:59.99,GBP:49.99,JPY:9000},rating:3,driveFile:'Final Fight 2 (USA).png'},
+  {id:'snes-027',title:'Final Fight 3',publisher:'Capcom',year:1995,genre:"Beat'em Up",prices:{USD:59.99,GBP:49.99,JPY:9800},rating:4,driveFile:'Final Fight 3 (USA).png'},
+  {id:'snes-028',title:'Sunset Riders',publisher:'Konami',year:1992,genre:'Action',prices:{USD:59.99,GBP:49.99,JPY:9000},rating:4,driveFile:'Sunset Riders (USA).png'},
+  {id:'snes-029',title:'Pocky & Rocky',publisher:'Natsume',year:1993,genre:'Action',prices:{USD:54.99,GBP:44.99,JPY:8000},rating:4,driveFile:'Pocky & Rocky (USA).png'},
+  {id:'snes-030',title:'Pocky & Rocky 2',publisher:'Natsume',year:1994,genre:'Action',prices:{USD:59.99,GBP:49.99,JPY:9800},rating:4,driveFile:'Pocky & Rocky 2 (USA).png'},
+  // ── SHOOTERS ─────────────────────────────────────
+  {id:'snes-031',title:'Contra III: The Alien Wars',publisher:'Konami',year:1992,genre:"Run'n Gun",prices:{USD:59.99,GBP:49.99,JPY:9000},rating:5,driveFile:'Contra III - The Alien Wars (USA).png'},
+  {id:'snes-032',title:'Super R-Type',publisher:'Irem',year:1991,genre:'Shooter',prices:{USD:54.99,GBP:44.99,JPY:8000},rating:4,driveFile:'Super R-Type (USA).png'},
+  {id:'snes-033',title:'Gradius III',publisher:'Konami',year:1990,genre:'Shooter',prices:{USD:54.99,GBP:44.99,JPY:8000},rating:4,driveFile:'Gradius III (USA).png'},
+  {id:'snes-034',title:'UN Squadron',publisher:'Capcom',year:1991,genre:'Shooter',prices:{USD:54.99,GBP:44.99,JPY:8000},rating:4,driveFile:'U.N. Squadron (USA).png'},
+  {id:'snes-035',title:'Star Fox',publisher:'Nintendo',year:1993,genre:'Rail Shooter',prices:{USD:59.99,GBP:49.99,JPY:9000},rating:5,driveFile:'Star Fox (USA).png'},
+  {id:'snes-036',title:'Star Fox 2',publisher:'Nintendo',year:1995,genre:'Rail Shooter',prices:{USD:null,GBP:null,JPY:null},rating:4,driveFile:'Star Fox 2 (USA).png'},
+  // ── FIGHTING ─────────────────────────────────────
+  {id:'snes-037',title:'Street Fighter II',publisher:'Capcom',year:1992,genre:'Fighting',prices:{USD:69.99,GBP:59.99,JPY:9800},rating:5,driveFile:'Street Fighter II - The World Warrior (USA).png'},
+  {id:'snes-038',title:'Street Fighter II Turbo',publisher:'Capcom',year:1992,genre:'Fighting',prices:{USD:69.99,GBP:59.99,JPY:9800},rating:5,driveFile:'Street Fighter II Turbo - Hyper Fighting (USA).png'},
+  {id:'snes-039',title:'Super Street Fighter II',publisher:'Capcom',year:1993,genre:'Fighting',prices:{USD:69.99,GBP:59.99,JPY:9800},rating:5,driveFile:'Super Street Fighter II (USA).png'},
+  {id:'snes-040',title:'Mortal Kombat',publisher:'Acclaim',year:1992,genre:'Fighting',prices:{USD:59.99,GBP:49.99,JPY:9000},rating:4,driveFile:'Mortal Kombat (USA).png'},
+  {id:'snes-041',title:'Mortal Kombat II',publisher:'Acclaim',year:1994,genre:'Fighting',prices:{USD:69.99,GBP:59.99,JPY:9800},rating:5,driveFile:'Mortal Kombat II (USA).png'},
+  {id:'snes-042',title:'Mortal Kombat 3',publisher:'Williams',year:1995,genre:'Fighting',prices:{USD:69.99,GBP:59.99,JPY:9800},rating:4,driveFile:'Mortal Kombat 3 (USA).png'},
+  {id:'snes-043',title:'Killer Instinct',publisher:'Nintendo',year:1995,genre:'Fighting',prices:{USD:69.99,GBP:59.99,JPY:9800},rating:4,driveFile:'Killer Instinct (USA).png'},
+  {id:'snes-044',title:'Super Punch-Out!!',publisher:'Nintendo',year:1994,genre:'Sports',prices:{USD:59.99,GBP:49.99,JPY:9000},rating:5,driveFile:'Super Punch-Out!! (USA).png'},
+  // ── RPGs ──────────────────────────────────────────
+  {id:'snes-045',title:'Chrono Trigger',publisher:'Square',year:1995,genre:'RPG',prices:{USD:69.99,GBP:59.99,JPY:11400},rating:5,driveFile:'Chrono Trigger (USA).png'},
+  {id:'snes-046',title:'Final Fantasy IV',publisher:'Square',year:1991,genre:'RPG',prices:{USD:59.99,GBP:49.99,JPY:9800},rating:5,driveFile:'Final Fantasy II (USA).png'},
+  {id:'snes-047',title:'Final Fantasy V',publisher:'Square',year:1992,genre:'RPG',prices:{USD:null,GBP:null,JPY:9800},rating:5,driveFile:'Final Fantasy V (Japan).png'},
+  {id:'snes-048',title:'Final Fantasy VI',publisher:'Square',year:1994,genre:'RPG',prices:{USD:69.99,GBP:59.99,JPY:11400},rating:5,driveFile:'Final Fantasy III (USA).png'},
+  {id:'snes-049',title:'Secret of Mana',publisher:'Square',year:1993,genre:'Action-RPG',prices:{USD:59.99,GBP:49.99,JPY:9800},rating:5,driveFile:'Secret of Mana (USA).png'},
+  {id:'snes-050',title:'Secret of Evermore',publisher:'Square',year:1995,genre:'Action-RPG',prices:{USD:59.99,GBP:49.99,JPY:null},rating:4,driveFile:'Secret of Evermore (USA).png'},
+  {id:'snes-051',title:'Earthbound',publisher:'Nintendo',year:1995,genre:'RPG',prices:{USD:59.99,GBP:null,JPY:9800},rating:5,driveFile:'EarthBound (USA).png'},
+  {id:'snes-052',title:'Super Mario RPG',publisher:'Nintendo',year:1996,genre:'RPG',prices:{USD:59.99,GBP:null,JPY:9800},rating:5,driveFile:'Super Mario RPG - Legend of the Seven Stars (USA).png'},
+  {id:'snes-053',title:'Breath of Fire',publisher:'Capcom',year:1994,genre:'RPG',prices:{USD:59.99,GBP:49.99,JPY:9800},rating:4,driveFile:'Breath of Fire (USA).png'},
+  {id:'snes-054',title:'Breath of Fire II',publisher:'Capcom',year:1995,genre:'RPG',prices:{USD:69.99,GBP:59.99,JPY:11400},rating:4,driveFile:'Breath of Fire II (USA).png'},
+  {id:'snes-055',title:'Illusion of Gaia',publisher:'Nintendo',year:1994,genre:'Action-RPG',prices:{USD:59.99,GBP:49.99,JPY:9800},rating:4,driveFile:'Illusion of Gaia (USA).png'},
+  {id:'snes-056',title:'Soul Blazer',publisher:'Enix',year:1992,genre:'Action-RPG',prices:{USD:54.99,GBP:44.99,JPY:8800},rating:4,driveFile:'Soul Blazer (USA).png'},
+  {id:'snes-057',title:'Terranigma',publisher:'Enix',year:1995,genre:'Action-RPG',prices:{USD:null,GBP:49.99,JPY:9800},rating:5,driveFile:'Terranigma (Europe).png'},
+  {id:'snes-058',title:'Tales of Phantasia',publisher:'Namco',year:1995,genre:'RPG',prices:{USD:null,GBP:null,JPY:9800},rating:5,driveFile:'Tales of Phantasia (Japan).png'},
+  {id:'snes-059',title:'Front Mission',publisher:'Square',year:1995,genre:'Strategy-RPG',prices:{USD:null,GBP:null,JPY:9800},rating:4,driveFile:'Front Mission (Japan).png'},
+  {id:'snes-060',title:'Ogre Battle',publisher:'Enix',year:1995,genre:'Strategy-RPG',prices:{USD:69.99,GBP:null,JPY:11400},rating:5,driveFile:'Ogre Battle - The March of the Black Queen (USA).png'},
+  // ── SPORTS ───────────────────────────────────────
+  {id:'snes-061',title:'NBA Jam',publisher:'Acclaim',year:1994,genre:'Sports',prices:{USD:59.99,GBP:49.99,JPY:9000},rating:5,driveFile:'NBA Jam (USA).png'},
+  {id:'snes-062',title:'NBA Jam Tournament Edition',publisher:'Acclaim',year:1995,genre:'Sports',prices:{USD:64.99,GBP:54.99,JPY:9800},rating:5,driveFile:'NBA Jam - Tournament Edition (USA).png'},
+  {id:'snes-063',title:'Madden NFL 94',publisher:'EA',year:1993,genre:'Sports',prices:{USD:59.99,GBP:49.99,JPY:null},rating:4,driveFile:'Madden NFL 94 (USA).png'},
+  {id:'snes-064',title:'Ken Griffey Jr. Presents Major League Baseball',publisher:'Nintendo',year:1994,genre:'Sports',prices:{USD:59.99,GBP:null,JPY:null},rating:4,driveFile:"Ken Griffey Jr. Presents Major League Baseball (USA).png"},
+  {id:'snes-065',title:'NHL 94',publisher:'EA',year:1993,genre:'Sports',prices:{USD:59.99,GBP:49.99,JPY:null},rating:4,driveFile:'NHL 94 (USA).png'},
+  // ── RACING / SIMS ────────────────────────────────
+  {id:'snes-066',title:'F-Zero',publisher:'Nintendo',year:1990,genre:'Racing',prices:{USD:49.99,GBP:39.99,JPY:7000},rating:5,driveFile:'F-Zero (USA).png'},
+  {id:'snes-067',title:'Pilotwings',publisher:'Nintendo',year:1990,genre:'Simulation',prices:{USD:49.99,GBP:39.99,JPY:7000},rating:4,driveFile:'Pilotwings (USA).png'},
+  {id:'snes-068',title:'Top Gear',publisher:'Kemco',year:1992,genre:'Racing',prices:{USD:54.99,GBP:44.99,JPY:8000},rating:4,driveFile:'Top Gear (USA).png'},
+  {id:'snes-069',title:'Top Gear 2',publisher:'Kemco',year:1993,genre:'Racing',prices:{USD:59.99,GBP:49.99,JPY:9000},rating:4,driveFile:'Top Gear 2 (USA).png'},
+  {id:'snes-070',title:'Rock n Roll Racing',publisher:'Blizzard',year:1993,genre:'Racing',prices:{USD:59.99,GBP:49.99,JPY:9000},rating:4,driveFile:'Rock n Roll Racing (USA).png'},
+  // ── PUZZLE / OTHER ───────────────────────────────
+  {id:'snes-071',title:'Tetris Attack',publisher:'Nintendo',year:1996,genre:'Puzzle',prices:{USD:49.99,GBP:39.99,JPY:7000},rating:5,driveFile:'Tetris Attack (USA).png'},
+  {id:'snes-072',title:'Tetris & Dr. Mario',publisher:'Nintendo',year:1994,genre:'Puzzle',prices:{USD:54.99,GBP:44.99,JPY:8000},rating:4,driveFile:'Tetris & Dr. Mario (USA).png'},
+  {id:'snes-073',title:'SimCity',publisher:'Nintendo',year:1991,genre:'Simulation',prices:{USD:59.99,GBP:49.99,JPY:9000},rating:4,driveFile:'SimCity (USA).png'},
+  {id:'snes-074',title:'The Lost Vikings',publisher:'Interplay',year:1993,genre:'Puzzle',prices:{USD:59.99,GBP:49.99,JPY:9000},rating:4,driveFile:'Lost Vikings, The (USA).png'},
+  {id:'snes-075',title:'Lemmings',publisher:'Psygnosis',year:1992,genre:'Puzzle',prices:{USD:54.99,GBP:44.99,JPY:8000},rating:4,driveFile:'Lemmings (USA).png'},
+];
+
+const SNES_GENRE_COLORS={
+  'Platformer':'#2a0080','Shooter':'#003a00','Action':'#4a0000',
+  "Beat'em Up":'#3a2000','RPG':'#001a4a','Action-RPG':'#002a3a',
+  'Puzzle':'#1a003a','Sports':'#003020','Racing':'#2a1a00',
+  'Simulation':'#1a1a00',"Run'n Gun":'#3a1a00','Fighting':'#3a0020',
+  'Strategy-RPG':'#001a20','Rail Shooter':'#003a3a','Action-Adventure':'#002020'
+};
+
+let snesFiltered=[...SNES_GAMES];
+
+function initSNESFilters(){
+  const genres=[...new Set(SNES_GAMES.map(g=>g.genre))].sort();
+  const gSel=document.getElementById('snesGenre');
+  if(!gSel) return;
+  genres.forEach(g=>{const o=document.createElement('option');o.value=g;o.textContent=g;gSel.appendChild(o);});
+}
+
+function filterSNES(){
+  const s=document.getElementById('snesSearch').value.toLowerCase();
+  const g=document.getElementById('snesGenre').value;
+  snesFiltered=SNES_GAMES.filter(n=>{
+    const ms=!s||n.title.toLowerCase().includes(s)||n.publisher.toLowerCase().includes(s);
+    const mg=!g||n.genre===g;
+    return ms&&mg;
+  });
+  renderSNES();
+}
+
+function renderSNES(){
+  const grid=document.getElementById('snesGrid');
+  if(!grid) return;
+  grid.innerHTML='';
+  const countEl=document.getElementById('snesCount');
+  if(countEl) countEl.textContent=snesFiltered.length+' of '+SNES_GAMES.length+' games';
+  if(!snesFiltered.length){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px;font-size:10px;color:var(--text3)">NO GAMES FOUND</div>';return;}
+  snesFiltered.forEach(game=>{
+    const adj=game.prices.USD?applyInflation(game.prices.USD,'USD',game.year):null;
+    const hw=game.prices.USD&&game.prices.GBP?hoursWorked(game.prices.USD,game.prices.GBP,game.year):null;
+    const stars='★'.repeat(game.rating)+'☆'.repeat(5-game.rating);
+    const bg=SNES_GENRE_COLORS[game.genre]||'#1a1a2a';
+    const card=document.createElement('div');
+    card.className='game-card';
+    card.onclick=()=>openSNESModal(game);
+    const priceUSD=game.prices.USD?fmt(game.prices.USD,'USD'):'N/A';
+    const priceGBP=game.prices.GBP?fmt(game.prices.GBP,'GBP'):'N/A';
+    const adjStr=adj?fmt(adj,'USD'):'N/A';
+    const hwStr=hw?`🇺🇸${hw.hUS}h 🇬🇧${hw.hUK}h`:'N/A';
+    card.innerHTML=`<div class="card-overlay">VIEW ▶</div>
+      <div class="box-art-wrap" style="background:${bg}">
+        <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px">
+          <div style="font-size:10px;color:#666;letter-spacing:1px;text-align:center;line-height:1.4;font-family:var(--font-main)">${game.title.substring(0,22)}</div>
+          <div style="font-size:8px;color:#444;margin-top:4px;letter-spacing:1px">🖼️ ART PENDING</div>
+        </div>
+        <div class="console-badge">SNES · ${game.year}</div>
+      </div>
+      <div class="card-info">
+        <div class="card-title">${game.title}</div>
+        <div class="card-year"><span style="color:var(--text3)">${stars}</span></div>
+        <div class="price-table-mini">
+          <div class="price-cell"><span class="price-cell-label">USD ${game.year}</span><span class="price-cell-val">${priceUSD}</span></div>
+          <div class="price-cell"><span class="price-cell-label">GBP ${game.year}</span><span class="price-cell-val">${priceGBP}</span></div>
+          ${adj?`<div class="price-cell adjusted"><span class="price-cell-label">🪙 2026 VALUE ${tooltipHTML(game.prices.USD,game.year)}</span><span class="price-cell-val">${adjStr}</span></div>`:''}
+          ${hw?`<div class="hours-cell"><span class="hours-cell-label">⏱ HRS TO BUY</span><span class="hours-cell-vals">${hwStr}</span></div>`:''}
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+function openSNESModal(game){
+  document.getElementById('modalTitle').textContent=game.title;
+  document.getElementById('modalBg').classList.add('open');
+  document.body.style.overflow='hidden';
+  const adjUSD=game.prices.USD?applyInflation(game.prices.USD,'USD',game.year):null;
+  const adjGBP=game.prices.GBP?applyInflation(game.prices.GBP,'GBP',game.year):null;
+  const adjJPY=game.prices.JPY?applyInflation(game.prices.JPY,'JPY',game.year):null;
+  const mult=game.prices.USD?(inflationUSD[game.year]||1).toFixed(1):null;
+  const hw=game.prices.USD&&game.prices.GBP?hoursWorked(game.prices.USD,game.prices.GBP,game.year):null;
+  const stars='★'.repeat(game.rating)+'☆'.repeat(5-game.rating);
+  const bg=SNES_GENRE_COLORS[game.genre]||'#1a1a2a';
+  const usdRow=adjUSD?`<div class="price-col"><div class="price-currency">🇺🇸 USD</div><span class="price-original">${fmt(game.prices.USD,'USD')} in ${game.year}</span><span class="price-arrow">↓</span><span class="price-2026">${fmt(adjUSD,'USD')} today</span></div>`:'<div class="price-col"><div class="price-currency">🇺🇸 USD</div><span style="font-size:11px;color:var(--text3)">Japan only</span></div>';
+  const gbpRow=adjGBP?`<div class="price-col"><div class="price-currency">🇬🇧 GBP</div><span class="price-original">${fmt(game.prices.GBP,'GBP')} in ${game.year}</span><span class="price-arrow">↓</span><span class="price-2026">${fmt(adjGBP,'GBP')} today</span></div>`:'<div class="price-col"><div class="price-currency">🇬🇧 GBP</div><span style="font-size:11px;color:var(--text3)">N/A</span></div>';
+  const jpyRow=adjJPY?`<div class="price-col"><div class="price-currency">🇯🇵 JPY</div><span class="price-original">${fmt(game.prices.JPY,'JPY')} in ${game.year}</span><span class="price-arrow">↓</span><span class="price-2026">${fmt(adjJPY,'JPY')} today</span></div>`:'<div class="price-col"><div class="price-currency">🇯🇵 JPY</div><span style="font-size:11px;color:var(--text3)">N/A</span></div>';
+  document.getElementById('modalBody').innerHTML=`
+    <div class="modal-layout">
+      <div class="modal-box-art" style="background:${bg};display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;padding:16px">
+        <div style="font-size:9px;color:#666;text-align:center;line-height:1.8;letter-spacing:1px;font-family:var(--font-main)">${game.title}</div>
+        <div style="font-size:7px;color:#444;letter-spacing:1px">🖼️ ART PENDING</div>
+      </div>
+      <div class="modal-info">
+        <h2>${game.title}</h2>
+        <div class="info-row"><span class="info-label">CONSOLE</span><span class="info-val">SNES</span></div>
+        <div class="info-row"><span class="info-label">YEAR</span><span class="info-val">${game.year}</span></div>
+        <div class="info-row"><span class="info-label">GENRE</span><span class="info-val">${game.genre}</span></div>
+        <div class="info-row"><span class="info-label">PUBLISHER</span><span class="info-val">${game.publisher}</span></div>
+        <div class="info-row"><span class="info-label">RATING</span><span class="info-val" style="color:var(--accent)">${stars}</span></div>
+        ${hw?`<div class="hours-block"><div class="hours-block-title">⏱ HOURS WORKED TO BUY AT LAUNCH</div><div class="hours-cols"><div class="hours-col"><div class="hours-col-lbl">🇺🇸 USA</div><div class="hours-col-val">${hw.hUS}h</div><div class="hours-col-sub">avg $${hw.wUS}/hr in ${game.year}</div></div><div class="hours-col"><div class="hours-col-lbl">🇬🇧 UK</div><div class="hours-col-val">${hw.hUK}h</div><div class="hours-col-sub">avg £${hw.wUK}/hr in ${game.year}</div></div></div></div>`:''}
+      </div>
+    </div>
+    <div class="price-breakdown">
+      <div class="price-breakdown-header">💰 LAUNCH PRICE vs 2026 MONEY</div>
+      <div class="price-grid">${usdRow}${gbpRow}${jpyRow}</div>
+    </div>
+    ${mult?`<div class="inflation-note">📊 Inflation factor: ${mult}× from ${game.year} to 2026 (US CPI).<br>🖼️ Art file: <span style="color:var(--sky)">${game.driveFile}</span></div>`:''}`;
+}
+window.onload=()=>{populateFilters();renderExpensive();renderConsoles();doCalc();initNESFilters();renderNES();initSNESFilters();renderSNES();setTimeout(()=>{document.getElementById('loadingState').style.display='none';document.getElementById('gamesGrid').style.display='grid';document.getElementById('footerStats').style.display='flex';document.getElementById('statGames').textContent=GAMES.length;document.getElementById('statConsoles').textContent=new Set(GAMES.map(g=>g.console)).size;document.getElementById('statEras').textContent='1977–2000';renderGames(allGames);},2000);};
 </script>
 </body>
 </html>
