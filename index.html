@@ -13,7 +13,6 @@
    CSS VARIABLES — swapped by theme toggle
 ══════════════════════════════════════════ */
 :root{
-  /* shared palette */
   --red:#e52222;--yellow:#f7c948;--green:#3abf3a;
   --sky:#5bc8f5;--brick:#c84c0c;--dark:#1a0a00;
 }
@@ -57,68 +56,14 @@ body.mode-smooth{
 /* Scanline overlay — pixel only */
 body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:var(--scanlines);pointer-events:none;z-index:9999}
 
-/* ══════════════════════════════════════════
-   THEME TOGGLE BUTTON
-══════════════════════════════════════════ */
-.theme-toggle{
-  position:absolute;top:12px;right:12px;
-  display:flex;align-items:center;gap:8px;
-  background:rgba(0,0,0,0.4);border:1px solid rgba(247,201,72,0.4);
-  padding:6px 10px;cursor:pointer;z-index:10;
-  border-radius:var(--radius);transition:all 0.2s;
-}
+/* ══ THEME TOGGLE ══ */
+.theme-toggle{position:absolute;top:12px;right:12px;display:flex;align-items:center;gap:8px;background:rgba(0,0,0,0.4);border:1px solid rgba(247,201,72,0.4);padding:6px 10px;cursor:pointer;z-index:10;border-radius:var(--radius);transition:all 0.2s}
 .mode-smooth .theme-toggle{border-radius:20px;background:rgba(255,255,255,0.08)}
 .theme-toggle:hover{border-color:var(--accent);background:rgba(247,201,72,0.15)}
 .theme-toggle-icon{font-size:16px}
 .theme-toggle-label{font-size:9px;color:var(--accent);letter-spacing:1px;white-space:nowrap}
 .mode-smooth .theme-toggle-label{font-size:11px;letter-spacing:0;font-weight:600}
 
-/* ══════════════════════════════════════════
-   HEADER
-══════════════════════════════════════════ */
-.header{background:var(--header-bg);border-bottom:4px solid var(--accent);text-align:center;overflow:hidden;position:relative}
-.mode-smooth .header{border-bottom:none;border-bottom:3px solid;border-image:linear-gradient(90deg,var(--red),var(--yellow),var(--green),var(--sky)) 1}
-.header-clouds{background:#5bc8f5;height:56px;display:flex;align-items:center;justify-content:center;gap:40px;font-size:26px;position:relative}
-.mode-smooth .header-clouds{display:none}
-.header-clouds::before{content:'';position:absolute;bottom:0;left:0;right:0;height:10px;background:repeating-linear-gradient(90deg,#5bc8f5 0,#5bc8f5 16px,#4ab5e8 16px,#4ab5e8 32px)}
-.header-ground{background:var(--header-bg);padding:20px 60px 14px;display:flex;flex-direction:column;align-items:center;gap:8px}
-.mode-smooth .header-ground{padding:32px 60px 24px}
-.header-title{font-size:var(--font-size-title);color:var(--accent);letter-spacing:2px}
-.mode-pixel .header-title{text-shadow:3px 3px 0 #c84c0c,-1px -1px 0 #000}
-.mode-smooth .header-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(28px,6vw,56px);letter-spacing:6px;background:linear-gradient(135deg,var(--yellow),var(--red));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.header-subtitle{font-family:var(--font-vt);font-size:18px;color:var(--accent2);letter-spacing:2px}
-.mode-smooth .header-subtitle{font-family:'Inter',sans-serif;font-size:13px;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:var(--text2);-webkit-text-fill-color:var(--text2)}
-
-/* ══════════════════════════════════════════
-   MOST EXPENSIVE STRIP
-══════════════════════════════════════════ */
-.expensive-hero{background:var(--header-bg);border-bottom:3px solid var(--red);padding:16px}
-.mode-smooth .expensive-hero{border-bottom:1px solid rgba(228,50,50,0.3);background:var(--card2)}
-.expensive-hero-title{font-size:var(--font-size-label);color:var(--red);letter-spacing:2px;margin-bottom:4px;display:flex;align-items:center;gap:8px}
-.mode-smooth .expensive-hero-title{font-size:11px;font-weight:700;letter-spacing:3px}
-.expensive-hero-title::before{content:'';display:block;width:14px;height:2px;background:var(--red)}
-.expensive-hero-sub{font-family:var(--font-vt);font-size:15px;color:var(--text3);letter-spacing:1px;margin-bottom:12px}
-.mode-smooth .expensive-hero-sub{font-family:'Inter',sans-serif;font-size:12px;color:var(--text2);letter-spacing:0}
-.expensive-scroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:var(--border) var(--price-bg)}
-.expensive-scroll::-webkit-scrollbar{height:4px}
-.expensive-scroll::-webkit-scrollbar-track{background:var(--price-bg)}
-.expensive-scroll::-webkit-scrollbar-thumb{background:var(--border)}
-.exp-card{flex-shrink:0;width:140px;background:var(--card);border:2px solid #5a1a1a;position:relative;cursor:pointer;transition:all 0.15s;border-radius:var(--radius)}
-.mode-smooth .exp-card{border:1px solid rgba(228,50,50,0.25);box-shadow:0 2px 12px rgba(0,0,0,0.4)}
-.exp-card:hover{border-color:var(--red);transform:translateY(-3px)}
-.mode-pixel .exp-card:hover{transform:translate(-2px,-2px);box-shadow:3px 3px 0 #8b0000}
-.exp-rank{position:absolute;top:6px;left:6px;background:var(--red);color:#fff;font-size:var(--font-size-small);padding:3px 5px;z-index:2;letter-spacing:1px;border-radius:var(--radius)}
-.exp-art{width:100%;aspect-ratio:3/4;background:#0a1508;overflow:hidden;border-radius:var(--radius) var(--radius) 0 0}
-.exp-art img{width:100%;height:100%;object-fit:cover}
-.exp-art-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:26px}
-.exp-info{padding:8px}
-.exp-title{font-size:var(--font-size-small);color:var(--text);letter-spacing:.5px;margin-bottom:4px;line-height:1.5;min-height:18px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
-.mode-smooth .exp-title{font-size:11px;font-weight:600}
-.exp-year{font-size:var(--font-size-small);color:var(--accent2);margin-bottom:5px}
-.exp-orig{font-size:var(--font-size-label);color:var(--text2);text-decoration:line-through;text-decoration-color:var(--red)}
-.mode-smooth .exp-orig{font-size:11px}
-.exp-2026{font-size:11px;color:var(--red);margin-top:2px;font-weight:600}
-.exp-note{font-family:var(--font-vt);font-size:12px;color:var(--text3);letter-spacing:1px;margin-top:2px}
 .mode-smooth .exp-note{font-family:'Inter',sans-serif;font-size:10px;font-weight:500;letter-spacing:.5px}
 
 /* ══════════════════════════════════════════
@@ -425,13 +370,6 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
   </button>
 </div>
 
-<!-- MOST EXPENSIVE STRIP -->
-<div class="expensive-hero">
-  <div class="expensive-hero-title">💸 MOST EXPENSIVE GAMES IN HISTORY</div>
-  <div class="expensive-hero-sub">Inflation-adjusted to 2026 USD — the true cost of gaming's priciest releases</div>
-  <div class="expensive-scroll" id="expensiveStrip"></div>
-</div>
-
 <!-- TABS -->
 <div class="tabs">
   <button class="tab active" onclick="switchTab('games',this)">🎮 GAMES</button>
@@ -485,6 +423,7 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
   <div class="sub-tabs" id="subTabs">
     <button class="sub-tab active" onclick="switchConsole('nes',this)">🎮 NES</button>
     <button class="sub-tab" onclick="switchConsole('snes',this)">🕹️ SNES</button>
+    <button class="sub-tab" onclick="switchConsole('genesis',this)">⚡ MEGA DRIVE</button>
     <span class="sub-tab-coming">MEGA DRIVE ›</span>
     <span class="sub-tab-coming">N64 ›</span>
     <span class="sub-tab-coming">PLAYSTATION ›</span>
@@ -538,6 +477,29 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
     <div class="footer-stats">
       <div class="stat-item">SNES IN DB: <span>75</span></div>
       <div class="stat-item">ART: <span>PENDING</span></div>
+    </div>
+  </div>
+
+  <!-- GENESIS sub-panel -->
+  <div id="consolePanel-genesis" class="console-panel">
+    <div style="background:var(--header-bg);border-bottom:2px solid var(--border2);padding:12px 16px;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+      <div class="controls-label">🔍</div>
+      <input class="pixel-input" type="text" id="genesisSearch" placeholder="SEARCH MEGA DRIVE..." oninput="filterGenesis()">
+      <select class="pixel-select" id="genesisGenre" onchange="filterGenesis()">
+        <option value="">ALL GENRES</option>
+      </select>
+      <div style="font-size:var(--font-size-small);color:var(--text3);margin-left:auto" id="genesisCount"></div>
+    </div>
+    <div style="background:#001a00;border-bottom:1px solid var(--border2);padding:8px 16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+      <span style="font-size:var(--font-size-small);color:var(--accent)">🖼️ ART:</span>
+      <span style="font-size:var(--font-size-small);color:var(--text3)">Upload art to <code style="font-size:10px;color:var(--sky)">art/genesis/</code> on Netlify</span>
+    </div>
+    <div class="main">
+      <div id="genesisGrid" class="games-grid"></div>
+    </div>
+    <div class="footer-stats">
+      <div class="stat-item">MEGA DRIVE IN DB: <span>50</span></div>
+      <div class="stat-item">INCLUDES: <span>ALL BEST SELLERS + CLASSICS</span></div>
     </div>
   </div>
 
@@ -645,14 +607,14 @@ function hoursWorked(usd,gbp,year){const us=hourlyUS[year]||hourlyUS[2009];const
 function tooltipHTML(origUSD,year){const m=(inflationUSD[year]||1).toFixed(1);return `<span class="tooltip-wrap"><span class="tooltip-btn">?</span><span class="tooltip-box"><span class="tooltip-box-text">Original: $${origUSD} in ${year}. Multiplied by ${m}× using the US Consumer Price Index (CPI) — the official measure of how the cost of living has risen since then.</span></span></span>`;}
 
 const GAMES=[
-  {id:1,title:'Super Mario Bros.',console:'NES',year:1985,genre:'Platformer',publisher:'Nintendo',prices:{USD:29.99,GBP:19.99,JPY:4900},rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co2qn1.jpg',desc:"The game that changed everything. Mario's first side-scrolling adventure set the blueprint for all platformers to come."},
-  {id:2,title:'The Legend of Zelda',console:'NES',year:1986,genre:'Action RPG',publisher:'Nintendo',prices:{USD:49.99,GBP:34.99,JPY:6500},rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co6cl0.jpg',desc:"Link's first quest to rescue Zelda and defeat Ganon. Came in a gold cartridge that became iconic."},
-  {id:3,title:'Mega Man 2',console:'NES',year:1988,genre:'Platformer',publisher:'Capcom',prices:{USD:39.99,GBP:27.99,JPY:5500},rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co1rsz.jpg',desc:"Often considered the pinnacle of the Mega Man series. Eight robot masters, unforgettable music."},
-  {id:4,title:'Contra',console:'NES',year:1988,genre:'Run & Gun',publisher:'Konami',prices:{USD:39.99,GBP:27.99,JPY:5500},rating:4,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co24nu.jpg',desc:"Up up down down left right left right B A. The Konami code was born here."},
-  {id:5,title:'Tetris',console:'NES',year:1989,genre:'Puzzle',publisher:'Nintendo',prices:{USD:29.99,GBP:19.99,JPY:4500},rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co7p5l.jpg',desc:"The Russian puzzle game that conquered the world."},
-  {id:6,title:'Castlevania',console:'NES',year:1987,genre:'Action',publisher:'Konami',prices:{USD:39.99,GBP:27.99,JPY:5500},rating:4,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co1vfi.jpg',desc:"Simon Belmont's whip-cracking journey through Dracula's castle."},
-  {id:7,title:'Duck Hunt',console:'NES',year:1984,genre:'Light Gun',publisher:'Nintendo',prices:{USD:19.99,GBP:14.99,JPY:3000},rating:3,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co5x9y.jpg',desc:"That laughing dog. You know the one. Came bundled with the Zapper."},
-  {id:8,title:"Mike Tyson's Punch-Out!!",console:'NES',year:1987,genre:'Sports',publisher:'Nintendo',prices:{USD:49.99,GBP:34.99,JPY:6500},rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co5t5i.jpg',desc:"Little Mac vs the world. One of the hardest and most beloved NES games."},
+  {id:1,title:'Super Mario Bros.',console:'NES',year:1985,genre:'Platformer',publisher:'Nintendo',prices:{USD:29.99,GBP:19.99,JPY:4900},driveFile:'Super Mario Bros. (USA, World).png',rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co2qn1.jpg',desc:"The game that changed everything. Mario's first side-scrolling adventure set the blueprint for all platformers to come."},
+  {id:2,title:'The Legend of Zelda',console:'NES',year:1986,genre:'Action RPG',publisher:'Nintendo',prices:{USD:49.99,GBP:34.99,JPY:6500},driveFile:'Legend of Zelda, The (USA).png',rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co6cl0.jpg',desc:"Link's first quest to rescue Zelda and defeat Ganon. Came in a gold cartridge that became iconic."},
+  {id:3,title:'Mega Man 2',console:'NES',year:1988,genre:'Platformer',publisher:'Capcom',prices:{USD:39.99,GBP:27.99,JPY:5500},driveFile:'Mega Man 2 (USA).png',rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co1rsz.jpg',desc:"Often considered the pinnacle of the Mega Man series. Eight robot masters, unforgettable music."},
+  {id:4,title:'Contra',console:'NES',year:1988,genre:'Run & Gun',publisher:'Konami',prices:{USD:39.99,GBP:27.99,JPY:5500},driveFile:'Contra (USA).png',rating:4,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co24nu.jpg',desc:"Up up down down left right left right B A. The Konami code was born here."},
+  {id:5,title:'Tetris',console:'NES',year:1989,genre:'Puzzle',publisher:'Nintendo',prices:{USD:29.99,GBP:19.99,JPY:4500},driveFile:'Tetris (USA).png',rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co7p5l.jpg',desc:"The Russian puzzle game that conquered the world."},
+  {id:6,title:'Castlevania',console:'NES',year:1987,genre:'Action',publisher:'Konami',prices:{USD:39.99,GBP:27.99,JPY:5500},driveFile:'Castlevania (USA).png',rating:4,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co1vfi.jpg',desc:"Simon Belmont's whip-cracking journey through Dracula's castle."},
+  {id:7,title:'Duck Hunt',console:'NES',year:1984,genre:'Light Gun',publisher:'Nintendo',prices:{USD:19.99,GBP:14.99,JPY:3000},driveFile:'Duck Hunt (USA).png',rating:3,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co5x9y.jpg',desc:"That laughing dog. You know the one. Came bundled with the Zapper."},
+  {id:8,title:"Mike Tyson's Punch-Out!!",console:'NES',year:1987,genre:'Sports',publisher:'Nintendo',prices:{USD:49.99,GBP:34.99,JPY:6500},driveFile:"Mike Tyson's Punch-Out!! (USA).png",rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co5t5i.jpg',desc:"Little Mac vs the world. One of the hardest and most beloved NES games."},
   {id:9,title:'Super Mario World',console:'SNES',year:1990,genre:'Platformer',publisher:'Nintendo',prices:{USD:49.99,GBP:39.99,JPY:8000},rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co2lbd.jpg',desc:"Mario's SNES debut introduced Yoshi and 96 exits."},
   {id:10,title:'A Link to the Past',console:'SNES',year:1991,genre:'Action RPG',publisher:'Nintendo',prices:{USD:49.99,GBP:39.99,JPY:8000},rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co1snh.jpg',desc:"The definitive Zelda blueprint. Dark World, Master Sword, six sages."},
   {id:11,title:'Street Fighter II',console:'SNES',year:1992,genre:'Fighting',publisher:'Capcom',prices:{USD:69.99,GBP:54.99,JPY:9800},rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co1rie.jpg',desc:"The fighting game that defined a genre."},
@@ -688,16 +650,6 @@ const GAMES=[
   {id:41,title:'NiGHTS into Dreams',console:'Sega Saturn',year:1996,genre:'Action',publisher:'Sega',prices:{USD:49.99,GBP:39.99,JPY:6980},rating:5,art:'https://images.igdb.com/igdb/image/upload/t_cover_big/co1rag.jpg',desc:"Yuji Naka's psychedelic dream-flying game. Unfairly underappreciated."}
 ];
 
-const EXPENSIVE=[
-  {rank:1,title:'Nintendo World Championships 1990',console:'NES',year:1990,origUSD:null,adj2026:156000,note:'AUCTION RECORD',icon:'🏆',color:'#3a1a00'},
-  {rank:2,title:'Stadium Events',console:'NES',year:1987,origUSD:25,adj2026:95000,note:'RAREST NES CART',icon:'🎽',color:'#2a1000'},
-  {rank:3,title:'1990 Nintendo Campus Challenge',console:'NES',year:1990,origUSD:null,adj2026:24000,note:'CONTEST ONLY',icon:'🎓',color:'#1a0a00'},
-  {rank:4,title:'Hagane: The Final Conflict',console:'SNES',year:1994,origUSD:65,adj2026:12000,note:'LOW PRINT RUN',icon:'⚔️',color:'#1a1a00'},
-  {rank:5,title:'Mega Man (Original)',console:'NES',year:1987,origUSD:50,adj2026:9500,note:'SEALED COPY',icon:'🤖',color:'#00001a'},
-  {rank:6,title:'Chrono Trigger',console:'SNES',year:1995,origUSD:69.99,adj2026:154,note:'AT LAUNCH',icon:'⏰',color:'#1a0a00'},
-  {rank:7,title:'Street Fighter II',console:'SNES',year:1992,origUSD:69.99,adj2026:166,note:'AT LAUNCH',icon:'👊',color:'#1a0000'},
-  {rank:8,title:'Final Fantasy VI',console:'SNES',year:1994,origUSD:69.99,adj2026:157,note:'AT LAUNCH',icon:'🔮',color:'#0a001a'},
-];
 
 const CONSOLES=[
   {id:'c-01',name:'Atari 2600',maker:'Atari',type:'home',year:1977,disc:1992,origUSD:199,adj2025:1034,origGBP:119,origJPY:null,units:'30M',img:'https://www.inflationstation.net/img/Atari-2600-Wood-4Sw-Set-a8b273f55719570da9c91ea301f5782ab7229de797dd408a4d9aeec3c372dac3-300.jpg',wiki:'https://en.wikipedia.org/wiki/Atari_2600',desc:"The console that launched the home gaming revolution. Defined what a games console was for an entire generation."},
@@ -756,7 +708,6 @@ const CONSOLES=[
 let allGames=[...GAMES],filteredGames=[...GAMES];
 const CONSOLE_COLORS={'NES':'#8b1a00','SNES':'#6a0080','Mega Drive':'#001a8b','N64':'#005500','PlayStation':'#00006b','Game Boy':'#3a4e1e','Atari 2600':'#6b3000','PC Engine':'#6b0000','Sega Saturn':'#350060'};
 function fallbackHTML(cons,title){const bg=CONSOLE_COLORS[cons]||'#1a3a12';return `<div class="box-art-placeholder" style="background:${bg}"><div class="placeholder-icon">🎮</div><div class="placeholder-text">${(title||'').substring(0,20)}</div></div>`;}
-function renderExpensive(){const strip=document.getElementById('expensiveStrip');EXPENSIVE.forEach(e=>{const card=document.createElement('div');card.className='exp-card';const adj=e.adj2026>=1000?'$'+Math.round(e.adj2026/1000)+'k+':'$'+e.adj2026;const orig=e.origUSD?`<div class="exp-orig">$${e.origUSD} at launch</div>`:'<div class="exp-orig">Not sold retail</div>';card.innerHTML=`<div class="exp-rank">#${e.rank}</div><div class="exp-art" style="background:${e.color}"><div class="exp-art-placeholder">${e.icon}</div></div><div class="exp-info"><div class="exp-title">${e.title}</div><div class="exp-year">${e.console} · ${e.year}</div>${orig}<div class="exp-2026">${adj} today</div><div class="exp-note">${e.note}</div></div>`;strip.appendChild(card);});}
 function tooltipHTML(origUSD,year){const m=(inflationUSD[year]||1).toFixed(1);return `<span class="tooltip-wrap"><span class="tooltip-btn">?</span><span class="tooltip-box"><span class="tooltip-box-text">Original: $${origUSD} in ${year}. Multiplied by ${m}× using the US Consumer Price Index (CPI) — the official measure of how the cost of living has risen since then.</span></span></span>`;}
 function renderGames(games){const grid=document.getElementById('gamesGrid');grid.innerHTML='';if(!games.length){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px;font-size:10px;color:var(--text3)">NO GAMES FOUND</div>';return;}games.forEach(game=>{const adj=applyInflation(game.prices.USD,'USD',game.year);const hw=hoursWorked(game.prices.USD,game.prices.GBP,game.year);const stars='★'.repeat(game.rating)+'☆'.repeat(5-game.rating);const card=document.createElement('div');card.className='game-card';card.onclick=()=>openGameModal(game);const artId='art_'+game.id;card.innerHTML=`<div class="card-overlay">VIEW ▶</div><div class="box-art-wrap"><div id="${artId}" style="width:100%;height:100%">${fallbackHTML(game.console,game.title)}</div><div class="console-badge">${game.console} · ${game.year}</div></div><div class="card-info"><div class="card-title">${game.title}</div><div class="card-year"><span style="color:var(--text3)">${stars}</span></div><div class="price-table-mini"><div class="price-cell"><span class="price-cell-label">USD ${game.year}</span><span class="price-cell-val">${fmt(game.prices.USD,'USD')}</span></div><div class="price-cell"><span class="price-cell-label">GBP ${game.year}</span><span class="price-cell-val">${fmt(game.prices.GBP,'GBP')}</span></div><div class="price-cell adjusted"><span class="price-cell-label">🪙 2026 VALUE ${tooltipHTML(game.prices.USD,game.year)}</span><span class="price-cell-val">${fmt(adj,'USD')}</span></div><div class="hours-cell"><span class="hours-cell-label">⏱ HRS TO BUY</span><span class="hours-cell-vals">🇺🇸${hw.hUS}h &nbsp;🇬🇧${hw.hUK}h</span></div></div></div>`;grid.appendChild(card);if(game.art){const img=new Image();img.onload=()=>{const w=document.getElementById(artId);if(w)w.innerHTML=`<img src="${game.art}" alt="${game.title}" style="width:100%;height:100%;object-fit:cover;display:block">`;};img.src=game.art;}});}
 function populateFilters(){const sel=document.getElementById('consoleFilter');[...new Set(GAMES.map(g=>g.console))].sort().forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o);});}
@@ -874,216 +825,214 @@ function closeModalBtn(){document.getElementById('modalBg').classList.remove('op
 function doCalc(){const amt=parseFloat(document.getElementById('calcAmt').value)||0;const year=parseInt(document.getElementById('calcYear').value);const cur=document.getElementById('calcCur').value;const table=cur==='USD'?inflationUSD:cur==='GBP'?inflationGBP:inflationJPY;const mult=table[year]||1;const result=Math.round(amt*mult);const sym=cur==='USD'?'$':cur==='GBP'?'£':'¥';document.getElementById('calcRes').textContent=sym+result.toLocaleString();document.getElementById('calcMul').textContent=mult.toFixed(1)+'×';document.getElementById('calcCtx').textContent=`That ${sym}${amt} in ${year} had the same buying power as ${sym}${result.toLocaleString()} in 2026.`;}
 const NES_ART_BASE='https://gameflation.netlify.app/art/nes/';
 const NES_GAMES=[
-  {id:'nes-001',title:'720°',publisher:'Mindscape',year:1989,genre:'Sports',prices:{USD:39.99,GBP:29.99,JPY:5500},rating:3},
-  {id:'nes-002',title:'1942',publisher:'Capcom',year:1986,genre:'Shooter',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:3},
-  {id:'nes-003',title:'10-Yard Fight',publisher:'Nintendo',year:1985,genre:'Sports',prices:{USD:19.99,GBP:14.99,JPY:3500},rating:2},
-  {id:'nes-004',title:'1943: The Battle of Midway',publisher:'Capcom',year:1988,genre:'Shooter',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:3},
-  {id:'nes-005',title:'8 Eyes',publisher:'Taxan',year:1990,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:3},
-  {id:'nes-006',title:'A Nightmare on Elm Street',publisher:'LJN',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:2},
-  {id:'nes-007',title:'Abadox',publisher:'Milton Bradley',year:1990,genre:'Shooter',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
-  {id:'nes-008',title:'Adventure Island',publisher:'Hudson',year:1988,genre:'Platformer',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:3},
-  {id:'nes-009',title:'Adventure Island II',publisher:'Hudson',year:1991,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
-  {id:'nes-010',title:'Adventure Island 3',publisher:'Hudson',year:1992,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
-  {id:'nes-011',title:'Adventures of Bayou Billy',publisher:'Konami',year:1989,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:2},
-  {id:'nes-012',title:'Adventures of Lolo',publisher:'HAL',year:1989,genre:'Puzzle',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:4},
-  {id:'nes-013',title:'Adventures of Lolo 2',publisher:'HAL',year:1990,genre:'Puzzle',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:4},
-  {id:'nes-014',title:'Adventures of Lolo 3',publisher:'HAL',year:1991,genre:'Puzzle',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
-  {id:'nes-015',title:'Air Fortress',publisher:'HAL',year:1989,genre:'Shooter',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:3},
-  {id:'nes-016',title:'Airwolf',publisher:'Acclaim',year:1988,genre:'Action',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:2},
-  {id:'nes-017',title:'Arkanoid',publisher:'Taito',year:1987,genre:'Arcade',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:3},
-  {id:'nes-018',title:'Astyanax',publisher:'Jaleco',year:1990,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:3},
-  {id:'nes-019',title:'Back to the Future',publisher:'LJN',year:1989,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:1},
-  {id:'nes-020',title:'Bad Dudes',publisher:'Data East',year:1990,genre:"Beat'em Up",prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
-  {id:'nes-021',title:'Balloon Fight',publisher:'Nintendo',year:1986,genre:'Arcade',prices:{USD:19.99,GBP:14.99,JPY:3500},rating:3},
-  {id:'nes-022',title:'Baseball',publisher:'Nintendo',year:1985,genre:'Sports',prices:{USD:19.99,GBP:14.99,JPY:3500},rating:2},
-  {id:'nes-023',title:'Baseball Stars',publisher:'SNK',year:1989,genre:'Sports',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:4},
-  {id:'nes-024',title:'Bases Loaded',publisher:'Jaleco',year:1988,genre:'Sports',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:3},
-  {id:'nes-025',title:'Batman: The Video Game',publisher:'Sunsoft',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:4},
-  {id:'nes-026',title:'Batman Returns',publisher:'Konami',year:1993,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:3},
-  {id:'nes-027',title:'Battle Chess',publisher:'Data East',year:1990,genre:'Strategy',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
-  {id:'nes-028',title:'Battletoads',publisher:'Tradewest',year:1991,genre:"Beat'em Up",prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
-  {id:'nes-029',title:'Bionic Commando',publisher:'Capcom',year:1988,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:4},
-  {id:'nes-030',title:'Blades of Steel',publisher:'Konami',year:1988,genre:'Sports',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:4},
-  {id:'nes-031',title:'Blaster Master',publisher:'Sunsoft',year:1988,genre:'Action',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:5},
-  {id:'nes-032',title:'Bomberman',publisher:'Hudson',year:1990,genre:'Puzzle-Action',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:4},
-  {id:'nes-033',title:'Bomberman II',publisher:'Hudson',year:1993,genre:'Puzzle-Action',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:3},
-  {id:'nes-034',title:'Bubble Bobble',publisher:'Taito',year:1988,genre:'Arcade',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:5},
-  {id:'nes-035',title:"Bucky O'Hare",publisher:'Konami',year:1992,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
-  {id:'nes-036',title:'Bugs Bunny Birthday Blowout',publisher:'Kemco',year:1990,genre:'Platformer',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
-  {id:'nes-037',title:'BurgerTime',publisher:'Data East',year:1987,genre:'Arcade',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:3},
-  {id:'nes-038',title:'California Games',publisher:'Milton Bradley',year:1989,genre:'Sports',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:3},
-  {id:'nes-039',title:'Captain America and the Avengers',publisher:'Data East',year:1991,genre:"Beat'em Up",prices:{USD:49.99,GBP:39.99,JPY:7200},rating:3},
-  {id:'nes-040',title:'Captain Skyhawk',publisher:'Milton Bradley',year:1990,genre:'Shooter',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
+  {id:'nes-001',title:'720°',publisher:'Mindscape',year:1989,genre:'Sports',prices:{USD:39.99,GBP:29.99,JPY:5500},driveFile:'720 (USA).png',rating:3},
+  {id:'nes-002',title:'1942',publisher:'Capcom',year:1986,genre:'Shooter',prices:{USD:34.99,GBP:24.99,JPY:4900},driveFile:'1942 (USA).png',rating:3},
+  {id:'nes-003',title:'10-Yard Fight',publisher:'Nintendo',year:1985,genre:'Sports',prices:{USD:19.99,GBP:14.99,JPY:3500},driveFile:'10-Yard Fight (USA).png',rating:2},
+  {id:'nes-004',title:'1943: The Battle of Midway',publisher:'Capcom',year:1988,genre:'Shooter',prices:{USD:39.99,GBP:29.99,JPY:5800},driveFile:'1943 - The Battle of Midway (USA).png',rating:3},
+  {id:'nes-005',title:'8 Eyes',publisher:'Taxan',year:1990,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},driveFile:'8 Eyes (USA).png',rating:3},
+  {id:'nes-006',title:'A Nightmare on Elm Street',publisher:'LJN',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Nightmare on Elm Street, A (USA).png',rating:2},
+  {id:'nes-007',title:'Abadox',publisher:'Milton Bradley',year:1990,genre:'Shooter',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Abadox - The Deadly Inner War (USA).png',rating:3},
+  {id:'nes-008',title:'Adventure Island',publisher:'Hudson',year:1988,genre:'Platformer',prices:{USD:34.99,GBP:24.99,JPY:4900},driveFile:'Adventure Island (USA).png',rating:3},
+  {id:'nes-009',title:'Adventure Island II',publisher:'Hudson',year:1991,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7200},driveFile:'Adventure Island II (USA).png',rating:4},
+  {id:'nes-010',title:'Adventure Island 3',publisher:'Hudson',year:1992,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7200},driveFile:'Adventure Island III (USA).png',rating:4},
+  {id:'nes-011',title:'Adventures of Bayou Billy',publisher:'Konami',year:1989,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},driveFile:'Adventures of Bayou Billy, The (USA).png',rating:2},
+  {id:'nes-012',title:'Adventures of Lolo',publisher:'HAL',year:1989,genre:'Puzzle',prices:{USD:34.99,GBP:24.99,JPY:4900},driveFile:'Adventures of Lolo (USA).png',rating:4},
+  {id:'nes-013',title:'Adventures of Lolo 2',publisher:'HAL',year:1990,genre:'Puzzle',prices:{USD:39.99,GBP:29.99,JPY:5800},driveFile:'Adventures of Lolo 2 (USA).png',rating:4},
+  {id:'nes-014',title:'Adventures of Lolo 3',publisher:'HAL',year:1991,genre:'Puzzle',prices:{USD:49.99,GBP:39.99,JPY:7200},driveFile:'Adventures of Lolo 3 (USA).png',rating:4},
+  {id:'nes-015',title:'Air Fortress',publisher:'HAL',year:1989,genre:'Shooter',prices:{USD:34.99,GBP:24.99,JPY:4900},driveFile:'Air Fortress (USA).png',rating:3},
+  {id:'nes-016',title:'Airwolf',publisher:'Acclaim',year:1988,genre:'Action',prices:{USD:34.99,GBP:24.99,JPY:4900},driveFile:'Airwolf (USA).png',rating:2},
+  {id:'nes-017',title:'Arkanoid',publisher:'Taito',year:1987,genre:'Arcade',prices:{USD:29.99,GBP:22.99,JPY:4500},driveFile:'Arkanoid (USA).png',rating:3},
+  {id:'nes-018',title:'Astyanax',publisher:'Jaleco',year:1990,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},driveFile:'Astyanax (USA).png',rating:3},
+  {id:'nes-019',title:'Back to the Future',publisher:'LJN',year:1989,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},driveFile:'Back to the Future (USA).png',rating:1},
+  {id:'nes-020',title:'Bad Dudes',publisher:'Data East',year:1990,genre:"Beat'em Up",prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Bad Dudes (USA).png',rating:3},
+  {id:'nes-021',title:'Balloon Fight',publisher:'Nintendo',year:1986,genre:'Arcade',prices:{USD:19.99,GBP:14.99,JPY:3500},driveFile:'Balloon Fight (USA).png',rating:3},
+  {id:'nes-022',title:'Baseball',publisher:'Nintendo',year:1985,genre:'Sports',prices:{USD:19.99,GBP:14.99,JPY:3500},driveFile:'Baseball (USA).png',rating:2},
+  {id:'nes-023',title:'Baseball Stars',publisher:'SNK',year:1989,genre:'Sports',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Baseball Stars (USA).png',rating:4},
+  {id:'nes-024',title:'Bases Loaded',publisher:'Jaleco',year:1988,genre:'Sports',prices:{USD:34.99,GBP:24.99,JPY:4900},driveFile:'Bases Loaded (USA).png',rating:3},
+  {id:'nes-025',title:'Batman: The Video Game',publisher:'Sunsoft',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Batman - The Video Game (USA).png',rating:4},
+  {id:'nes-026',title:'Batman Returns',publisher:'Konami',year:1993,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},driveFile:'Batman Returns (USA).png',rating:3},
+  {id:'nes-027',title:'Battle Chess',publisher:'Data East',year:1990,genre:'Strategy',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Battle Chess (USA).png',rating:3},
+  {id:'nes-028',title:'Battletoads',publisher:'Tradewest',year:1991,genre:"Beat'em Up",prices:{USD:49.99,GBP:39.99,JPY:7200},driveFile:'Battletoads (USA).png',rating:4},
+  {id:'nes-029',title:'Bionic Commando',publisher:'Capcom',year:1988,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},driveFile:'Bionic Commando (USA).png',rating:4},
+  {id:'nes-030',title:'Blades of Steel',publisher:'Konami',year:1988,genre:'Sports',prices:{USD:39.99,GBP:29.99,JPY:5800},driveFile:'Blades of Steel (USA).png',rating:4},
+  {id:'nes-031',title:'Blaster Master',publisher:'Sunsoft',year:1988,genre:'Action',prices:{USD:34.99,GBP:24.99,JPY:4900},driveFile:'Blaster Master (USA).png',rating:5},
+  {id:'nes-032',title:'Bomberman',publisher:'Hudson',year:1990,genre:'Puzzle-Action',prices:{USD:39.99,GBP:29.99,JPY:5800},driveFile:'Bomberman (USA).png',rating:4},
+  {id:'nes-033',title:'Bomberman II',publisher:'Hudson',year:1993,genre:'Puzzle-Action',prices:{USD:49.99,GBP:39.99,JPY:7200},driveFile:'Bomberman II (USA).png',rating:3},
+  {id:'nes-034',title:'Bubble Bobble',publisher:'Taito',year:1988,genre:'Arcade',prices:{USD:34.99,GBP:24.99,JPY:4900},driveFile:'Bubble Bobble (USA).png',rating:5},
+  {id:'nes-035',title:"Bucky O'Hare",publisher:'Konami',year:1992,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},driveFile:"Bucky O'Hare (USA).png",rating:4},
+  {id:'nes-036',title:'Bugs Bunny Birthday Blowout',publisher:'Kemco',year:1990,genre:'Platformer',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Bugs Bunny Birthday Blowout, The (USA).png',rating:3},
+  {id:'nes-037',title:'BurgerTime',publisher:'Data East',year:1987,genre:'Arcade',prices:{USD:29.99,GBP:22.99,JPY:4500},driveFile:'BurgerTime (USA).png',rating:3},
+  {id:'nes-038',title:'California Games',publisher:'Milton Bradley',year:1989,genre:'Sports',prices:{USD:39.99,GBP:29.99,JPY:5800},driveFile:'California Games (USA).png',rating:3},
+  {id:'nes-039',title:'Captain America and the Avengers',publisher:'Data East',year:1991,genre:"Beat'em Up",prices:{USD:49.99,GBP:39.99,JPY:7200},driveFile:'Captain America and the Avengers (USA).png',rating:3},
+  {id:'nes-040',title:'Captain Skyhawk',publisher:'Milton Bradley',year:1990,genre:'Shooter',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Captain Skyhawk (USA).png',rating:3},
   {id:'nes-041',title:'Castlevania',publisher:'Konami',year:1987,genre:'Action',prices:{USD:39.99,GBP:27.99,JPY:5500},rating:5},
-  {id:'nes-042',title:"Castlevania II: Simon's Quest",publisher:'Konami',year:1988,genre:'Action-RPG',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:4},
-  {id:'nes-043',title:"Castlevania III: Dracula's Curse",publisher:'Konami',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:5},
-  {id:'nes-044',title:"Chip 'n Dale: Rescue Rangers",publisher:'Capcom',year:1990,genre:'Platformer',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:4},
-  {id:'nes-045',title:"Chip 'n Dale: Rescue Rangers 2",publisher:'Capcom',year:1994,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
-  {id:'nes-046',title:'Clash at Demonhead',publisher:'Vic Tokai',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:4},
-  {id:'nes-047',title:'Clu Clu Land',publisher:'Nintendo',year:1987,genre:'Arcade',prices:{USD:19.99,GBP:14.99,JPY:3500},rating:3},
-  {id:'nes-048',title:'Cobra Triangle',publisher:'Nintendo',year:1989,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:4},
-  {id:'nes-049',title:'Commando',publisher:'Capcom',year:1986,genre:'Shooter',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:3},
+  {id:'nes-042',title:"Castlevania II: Simon's Quest",publisher:'Konami',year:1988,genre:'Action-RPG',prices:{USD:39.99,GBP:29.99,JPY:5800,driveFile:"Castlevania II - Simon's Quest (USA).png"},rating:4},
+  {id:'nes-043',title:"Castlevania III: Dracula's Curse",publisher:'Konami',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500,driveFile:"Castlevania III - Dracula's Curse (USA).png"},rating:5},
+  {id:'nes-044',title:"Chip 'n Dale: Rescue Rangers",publisher:'Capcom',year:1990,genre:'Platformer',prices:{USD:44.99,GBP:34.99,JPY:6500,driveFile:"Chip 'n Dale - Rescue Rangers (USA).png"},rating:4},
+  {id:'nes-045',title:"Chip 'n Dale: Rescue Rangers 2",publisher:'Capcom',year:1994,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7200,driveFile:"Chip 'n Dale - Rescue Rangers 2 (USA).png"},rating:4},
+  {id:'nes-046',title:'Clash at Demonhead',publisher:'Vic Tokai',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Clash at Demonhead (USA).png',rating:4},
+  {id:'nes-047',title:'Clu Clu Land',publisher:'Nintendo',year:1987,genre:'Arcade',prices:{USD:19.99,GBP:14.99,JPY:3500},driveFile:'Clu Clu Land (USA).png',rating:3},
+  {id:'nes-048',title:'Cobra Triangle',publisher:'Nintendo',year:1989,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},driveFile:'Cobra Triangle (USA).png',rating:4},
+  {id:'nes-049',title:'Commando',publisher:'Capcom',year:1986,genre:'Shooter',prices:{USD:29.99,GBP:22.99,JPY:4500},driveFile:'Commando (USA).png',rating:3},
   {id:'nes-050',title:'Contra',publisher:'Konami',year:1988,genre:"Run 'n Gun",prices:{USD:39.99,GBP:27.99,JPY:5500},rating:5},
-  {id:'nes-051',title:'Crystalis',publisher:'SNK',year:1990,genre:'Action-RPG',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:5},
-  {id:'nes-052',title:'Darkwing Duck',publisher:'Capcom',year:1992,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
-  {id:'nes-053',title:'A Boy and His Blob',publisher:'Absolute',year:1990,genre:'Puzzle',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
-  {id:'nes-054',title:'Deja Vu',publisher:'Kemco',year:1990,genre:'Adventure',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
-  {id:'nes-055',title:'Demon Sword',publisher:'Taito',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
-  {id:'nes-056',title:'Dick Tracy',publisher:'Bandai',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:2},
-  {id:'nes-057',title:'Donkey Kong',publisher:'Nintendo',year:1986,genre:'Arcade',prices:{USD:24.99,GBP:19.99,JPY:3900},rating:4},
-  {id:'nes-058',title:'Donkey Kong Jr.',publisher:'Nintendo',year:1986,genre:'Arcade',prices:{USD:24.99,GBP:19.99,JPY:3900},rating:3},
-  {id:'nes-059',title:'Double Dragon',publisher:'Tradewest',year:1988,genre:"Beat'em Up",prices:{USD:34.99,GBP:24.99,JPY:4900},rating:4},
-  {id:'nes-060',title:'Double Dragon II: The Revenge',publisher:'Acclaim',year:1990,genre:"Beat'em Up",prices:{USD:44.99,GBP:34.99,JPY:6500},rating:4},
-  {id:'nes-061',title:'Double Dragon III',publisher:'Acclaim',year:1992,genre:"Beat'em Up",prices:{USD:49.99,GBP:39.99,JPY:7200},rating:2},
-  {id:'nes-062',title:'Double Dribble',publisher:'Konami',year:1987,genre:'Sports',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:3},
-  {id:'nes-063',title:'Dr. Mario',publisher:'Nintendo',year:1990,genre:'Puzzle',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:5},
-  {id:'nes-064',title:'Dragon Warrior',publisher:'Nintendo',year:1989,genre:'RPG',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
-  {id:'nes-065',title:'Dragon Warrior II',publisher:'Enix',year:1990,genre:'RPG',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
-  {id:'nes-066',title:'Dragon Warrior III',publisher:'Enix',year:1992,genre:'RPG',prices:{USD:59.99,GBP:49.99,JPY:8700},rating:5},
-  {id:'nes-067',title:'Dragon Warrior IV',publisher:'Enix',year:1992,genre:'RPG',prices:{USD:59.99,GBP:49.99,JPY:8700},rating:5},
+  {id:'nes-051',title:'Crystalis',publisher:'SNK',year:1990,genre:'Action-RPG',prices:{USD:49.99,GBP:39.99,JPY:7200},driveFile:'Crystalis (USA).png',rating:5},
+  {id:'nes-052',title:'Darkwing Duck',publisher:'Capcom',year:1992,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7200},driveFile:'Darkwing Duck (USA).png',rating:4},
+  {id:'nes-053',title:'A Boy and His Blob',publisher:'Absolute',year:1990,genre:'Puzzle',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Boy and His Blob, A - Trouble on Blobolonia (USA).png',rating:3},
+  {id:'nes-054',title:'Deja Vu',publisher:'Kemco',year:1990,genre:'Adventure',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Deja Vu (USA).png',rating:3},
+  {id:'nes-055',title:'Demon Sword',publisher:'Taito',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Demon Sword (USA).png',rating:3},
+  {id:'nes-056',title:'Dick Tracy',publisher:'Bandai',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Dick Tracy (USA).png',rating:2},
+  {id:'nes-057',title:'Donkey Kong',publisher:'Nintendo',year:1986,genre:'Arcade',prices:{USD:24.99,GBP:19.99,JPY:3900},driveFile:'Donkey Kong (USA).png',rating:4},
+  {id:'nes-058',title:'Donkey Kong Jr.',publisher:'Nintendo',year:1986,genre:'Arcade',prices:{USD:24.99,GBP:19.99,JPY:3900},driveFile:'Donkey Kong Jr. (USA).png',rating:3},
+  {id:'nes-059',title:'Double Dragon',publisher:'Tradewest',year:1988,genre:"Beat'em Up",prices:{USD:34.99,GBP:24.99,JPY:4900},driveFile:'Double Dragon (USA).png',rating:4},
+  {id:'nes-060',title:'Double Dragon II: The Revenge',publisher:'Acclaim',year:1990,genre:"Beat'em Up",prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Double Dragon II - The Revenge (USA).png',rating:4},
+  {id:'nes-061',title:'Double Dragon III',publisher:'Acclaim',year:1992,genre:"Beat'em Up",prices:{USD:49.99,GBP:39.99,JPY:7200},driveFile:'Double Dragon III - The Sacred Stones (USA).png',rating:2},
+  {id:'nes-062',title:'Double Dribble',publisher:'Konami',year:1987,genre:'Sports',prices:{USD:34.99,GBP:24.99,JPY:4900},driveFile:'Double Dribble (USA).png',rating:3},
+  {id:'nes-063',title:'Dr. Mario',publisher:'Nintendo',year:1990,genre:'Puzzle',prices:{USD:34.99,GBP:24.99,JPY:4900},driveFile:'Dr. Mario (USA).png',rating:5},
+  {id:'nes-064',title:'Dragon Warrior',publisher:'Nintendo',year:1989,genre:'RPG',prices:{USD:49.99,GBP:39.99,JPY:7200},driveFile:'Dragon Warrior (USA).png',rating:4},
+  {id:'nes-065',title:'Dragon Warrior II',publisher:'Enix',year:1990,genre:'RPG',prices:{USD:49.99,GBP:39.99,JPY:7200},driveFile:'Dragon Warrior II (USA).png',rating:4},
+  {id:'nes-066',title:'Dragon Warrior III',publisher:'Enix',year:1992,genre:'RPG',prices:{USD:59.99,GBP:49.99,JPY:8700},driveFile:'Dragon Warrior III (USA).png',rating:5},
+  {id:'nes-067',title:'Dragon Warrior IV',publisher:'Enix',year:1992,genre:'RPG',prices:{USD:59.99,GBP:49.99,JPY:8700},driveFile:'Dragon Warrior IV (USA).png',rating:5},
   {id:'nes-068',title:'Duck Hunt',publisher:'Nintendo',year:1985,genre:'Light Gun',prices:{USD:14.99,GBP:12.99,JPY:3000},rating:3},
-  {id:'nes-069',title:'DuckTales',publisher:'Capcom',year:1989,genre:'Platformer',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:5},
-  {id:'nes-070',title:'DuckTales 2',publisher:'Capcom',year:1993,genre:'Platformer',prices:{USD:54.99,GBP:44.99,JPY:8000},rating:4},
-  {id:'nes-071',title:'Excitebike',publisher:'Nintendo',year:1985,genre:'Racing',prices:{USD:19.99,GBP:14.99,JPY:3500},rating:4},
-  {id:'nes-072',title:'Faxanadu',publisher:'Nintendo',year:1989,genre:'Action-RPG',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:4},
-  {id:'nes-073',title:'Felix the Cat',publisher:'Hudson',year:1992,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:3},
-  {id:'nes-074',title:"Fester's Quest",publisher:'Sunsoft',year:1989,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:3},
-  {id:'nes-075',title:'Final Fantasy',publisher:'Nintendo',year:1990,genre:'RPG',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:5},
-  {id:'nes-076',title:'Flintstones: Rescue of Dino',publisher:'Taito',year:1991,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:3},
-  {id:'nes-077',title:'Friday the 13th',publisher:'LJN',year:1989,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:1},
-  {id:'nes-078',title:'G.I. Joe',publisher:'Taxan',year:1991,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:3},
-  {id:'nes-079',title:'Galaga',publisher:'Bandai',year:1988,genre:'Shooter',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:4},
-  {id:'nes-080',title:"Gargoyle's Quest II",publisher:'Capcom',year:1992,genre:'Action-RPG',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
-  {id:'nes-081',title:'Ghostbusters',publisher:'Activision',year:1988,genre:'Action',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:2},
-  {id:'nes-082',title:"Ghosts 'n Goblins",publisher:'Capcom',year:1986,genre:'Action',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:4},
-  {id:'nes-083',title:'Godzilla: Monster of Monsters',publisher:'Toho',year:1989,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:3},
-  {id:'nes-084',title:'Golf',publisher:'Nintendo',year:1985,genre:'Sports',prices:{USD:19.99,GBP:14.99,JPY:3500},rating:2},
-  {id:'nes-085',title:'Golgo 13: Top Secret Episode',publisher:'Vic Tokai',year:1988,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:3},
-  {id:'nes-086',title:'Goonies II',publisher:'Konami',year:1987,genre:'Action-Adventure',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:3},
-  {id:'nes-087',title:'Gradius',publisher:'Konami',year:1986,genre:'Shooter',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:4},
-  {id:'nes-088',title:'Guardian Legend',publisher:'Broderbund',year:1989,genre:'Shooter',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:5},
-  {id:'nes-089',title:'Gun.Smoke',publisher:'Capcom',year:1988,genre:'Shooter',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:3},
-  {id:'nes-090',title:'Gyromite',publisher:'Nintendo',year:1985,genre:'Puzzle',prices:{USD:19.99,GBP:14.99,JPY:3500},rating:2},
-  {id:'nes-091',title:'Gyruss',publisher:'Konami',year:1989,genre:'Shooter',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:4},
-  {id:'nes-092',title:"Hogan's Alley",publisher:'Nintendo',year:1985,genre:'Light Gun',prices:{USD:14.99,GBP:12.99,JPY:3000},rating:3},
-  {id:'nes-093',title:'Ice Climber',publisher:'Nintendo',year:1985,genre:'Platformer',prices:{USD:19.99,GBP:14.99,JPY:3500},rating:3},
-  {id:'nes-094',title:'Ice Hockey',publisher:'Nintendo',year:1988,genre:'Sports',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:3},
-  {id:'nes-095',title:'Ikari Warriors',publisher:'SNK',year:1987,genre:'Shooter',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:3},
-  {id:'nes-096',title:'Image Fight',publisher:'IREM',year:1990,genre:'Shooter',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
-  {id:'nes-097',title:'Indiana Jones and the Temple of Doom',publisher:'Mindscape',year:1988,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:3},
-  {id:'nes-098',title:'Iron Tank',publisher:'SNK',year:1988,genre:'Action',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:3},
-  {id:'nes-099',title:'Jackal',publisher:'Konami',year:1988,genre:'Shooter',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:4},
-  {id:'nes-100',title:'Jaws',publisher:'LJN',year:1987,genre:'Action',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:2},
-  {id:'nes-101',title:'Journey to Silius',publisher:'Sunsoft',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:5},
-  {id:'nes-102',title:'Kabuki Quantum Fighter',publisher:'HAL',year:1991,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
-  {id:'nes-103',title:'Karate Champ',publisher:'Data East',year:1986,genre:'Fighting',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:2},
-  {id:'nes-104',title:'Kickle Cubicle',publisher:'IREM',year:1990,genre:'Puzzle',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:4},
-  {id:'nes-105',title:'Kid Icarus',publisher:'Nintendo',year:1987,genre:'Platformer',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:4},
-  {id:'nes-106',title:'Kid Niki: Radical Ninja',publisher:'Data East',year:1987,genre:'Action',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:3},
-  {id:'nes-107',title:"Kirby's Adventure",publisher:'Nintendo',year:1993,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:5},
-  {id:'nes-108',title:'Kung Fu',publisher:'Nintendo',year:1985,genre:"Beat'em Up",prices:{USD:19.99,GBP:14.99,JPY:3500},rating:3},
-  {id:'nes-109',title:'Legacy of the Wizard',publisher:'Broderbund',year:1989,genre:'Action-RPG',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
-  {id:'nes-110',title:'The Legend of Zelda',publisher:'Nintendo',year:1987,genre:'Action-RPG',prices:{USD:39.99,GBP:29.99,JPY:6500},rating:5},
-  {id:'nes-111',title:'Life Force',publisher:'Konami',year:1988,genre:'Shooter',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:5},
-  {id:'nes-112',title:'Little Mermaid',publisher:'Capcom',year:1991,genre:'Platformer',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
-  {id:'nes-113',title:'Little Nemo: The Dream Master',publisher:'Capcom',year:1990,genre:'Platformer',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:4},
-  {id:'nes-114',title:'Little Samson',publisher:'Taito',year:1992,genre:'Action',prices:{USD:54.99,GBP:44.99,JPY:8000},rating:5},
-  {id:'nes-115',title:'Lode Runner',publisher:'Broderbund',year:1987,genre:'Puzzle',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:4},
-  {id:'nes-116',title:'Mach Rider',publisher:'Nintendo',year:1985,genre:'Racing',prices:{USD:19.99,GBP:14.99,JPY:3500},rating:2},
-  {id:'nes-117',title:'Maniac Mansion',publisher:'Jaleco',year:1990,genre:'Adventure',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:4},
-  {id:'nes-118',title:'Marble Madness',publisher:'Milton Bradley',year:1989,genre:'Arcade',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:3},
-  {id:'nes-119',title:'Mega Man',publisher:'Capcom',year:1987,genre:'Platformer',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:4},
+  {id:'nes-069',title:'DuckTales',publisher:'Capcom',year:1989,genre:'Platformer',prices:{USD:39.99,GBP:29.99,JPY:5800},driveFile:'DuckTales (USA).png',rating:5},
+  {id:'nes-070',title:'DuckTales 2',publisher:'Capcom',year:1993,genre:'Platformer',prices:{USD:54.99,GBP:44.99,JPY:8000},driveFile:'DuckTales 2 (USA).png',rating:4},
+  {id:'nes-071',title:'Excitebike',publisher:'Nintendo',year:1985,genre:'Racing',prices:{USD:19.99,GBP:14.99,JPY:3500},driveFile:'Excitebike (USA).png',rating:4},
+  {id:'nes-072',title:'Faxanadu',publisher:'Nintendo',year:1989,genre:'Action-RPG',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Faxanadu (USA).png',rating:4},
+  {id:'nes-073',title:'Felix the Cat',publisher:'Hudson',year:1992,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7200},driveFile:'Felix the Cat (USA).png',rating:3},
+  {id:'nes-074',title:"Fester's Quest",publisher:'Sunsoft',year:1989,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800,driveFile:"Fester's Quest (USA).png"},rating:3},
+  {id:'nes-075',title:'Final Fantasy',publisher:'Nintendo',year:1990,genre:'RPG',prices:{USD:49.99,GBP:39.99,JPY:7200},driveFile:'Final Fantasy (USA).png',rating:5},
+  {id:'nes-076',title:'Flintstones: Rescue of Dino',publisher:'Taito',year:1991,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7200},driveFile:'Flintstones, The - Rescue of Dino and Hoppy (USA).png',rating:3},
+  {id:'nes-077',title:'Friday the 13th',publisher:'LJN',year:1989,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},driveFile:'Friday the 13th (USA).png',rating:1},
+  {id:'nes-078',title:'G.I. Joe',publisher:'Taxan',year:1991,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},driveFile:'G.I. Joe - A Real American Hero (USA).png',rating:3},
+  {id:'nes-079',title:'Galaga',publisher:'Bandai',year:1988,genre:'Shooter',prices:{USD:29.99,GBP:22.99,JPY:4500},driveFile:'Galaga - Demons of Death (USA).png',rating:4},
+  {id:'nes-080',title:"Gargoyle's Quest II",publisher:'Capcom',year:1992,genre:'Action-RPG',prices:{USD:49.99,GBP:39.99,JPY:7200,driveFile:"Gargoyle's Quest II (USA).png"},rating:4},
+  {id:'nes-081',title:'Ghostbusters',publisher:'Activision',year:1988,genre:'Action',prices:{USD:34.99,GBP:24.99,JPY:4900},driveFile:'Ghostbusters (USA).png',rating:2},
+  {id:'nes-082',title:"Ghosts 'n Goblins",publisher:'Capcom',year:1986,genre:'Action',prices:{USD:34.99,GBP:24.99,JPY:4900,driveFile:"Ghosts 'n Goblins (USA).png"},rating:4},
+  {id:'nes-083',title:'Godzilla: Monster of Monsters',publisher:'Toho',year:1989,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},driveFile:'Godzilla - Monster of Monsters (USA).png',rating:3},
+  {id:'nes-084',title:'Golf',publisher:'Nintendo',year:1985,genre:'Sports',prices:{USD:19.99,GBP:14.99,JPY:3500},driveFile:'Golf (USA).png',rating:2},
+  {id:'nes-085',title:'Golgo 13: Top Secret Episode',publisher:'Vic Tokai',year:1988,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},driveFile:'Golgo 13 - Top Secret Episode (USA).png',rating:3},
+  {id:'nes-086',title:'Goonies II',publisher:'Konami',year:1987,genre:'Action-Adventure',prices:{USD:29.99,GBP:22.99,JPY:4500},driveFile:'Goonies II, The (USA).png',rating:3},
+  {id:'nes-087',title:'Gradius',publisher:'Konami',year:1986,genre:'Shooter',prices:{USD:29.99,GBP:22.99,JPY:4500},driveFile:'Gradius (USA).png',rating:4},
+  {id:'nes-088',title:'Guardian Legend',publisher:'Broderbund',year:1989,genre:'Shooter',prices:{USD:39.99,GBP:29.99,JPY:5800},driveFile:'Guardian Legend, The (USA).png',rating:5},
+  {id:'nes-089',title:'Gun.Smoke',publisher:'Capcom',year:1988,genre:'Shooter',prices:{USD:34.99,GBP:24.99,JPY:4900},driveFile:'Gun.Smoke (USA).png',rating:3},
+  {id:'nes-090',title:'Gyromite',publisher:'Nintendo',year:1985,genre:'Puzzle',prices:{USD:19.99,GBP:14.99,JPY:3500},driveFile:'Gyromite (USA).png',rating:2},
+  {id:'nes-091',title:'Gyruss',publisher:'Konami',year:1989,genre:'Shooter',prices:{USD:34.99,GBP:24.99,JPY:4900},driveFile:'Gyruss (USA).png',rating:4},
+  {id:'nes-092',title:"Hogan's Alley",publisher:'Nintendo',year:1985,genre:'Light Gun',prices:{USD:14.99,GBP:12.99,JPY:3000,driveFile:"Hogan's Alley (USA).png"},rating:3},
+  {id:'nes-093',title:'Ice Climber',publisher:'Nintendo',year:1985,genre:'Platformer',prices:{USD:19.99,GBP:14.99,JPY:3500},driveFile:'Ice Climber (USA).png',rating:3},
+  {id:'nes-094',title:'Ice Hockey',publisher:'Nintendo',year:1988,genre:'Sports',prices:{USD:29.99,GBP:22.99,JPY:4500},driveFile:'Ice Hockey (USA).png',rating:3},
+  {id:'nes-095',title:'Ikari Warriors',publisher:'SNK',year:1987,genre:'Shooter',prices:{USD:34.99,GBP:24.99,JPY:4900},driveFile:'Ikari Warriors (USA).png',rating:3},
+  {id:'nes-096',title:'Image Fight',publisher:'IREM',year:1990,genre:'Shooter',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Image Fight (USA).png',rating:3},
+  {id:'nes-097',title:'Indiana Jones and the Temple of Doom',publisher:'Mindscape',year:1988,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},driveFile:'Indiana Jones and the Temple of Doom (USA).png',rating:3},
+  {id:'nes-098',title:'Iron Tank',publisher:'SNK',year:1988,genre:'Action',prices:{USD:34.99,GBP:24.99,JPY:4900},driveFile:'Iron Tank - The Invasion of Normandy (USA).png',rating:3},
+  {id:'nes-099',title:'Jackal',publisher:'Konami',year:1988,genre:'Shooter',prices:{USD:34.99,GBP:24.99,JPY:4900},driveFile:'Jackal (USA).png',rating:4},
+  {id:'nes-100',title:'Jaws',publisher:'LJN',year:1987,genre:'Action',prices:{USD:34.99,GBP:24.99,JPY:4900},driveFile:'Jaws (USA).png',rating:2},
+  {id:'nes-101',title:'Journey to Silius',publisher:'Sunsoft',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Journey to Silius (USA).png',rating:5},
+  {id:'nes-102',title:'Kabuki Quantum Fighter',publisher:'HAL',year:1991,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},driveFile:'Kabuki Quantum Fighter (USA).png',rating:4},
+  {id:'nes-103',title:'Karate Champ',publisher:'Data East',year:1986,genre:'Fighting',prices:{USD:29.99,GBP:22.99,JPY:4500},driveFile:'Karate Champ (USA).png',rating:2},
+  {id:'nes-104',title:'Kickle Cubicle',publisher:'IREM',year:1990,genre:'Puzzle',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Kickle Cubicle (USA).png',rating:4},
+  {id:'nes-105',title:'Kid Icarus',publisher:'Nintendo',year:1987,genre:'Platformer',prices:{USD:29.99,GBP:22.99,JPY:4500},driveFile:'Kid Icarus (USA).png',rating:4},
+  {id:'nes-106',title:'Kid Niki: Radical Ninja',publisher:'Data East',year:1987,genre:'Action',prices:{USD:29.99,GBP:22.99,JPY:4500},driveFile:'Kid Niki - Radical Ninja (USA).png',rating:3},
+  {id:'nes-107',title:"Kirby's Adventure",publisher:'Nintendo',year:1993,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7200,driveFile:"Kirby's Adventure (USA).png"},rating:5},
+  {id:'nes-108',title:'Kung Fu',publisher:'Nintendo',year:1985,genre:"Beat'em Up",prices:{USD:19.99,GBP:14.99,JPY:3500},driveFile:'Kung Fu (USA).png',rating:3},
+  {id:'nes-109',title:'Legacy of the Wizard',publisher:'Broderbund',year:1989,genre:'Action-RPG',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Legacy of the Wizard (USA).png',rating:3},
+  {id:'nes-110',title:'The Legend of Zelda',publisher:'Nintendo',year:1987,genre:'Action-RPG',prices:{USD:39.99,GBP:29.99,JPY:6500},rating:5,driveFile:'Legend of Zelda, The (USA).png'},
+  {id:'nes-111',title:'Life Force',publisher:'Konami',year:1988,genre:'Shooter',prices:{USD:34.99,GBP:24.99,JPY:4900},driveFile:'Life Force (USA).png',rating:5},
+  {id:'nes-112',title:'Little Mermaid',publisher:'Capcom',year:1991,genre:'Platformer',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Little Mermaid, The (USA).png',rating:3},
+  {id:'nes-113',title:'Little Nemo: The Dream Master',publisher:'Capcom',year:1990,genre:'Platformer',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Little Nemo - The Dream Master (USA).png',rating:4},
+  {id:'nes-114',title:'Little Samson',publisher:'Taito',year:1992,genre:'Action',prices:{USD:54.99,GBP:44.99,JPY:8000},driveFile:'Little Samson (USA).png',rating:5},
+  {id:'nes-115',title:'Lode Runner',publisher:'Broderbund',year:1987,genre:'Puzzle',prices:{USD:29.99,GBP:22.99,JPY:4500},driveFile:'Lode Runner (USA).png',rating:4},
+  {id:'nes-116',title:'Mach Rider',publisher:'Nintendo',year:1985,genre:'Racing',prices:{USD:19.99,GBP:14.99,JPY:3500},driveFile:'Mach Rider (USA).png',rating:2},
+  {id:'nes-117',title:'Maniac Mansion',publisher:'Jaleco',year:1990,genre:'Adventure',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Maniac Mansion (USA).png',rating:4},
+  {id:'nes-118',title:'Marble Madness',publisher:'Milton Bradley',year:1989,genre:'Arcade',prices:{USD:39.99,GBP:29.99,JPY:5800},driveFile:'Marble Madness (USA).png',rating:3},
+  {id:'nes-119',title:'Mega Man',publisher:'Capcom',year:1987,genre:'Platformer',prices:{USD:34.99,GBP:24.99,JPY:4900},driveFile:'Mega Man (USA).png',rating:4},
   {id:'nes-120',title:'Mega Man 2',publisher:'Capcom',year:1989,genre:'Platformer',prices:{USD:39.99,GBP:27.99,JPY:5500},rating:5},
-  {id:'nes-121',title:'Mega Man 3',publisher:'Capcom',year:1990,genre:'Platformer',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:5},
-  {id:'nes-122',title:'Mega Man 4',publisher:'Capcom',year:1992,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
-  {id:'nes-123',title:'Mega Man 5',publisher:'Capcom',year:1992,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
-  {id:'nes-124',title:'Mega Man 6',publisher:'Nintendo',year:1994,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
-  {id:'nes-125',title:'Metal Gear',publisher:'Konami',year:1988,genre:'Stealth',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:4},
-  {id:'nes-126',title:'Metal Storm',publisher:'IREM',year:1991,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
-  {id:'nes-127',title:'Metroid',publisher:'Nintendo',year:1987,genre:'Action-Adventure',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:5},
-  {id:'nes-128',title:'Mighty Final Fight',publisher:'Capcom',year:1993,genre:"Beat'em Up",prices:{USD:54.99,GBP:44.99,JPY:8000},rating:4},
+  {id:'nes-121',title:'Mega Man 3',publisher:'Capcom',year:1990,genre:'Platformer',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Mega Man 3 (USA).png',rating:5},
+  {id:'nes-122',title:'Mega Man 4',publisher:'Capcom',year:1992,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7200},driveFile:'Mega Man 4 (USA).png',rating:4},
+  {id:'nes-123',title:'Mega Man 5',publisher:'Capcom',year:1992,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7200},driveFile:'Mega Man 5 (USA).png',rating:4},
+  {id:'nes-124',title:'Mega Man 6',publisher:'Nintendo',year:1994,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7200},driveFile:'Mega Man 6 (USA).png',rating:4},
+  {id:'nes-125',title:'Metal Gear',publisher:'Konami',year:1988,genre:'Stealth',prices:{USD:39.99,GBP:29.99,JPY:5800},driveFile:'Metal Gear (USA).png',rating:4},
+  {id:'nes-126',title:'Metal Storm',publisher:'IREM',year:1991,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},driveFile:'Metal Storm (USA).png',rating:4},
+  {id:'nes-127',title:'Metroid',publisher:'Nintendo',year:1987,genre:'Action-Adventure',prices:{USD:29.99,GBP:22.99,JPY:4500},driveFile:'Metroid (USA).png',rating:5},
+  {id:'nes-128',title:'Mighty Final Fight',publisher:'Capcom',year:1993,genre:"Beat'em Up",prices:{USD:54.99,GBP:44.99,JPY:8000},driveFile:'Mighty Final Fight (USA).png',rating:4},
   {id:'nes-129',title:"Mike Tyson's Punch-Out!!",publisher:'Nintendo',year:1987,genre:'Sports',prices:{USD:49.99,GBP:34.99,JPY:6500},rating:5},
-  {id:'nes-130',title:'Millipede',publisher:'HAL',year:1988,genre:'Shooter',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:2},
-  {id:'nes-131',title:"Milon's Secret Castle",publisher:'Hudson',year:1988,genre:'Action',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:3},
-  {id:'nes-132',title:'Monopoly',publisher:'Parker Brothers',year:1991,genre:'Board Game',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:2},
-  {id:'nes-133',title:'Ms. Pac-Man',publisher:'Namco',year:1993,genre:'Arcade',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
-  {id:'nes-134',title:'NARC',publisher:'Acclaim',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:2},
-  {id:'nes-135',title:'NES Open Tournament Golf',publisher:'Nintendo',year:1991,genre:'Sports',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
-  {id:'nes-136',title:'Ninja Gaiden',publisher:'Tecmo',year:1989,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:5},
-  {id:'nes-137',title:'Ninja Gaiden II',publisher:'Tecmo',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:5},
-  {id:'nes-138',title:'Ninja Gaiden III',publisher:'Tecmo',year:1991,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
-  {id:'nes-139',title:'Nintendo World Cup',publisher:'Nintendo',year:1991,genre:'Sports',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:4},
-  {id:'nes-140',title:'Operation Wolf',publisher:'Taito',year:1992,genre:'Light Gun',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:3},
-  {id:'nes-141',title:'Pac-Man',publisher:'Namco',year:1993,genre:'Arcade',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:3},
-  {id:'nes-142',title:'Paperboy',publisher:'Mindscape',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
-  {id:'nes-143',title:'Pinball',publisher:'Nintendo',year:1985,genre:'Arcade',prices:{USD:14.99,GBP:12.99,JPY:2900},rating:2},
-  {id:'nes-144',title:'Pipe Dream',publisher:'Bullet-Proof',year:1990,genre:'Puzzle',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:3},
-  {id:'nes-145',title:'Platoon',publisher:'Sunsoft',year:1988,genre:'Action',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:3},
-  {id:'nes-146',title:'Popeye',publisher:'Nintendo',year:1986,genre:'Arcade',prices:{USD:19.99,GBP:14.99,JPY:3500},rating:3},
-  {id:'nes-147',title:'Power Blade',publisher:'Taito',year:1991,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
-  {id:'nes-148',title:'Prince of Persia',publisher:'Virgin',year:1992,genre:'Platformer',prices:{USD:54.99,GBP:44.99,JPY:8000},rating:4},
-  {id:'nes-149',title:'Princess Tomato in the Salad Kingdom',publisher:'Hudson',year:1991,genre:'Adventure',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:3},
-  {id:'nes-150',title:'Pro Wrestling',publisher:'Nintendo',year:1987,genre:'Sports',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:4},
-  {id:'nes-151',title:'Punch-Out!!',publisher:'Nintendo',year:1990,genre:'Sports',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:5},
-  {id:'nes-152',title:'R.C. Pro-Am',publisher:'Nintendo',year:1988,genre:'Racing',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:4},
-  {id:'nes-153',title:'Rad Racer',publisher:'Nintendo',year:1987,genre:'Racing',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:3},
-  {id:'nes-154',title:'Rampage',publisher:'Data East',year:1988,genre:'Action',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:3},
-  {id:'nes-155',title:'River City Ransom',publisher:'American Technos',year:1990,genre:"Beat'em Up",prices:{USD:44.99,GBP:34.99,JPY:6500},rating:5},
-  {id:'nes-156',title:'RoboCop',publisher:'Data East',year:1989,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:3},
-  {id:'nes-157',title:"Rockin' Kats",publisher:'Atlus',year:1991,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
-  {id:'nes-158',title:'Rollerball',publisher:'HAL',year:1990,genre:'Arcade',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
-  {id:'nes-159',title:"Rush'n Attack",publisher:'Konami',year:1987,genre:'Action',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:3},
-  {id:'nes-160',title:'Rygar',publisher:'Tecmo',year:1987,genre:'Action',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:4},
-  {id:'nes-161',title:'S.C.A.T.',publisher:'Natsume',year:1991,genre:'Shooter',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
-  {id:'nes-162',title:'Section-Z',publisher:'Capcom',year:1987,genre:'Shooter',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:3},
-  {id:'nes-163',title:'Shadow of the Ninja',publisher:'Natsume',year:1991,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
-  {id:'nes-164',title:'Shadowgate',publisher:'Kemco',year:1989,genre:'Adventure',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:4},
-  {id:'nes-165',title:'Shatterhand',publisher:'Jaleco',year:1991,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
-  {id:'nes-166',title:'Silver Surfer',publisher:'Arcadia',year:1990,genre:'Shooter',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
-  {id:'nes-167',title:'Simpsons: Bart vs the Space Mutants',publisher:'Acclaim',year:1992,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:2},
-  {id:'nes-168',title:'Skate or Die',publisher:'Konami',year:1988,genre:'Sports',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:3},
-  {id:'nes-169',title:'Slalom',publisher:'Nintendo',year:1987,genre:'Sports',prices:{USD:24.99,GBP:19.99,JPY:3900},rating:3},
-  {id:'nes-170',title:'Smash T.V.',publisher:'Acclaim',year:1991,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
-  {id:'nes-171',title:"Snake Rattle 'n Roll",publisher:'Nintendo',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
-  {id:'nes-172',title:"Snake's Revenge",publisher:'Konami',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
-  {id:'nes-173',title:'Soccer',publisher:'Nintendo',year:1987,genre:'Sports',prices:{USD:24.99,GBP:19.99,JPY:3900},rating:2},
-  {id:'nes-174',title:'Solar Jetman',publisher:'Tradewest',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:4},
-  {id:'nes-175',title:"Solomon's Key",publisher:'Tecmo',year:1987,genre:'Puzzle',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:4},
-  {id:'nes-176',title:'Solstice',publisher:'Sony Imagesoft',year:1990,genre:'Puzzle',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:4},
-  {id:'nes-177',title:'Spy Hunter',publisher:'Sunsoft',year:1987,genre:'Racing',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:3},
-  {id:'nes-178',title:'StarTropics',publisher:'Nintendo',year:1990,genre:'Action-Adventure',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
-  {id:'nes-179',title:"StarTropics II: Zoda's Revenge",publisher:'Nintendo',year:1994,genre:'Action-Adventure',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:4},
-  {id:'nes-180',title:'Star Wars',publisher:'JVC',year:1991,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:3},
-  {id:'nes-181',title:'Star Wars: The Empire Strikes Back',publisher:'JVC',year:1992,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:3},
-  {id:'nes-182',title:'Stinger',publisher:'Konami',year:1987,genre:'Shooter',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:3},
+  {id:'nes-130',title:'Millipede',publisher:'HAL',year:1988,genre:'Shooter',prices:{USD:29.99,GBP:22.99,JPY:4500},driveFile:'Millipede (USA).png',rating:2},
+  {id:'nes-131',title:"Milon's Secret Castle",publisher:'Hudson',year:1988,genre:'Action',prices:{USD:34.99,GBP:24.99,JPY:4900,driveFile:"Milon's Secret Castle (USA).png"},rating:3},
+  {id:'nes-132',title:'Monopoly',publisher:'Parker Brothers',year:1991,genre:'Board Game',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Monopoly (USA).png',rating:2},
+  {id:'nes-133',title:'Ms. Pac-Man',publisher:'Namco',year:1993,genre:'Arcade',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Ms. Pac-Man (USA).png',rating:3},
+  {id:'nes-134',title:'NARC',publisher:'Acclaim',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'NARC (USA).png',rating:2},
+  {id:'nes-135',title:'NES Open Tournament Golf',publisher:'Nintendo',year:1991,genre:'Sports',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'NES Open Tournament Golf (USA).png',rating:3},
+  {id:'nes-136',title:'Ninja Gaiden',publisher:'Tecmo',year:1989,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},driveFile:'Ninja Gaiden (USA).png',rating:5},
+  {id:'nes-137',title:'Ninja Gaiden II',publisher:'Tecmo',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Ninja Gaiden II - The Dark Sword of Chaos (USA).png',rating:5},
+  {id:'nes-138',title:'Ninja Gaiden III',publisher:'Tecmo',year:1991,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},driveFile:'Ninja Gaiden III - The Ancient Ship of Doom (USA).png',rating:4},
+  {id:'nes-139',title:'Nintendo World Cup',publisher:'Nintendo',year:1991,genre:'Sports',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Nintendo World Cup (USA).png',rating:4},
+  {id:'nes-140',title:'Operation Wolf',publisher:'Taito',year:1992,genre:'Light Gun',prices:{USD:49.99,GBP:39.99,JPY:7200},driveFile:'Operation Wolf (USA).png',rating:3},
+  {id:'nes-141',title:'Pac-Man',publisher:'Namco',year:1993,genre:'Arcade',prices:{USD:39.99,GBP:29.99,JPY:5800},driveFile:'Pac-Man (USA) (Namco).png',rating:3},
+  {id:'nes-142',title:'Paperboy',publisher:'Mindscape',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Paperboy (USA).png',rating:3},
+  {id:'nes-143',title:'Pinball',publisher:'Nintendo',year:1985,genre:'Arcade',prices:{USD:14.99,GBP:12.99,JPY:2900},driveFile:'Pinball (USA).png',rating:2},
+  {id:'nes-144',title:'Pipe Dream',publisher:'Bullet-Proof',year:1990,genre:'Puzzle',prices:{USD:39.99,GBP:29.99,JPY:5800},driveFile:'Pipe Dream (USA).png',rating:3},
+  {id:'nes-145',title:'Platoon',publisher:'Sunsoft',year:1988,genre:'Action',prices:{USD:34.99,GBP:24.99,JPY:4900},driveFile:'Platoon (USA).png',rating:3},
+  {id:'nes-146',title:'Popeye',publisher:'Nintendo',year:1986,genre:'Arcade',prices:{USD:19.99,GBP:14.99,JPY:3500},driveFile:'Popeye (USA).png',rating:3},
+  {id:'nes-147',title:'Power Blade',publisher:'Taito',year:1991,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},driveFile:'Power Blade (USA).png',rating:4},
+  {id:'nes-148',title:'Prince of Persia',publisher:'Virgin',year:1992,genre:'Platformer',prices:{USD:54.99,GBP:44.99,JPY:8000},driveFile:'Prince of Persia (USA).png',rating:4},
+  {id:'nes-149',title:'Princess Tomato in the Salad Kingdom',publisher:'Hudson',year:1991,genre:'Adventure',prices:{USD:49.99,GBP:39.99,JPY:7200},driveFile:'Princess Tomato in the Salad Kingdom (USA).png',rating:3},
+  {id:'nes-150',title:'Pro Wrestling',publisher:'Nintendo',year:1987,genre:'Sports',prices:{USD:29.99,GBP:22.99,JPY:4500},driveFile:'Pro Wrestling (USA).png',rating:4},
+  {id:'nes-151',title:'Punch-Out!!',publisher:'Nintendo',year:1990,genre:'Sports',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Punch-Out!! (USA).png',rating:5},
+  {id:'nes-152',title:'R.C. Pro-Am',publisher:'Nintendo',year:1988,genre:'Racing',prices:{USD:34.99,GBP:24.99,JPY:4900},driveFile:'R.C. Pro-Am (USA).png',rating:4},
+  {id:'nes-153',title:'Rad Racer',publisher:'Nintendo',year:1987,genre:'Racing',prices:{USD:29.99,GBP:22.99,JPY:4500},driveFile:'Rad Racer (USA).png',rating:3},
+  {id:'nes-154',title:'Rampage',publisher:'Data East',year:1988,genre:'Action',prices:{USD:34.99,GBP:24.99,JPY:4900},driveFile:'Rampage (USA).png',rating:3},
+  {id:'nes-155',title:'River City Ransom',publisher:'American Technos',year:1990,genre:"Beat'em Up",prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'River City Ransom (USA).png',rating:5},
+  {id:'nes-156',title:'RoboCop',publisher:'Data East',year:1989,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},driveFile:'RoboCop (USA).png',rating:3},
+  {id:'nes-157',title:"Rockin' Kats",publisher:'Atlus',year:1991,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7200,driveFile:"Rockin' Kats (USA).png"},rating:4},
+  {id:'nes-158',title:'Rollerball',publisher:'HAL',year:1990,genre:'Arcade',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Rollerball (USA).png',rating:3},
+  {id:'nes-159',title:"Rush'n Attack",publisher:'Konami',year:1987,genre:'Action',prices:{USD:29.99,GBP:22.99,JPY:4500,driveFile:"Rush'n Attack (USA).png"},rating:3},
+  {id:'nes-160',title:'Rygar',publisher:'Tecmo',year:1987,genre:'Action',prices:{USD:29.99,GBP:22.99,JPY:4500},driveFile:'Rygar (USA).png',rating:4},
+  {id:'nes-161',title:'S.C.A.T.',publisher:'Natsume',year:1991,genre:'Shooter',prices:{USD:49.99,GBP:39.99,JPY:7200},driveFile:'S.C.A.T. - Special Cybernetic Attack Team (USA).png',rating:4},
+  {id:'nes-162',title:'Section-Z',publisher:'Capcom',year:1987,genre:'Shooter',prices:{USD:29.99,GBP:22.99,JPY:4500},driveFile:'Section-Z (USA).png',rating:3},
+  {id:'nes-163',title:'Shadow of the Ninja',publisher:'Natsume',year:1991,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},driveFile:'Shadow of the Ninja (USA).png',rating:4},
+  {id:'nes-164',title:'Shadowgate',publisher:'Kemco',year:1989,genre:'Adventure',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Shadowgate (USA).png',rating:4},
+  {id:'nes-165',title:'Shatterhand',publisher:'Jaleco',year:1991,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},driveFile:'Shatterhand (USA).png',rating:4},
+  {id:'nes-166',title:'Silver Surfer',publisher:'Arcadia',year:1990,genre:'Shooter',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Silver Surfer (USA).png',rating:3},
+  {id:'nes-167',title:'Simpsons: Bart vs the Space Mutants',publisher:'Acclaim',year:1992,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7200},driveFile:'Simpsons, The - Bart vs. the Space Mutants (USA).png',rating:2},
+  {id:'nes-168',title:'Skate or Die',publisher:'Konami',year:1988,genre:'Sports',prices:{USD:34.99,GBP:24.99,JPY:4900},driveFile:'Skate or Die (USA).png',rating:3},
+  {id:'nes-169',title:'Slalom',publisher:'Nintendo',year:1987,genre:'Sports',prices:{USD:24.99,GBP:19.99,JPY:3900},driveFile:'Slalom (USA).png',rating:3},
+  {id:'nes-170',title:'Smash T.V.',publisher:'Acclaim',year:1991,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},driveFile:'Smash T.V. (USA).png',rating:4},
+  {id:'nes-171',title:"Snake Rattle 'n Roll",publisher:'Nintendo',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500,driveFile:"Snake Rattle 'n Roll (USA).png"},rating:3},
+  {id:'nes-172',title:"Snake's Revenge",publisher:'Konami',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500,driveFile:"Snake's Revenge (USA).png"},rating:3},
+  {id:'nes-173',title:'Soccer',publisher:'Nintendo',year:1987,genre:'Sports',prices:{USD:24.99,GBP:19.99,JPY:3900},driveFile:'Soccer (USA).png',rating:2},
+  {id:'nes-174',title:'Solar Jetman',publisher:'Tradewest',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Solar Jetman - Hunt for the Golden Warpship (USA).png',rating:4},
+  {id:'nes-175',title:"Solomon's Key",publisher:'Tecmo',year:1987,genre:'Puzzle',prices:{USD:29.99,GBP:22.99,JPY:4500,driveFile:"Solomon's Key (USA).png"},rating:4},
+  {id:'nes-176',title:'Solstice',publisher:'Sony Imagesoft',year:1990,genre:'Puzzle',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Solstice - The Quest for the Staff of Demnos (USA).png',rating:4},
+  {id:'nes-177',title:'Spy Hunter',publisher:'Sunsoft',year:1987,genre:'Racing',prices:{USD:29.99,GBP:22.99,JPY:4500},driveFile:'Spy Hunter (USA).png',rating:3},
+  {id:'nes-178',title:'StarTropics',publisher:'Nintendo',year:1990,genre:'Action-Adventure',prices:{USD:49.99,GBP:39.99,JPY:7200},driveFile:'StarTropics (USA).png',rating:4},
+  {id:'nes-179',title:"StarTropics II: Zoda's Revenge",publisher:'Nintendo',year:1994,genre:'Action-Adventure',prices:{USD:49.99,GBP:39.99,JPY:7200,driveFile:"Zoda's Revenge - StarTropics II (USA).png"},rating:4},
+  {id:'nes-180',title:'Star Wars',publisher:'JVC',year:1991,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},driveFile:'Star Wars (USA).png',rating:3},
+  {id:'nes-181',title:'Star Wars: The Empire Strikes Back',publisher:'JVC',year:1992,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},driveFile:'Star Wars - The Empire Strikes Back (USA).png',rating:3},
+  {id:'nes-182',title:'Stinger',publisher:'Konami',year:1987,genre:'Shooter',prices:{USD:29.99,GBP:22.99,JPY:4500},driveFile:'Stinger (USA).png',rating:3},
   {id:'nes-183',title:'Super Mario Bros.',publisher:'Nintendo',year:1985,genre:'Platformer',prices:{USD:29.99,GBP:19.99,JPY:4900},rating:5},
-  {id:'nes-184',title:'Super Mario Bros. 2',publisher:'Nintendo',year:1988,genre:'Platformer',prices:{USD:34.99,GBP:24.99,JPY:5200},rating:4},
-  {id:'nes-185',title:'Super Mario Bros. 3',publisher:'Nintendo',year:1990,genre:'Platformer',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:5},
-  {id:'nes-186',title:'Tecmo Bowl',publisher:'Tecmo',year:1989,genre:'Sports',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:4},
-  {id:'nes-187',title:'Tecmo Super Bowl',publisher:'Tecmo',year:1991,genre:'Sports',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:5},
-  {id:'nes-188',title:'Teenage Mutant Ninja Turtles',publisher:'Ultra',year:1989,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:3},
-  {id:'nes-189',title:'TMNT II: The Arcade Game',publisher:'Ultra',year:1990,genre:"Beat'em Up",prices:{USD:44.99,GBP:34.99,JPY:6500},rating:4},
-  {id:'nes-190',title:'TMNT III: The Manhattan Project',publisher:'Ultra',year:1992,genre:"Beat'em Up",prices:{USD:54.99,GBP:44.99,JPY:8000},rating:4},
+  {id:'nes-184',title:'Super Mario Bros. 2',publisher:'Nintendo',year:1988,genre:'Platformer',prices:{USD:34.99,GBP:24.99,JPY:5200},driveFile:'Super Mario Bros. 2 (USA).png',rating:4},
+  {id:'nes-185',title:'Super Mario Bros. 3',publisher:'Nintendo',year:1990,genre:'Platformer',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Super Mario Bros. 3 (USA, Europe) (Rev A).png',rating:5},
+  {id:'nes-186',title:'Tecmo Bowl',publisher:'Tecmo',year:1989,genre:'Sports',prices:{USD:39.99,GBP:29.99,JPY:5800},driveFile:'Tecmo Bowl (USA).png',rating:4},
+  {id:'nes-187',title:'Tecmo Super Bowl',publisher:'Tecmo',year:1991,genre:'Sports',prices:{USD:49.99,GBP:39.99,JPY:7200},driveFile:'Tecmo Super Bowl (USA).png',rating:5},
+  {id:'nes-188',title:'Teenage Mutant Ninja Turtles',publisher:'Ultra',year:1989,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},driveFile:'Teenage Mutant Ninja Turtles (USA).png',rating:3},
+  {id:'nes-189',title:'TMNT II: The Arcade Game',publisher:'Ultra',year:1990,genre:"Beat'em Up",prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Teenage Mutant Ninja Turtles II - The Arcade Game (USA).png',rating:4},
+  {id:'nes-190',title:'TMNT III: The Manhattan Project',publisher:'Ultra',year:1992,genre:"Beat'em Up",prices:{USD:54.99,GBP:44.99,JPY:8000},driveFile:'Teenage Mutant Ninja Turtles III - The Manhattan Project (USA).png',rating:4},
   {id:'nes-191',title:'Tetris',publisher:'Nintendo',year:1989,genre:'Puzzle',prices:{USD:29.99,GBP:19.99,JPY:4500},rating:5},
-  {id:'nes-192',title:'Tiny Toon Adventures',publisher:'Ultra',year:1991,genre:'Platformer',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:4},
-  {id:'nes-193',title:'Tiny Toon Adventures 2',publisher:'Ultra',year:1994,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:3},
-  {id:'nes-194',title:'Top Gun',publisher:'Ultra',year:1987,genre:'Shooter',prices:{USD:34.99,GBP:24.99,JPY:4900},rating:2},
-  {id:'nes-195',title:'Urban Champion',publisher:'Nintendo',year:1986,genre:'Fighting',prices:{USD:19.99,GBP:14.99,JPY:3500},rating:2},
-  {id:'nes-196',title:"Wario's Woods",publisher:'Nintendo',year:1994,genre:'Puzzle',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
-  {id:'nes-197',title:'Willow',publisher:'Capcom',year:1989,genre:'Action-RPG',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
-  {id:'nes-198',title:'Wizards & Warriors',publisher:'Acclaim',year:1990,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:4},
-  {id:'nes-199',title:'Wolverine',publisher:'LJN',year:1991,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:2},
-  {id:'nes-200',title:'World Class Track Meet',publisher:'Nintendo',year:1988,genre:'Sports',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:2},
-  {id:'nes-201',title:'Xexyz',publisher:'Hudson',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
-  {id:'nes-202',title:"Yo! Noid",publisher:'Capcom',year:1990,genre:'Platformer',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
-  {id:'nes-203',title:'Zelda II: The Adventure of Link',publisher:'Nintendo',year:1988,genre:'Action-RPG',prices:{USD:39.99,GBP:27.99,JPY:5500},rating:4},
-  {id:'nes-204',title:'Zombie Nation',publisher:'Meldac',year:1991,genre:'Shooter',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:3},
-  {id:'nes-205',title:'Battletoads & Double Dragon',publisher:'Tradewest',year:1993,genre:"Beat'em Up",prices:{USD:54.99,GBP:44.99,JPY:8000},rating:4},
-  {id:'nes-206',title:"Bram Stoker's Dracula",publisher:'Sony Imagesoft',year:1993,genre:'Action',prices:{USD:54.99,GBP:44.99,JPY:8000},rating:2},
-  {id:'nes-207',title:'Gremlins 2: The New Batch',publisher:'Sunsoft',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:3},
-  {id:'nes-208',title:'Home Alone',publisher:'THQ',year:1991,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:2},
-  {id:'nes-209',title:'Hook',publisher:'Sony Imagesoft',year:1992,genre:'Action',prices:{USD:54.99,GBP:44.99,JPY:8000},rating:3},
-  {id:'nes-210',title:'Jurassic Park',publisher:'Ocean',year:1993,genre:'Action',prices:{USD:54.99,GBP:44.99,JPY:8000},rating:3},
+  {id:'nes-192',title:'Tiny Toon Adventures',publisher:'Ultra',year:1991,genre:'Platformer',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Tiny Toon Adventures (USA).png',rating:4},
+  {id:'nes-193',title:'Tiny Toon Adventures 2',publisher:'Ultra',year:1994,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7200},driveFile:'Tiny Toon Adventures 2 - Trouble in Wackyland (USA).png',rating:3},
+  {id:'nes-194',title:'Top Gun',publisher:'Ultra',year:1987,genre:'Shooter',prices:{USD:34.99,GBP:24.99,JPY:4900},driveFile:'Top Gun (USA).png',rating:2},
+  {id:'nes-195',title:'Urban Champion',publisher:'Nintendo',year:1986,genre:'Fighting',prices:{USD:19.99,GBP:14.99,JPY:3500},driveFile:'Urban Champion (USA).png',rating:2},
+  {id:'nes-196',title:"Wario's Woods",publisher:'Nintendo',year:1994,genre:'Puzzle',prices:{USD:44.99,GBP:34.99,JPY:6500,driveFile:"Wario's Woods (USA).png"},rating:3},
+  {id:'nes-197',title:'Willow',publisher:'Capcom',year:1989,genre:'Action-RPG',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Willow (USA).png',rating:3},
+  {id:'nes-198',title:'Wizards & Warriors',publisher:'Acclaim',year:1990,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:5800},driveFile:'Wizards & Warriors (USA).png',rating:4},
+  {id:'nes-199',title:'Wolverine',publisher:'LJN',year:1991,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Wolverine (USA).png',rating:2},
+  {id:'nes-200',title:'World Class Track Meet',publisher:'Nintendo',year:1988,genre:'Sports',prices:{USD:29.99,GBP:22.99,JPY:4500},driveFile:'World Class Track Meet (USA).png',rating:2},
+  {id:'nes-201',title:'Xexyz',publisher:'Hudson',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Xexyz (USA).png',rating:3},
+  {id:'nes-202',title:"Yo! Noid",publisher:'Capcom',year:1990,genre:'Platformer',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Yo! Noid (USA).png',rating:3},
+  {id:'nes-205',title:'Battletoads & Double Dragon',publisher:'Tradewest',year:1993,genre:"Beat'em Up",prices:{USD:54.99,GBP:44.99,JPY:8000},driveFile:'Battletoads & Double Dragon - The Ultimate Team (USA).png',rating:4},
+  {id:'nes-206',title:"Bram Stoker's Dracula",publisher:'Sony Imagesoft',year:1993,genre:'Action',prices:{USD:54.99,GBP:44.99,JPY:8000,driveFile:"Bram Stoker's Dracula (USA).png"},rating:2},
+  {id:'nes-207',title:'Gremlins 2: The New Batch',publisher:'Sunsoft',year:1990,genre:'Action',prices:{USD:44.99,GBP:34.99,JPY:6500},driveFile:'Gremlins 2 - The New Batch (USA).png',rating:3},
+  {id:'nes-208',title:'Home Alone',publisher:'THQ',year:1991,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},driveFile:'Home Alone (USA).png',rating:2},
+  {id:'nes-209',title:'Hook',publisher:'Sony Imagesoft',year:1992,genre:'Action',prices:{USD:54.99,GBP:44.99,JPY:8000},driveFile:'Hook (USA).png',rating:3},
+  {id:'nes-210',title:'Jurassic Park',publisher:'Ocean',year:1993,genre:'Action',prices:{USD:54.99,GBP:44.99,JPY:8000},driveFile:'Jurassic Park (USA).png',rating:3},
   {id:'nes-211',title:'WWF WrestleMania',publisher:'Acclaim',year:1989,genre:'Sports',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:2,driveFile:'WWF WrestleMania (USA).png'},
   {id:'nes-212',title:'WWF WrestleMania Challenge',publisher:'Acclaim',year:1990,genre:'Sports',prices:{USD:44.99,GBP:34.99,JPY:6500},rating:2,driveFile:'WWF WrestleMania Challenge (USA).png'},
   {id:'nes-213',title:'WWF WrestleMania Steel Cage Challenge',publisher:'Acclaim',year:1992,genre:'Sports',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:3,driveFile:'WWF Wrestlemania - Steel Cage Challenge (USA).png'},
@@ -1102,6 +1051,15 @@ const NES_GAMES=[
   {id:'nes-226',title:'World Games',publisher:'Broderbund',year:1989,genre:'Sports',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:3,driveFile:'World Games (USA).png'},
   {id:'nes-227',title:'World Class Track Meet',publisher:'Nintendo',year:1988,genre:'Sports',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:2,driveFile:'World Class Track Meet (USA).png'},
   {id:'nes-228',title:'Young Indiana Jones Chronicles',publisher:'Jaleco',year:1992,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:2,driveFile:'Young Indiana Jones Chronicles, The (USA).png'},
+  {id:'nes-230',title:'Mario Bros.',publisher:'Nintendo',year:1986,genre:'Arcade',prices:{USD:24.99,GBP:14.99,JPY:3900},rating:3,driveFile:'Mario Bros. (USA).png',sales:'2.28M'},
+  {id:'nes-231',title:'Tennis',publisher:'Nintendo',year:1985,genre:'Sports',prices:{USD:19.99,GBP:14.99,JPY:3500},rating:2,driveFile:'Tennis (USA).png',sales:'2.17M'},
+  {id:'nes-232',title:'Volleyball',publisher:'Nintendo',year:1987,genre:'Sports',prices:{USD:24.99,GBP:19.99,JPY:3900},rating:2,driveFile:'Volleyball (USA).png',sales:'2.15M'},
+  {id:'nes-233',title:'Dragon Quest II',publisher:'Enix',year:1989,genre:'RPG',prices:{USD:49.99,GBP:39.99,JPY:6800},rating:4,driveFile:'Dragon Warrior II (USA).png',sales:'2.55M'},
+  {id:'nes-234',title:'Dragon Quest',publisher:'Enix',year:1989,genre:'RPG',prices:{USD:49.99,GBP:39.99,JPY:6800},rating:4,driveFile:'Dragon Warrior (USA).png',sales:'2M'},
+  {id:'nes-235',title:'Dragon Quest III',publisher:'Enix',year:1992,genre:'RPG',prices:{USD:59.99,GBP:49.99,JPY:8700},rating:5,driveFile:'Dragon Warrior III (USA).png',sales:'3.9M'},
+  {id:'nes-236',title:'Dragon Quest IV',publisher:'Enix',year:1992,genre:'RPG',prices:{USD:59.99,GBP:49.99,JPY:8700},rating:5,driveFile:'Dragon Warrior IV (USA).png',sales:'3.18M'},
+  {id:'nes-237',title:'Final Fantasy III',publisher:'Square',year:1990,genre:'RPG',prices:{USD:49.99,GBP:39.99,JPY:7200},rating:5,driveFile:'Final Fantasy (USA).png',sales:'1.4M'},
+  {id:'nes-238',title:'TwinBee',publisher:'Konami',year:1986,genre:'Shooter',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:3,driveFile:'TwinBee (Japan).png',sales:'1.2M'},
   {id:'nes-229',title:'Zelda II: The Adventure of Link',publisher:'Nintendo',year:1988,genre:'Action-RPG',prices:{USD:39.99,GBP:27.99,JPY:5500},rating:4,driveFile:'Zelda II - The Adventure of Link (USA).png'},
 ];
 
@@ -1132,13 +1090,36 @@ function filterNES(){
   const g=document.getElementById('nesGenre').value;
   const y=document.getElementById('nesYear').value;
   nesFiltered=NES_GAMES.filter(n=>{
-    const searchIn=[n.title,n.publisher,n.genre,n.driveFile||''].join(' ').toLowerCase();
+    const searchIn=[n.title,n.publisher,n.genre].join(' ').toLowerCase();
     const ms=!s||s.split(' ').every(word=>searchIn.includes(word));
     const mg=!g||n.genre===g;
     const my=!y||n.year==y;
     return ms&&mg&&my;
   });
   renderNES();
+}
+
+
+function nesImgFallback(img, title, id){
+  // Try progressively simpler filename variants
+  const base = NES_ART_BASE;
+  const variants = [
+    title + ' (USA).png',
+    title.replace(/:/g,'') + ' (USA).png',
+    title.replace(/[:.!?]/g,'') + ' (USA).png',
+    title.replace(/[^a-zA-Z0-9 ]/g,'') + ' (USA).png',
+    // The, A articles moved to end
+    title.replace(/^The\s+/,'') + ', The (USA).png',
+    title.replace(/^A\s+/,'') + ', A (USA).png',
+  ];
+  let tried = parseInt(img.dataset.tried||'0');
+  tried++;
+  if(tried < variants.length){
+    img.dataset.tried = tried;
+    img.src = base + encodeURIComponent(variants[tried]);
+  } else {
+    img.style.display='none';
+  }
 }
 
 function renderNES(){
@@ -1155,7 +1136,8 @@ function renderNES(){
     card.className='game-card';
     card.onclick=()=>openNESModal(game);
     const nesArtHtml=game.driveFile
-      ? `<img src="${NES_ART_BASE}${game.driveFile}" alt="${game.title}" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.style.display='none'">`
+      ? `<img src="${NES_ART_BASE}${encodeURIComponent(game.driveFile)}" alt="${game.title}" style="width:100%;height:100%;object-fit:cover;display:block"
+          onerror="nesImgFallback(this,'${game.title.replace(/'/g,"\\'")}','${game.id}')">`
       : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:10px;color:#444;padding:8px;text-align:center">${game.title.substring(0,22)}</div>`;
     card.innerHTML=`<div class="card-overlay">VIEW ▶</div>
       <div class="box-art-wrap" style="background:${bg}">
@@ -1303,6 +1285,20 @@ const SNES_GAMES=[
   {id:'snes-073',title:'SimCity',publisher:'Nintendo',year:1991,genre:'Simulation',prices:{USD:59.99,GBP:49.99,JPY:9000},rating:4,driveFile:'SimCity (USA).png'},
   {id:'snes-074',title:'The Lost Vikings',publisher:'Interplay',year:1993,genre:'Puzzle',prices:{USD:59.99,GBP:49.99,JPY:9000},rating:4,driveFile:'Lost Vikings, The (USA).png'},
   {id:'snes-075',title:'Lemmings',publisher:'Psygnosis',year:1992,genre:'Puzzle',prices:{USD:54.99,GBP:44.99,JPY:8000},rating:4,driveFile:'Lemmings (USA).png'},
+  {id:'snes-076',title:'Super Mario All-Stars',publisher:'Nintendo',year:1993,genre:'Platformer',prices:{USD:59.99,GBP:49.99,JPY:9000},rating:5,driveFile:'Super Mario All-Stars (USA).png'},
+  {id:'snes-077',title:'Mario Paint',publisher:'Nintendo',year:1992,genre:'Creative',prices:{USD:59.99,GBP:49.99,JPY:9000},rating:3,driveFile:'Mario Paint (USA).png'},
+  {id:'snes-078',title:'Super Ghouls n Ghosts',publisher:'Capcom',year:1991,genre:'Action',prices:{USD:54.99,GBP:44.99,JPY:8000},rating:4,driveFile:"Super Ghouls 'n Ghosts (USA).png"},
+  {id:'snes-079',title:'Super Star Wars',publisher:'JVC',year:1992,genre:'Action',prices:{USD:59.99,GBP:49.99,JPY:9000},rating:4,driveFile:'Super Star Wars (USA).png'},
+  {id:'snes-080',title:'Super Bomberman',publisher:'Hudson',year:1993,genre:'Puzzle-Action',prices:{USD:54.99,GBP:44.99,JPY:8000},rating:4,driveFile:'Super Bomberman (USA).png'},
+  {id:'snes-081',title:'Super Bomberman 2',publisher:'Hudson',year:1994,genre:'Puzzle-Action',prices:{USD:59.99,GBP:49.99,JPY:9000},rating:4,driveFile:'Super Bomberman 2 (USA).png'},
+  {id:'snes-082',title:'Space Invaders',publisher:'Taito',year:1993,genre:'Shooter',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:3,driveFile:'Space Invaders - The Original Game (USA).png'},
+  {id:'snes-083',title:'The Magical Quest',publisher:'Capcom',year:1992,genre:'Platformer',prices:{USD:54.99,GBP:44.99,JPY:8000},rating:4,driveFile:'Magical Quest Starring Mickey Mouse, The (USA).png'},
+  {id:'snes-084',title:'Dragon Quest V',publisher:'Enix',year:1992,genre:'RPG',prices:{USD:null,GBP:null,JPY:9600},rating:5,driveFile:'Dragon Quest V - Tenkuu no Hanayome (Japan).png'},
+  {id:'snes-085',title:'Dragon Quest VI',publisher:'Enix',year:1995,genre:'RPG',prices:{USD:null,GBP:null,JPY:11400},rating:5,driveFile:'Dragon Quest VI - Maboroshi no Daichi (Japan).png'},
+  {id:'snes-086',title:'Dragon Quest III',publisher:'Enix',year:1996,genre:'RPG',prices:{USD:null,GBP:null,JPY:9800},rating:5,driveFile:'Dragon Quest III - Soshite Densetsu e... (Japan).png'},
+  {id:'snes-087',title:'Romancing SaGa',publisher:'Square',year:1992,genre:'RPG',prices:{USD:null,GBP:null,JPY:9800},rating:4,driveFile:'Romancing Sa-Ga (Japan).png'},
+  {id:'snes-088',title:'NBA Jam Tournament Edition',publisher:'Acclaim',year:1995,genre:'Sports',prices:{USD:64.99,GBP:54.99,JPY:9800},rating:5,driveFile:'NBA Jam - Tournament Edition (USA).png'},
+  {id:'snes-089',title:"Super Punch-Out!!",publisher:'Nintendo',year:1994,genre:'Sports',prices:{USD:59.99,GBP:49.99,JPY:9000},rating:5,driveFile:'Super Punch-Out!! (USA).png'},
 ];
 
 const SNES_GENRE_COLORS={
@@ -1410,7 +1406,168 @@ function openSNESModal(game){
     </div>
     ${mult?`<div class="inflation-note">📊 Inflation factor: ${mult}× from ${game.year} to 2026 (US CPI).<br>🖼️ Art file: <span style="color:var(--sky)">${game.driveFile}</span></div>`:''}`;
 }
-window.onload=()=>{populateFilters();renderExpensive();renderConsoles();doCalc();initNESFilters();renderNES();initSNESFilters();renderSNES();setTimeout(()=>{document.getElementById('loadingState').style.display='none';document.getElementById('gamesGrid').style.display='grid';document.getElementById('footerStats').style.display='flex';document.getElementById('statGames').textContent=GAMES.length;document.getElementById('statConsoles').textContent=new Set(GAMES.map(g=>g.console)).size;document.getElementById('statEras').textContent='1977–2000';renderGames(allGames);},2000);};
+
+const GENESIS_ART_BASE='https://gameflation.netlify.app/art/genesis/';
+
+const GENESIS_GENRE_COLORS={
+  'Platformer':'#003a00','Shooter':'#002a00','Action':'#3a0000',
+  "Beat'em Up":'#2a1500','RPG':'#00002a','Fighting':'#2a001a',
+  'Sports':'#002020','Racing':'#1a1500','Arcade':'#1a1a00',
+  "Run'n Gun":'#2a1000','Action-Adventure':'#001520'
+};
+
+const GENESIS_GAMES=[
+  // ── BEST SELLERS (Wikipedia) ─────────────────────────────────
+  {id:'gen-001',title:'Sonic the Hedgehog',publisher:'Sega',year:1991,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:5,driveFile:'Sonic the Hedgehog (USA, Europe).png',sales:'15M',desc:'The blue blur that defined a console generation. Pack-in game that sold 15 million copies and launched a franchise.'},
+  {id:'gen-002',title:'Sonic the Hedgehog 2',publisher:'Sega',year:1992,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:5,driveFile:'Sonic the Hedgehog 2 (USA, Europe).png',sales:'7.55M',desc:"Tails joins the party, the spin dash arrives, Chemical Plant Zone. Arguably better than the original."},
+  {id:'gen-003',title:'Mortal Kombat',publisher:'Acclaim',year:1992,genre:'Fighting',prices:{USD:59.99,GBP:49.99,JPY:9000},rating:4,driveFile:'Mortal Kombat (USA, Europe).png',sales:'4.33M',desc:'GET OVER HERE. The Genesis version kept the blood by default. Outsold the SNES version 3-to-1.'},
+  {id:'gen-004',title:"Disney's Aladdin",publisher:'Sega/Virgin',year:1993,genre:'Platformer',prices:{USD:54.99,GBP:44.99,JPY:8500},rating:5,driveFile:'Aladdin (USA, Europe).png',sales:'4M',desc:'Animated by Disney artists. Fluid, beautiful, and arguably the best movie tie-in game ever made.'},
+  {id:'gen-005',title:'Sonic the Hedgehog 3',publisher:'Sega',year:1994,genre:'Platformer',prices:{USD:59.99,GBP:49.99,JPY:9000},rating:5,driveFile:'Sonic the Hedgehog 3 (USA, Europe).png',sales:'4M',desc:'The first half of the Sonic 3 & Knuckles experience. Michael Jackson reportedly helped compose the soundtrack.'},
+  {id:'gen-006',title:'Jurassic Park',publisher:'Sega',year:1993,genre:'Action',prices:{USD:59.99,GBP:49.99,JPY:9000},rating:3,driveFile:'Jurassic Park (USA, Europe).png',sales:'2.2M',desc:'Clever dual-gameplay letting you play as Grant or a raptor. One of the better Jurassic Park adaptations.'},
+  {id:'gen-007',title:'NBA Jam',publisher:'Acclaim',year:1994,genre:'Sports',prices:{USD:64.99,GBP:54.99,JPY:9800},rating:5,driveFile:'NBA Jam (USA).png',sales:'1.93M',desc:"HE'S ON FIRE! Boomshakalaka! Two-on-two arcade basketball that defined an era."},
+  {id:'gen-008',title:'Mortal Kombat II',publisher:'Acclaim',year:1994,genre:'Fighting',prices:{USD:69.99,GBP:59.99,JPY:9800},rating:5,driveFile:'Mortal Kombat II (USA, Europe).png',sales:'1.78M',desc:'More fighters, more fatalities, more controversy. The definitive Mortal Kombat experience.'},
+  {id:'gen-009',title:'Street Fighter II Special Champion Edition',publisher:'Capcom',year:1992,genre:'Fighting',prices:{USD:69.99,GBP:59.99,JPY:9800},rating:5,driveFile:'Street Fighter II - Special Champion Edition (USA).png',sales:'1.67M',desc:'The Genesis port with all the bells Capcom could fit. Hyper Fighting mode included.'},
+  {id:'gen-010',title:'Eternal Champions',publisher:'Sega',year:1993,genre:'Fighting',prices:{USD:64.99,GBP:54.99,JPY:9800},rating:3,driveFile:'Eternal Champions (USA, Europe).png',sales:'1.6M',desc:"Sega's answer to Street Fighter. Dark backstory for each fighter, shockingly violent finishers."},
+  {id:'gen-011',title:'Altered Beast',publisher:'Sega',year:1989,genre:"Beat'em Up",prices:{USD:44.99,GBP:34.99,JPY:7000},rating:3,driveFile:'Altered Beast (USA, Europe).png',sales:'1.4M',desc:'RISE FROM YOUR GRAVE. The original Genesis pack-in. Transform into a werewolf, werebear, or weredragon.'},
+  {id:'gen-012',title:'Mortal Kombat 3',publisher:'Williams',year:1995,genre:'Fighting',prices:{USD:69.99,GBP:59.99,JPY:9800},rating:3,driveFile:'Mortal Kombat 3 (USA, Europe).png',sales:'1.02M',desc:'Run button divides the community. Klassic characters missing. Still sold a million copies.'},
+  {id:'gen-013',title:'NHL 94',publisher:'EA',year:1993,genre:'Sports',prices:{USD:59.99,GBP:49.99,JPY:null},rating:5,driveFile:'NHL 94 (USA, Europe).png',sales:'1M',desc:'The greatest sports game ever made according to many hockey fans. One-timer goal, big hit, Wayne Gretzky.'},
+  {id:'gen-014',title:'Sonic Spinball',publisher:'Sega',year:1993,genre:'Arcade',prices:{USD:54.99,GBP:44.99,JPY:8000},rating:3,driveFile:'Sonic Spinball (USA, Europe).png',sales:'1M',desc:'Sonic as a pinball. Underrated and mechanically sound. Great music.'},
+  {id:'gen-015',title:'Sonic 3D Blast',publisher:'Sega',year:1996,genre:'Platformer',prices:{USD:59.99,GBP:49.99,JPY:9000},rating:3,driveFile:'Sonic 3D Blast (USA, Europe).png',sales:'1M',desc:'Isometric Sonic collecting flickies. Not what fans wanted but polished enough.'},
+  {id:'gen-016',title:'Sonic & Knuckles',publisher:'Sega',year:1994,genre:'Platformer',prices:{USD:59.99,GBP:49.99,JPY:9000},rating:5,driveFile:'Sonic & Knuckles (USA, Europe).png',sales:'4M',desc:'Lock-on technology let you attach it to Sonic 2 or 3. Play as Knuckles. A masterpiece of game design.'},
+  // ── CLASSICS NOT ON BEST-SELLER LIST ────────────────────────────
+  {id:'gen-017',title:'Streets of Rage',publisher:'Sega',year:1991,genre:"Beat'em Up",prices:{USD:49.99,GBP:39.99,JPY:7800},rating:4,driveFile:'Streets of Rage (USA, Europe).png',desc:'Axel, Blaze, and Adam clean up the city. Yuzo Koshiro soundtrack is legendary. Set the template for the series.'},
+  {id:'gen-018',title:'Streets of Rage 2',publisher:'Sega',year:1992,genre:"Beat'em Up",prices:{USD:54.99,GBP:44.99,JPY:8500},rating:5,driveFile:'Streets of Rage 2 (USA, Europe).png',desc:"The definitive beat'em up. Mr. X's army vs four fighters. Yuzo Koshiro's best work. A masterpiece."},
+  {id:'gen-019',title:'Streets of Rage 3',publisher:'Sega',year:1994,genre:"Beat'em Up",prices:{USD:64.99,GBP:54.99,JPY:9800},rating:4,driveFile:'Streets of Rage 3 (USA, Europe).png',desc:'Harder, faster, more complex. Censored in the west. Still one of the finest beat-em-ups ever made.'},
+  {id:'gen-020',title:'Phantasy Star II',publisher:'Sega',year:1990,genre:'RPG',prices:{USD:69.99,GBP:null,JPY:8800},rating:5,driveFile:'Phantasy Star II (USA, Europe).png',desc:'Groundbreaking sci-fi RPG. Dark story, real character death. Cost $80 at launch — one of the priciest ever.'},
+  {id:'gen-021',title:'Phantasy Star III',publisher:'Sega',year:1991,genre:'RPG',prices:{USD:69.99,GBP:null,JPY:8800},rating:3,driveFile:'Phantasy Star III - Generations of Doom (USA, Europe).png',desc:'Generational saga spanning three lifetimes. Ambitious but undercooked compared to II and IV.'},
+  {id:'gen-022',title:'Phantasy Star IV',publisher:'Sega',year:1993,genre:'RPG',prices:{USD:99.99,GBP:null,JPY:9800},rating:5,driveFile:'Phantasy Star IV (USA, Europe).png',desc:'The series peak. Combo attacks, manga-style cutscenes, an unforgettable villain. $100 at launch.'},
+  {id:'gen-023',title:'Golden Axe',publisher:'Sega',year:1989,genre:"Beat'em Up",prices:{USD:44.99,GBP:34.99,JPY:7000},rating:4,driveFile:'Golden Axe (USA, Europe).png',desc:'Hack and slash fantasy with rideable creatures and magic. Excellent Genesis port of the arcade classic.'},
+  {id:'gen-024',title:'Golden Axe II',publisher:'Sega',year:1991,genre:"Beat'em Up",prices:{USD:54.99,GBP:44.99,JPY:8000},rating:4,driveFile:'Golden Axe II (USA, Europe).png',desc:'More of the same excellence. New enemies, same brutal fun. Genesis exclusive.'},
+  {id:'gen-025',title:'Comix Zone',publisher:'Sega',year:1995,genre:'Action',prices:{USD:59.99,GBP:49.99,JPY:null},rating:5,driveFile:'Comix Zone (USA, Europe).png',desc:'Fight enemies inside comic book panels. One of the most visually creative games on the platform.'},
+  {id:'gen-026',title:'ToeJam & Earl',publisher:'Sega',year:1991,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:null},rating:4,driveFile:'ToeJam & Earl (USA, Europe).png',desc:'Two alien rappers stranded on Earth. Roguelike before roguelikes were cool. Two-player classic.'},
+  {id:'gen-027',title:'Gunstar Heroes',publisher:'Sega/Treasure',year:1993,genre:"Run'n Gun",prices:{USD:59.99,GBP:49.99,JPY:8800},rating:5,driveFile:'Gunstar Heroes (USA, Europe).png',desc:"Treasure's debut. Insane action, combinable weapons, boss battles that pushed the Genesis to its limits."},
+  {id:'gen-028',title:'Contra Hard Corps',publisher:'Konami',year:1994,genre:"Run'n Gun",prices:{USD:64.99,GBP:54.99,JPY:9800},rating:5,driveFile:'Contra - Hard Corps (USA).png',desc:'The hardest, most chaotic Contra. Multiple endings, branching paths, four playable characters.'},
+  {id:'gen-029',title:'Road Rash',publisher:'EA',year:1991,genre:'Racing',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:4,driveFile:'Road Rash (USA, Europe).png',desc:'Punch your rivals off their motorcycles. Peak 90s attitude in game form.'},
+  {id:'gen-030',title:'Road Rash II',publisher:'EA',year:1992,genre:'Racing',prices:{USD:54.99,GBP:44.99,JPY:8500},rating:4,driveFile:'Road Rash II (USA, Europe).png',desc:'More tracks, more bikes, same brutal fun. Two-player link cable support.'},
+  {id:'gen-031',title:'Shinobi III',publisher:'Sega',year:1993,genre:'Action',prices:{USD:59.99,GBP:49.99,JPY:9000},rating:5,driveFile:'Shinobi III - Return of the Ninja Master (USA, Europe).png',desc:'Joe Musashi returns. The best Shinobi game. Silky smooth movement, great level design.'},
+  {id:'gen-032',title:'Vectorman',publisher:'Sega',year:1995,genre:'Action',prices:{USD:59.99,GBP:49.99,JPY:null},rating:4,driveFile:'Vectorman (USA, Europe).png',desc:"Pre-rendered 3D style like Donkey Kong Country. Sega's technical showpiece for the dying Genesis era."},
+  {id:'gen-033',title:'Earthworm Jim',publisher:'Playmates',year:1994,genre:'Platformer',prices:{USD:59.99,GBP:49.99,JPY:9000},rating:4,driveFile:'Earthworm Jim (USA, Europe).png',desc:'Weird, wild, and hilarious. The Genesis version had an extra level over the SNES version.'},
+  {id:'gen-034',title:'Castlevania: Bloodlines',publisher:'Konami',year:1994,genre:'Action',prices:{USD:59.99,GBP:49.99,JPY:9800},rating:5,driveFile:'Castlevania - Bloodlines (USA).png',desc:"The only mainline Castlevania on Genesis. Two playable characters, European settings, superb soundtrack."},
+  {id:'gen-035',title:'Mega Turrican',publisher:'Data East',year:1994,genre:'Action',prices:{USD:54.99,GBP:44.99,JPY:null},rating:4,driveFile:'Mega Turrican (USA, Europe).png',desc:'Technical showcase for the Genesis. Huge levels, great music, tight controls.'},
+  {id:'gen-036',title:'MUSHA',publisher:'Seismic',year:1990,genre:'Shooter',prices:{USD:64.99,GBP:null,JPY:8800},rating:5,driveFile:'M.U.S.H.A. (USA).png',desc:'Metallic Uniframe Super Hybrid Armor. One of the greatest vertical shooters ever made. Extremely rare.'},
+  {id:'gen-037',title:'Thunder Force III',publisher:'Sega',year:1990,genre:'Shooter',prices:{USD:54.99,GBP:44.99,JPY:8000},rating:5,driveFile:'Thunder Force III (USA, Europe).png',desc:'Horizontal shooter masterpiece. Stage select system, multi-speed scroll, stunning for 1990.'},
+  {id:'gen-038',title:'Ghouls n Ghosts',publisher:'Sega/Capcom',year:1989,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:4,driveFile:"Ghouls 'n Ghosts (USA, Europe).png",desc:'Arthur loses his armour again. The Genesis port is arguably the best home version of this arcade classic.'},
+  {id:'gen-039',title:'World of Illusion',publisher:'Sega',year:1992,genre:'Platformer',prices:{USD:54.99,GBP:44.99,JPY:8500},rating:4,driveFile:'World of Illusion Starring Mickey Mouse and Donald Duck (USA, Europe).png',desc:'Mickey and Donald in a co-op platformer. Charming, beautiful, and an underrated gem.'},
+  {id:'gen-040',title:'Castle of Illusion',publisher:'Sega',year:1990,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:4,driveFile:'Castle of Illusion Starring Mickey Mouse (USA, Europe).png',desc:"One of the Genesis's finest platformers. Mickey's debut on the system. Gorgeous for its time."},
+  {id:'gen-041',title:'Rocket Knight Adventures',publisher:'Konami',year:1993,genre:'Action',prices:{USD:59.99,GBP:49.99,JPY:9000},rating:5,driveFile:'Rocket Knight Adventures (USA, Europe).png',desc:'Possum with a rocket pack. Spectacular set-pieces, tight controls, one of the hidden gems of the Genesis.'},
+  {id:'gen-042',title:'Ristar',publisher:'Sega',year:1995,genre:'Platformer',prices:{USD:54.99,GBP:44.99,JPY:null},rating:4,driveFile:'Ristar (USA, Europe).png',desc:'Sega star with stretchy arms. One of the last great Genesis platformers, overshadowed by Donkey Kong Country.'},
+  {id:'gen-043',title:"Tiny Toon Adventures: Buster's Hidden Treasure",publisher:'Konami',year:1993,genre:'Platformer',prices:{USD:59.99,GBP:49.99,JPY:null},rating:4,driveFile:"Tiny Toon Adventures - Buster's Hidden Treasure (USA, Europe).png",desc:'One of the best licensed platformers on the Genesis. Tight controls, great level design.'},
+  {id:'gen-044',title:'Batman Forever',publisher:'Acclaim',year:1995,genre:'Action',prices:{USD:64.99,GBP:54.99,JPY:null},rating:2,driveFile:'Batman Forever (USA, Europe).png',desc:'Digitized sprites, awkward controls, frustrating gameplay. A curiosity more than a classic.'},
+  {id:'gen-045',title:'X-Men',publisher:'Sega',year:1993,genre:'Action',prices:{USD:59.99,GBP:49.99,JPY:null},rating:3,driveFile:'X-Men (USA, Europe).png',sales:'1M',desc:"Required you to reset the console to finish — intentionally. One of gaming's strangest design decisions."},
+  {id:'gen-046',title:'Madden NFL 94',publisher:'EA',year:1993,genre:'Sports',prices:{USD:59.99,GBP:49.99,JPY:null},rating:4,driveFile:'Madden NFL 94 (USA).png',sales:'1M',desc:'The game that established Madden as the go-to NFL simulation. The Genesis was EA Sports central.'},
+  {id:'gen-047',title:'Mega Man: The Wily Wars',publisher:'Sega',year:1994,genre:'Platformer',prices:{USD:59.99,GBP:49.99,JPY:null},rating:4,driveFile:'Mega Man - The Wily Wars (USA, Europe).png',desc:'Remakes of the first three Mega Man games with 16-bit graphics. Europe and Japan only at retail.'},
+  {id:'gen-048',title:'Sonic CD',publisher:'Sega',year:1993,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:5,driveFile:'Sonic CD (USA).png',desc:'Time travel mechanic, memorable soundtrack, Metal Sonic. Released on Sega CD — essential.'},
+  {id:'gen-049',title:'Kid Chameleon',publisher:'Sega',year:1992,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:null},rating:4,driveFile:'Kid Chameleon (USA, Europe).png',desc:'103 levels, shape-shifting powers, brutal difficulty. A cult classic hidden in plain sight.'},
+  {id:'gen-050',title:'Aero the Acro-Bat',publisher:'Sunsoft',year:1993,genre:'Platformer',prices:{USD:54.99,GBP:44.99,JPY:null},rating:3,driveFile:'Aero the Acro-Bat (USA, Europe).png',desc:'Circus-themed platformer with tight controls. Part of the early 90s mascot arms race.'},
+];
+
+let genesisFiltered=[...GENESIS_GAMES];
+
+function initGenesisFilters(){
+  const genres=[...new Set(GENESIS_GAMES.map(g=>g.genre))].sort();
+  const gSel=document.getElementById('genesisGenre');
+  if(!gSel) return;
+  genres.forEach(g=>{const o=document.createElement('option');o.value=g;o.textContent=g;gSel.appendChild(o);});
+}
+
+function filterGenesis(){
+  const s=document.getElementById('genesisSearch').value.toLowerCase().trim();
+  const g=document.getElementById('genesisGenre').value;
+  genesisFiltered=GENESIS_GAMES.filter(n=>{
+    const searchIn=[n.title,n.publisher,n.genre].join(' ').toLowerCase();
+    const ms=!s||s.split(' ').every(w=>searchIn.includes(w));
+    const mg=!g||n.genre===g;
+    return ms&&mg;
+  });
+  renderGenesis();
+}
+
+function renderGenesis(){
+  const grid=document.getElementById('genesisGrid');
+  if(!grid) return;
+  grid.innerHTML='';
+  const countEl=document.getElementById('genesisCount');
+  if(countEl) countEl.textContent=genesisFiltered.length+' of '+GENESIS_GAMES.length+' games';
+  if(!genesisFiltered.length){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px;font-size:10px;color:var(--text3)">NO GAMES FOUND</div>';return;}
+  genesisFiltered.forEach(game=>{
+    const adj=game.prices.USD?applyInflation(game.prices.USD,'USD',game.year):null;
+    const hw=game.prices.USD&&game.prices.GBP?hoursWorked(game.prices.USD,game.prices.GBP,game.year):null;
+    const stars='★'.repeat(game.rating)+'☆'.repeat(5-game.rating);
+    const bg=GENESIS_GENRE_COLORS[game.genre]||'#0a1a0a';
+    const artUrl=GENESIS_ART_BASE+encodeURIComponent(game.driveFile||'');
+    const card=document.createElement('div');
+    card.className='game-card';
+    card.onclick=()=>openGenesisModal(game);
+    card.innerHTML=`<div class="card-overlay">VIEW ▶</div>
+      <div class="box-art-wrap" style="background:${bg}">
+        ${game.driveFile?`<img src="${artUrl}" alt="${game.title}" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.style.display='none'">`:''}
+        <div class="console-badge">MEGA DRIVE · ${game.year}${game.sales?' · '+game.sales:''}</div>
+      </div>
+      <div class="card-info">
+        <div class="card-title">${game.title}</div>
+        <div class="card-year"><span style="color:var(--text3)">${stars}</span></div>
+        <div class="price-table-mini">
+          <div class="price-cell"><span class="price-cell-label">USD ${game.year}</span><span class="price-cell-val">${game.prices.USD?fmt(game.prices.USD,'USD'):'N/A'}</span></div>
+          <div class="price-cell"><span class="price-cell-label">GBP ${game.year}</span><span class="price-cell-val">${game.prices.GBP?fmt(game.prices.GBP,'GBP'):'N/A'}</span></div>
+          ${adj?`<div class="price-cell adjusted"><span class="price-cell-label">🪙 2026 VALUE ${tooltipHTML(game.prices.USD,game.year)}</span><span class="price-cell-val">${fmt(adj,'USD')}</span></div>`:''}
+          ${hw?`<div class="hours-cell"><span class="hours-cell-label">⏱ HRS TO BUY</span><span class="hours-cell-vals">🇺🇸${hw.hUS}h 🇬🇧${hw.hUK}h</span></div>`:''}
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+function openGenesisModal(game){
+  document.getElementById('modalTitle').textContent=game.title;
+  document.getElementById('modalBg').classList.add('open');
+  document.body.style.overflow='hidden';
+  const adjUSD=game.prices.USD?applyInflation(game.prices.USD,'USD',game.year):null;
+  const adjGBP=game.prices.GBP?applyInflation(game.prices.GBP,'GBP',game.year):null;
+  const adjJPY=game.prices.JPY?applyInflation(game.prices.JPY,'JPY',game.year):null;
+  const mult=game.prices.USD?(inflationUSD[game.year]||1).toFixed(1):null;
+  const hw=game.prices.USD&&game.prices.GBP?hoursWorked(game.prices.USD,game.prices.GBP,game.year):null;
+  const stars='★'.repeat(game.rating)+'☆'.repeat(5-game.rating);
+  const bg=GENESIS_GENRE_COLORS[game.genre]||'#0a1a0a';
+  const artUrl=GENESIS_ART_BASE+encodeURIComponent(game.driveFile||'');
+  document.getElementById('modalBody').innerHTML=`
+    <div class="modal-layout">
+      <div class="modal-box-art" style="background:${bg}">
+        ${game.driveFile?`<img src="${artUrl}" alt="${game.title}" style="width:100%;height:100%;object-fit:cover">`:''}
+      </div>
+      <div class="modal-info">
+        <h2>${game.title}</h2>
+        <div class="info-row"><span class="info-label">CONSOLE</span><span class="info-val">MEGA DRIVE</span></div>
+        <div class="info-row"><span class="info-label">YEAR</span><span class="info-val">${game.year}</span></div>
+        <div class="info-row"><span class="info-label">GENRE</span><span class="info-val">${game.genre}</span></div>
+        <div class="info-row"><span class="info-label">PUBLISHER</span><span class="info-val">${game.publisher}</span></div>
+        <div class="info-row"><span class="info-label">RATING</span><span class="info-val" style="color:var(--accent)">${stars}</span></div>
+        ${game.sales?`<div class="info-row"><span class="info-label">COPIES SOLD</span><span class="info-val" style="color:var(--green)">${game.sales}</span></div>`:''}
+        ${hw?`<div class="hours-block"><div class="hours-block-title">⏱ HOURS WORKED TO BUY AT LAUNCH</div><div class="hours-cols"><div class="hours-col"><div class="hours-col-lbl">🇺🇸 USA</div><div class="hours-col-val">${hw.hUS}h</div><div class="hours-col-sub">avg $${hw.wUS}/hr in ${game.year}</div></div><div class="hours-col"><div class="hours-col-lbl">🇬🇧 UK</div><div class="hours-col-val">${hw.hUK}h</div><div class="hours-col-sub">avg £${hw.wUK}/hr in ${game.year}</div></div></div></div>`:''}
+      </div>
+    </div>
+    <p class="modal-desc">${game.desc||''}</p>
+    <div class="price-breakdown">
+      <div class="price-breakdown-header">💰 LAUNCH PRICE vs 2026 MONEY</div>
+      <div class="price-grid">
+        ${adjUSD?`<div class="price-col"><div class="price-currency">🇺🇸 USD</div><span class="price-original">${fmt(game.prices.USD,'USD')} in ${game.year}</span><span class="price-arrow">↓</span><span class="price-2026">${fmt(adjUSD,'USD')} today</span></div>`:'<div class="price-col"><div class="price-currency">🇺🇸 USD</div><span style="font-size:11px;color:var(--text3)">N/A</span></div>'}
+        ${adjGBP?`<div class="price-col"><div class="price-currency">🇬🇧 GBP</div><span class="price-original">${fmt(game.prices.GBP,'GBP')} in ${game.year}</span><span class="price-arrow">↓</span><span class="price-2026">${fmt(adjGBP,'GBP')} today</span></div>`:'<div class="price-col"><div class="price-currency">🇬🇧 GBP</div><span style="font-size:11px;color:var(--text3)">N/A</span></div>'}
+        ${adjJPY?`<div class="price-col"><div class="price-currency">🇯🇵 JPY</div><span class="price-original">${fmt(game.prices.JPY,'JPY')} in ${game.year}</span><span class="price-arrow">↓</span><span class="price-2026">${fmt(adjJPY,'JPY')} today</span></div>`:'<div class="price-col"><div class="price-currency">🇯🇵 JPY</div><span style="font-size:11px;color:var(--text3)">N/A</span></div>'}
+      </div>
+    </div>
+    ${mult?`<div class="inflation-note">📊 Inflation factor: ${mult}× from ${game.year} to 2026 (US CPI).</div>`:''}`;
+}
+
+window.onload=()=>{populateFilters();renderConsoles();doCalc();initNESFilters();renderNES();initSNESFilters();renderSNES();initGenesisFilters();renderGenesis();setTimeout(()=>{document.getElementById('loadingState').style.display='none';document.getElementById('gamesGrid').style.display='grid';document.getElementById('footerStats').style.display='flex';document.getElementById('statGames').textContent=GAMES.length;document.getElementById('statConsoles').textContent=new Set(GAMES.map(g=>g.console)).size;document.getElementById('statEras').textContent='1977–2000';renderGames(allGames);},2000);};
 </script>
 </body>
 </html>
