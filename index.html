@@ -1126,38 +1126,43 @@ function nesImgFallback(img, title, id){
 
 function renderNES(){
   const grid=document.getElementById('nesGrid');
+  if(!grid) return;
   grid.innerHTML='';
-  document.getElementById('nesCount').textContent=`${nesFiltered.length} of ${NES_GAMES.length} games`;
+  const countEl=document.getElementById('nesCount');
+  if(countEl) countEl.textContent=nesFiltered.length+' of '+NES_GAMES.length+' games';
   if(!nesFiltered.length){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px;font-size:10px;color:var(--text3)">NO GAMES FOUND — GAME OVER</div>';return;}
   nesFiltered.forEach(game=>{
-    const adj=applyInflation(game.prices.USD,'USD',game.year);
-    const hw=hoursWorked(game.prices.USD,game.prices.GBP,game.year);
+    const adj=game.prices.USD?applyInflation(game.prices.USD,'USD',game.year):null;
+    const hw=game.prices.USD&&game.prices.GBP?hoursWorked(game.prices.USD,game.prices.GBP,game.year):null;
     const stars='★'.repeat(game.rating)+'☆'.repeat(5-game.rating);
     const bg=NES_GENRE_COLORS[game.genre]||'#1a1a1a';
     const card=document.createElement('div');
     card.className='game-card';
     card.onclick=()=>openNESModal(game);
-    const nesArtHtml=game.driveFile
-      ? `<img src="${NES_ART_BASE}${game.driveFile}" alt="${game.title}" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.style.display='none'">`
-      : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:10px;color:#444;padding:8px;text-align:center">${game.title.substring(0,22)}</div>`;
+    const priceUSD=game.prices.USD?fmt(game.prices.USD,'USD'):'N/A';
+    const priceGBP=game.prices.GBP?fmt(game.prices.GBP,'GBP'):'N/A';
+    const adjStr=adj?fmt(adj,'USD'):'N/A';
+    const hwStr=hw?`🇺🇸${hw.hUS}h 🇬🇧${hw.hUK}h`:'N/A';
+    const salesStr=game.sales?`<div class="console-badge-sales">${game.sales}</div>`:'';
     card.innerHTML=`<div class="card-overlay">VIEW ▶</div>
       <div class="box-art-wrap" style="background:${bg}">
-        ${nesArtHtml}
+        ${game.driveFile?`<img src="${NES_ART_BASE}${game.driveFile}" alt="${game.title}" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.style.display='none'">`:``}
         <div class="console-badge">NES · ${game.year}</div>
       </div>
       <div class="card-info">
         <div class="card-title">${game.title}</div>
         <div class="card-year"><span style="color:var(--text3)">${stars}</span></div>
         <div class="price-table-mini">
-          <div class="price-cell"><span class="price-cell-label">USD ${game.year}</span><span class="price-cell-val">${fmt(game.prices.USD,'USD')}</span></div>
-          <div class="price-cell"><span class="price-cell-label">GBP ${game.year}</span><span class="price-cell-val">${fmt(game.prices.GBP,'GBP')}</span></div>
-          <div class="price-cell adjusted"><span class="price-cell-label">🪙 2026 VALUE ${tooltipHTML(game.prices.USD,game.year)}</span><span class="price-cell-val">${fmt(adj,'USD')}</span></div>
-          <div class="hours-cell"><span class="hours-cell-label">⏱ HRS TO BUY</span><span class="hours-cell-vals">🇺🇸${hw.hUS}h 🇬🇧${hw.hUK}h</span></div>
+          <div class="price-cell"><span class="price-cell-label">USD ${game.year}</span><span class="price-cell-val">${priceUSD}</span></div>
+          <div class="price-cell"><span class="price-cell-label">GBP ${game.year}</span><span class="price-cell-val">${priceGBP}</span></div>
+          ${adj?`<div class="price-cell adjusted"><span class="price-cell-label">🪙 2026 VALUE ${tooltipHTML(game.prices.USD,game.year)}</span><span class="price-cell-val">${adjStr}</span></div>`:''}
+          ${hw?`<div class="hours-cell"><span class="hours-cell-label">⏱ HRS TO BUY</span><span class="hours-cell-vals">${hwStr}</span></div>`:''}
         </div>
       </div>`;
     grid.appendChild(card);
   });
 }
+
 
 function openNESModal(game){
   document.getElementById('modalTitle').textContent=game.title;
