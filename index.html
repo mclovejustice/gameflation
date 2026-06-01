@@ -258,20 +258,18 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
 
 /* ══ HERO BANNER ══ */
 .hero-banner{
-  background:linear-gradient(135deg,#1a0a00 0%,#0d1f0a 40%,#0a0a1a 100%);
   border-bottom:3px solid var(--border2);
   padding:0;
-  min-height:240px;
+  height:clamp(200px,25vw,420px);
   display:flex;
   flex-direction:column;
   justify-content:flex-end;
   position:relative;
   overflow:hidden;
   background-size:cover !important;
-  background-position:center top !important;
+  background-position:center center !important;
 }
 .mode-smooth .hero-banner{
-  min-height:260px;
   border-bottom:1px solid var(--border);
 }
 .hero-banner-inner{
@@ -285,7 +283,6 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
   background:linear-gradient(0deg,rgba(0,0,0,0.75) 0%,rgba(0,0,0,0.0) 100%);
 }
 @media(min-width:600px){
-  .hero-banner{min-height:300px}
   .hero-banner-inner{padding:20px 28px}
 }
 
