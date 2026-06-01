@@ -1492,7 +1492,7 @@ function renderGenesis(){
     const hw=game.prices.USD&&game.prices.GBP?hoursWorked(game.prices.USD,game.prices.GBP,game.year):null;
     const stars='★'.repeat(game.rating)+'☆'.repeat(5-game.rating);
     const bg=GENESIS_GENRE_COLORS[game.genre]||'#0a1a0a';
-    const artUrl=GENESIS_ART_BASE+encodeURIComponent(game.driveFile||'');
+    const artUrl=GENESIS_ART_BASE+game.driveFile||'';
     const card=document.createElement('div');
     card.className='game-card';
     card.onclick=()=>openGenesisModal(game);
@@ -1526,7 +1526,7 @@ function openGenesisModal(game){
   const hw=game.prices.USD&&game.prices.GBP?hoursWorked(game.prices.USD,game.prices.GBP,game.year):null;
   const stars='★'.repeat(game.rating)+'☆'.repeat(5-game.rating);
   const bg=GENESIS_GENRE_COLORS[game.genre]||'#0a1a0a';
-  const artUrl=GENESIS_ART_BASE+encodeURIComponent(game.driveFile||'');
+  const artUrl=GENESIS_ART_BASE+game.driveFile||'';
   document.getElementById('modalBody').innerHTML=`
     <div class="modal-layout">
       <div class="modal-box-art" style="background:${bg}">
