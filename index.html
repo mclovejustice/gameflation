@@ -421,6 +421,24 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
 .sub-tab.active{color:var(--dark);background:var(--accent)}
 .sub-tab-coming{font-family:var(--font-main);font-size:var(--font-size-small);padding:10px 12px;color:var(--text3);opacity:0.35;white-space:nowrap;border-right:1px solid var(--border2);display:flex;align-items:center;min-height:40px;letter-spacing:.5px}
 .mode-smooth .sub-tab-coming{font-family:'Inter',sans-serif;font-size:12px}
+
+
+.sort-bar{display:flex;gap:6px;flex-wrap:wrap;align-items:center;padding:8px 16px;background:var(--card2);border-bottom:1px solid var(--border2)}
+.sort-btn{font-family:var(--font-main);font-size:6px;padding:5px 8px;border:1px solid var(--border2);background:transparent;color:var(--text3);cursor:pointer;letter-spacing:.5px;transition:all 0.15s}
+.mode-smooth .sort-btn{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;border-radius:6px}
+.sort-btn.active,.sort-btn:hover{background:var(--accent);color:var(--dark);border-color:var(--accent)}
+.sort-label{font-size:6px;color:var(--text3);letter-spacing:1px;font-family:var(--font-main)}
+.mode-smooth .sort-label{font-family:'Inter',sans-serif;font-size:10px}
+.chart-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px 20px 16px}
+.mode-smooth .chart-card{border-radius:var(--border-radius-lg,12px)}
+.chart-title{font-size:clamp(10px,1.8vw,15px);color:var(--text);font-family:var(--font-main);letter-spacing:1px;margin-bottom:6px}
+.mode-smooth .chart-title{font-family:'Inter',sans-serif;font-size:16px;font-weight:500;letter-spacing:0}
+.chart-sub{font-size:clamp(9px,1.4vw,12px);color:var(--text3);font-family:var(--font-vt);line-height:1.5;margin-bottom:14px}
+.mode-smooth .chart-sub{font-family:'Inter',sans-serif;font-size:13px}
+.chart-legend{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:12px}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text2)}
+.legend-box{width:10px;height:10px;border-radius:2px;display:inline-block}
+.legend-line{display:inline-block;width:18px;height:0;border-top:2.5px dashed;margin-right:2px}
 .console-panel{display:none}
 .console-panel.active{display:block}
 @keyframes coinSpin{0%,100%{transform:scaleX(1)}50%{transform:scaleX(0.1)}}
@@ -513,7 +531,7 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
 .mode-smooth .calc-ctx{font-family:'Inter',sans-serif;font-size:13px;letter-spacing:0}
 </style>
 </head>
-<body class="mode-smooth">
+<body class="mode-smooth"><div id="shareToast" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--accent);color:var(--dark);padding:8px 18px;font-size:10px;font-family:var(--font-main);letter-spacing:1px;opacity:0;transition:opacity 0.3s;z-index:9999;pointer-events:none">COPIED TO CLIPBOARD ✓</div>
 
 <!-- HEADER -->
 <div class="header">
@@ -526,6 +544,8 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
     <button class="tab" onclick="switchTab('games',this);closeMobileNav()">🎮 GAMES</button>
     <button class="tab" onclick="switchTab('byConsole',this);closeMobileNav()">🕹️ GAMES BY CONSOLE</button>
     <button class="tab" onclick="switchTab('consoles',this);closeMobileNav()">📺 CONSOLES</button>
+    <button class="tab" onclick="switchTab('charts',this);closeMobileNav()">📊 FUN CHARTS</button>
+    <button class="tab" onclick="switchTab('facts',this);closeMobileNav()">💡 FUN FACTS</button>
     <button class="tab" onclick="switchTab('explainer',this);closeMobileNav()">❓ HOW IT WORKS</button>
   </div>
   <button class="theme-toggle" onclick="toggleTheme()" aria-label="Switch theme">
@@ -569,6 +589,8 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
   <button class="tab active" onclick="switchTab('games',this)">🎮 GAMES</button>
   <button class="tab" onclick="switchTab('byConsole',this)">🕹️ GAMES BY CONSOLE</button>
   <button class="tab" onclick="switchTab('consoles',this)">📺 CONSOLES</button>
+  <button class="tab" onclick="switchTab('charts',this)">📊 FUN CHARTS</button>
+  <button class="tab" onclick="switchTab('facts',this)">💡 FUN FACTS</button>
   <button class="tab" onclick="switchTab('explainer',this)">❓ HOW IT WORKS</button>
 </div>
 
@@ -639,6 +661,14 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
       </select>
       <div style="font-size:var(--font-size-small);color:var(--text3);margin-left:auto" id="nesCount"></div>
     </div>
+    <div class="sort-bar">
+      <span class="sort-label">SORT:</span>
+      <button class="sort-btn active" onclick="sortGames('nes','year',this)">YEAR</button>
+      <button class="sort-btn" onclick="sortGames('nes','price',this)">PRICE</button>
+      <button class="sort-btn" onclick="sortGames('nes','rating',this)">RATING</button>
+      <button class="sort-btn" onclick="sortGames('nes','inflation',this)">INFLATION ×</button>
+      <button class="sort-btn" onclick="sortGames('nes','title',this)">A–Z</button>
+    </div>
     <div style="background:#1a0500;border-bottom:1px solid var(--border2);padding:8px 16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
       <span style="font-size:var(--font-size-small);color:var(--accent)">🖼️ ART:</span>
       <span style="font-size:var(--font-size-small);color:var(--text3)">🟢 Loading from gameflation.netlify.app/art/nes/</span>
@@ -661,6 +691,14 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
         <option value="">ALL GENRES</option>
       </select>
       <div style="font-size:var(--font-size-small);color:var(--text3);margin-left:auto" id="snesCount"></div>
+    </div>
+    <div class="sort-bar">
+      <span class="sort-label">SORT:</span>
+      <button class="sort-btn active" onclick="sortGames('snes','year',this)">YEAR</button>
+      <button class="sort-btn" onclick="sortGames('snes','price',this)">PRICE</button>
+      <button class="sort-btn" onclick="sortGames('snes','rating',this)">RATING</button>
+      <button class="sort-btn" onclick="sortGames('snes','inflation',this)">INFLATION ×</button>
+      <button class="sort-btn" onclick="sortGames('snes','title',this)">A–Z</button>
     </div>
     <div style="background:#1a0500;border-bottom:1px solid var(--border2);padding:8px 16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
       <span style="font-size:var(--font-size-small);color:var(--accent)">🖼️ ART:</span>
@@ -685,6 +723,14 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
       </select>
       <div style="font-size:var(--font-size-small);color:var(--text3);margin-left:auto" id="genesisCount"></div>
     </div>
+    <div class="sort-bar">
+      <span class="sort-label">SORT:</span>
+      <button class="sort-btn active" onclick="sortGames('genesis','year',this)">YEAR</button>
+      <button class="sort-btn" onclick="sortGames('genesis','price',this)">PRICE</button>
+      <button class="sort-btn" onclick="sortGames('genesis','rating',this)">RATING</button>
+      <button class="sort-btn" onclick="sortGames('genesis','inflation',this)">INFLATION ×</button>
+      <button class="sort-btn" onclick="sortGames('genesis','title',this)">A–Z</button>
+    </div>
     <div style="background:#001a00;border-bottom:1px solid var(--border2);padding:8px 16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
       <span style="font-size:var(--font-size-small);color:var(--accent)">🖼️ ART:</span>
       <span style="font-size:var(--font-size-small);color:var(--text3)">Upload art to <code style="font-size:10px;color:var(--sky)">art/genesis/</code> on Netlify</span>
@@ -708,6 +754,14 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
       </select>
       <div style="font-size:var(--font-size-small);color:var(--text3);margin-left:auto" id="n64Count"></div>
     </div>
+    <div class="sort-bar">
+      <span class="sort-label">SORT:</span>
+      <button class="sort-btn active" onclick="sortGames('n64','year',this)">YEAR</button>
+      <button class="sort-btn" onclick="sortGames('n64','price',this)">PRICE</button>
+      <button class="sort-btn" onclick="sortGames('n64','rating',this)">RATING</button>
+      <button class="sort-btn" onclick="sortGames('n64','inflation',this)">INFLATION ×</button>
+      <button class="sort-btn" onclick="sortGames('n64','title',this)">A–Z</button>
+    </div>
     <div style="background:#001a00;border-bottom:1px solid var(--border2);padding:8px 16px;display:flex;align-items:center;gap:8px">
       <span style="font-size:var(--font-size-small);color:var(--accent)">🖼️ ART:</span>
       <span style="font-size:var(--font-size-small);color:var(--text3)">Loading from gameflation.netlify.app/art/n64/</span>
@@ -730,6 +784,14 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
       </select>
       <div style="font-size:var(--font-size-small);color:var(--text3);margin-left:auto" id="gbCount"></div>
     </div>
+    <div class="sort-bar">
+      <span class="sort-label">SORT:</span>
+      <button class="sort-btn active" onclick="sortGames('gb','year',this)">YEAR</button>
+      <button class="sort-btn" onclick="sortGames('gb','price',this)">PRICE</button>
+      <button class="sort-btn" onclick="sortGames('gb','rating',this)">RATING</button>
+      <button class="sort-btn" onclick="sortGames('gb','inflation',this)">INFLATION ×</button>
+      <button class="sort-btn" onclick="sortGames('gb','title',this)">A–Z</button>
+    </div>
     <div style="background:#001a00;border-bottom:1px solid var(--border2);padding:8px 16px;display:flex;align-items:center;gap:8px">
       <span style="font-size:var(--font-size-small);color:var(--accent)">🖼️ ART:</span>
       <span style="font-size:var(--font-size-small);color:var(--text3)">Loading from gameflation.netlify.app/art/gb/</span>
@@ -744,6 +806,104 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
 
 </div>
 
+
+<!-- FUN CHARTS TAB -->
+<div id="chartsTab" class="tab-content">
+  <div class="main" style="max-width:900px;margin:0 auto;padding:24px 16px;display:flex;flex-direction:column;gap:40px">
+
+    <!-- Chart 1: Avg price by decade -->
+    <div class="chart-card">
+      <div class="chart-title">Average game price by decade</div>
+      <div class="chart-sub">Nominal launch price vs inflation-adjusted to 2026 (USD). Games are cheaper in real terms than they were in the 90s.</div>
+      <div class="chart-legend">
+        <span class="legend-item"><span class="legend-box" style="background:#7F77DD"></span>Nominal price</span>
+        <span class="legend-item"><span class="legend-line" style="border-color:#1D9E75"></span>2026 equivalent</span>
+      </div>
+      <div style="position:relative;width:100%;height:280px"><canvas id="chart-decade" role="img" aria-label="Average game prices by decade, nominal vs inflation adjusted"></canvas></div>
+    </div>
+
+    <!-- Chart 2: Hours worked to buy -->
+    <div class="chart-card">
+      <div class="chart-title">Hours of work to buy a new game</div>
+      <div class="chart-sub">Based on average US hourly wage. A standard NES game in 1987 cost the equivalent of nearly 5 hours of work.</div>
+      <div class="chart-legend">
+        <span class="legend-item"><span class="legend-box" style="background:#E24B4A"></span>USA</span>
+        <span class="legend-item"><span class="legend-box" style="background:#378ADD"></span>UK</span>
+      </div>
+      <div style="position:relative;width:100%;height:280px"><canvas id="chart-hours" role="img" aria-label="Hours of work needed to buy a game by year"></canvas></div>
+    </div>
+
+    <!-- Chart 3: Price by genre -->
+    <div class="chart-card">
+      <div class="chart-title">Average launch price by genre</div>
+      <div class="chart-sub">RPGs commanded a significant premium — Dragon Quest IV launched at $60 in 1992, equivalent to ~$130 today.</div>
+      <div style="position:relative;height:380px"><canvas id="chart-genre" role="img" aria-label="Average launch price by genre horizontal bar chart"></canvas></div>
+    </div>
+
+    <!-- Chart 4: Publisher comparison -->
+    <div class="chart-card">
+      <div class="chart-title">Average launch price by publisher</div>
+      <div class="chart-sub">Did first-party Nintendo titles cost more than third-party? Spoiler: not always.</div>
+      <div style="position:relative;height:320px"><canvas id="chart-publisher" role="img" aria-label="Average launch price by publisher"></canvas></div>
+    </div>
+
+    <!-- Chart 5: Most expensive inflation adjusted -->
+    <div class="chart-card">
+      <div class="chart-title">Most expensive games ever (2026 money)</div>
+      <div class="chart-sub">Phantasy Star IV launched at $99.99 in 1993 — that is over $210 in today's money.</div>
+      <div style="position:relative;height:420px"><canvas id="chart-expensive" role="img" aria-label="Most expensive retro games adjusted for inflation"></canvas></div>
+    </div>
+
+    <!-- Chart 6: Console avg price -->
+    <div class="chart-card">
+      <div class="chart-title">Average game price per console</div>
+      <div class="chart-sub">N64 games were premium — cartridge costs kept prices high even as CDs brought SNES prices down.</div>
+      <div class="chart-legend">
+        <span class="legend-item"><span class="legend-box" style="background:#7F77DD"></span>Nominal</span>
+        <span class="legend-item"><span class="legend-box" style="background:#EF9F27"></span>2026 adjusted</span>
+      </div>
+      <div style="position:relative;width:100%;height:320px"><canvas id="chart-console" role="img" aria-label="Average game price per console nominal vs adjusted"></canvas></div>
+    </div>
+
+    <!-- Chart 7: Console vs games ratio -->
+    <div class="chart-card">
+      <div class="chart-title">How many games could you buy for the price of the console?</div>
+      <div class="chart-sub">The Neo Geo AES launched at $649 — you could buy 14 NES games for that. But Neo Geo games cost $200 each.</div>
+      <div style="position:relative;height:420px"><canvas id="chart-ratio" role="img" aria-label="Number of games you could buy for the price of each console"></canvas></div>
+    </div>
+
+    <!-- Chart 8: Price scatter by year -->
+    <div class="chart-card">
+      <div class="chart-title">Game prices over time</div>
+      <div class="chart-sub">Every game in our database plotted by launch year and price. The steady climb from $20 to $70 is clear.</div>
+      <div style="position:relative;width:100%;height:320px"><canvas id="chart-scatter" role="img" aria-label="Scatter plot of all game prices by launch year"></canvas></div>
+    </div>
+
+    <!-- Chart 9: What $50 bought across eras -->
+    <div class="chart-card">
+      <div class="chart-title">What did $50 buy in each era?</div>
+      <div class="chart-sub">How many full-price games could $50 get you in each decade — and what that $50 is worth in 2026 money.</div>
+      <div style="position:relative;width:100%;height:260px"><canvas id="chart-fifty" role="img" aria-label="Purchasing power of 50 dollars in each gaming era"></canvas></div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- FUN FACTS TAB -->
+<div id="factsTab" class="tab-content">
+  <div class="main" style="max-width:800px;margin:0 auto;padding:24px 16px">
+
+    <div style="margin-bottom:32px">
+      <div class="chart-title" style="font-size:clamp(11px,2vw,18px);margin-bottom:8px">💡 Fun Facts & Gaming Economics</div>
+      <div class="chart-sub">The surprising economics of retro gaming — from cartridge costs to the streaming effect.</div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:20px" id="factsGrid"></div>
+
+  </div>
+</div>
+
 <!-- EXPLAINER TAB -->
 <div id="explainerTab" class="tab-content exp-tab">
   <div class="exp-hero">
@@ -754,7 +914,7 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
     <div class="exp-section-title">THE CORE IDEA</div>
     <div class="vt">Imagine a <span class="hi">magic shrinking machine</span> that quietly makes your money worth less every year.<br><br>Your $50 note still says $50. But each year it buys you slightly <span class="red">less stuff</span> — smaller shopping, fewer litres of petrol, a shorter taxi ride.<br><br>That's <b>inflation</b>. Over 40 years it adds up to something enormous.</div>
     <div class="formula-box"><div class="formula">$50 in 1985 <span class="op">×</span> 3.2 <span class="op">=</span> <span class="eq">$160 in 2026</span></div><div style="font-size:var(--font-size-small);color:var(--text3);margin-top:6px">THE SAME PURCHASING POWER — 41 YEARS APART</div></div>
-    <div class="vt">So when we say Super Mario Bros cost <span class="hi">$29.99 in 1985</span>, in today's money that's closer to <span class="red">$96</span>. For a single cartridge.</div>
+    <div class="vt">So when we say Super Mario Bros cost <span class="hi">$29.99 in 1985</span>, in today's money that is closer to <span class="red">$96</span>. For a single cartridge.</div>
   </div>
   <div class="exp-section">
     <div class="exp-section-title">HOW WE MEASURE IT: THE BASKET</div>
@@ -792,7 +952,7 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
     <div class="pain-row"><div class="pain-game">Street Fighter II · 1992 ($69.99)</div><div class="pain-bar-wrap"><div class="pain-bar-fill high" style="width:68%"><span class="pain-bar-val">22%</span></div></div></div>
     <div class="pain-row"><div class="pain-game">Chrono Trigger · 1995 ($69.99)</div><div class="pain-bar-wrap"><div class="pain-bar-fill high" style="width:80%"><span class="pain-bar-val">25% 🔥</span></div></div></div>
     <div class="pain-row"><div class="pain-game">Modern game · 2026 ($69.99)</div><div class="pain-bar-wrap"><div class="pain-bar-fill low" style="width:16%"><span class="pain-bar-val">5.7%</span></div></div></div>
-    <div class="vt" style="margin-top:12px">Chrono Trigger cost <span class="red">a quarter of the average American's weekly wage</span>. Today's $70 games are a genuine bargain by historical standards.</div>
+    <div class="vt" style="margin-top:12px">Chrono Trigger cost <span class="red">a quarter of the average American's weekly wage</span>. Today $70 games are a genuine bargain by historical standards.</div>
   </div>
   <div class="exp-section" style="border:none">
     <div class="exp-section-title">TRY IT YOURSELF</div>
@@ -895,9 +1055,9 @@ const CONSOLES=[
   {id:'c-04',name:'ColecoVision',maker:'Coleco',type:'home',year:1982,disc:1985,origUSD:175,adj2025:572,origGBP:129,origJPY:null,units:'6M',img:'https://www.inflationstation.net/img/ColecoVision-wController-L-1b6f0a4089007b9c52b8165e91564158d0717d7b9e7aa4107fe8b0ddadc63b09-300.jpg',wiki:'https://en.wikipedia.org/wiki/ColecoVision',desc:"Impressive arcade ports gave ColecoVision a strong start. Donkey Kong as a pack-in was a killer app."},
   {id:'c-05',name:'Nintendo Entertainment System',maker:'Nintendo',type:'home',year:1985,disc:1995,origUSD:199,adj2025:584,origGBP:99,origJPY:14800,units:'61.9M',img:'https://www.inflationstation.net/img/NES-Console-Set-d77dc9042e3f9e32c081a3114566fb467b6809b3cd79b202e1df4cc40d7693f4-300.jpg',wiki:'https://en.wikipedia.org/wiki/Nintendo_Entertainment_System',desc:"Nintendo saved the video game industry after the 1983 crash. Super Mario Bros, Zelda, Metroid — the NES defined gaming."},
   {id:'c-06',name:'Atari 7800',maker:'Atari',type:'home',year:1986,disc:1992,origUSD:139,adj2025:407,origGBP:99,origJPY:null,units:'3.77M',img:'https://www.inflationstation.net/img/Atari-7800-Console-Set-fbf2b913f8852d81b77e591b7006f192849c9397f2136f68de6a0a3115a872eb-300.jpg',wiki:'https://en.wikipedia.org/wiki/Atari_7800',desc:"Backwards compatible with the 2600, which was both its selling point and its curse. Couldn't compete with the NES."},
-  {id:'c-07',name:'Sega Master System',maker:'Sega',type:'home',year:1986,disc:1996,origUSD:200,adj2025:579,origGBP:99,origJPY:15000,units:'13M',img:'https://www.inflationstation.net/img/Sega-Master-System-Set-587432fc20a6014bb24918386eebcfcd4796daf2cd4347ebbcf23d5535e8ade5-300.jpg',wiki:'https://en.wikipedia.org/wiki/Master_System',desc:"More powerful than the NES but couldn't crack Nintendo's third-party exclusivity deals in North America. Huge in Brazil."},
+  {id:'c-07',name:'Sega Master System',maker:'Sega',type:'home',year:1986,disc:1996,origUSD:200,adj2025:579,origGBP:99,origJPY:15000,units:'13M',img:'https://www.inflationstation.net/img/Sega-Master-System-Set-587432fc20a6014bb24918386eebcfcd4796daf2cd4347ebbcf23d5535e8ade5-300.jpg',wiki:'https://en.wikipedia.org/wiki/Master_System',desc:"More powerful than the NES but could not crack Nintendo third-party exclusivity deals in North America. Huge in Brazil."},
   {id:'c-08',name:'Atari Lynx',maker:'Atari',type:'handheld',year:1989,disc:1995,origUSD:179,adj2025:457,origGBP:139,origJPY:null,units:'3M',img:'https://www.inflationstation.net/img/Atari-Lynx-Handheld-Angled-7a415e971edb206faf44d28c1bfb7798d69797be5fb7a0595fa7f36efa3633c9-300.jpg',wiki:'https://en.wikipedia.org/wiki/Atari_Lynx',desc:"First handheld with a colour backlit LCD. Landscape orientation, ambidextrous design. Battery life of ~4 hours killed it."},
-  {id:'c-09',name:'Sega Genesis',maker:'Sega',type:'home',year:1989,disc:1997,origUSD:189,adj2025:484,origGBP:149,origJPY:21000,units:'30.75M',img:'https://www.inflationstation.net/img/Sega-Genesis-Mk2-6button-68c7a716c05ff8280ecb96643ab5f0467f116b5dfaa4d376c4269a392911e8fd-300.jpg',wiki:'https://en.wikipedia.org/wiki/Sega_Genesis',desc:"SEGA DOES WHAT NINTENDON'T. Sonic, blast processing, a sports library — Sega's peak console."},
+  {id:'c-09',name:'Sega Genesis',maker:'Sega',type:'home',year:1989,disc:1997,origUSD:189,adj2025:484,origGBP:149,origJPY:21000,units:'30.75M',img:'https://www.inflationstation.net/img/Sega-Genesis-Mk2-6button-68c7a716c05ff8280ecb96643ab5f0467f116b5dfaa4d376c4269a392911e8fd-300.jpg',wiki:'https://en.wikipedia.org/wiki/Sega_Genesis',desc:"SEGA DOES WHAT NINTENDON'T. Sonic, blast processing, a sports library — Sega peak console."},
   {id:'c-10',name:'TurboGrafx-16',maker:'NEC',type:'home',year:1989,disc:1994,origUSD:199,adj2025:510,origGBP:null,origJPY:24800,units:'10M',img:'https://www.inflationstation.net/img/TurboGrafx16-Console-Set-6ef207d9472edf70023b42d8dac728243520724aa09700441d19f5edbff1e897-300.jpg',wiki:'https://en.wikipedia.org/wiki/TurboGrafx-16',desc:"Japan's secret weapon. Technically 8-bit CPU but 16-bit graphics. First console with a CD-ROM drive add-on."},
   {id:'c-11',name:'Game Boy',maker:'Nintendo',type:'handheld',year:1989,disc:2003,origUSD:89,adj2025:228,origGBP:67,origJPY:12500,units:'118.7M',img:'https://www.inflationstation.net/img/Game-Boy-FL-6a29dff73e407cb2fac7c77eccc890c2cff53bf2cd1343cd64a4af646dc1765b-300.jpg',wiki:'https://en.wikipedia.org/wiki/Game_Boy',desc:"Tetris bundled. Grey screen in bright light only. 30-hour battery life on 4 AAs. Sold 119 million. Indestructible."},
   {id:'c-12',name:'Neo Geo',maker:'SNK',type:'home',year:1990,disc:1997,origUSD:649,adj2025:1574,origGBP:499,origJPY:58000,units:'1M',img:'https://www.inflationstation.net/img/Neo-Geo-AES-Console-Set-4584d07b8e492add67585d859ea0a06ccd1c8412c815b29696ab78359b2087b0-300.jpg',wiki:'https://en.wikipedia.org/wiki/Neo_Geo_(system)',desc:"Arcade hardware in your living room. Games cost $200+ each. The most expensive home console of its era by far."},
@@ -907,27 +1067,27 @@ const CONSOLES=[
   {id:'c-16',name:'3DO Interactive Multiplayer',maker:'3DO',type:'home',year:1993,disc:1996,origUSD:699,adj2025:1531,origGBP:599,origJPY:79800,units:'2M',img:'https://www.inflationstation.net/img/3DO-FZ1-Console-Set-e54aba8766d7aec4a5fa95806d1e64357e77a9f6a98641cc01a103e548eb4b67-300.jpg',wiki:'https://en.wikipedia.org/wiki/3DO_Interactive_Multiplayer',desc:"$699 at launch — over $1,500 in today's money. CD games, impressive FMV. Too expensive to survive."},
   {id:'c-17',name:'Atari Jaguar',maker:'Atari',type:'home',year:1993,disc:1996,origUSD:249,adj2025:545,origGBP:199,origJPY:null,units:'0.25M',img:'https://www.inflationstation.net/img/Atari-Jaguar-Console-Set-0fe4ef8f6bc6779f3ed88b437b3307316a16a9eaff8bd2083118b23c5e5a4c6f-300.jpg',wiki:'https://en.wikipedia.org/wiki/Atari_Jaguar',desc:"Do the math. 64-bit marketing, complex development, tiny library. Atari's last home console."},
   {id:'c-18',name:'Sega Saturn',maker:'Sega',type:'home',year:1995,disc:1998,origUSD:399,adj2025:836,origGBP:399,origJPY:44800,units:'9.5M',img:'https://www.inflationstation.net/img/Sega-Saturn-Console-Set-Mk1-db5969d493e28c8568de4acf90ec012e335790404d09ec6ff3b837c4ea12a076-300.jpg',wiki:'https://en.wikipedia.org/wiki/Sega_Saturn',desc:"Launched at $399 in a surprise E3 announcement, $100 more than anticipated. Retailers furious. Lost to PlayStation decisively."},
-  {id:'c-19',name:'Virtual Boy',maker:'Nintendo',type:'home',year:1995,disc:1995,origUSD:179,adj2025:374,origGBP:149,origJPY:15000,units:'0.77M',img:'https://www.inflationstation.net/img/Virtual-Boy-Set-2e5e5b3348eafb1e1affeae3a02c82ba017e6269bf60c27b1de01e49fe35e208-300.jpg',wiki:'https://en.wikipedia.org/wiki/Virtual_Boy',desc:"Nintendo's biggest flop. Red monochrome 3D display that caused headaches. Discontinued after just 22 games."},
+  {id:'c-19',name:'Virtual Boy',maker:'Nintendo',type:'home',year:1995,disc:1995,origUSD:179,adj2025:374,origGBP:149,origJPY:15000,units:'0.77M',img:'https://www.inflationstation.net/img/Virtual-Boy-Set-2e5e5b3348eafb1e1affeae3a02c82ba017e6269bf60c27b1de01e49fe35e208-300.jpg',wiki:'https://en.wikipedia.org/wiki/Virtual_Boy',desc:"Nintendo biggest flop. Red monochrome 3D display that caused headaches. Discontinued after just 22 games."},
   {id:'c-20',name:'PlayStation',maker:'Sony',type:'home',year:1995,disc:2006,origUSD:299,adj2025:622,origGBP:299,origJPY:39800,units:'102.5M',img:'https://www.inflationstation.net/img/PSX-Console-wController-f55f4acd1f102d245d5caad6f2f3b466feb04199255fba43dbc67dd3b550d85d-300.jpg',wiki:'https://en.wikipedia.org/wiki/PlayStation',desc:"Sony enters gaming and immediately wins. CDs beat cartridges. Final Fantasy VII. Metal Gear Solid. 102 million sold."},
   {id:'c-21',name:'Sega Nomad',maker:'Sega',type:'handheld',year:1995,disc:1999,origUSD:180,adj2025:374,origGBP:null,origJPY:null,units:'1M',img:'https://www.inflationstation.net/img/Sega-Nomad-Front-9724a4ead8f82e95a6975925e97910f5311be013bfc0e1c5b3af103bc3bcc525-300.jpg',wiki:'https://en.wikipedia.org/wiki/Sega_Nomad',desc:"A handheld Mega Drive. Played all Genesis cartridges. 3-hour battery life on 6 AAs made it impractical."},
   {id:'c-22',name:'Nintendo 64',maker:'Nintendo',type:'home',year:1996,disc:2002,origUSD:199,adj2025:402,origGBP:249,origJPY:25000,units:'32.93M',img:'https://www.inflationstation.net/img/Nintendo-64-wController-L-97657400ac72b56691e5e72fcd5e517703ef1d5b436ac50f32e7eaf74c23da3c-300.jpg',wiki:'https://en.wikipedia.org/wiki/Nintendo_64',desc:"64-bit power and a revolutionary 3D controller. Mario 64, Zelda: OoT, GoldenEye. Cartridges kept third parties away."},
   {id:'c-23',name:'Game Boy Color',maker:'Nintendo',type:'handheld',year:1998,disc:2003,origUSD:69,adj2025:134,origGBP:49,origJPY:6800,units:'32.5M',img:'https://www.inflationstation.net/img/Nintendo-Game-Boy-Color-FL-b7a2e9c7bf38a76aac4e858e870f19ea8f32d7d1b1da10642bdf3cc23f9a6d4f-300.jpg',wiki:'https://en.wikipedia.org/wiki/Game_Boy_Color',desc:"Colour at last. Backwards compatible with all original Game Boy games. Pokémon Gold & Silver sold 23 million copies on it."},
   {id:'c-24',name:'Neo Geo Pocket Color',maker:'SNK',type:'handheld',year:1999,disc:2001,origUSD:69,adj2025:132,origGBP:49,origJPY:null,units:'2M',img:'https://www.inflationstation.net/img/Neo-Geo-Pocket-Color-Blue-Left-299ef0590fb9b35d9c37d2ce3901d10a3423b7395a454f94f21520a2b453e4c4-300.jpg',wiki:'https://en.wikipedia.org/wiki/Neo_Geo_Pocket_Color',desc:"SNK's excellent handheld. Fantastic clicky thumbstick, great fighting games. Discontinued when SNK went bankrupt."},
-  {id:'c-25',name:'Sega Dreamcast',maker:'Sega',type:'home',year:1999,disc:2001,origUSD:199,adj2025:378,origGBP:199,origJPY:29800,units:'10.6M',img:'https://www.inflationstation.net/img/Dreamcast-Console-Set-9c3ab2e248ee57121ba17a689b0c544c6fca291a45113927d693a31a01d8db23-300.jpg',wiki:'https://en.wikipedia.org/wiki/Dreamcast',desc:"The first console with a built-in modem. Sonic Adventure, Soul Calibur, Shenmue. Ahead of its time. Sega's swan song."},
+  {id:'c-25',name:'Sega Dreamcast',maker:'Sega',type:'home',year:1999,disc:2001,origUSD:199,adj2025:378,origGBP:199,origJPY:29800,units:'10.6M',img:'https://www.inflationstation.net/img/Dreamcast-Console-Set-9c3ab2e248ee57121ba17a689b0c544c6fca291a45113927d693a31a01d8db23-300.jpg',wiki:'https://en.wikipedia.org/wiki/Dreamcast',desc:"The first console with a built-in modem. Sonic Adventure, Soul Calibur, Shenmue. Ahead of its time. Sega swan song."},
   {id:'c-26',name:'PlayStation 2',maker:'Sony',type:'home',year:2000,disc:2013,origUSD:299,adj2025:548,origGBP:299,origJPY:39800,units:'155M',img:'https://www.inflationstation.net/img/Sony-PlayStation-2-30001-Console-FL-9ded397feade5d7b6cd1d7b03da96928dc7eb47b190707b09e29017c87693c71-300.jpg',wiki:'https://en.wikipedia.org/wiki/PlayStation_2',desc:"The best-selling console of all time. 155 million sold. Built-in DVD player drove sales as much as the games."},
   {id:'c-27',name:'Game Boy Advance',maker:'Nintendo',type:'handheld',year:2001,disc:2008,origUSD:99,adj2025:177,origGBP:79,origJPY:9800,units:'81.5M',img:'https://www.inflationstation.net/img/Nintendo-Game-Boy-Advance-Purple-FL-b813e292851f33cf231e3fa50a55ca706494e904710121e3859f5c9fb4263c26-300.jpg',wiki:'https://en.wikipedia.org/wiki/Game_Boy_Advance',desc:"32-bit handheld that played the best portable games of its era. No backlight originally — fixed with the SP revision."},
-  {id:'c-28',name:'GameCube',maker:'Nintendo',type:'home',year:2001,disc:2007,origUSD:199,adj2025:358,origGBP:149,origJPY:25000,units:'21.74M',img:'https://www.inflationstation.net/img/GameCube-Set-6fb912e7e9274d15fb4e03ae791adc689c7fb85582025a03ccc8597e6ec39351-300.jpg',wiki:'https://en.wikipedia.org/wiki/GameCube',desc:"Nintendo's lunchbox. Resident Evil 4, Wind Waker, Metroid Prime. Underappreciated library on a mini-disc format."},
+  {id:'c-28',name:'GameCube',maker:'Nintendo',type:'home',year:2001,disc:2007,origUSD:199,adj2025:358,origGBP:149,origJPY:25000,units:'21.74M',img:'https://www.inflationstation.net/img/GameCube-Set-6fb912e7e9274d15fb4e03ae791adc689c7fb85582025a03ccc8597e6ec39351-300.jpg',wiki:'https://en.wikipedia.org/wiki/GameCube',desc:"Nintendo lunchbox. Resident Evil 4, Wind Waker, Metroid Prime. Underappreciated library on a mini-disc format."},
   {id:'c-29',name:'Xbox',maker:'Microsoft',type:'home',year:2001,disc:2006,origUSD:299,adj2025:538,origGBP:299,origJPY:34800,units:'24M',img:'https://www.inflationstation.net/img/Xbox-Console-wDuke-L-2dfa55c9dd5a1f116fc07ba1454f835a821feddd2427580024e4839663320ab5-300.jpg',wiki:'https://en.wikipedia.org/wiki/Xbox_(console)',desc:"Microsoft enters gaming with a hard drive, ethernet, and Halo. The Duke controller was comically large."},
   {id:'c-30',name:'Nokia N-Gage',maker:'Nokia',type:'handheld',year:2003,disc:2005,origUSD:299,adj2025:516,origGBP:299,origJPY:null,units:'3M',img:'https://www.inflationstation.net/img/Nokia-NGage-LL-62e04762f0b03ada72a83cfda778881b7545b1c55cd5da51990beb51000b94b4-300.jpg',wiki:'https://en.wikipedia.org/wiki/N-Gage_(device)',desc:"A phone that played games, or a games console you could call people on. You had to remove the battery to change games."},
   {id:'c-31',name:'Nintendo DS',maker:'Nintendo',type:'handheld',year:2004,disc:2013,origUSD:149,adj2025:249,origGBP:99,origJPY:15000,units:'154M',img:'https://www.inflationstation.net/img/Nintendo-DS-Lite-Black-Open-e2d67708826bdefada1f727e1971aad57e3f28300e455c5798680d7cb0d97a6c-300.jpg',wiki:'https://en.wikipedia.org/wiki/Nintendo_DS',desc:"Dual screens, touch interface, wireless play. Second best-selling console ever at 154 million. Brain Training sold to everyone's parents."},
-  {id:'c-32',name:'PlayStation Portable',maker:'Sony',type:'handheld',year:2005,disc:2014,origUSD:249,adj2025:411,origGBP:179,origJPY:19800,units:'80M',img:'https://www.inflationstation.net/img/Psp-1000-4380d4426878e37882e34ca3461e1813bf83d976182c5720193827369ecdd9d0-300.jpg',wiki:'https://en.wikipedia.org/wiki/PlayStation_Portable',desc:"Sony's first handheld. UMD discs, gorgeous widescreen. Became the piracy king — CFW was trivially easy to install."},
+  {id:'c-32',name:'PlayStation Portable',maker:'Sony',type:'handheld',year:2005,disc:2014,origUSD:249,adj2025:411,origGBP:179,origJPY:19800,units:'80M',img:'https://www.inflationstation.net/img/Psp-1000-4380d4426878e37882e34ca3461e1813bf83d976182c5720193827369ecdd9d0-300.jpg',wiki:'https://en.wikipedia.org/wiki/PlayStation_Portable',desc:"Sony first handheld. UMD discs, gorgeous widescreen. Became the piracy king — CFW was trivially easy to install."},
   {id:'c-33',name:'Xbox 360',maker:'Microsoft',type:'home',year:2005,disc:2016,origUSD:299,adj2025:483,origGBP:279,origJPY:37900,units:'84M',img:'https://www.inflationstation.net/img/Microsoft-Xbox-360-Pro-Flat-wController-L-28b0f36fe58b386e3c1ce250f189f1b48ae7c7799c2f4bdcc1fe6d543a349fa3-300.jpg',wiki:'https://en.wikipedia.org/wiki/Xbox_360',desc:"Won the early 7th gen battle with great multiplayer and Xbox Live. Red Ring of Death failure rate was catastrophic."},
   {id:'c-34',name:'Wii',maker:'Nintendo',type:'home',year:2006,disc:2013,origUSD:249,adj2025:394,origGBP:179,origJPY:25000,units:'101.6M',img:'https://www.inflationstation.net/img/Wii-console-5f36b295634af44235783d80d1b116c71139d2719e7bc7ef8876caaa27e0f639-300.jpg',wiki:'https://en.wikipedia.org/wiki/Wii',desc:"Motion controls brought gaming to everyone's living room. Wii Sports pack-in. 101 million sold across all demographics."},
   {id:'c-35',name:'PlayStation 3',maker:'Sony',type:'home',year:2006,disc:2017,origUSD:499,adj2025:790,origGBP:425,origJPY:59800,units:'87.4M',img:'https://www.inflationstation.net/img/Sony-PlayStation-3-CECHA01-wController-L-dab6f43fdc644e6e1fcef15e76e9f6fc2c17d8640035e659c1fc5f12854fbf6c-300.jpg',wiki:'https://en.wikipedia.org/wiki/PlayStation_3',desc:"Launched at $499-599. Trojan horse for Blu-ray. Cell processor was a nightmare to develop for. Free online rescued it."},
   {id:'c-36',name:'Nintendo 3DS',maker:'Nintendo',type:'handheld',year:2011,disc:2020,origUSD:249,adj2025:356,origGBP:219,origJPY:25000,units:'75.94M',img:'https://www.inflationstation.net/img/Nintendo-3DS-AquaOpen-8faaaefa23f2cdfe31c4dc71b775386b3b638d4e8e919ac9326565f333261386-300.jpg',wiki:'https://en.wikipedia.org/wiki/3ds',desc:"Glasses-free 3D that most people turned off. Price cut from $249 to $169 within 5 months. Great library rescued it."},
   {id:'c-37',name:'PlayStation Vita',maker:'Sony',type:'handheld',year:2012,disc:2019,origUSD:249,adj2025:349,origGBP:229,origJPY:24980,units:'16M',img:'https://www.inflationstation.net/img/PlayStation-Vita-1101-FL-493af012cffa51f9f1303db998ccda1519cc9bfb7e19e021d6f5b2e204634aa0-300.jpg',wiki:'https://en.wikipedia.org/wiki/PlayStation_Vita',desc:"Stunning hardware let down by proprietary memory cards and Sony abandoning it. Became an indie darling in its twilight."},
   {id:'c-38',name:'Wii U',maker:'Nintendo',type:'home',year:2012,disc:2017,origUSD:349,adj2025:484,origGBP:299,origJPY:32000,units:'13.56M',img:'https://www.inflationstation.net/img/Wii_U_Console_and_Gamepad-327c9e537536df72ae5b8f2e0aef4892e7c2a89012ce9c9594642fbdae701979-300.jpg',wiki:'https://en.wikipedia.org/wiki/Wii_U',desc:"Confusing tablet controller, poor third-party support, dismal marketing. Donkey Kong Tropical Freeze and Mario Maker were sublime though."},
-  {id:'c-39',name:'PlayStation 4',maker:'Sony',type:'home',year:2013,disc:2023,origUSD:399,adj2025:546,origGBP:349,origJPY:39800,units:'117.2M',img:'https://www.inflationstation.net/img/Sony-PlayStation-4-wController-a31a3b28a3e66aaebf08f1f3ac612449b78525c39c47b738cf5b666c8e33bbd9-300.jpg',wiki:'https://en.wikipedia.org/wiki/PlayStation_4',desc:"Sony's clean sweep of the 8th gen. Simple messaging, dev-friendly hardware, incredible exclusives. 117 million sold."},
+  {id:'c-39',name:'PlayStation 4',maker:'Sony',type:'home',year:2013,disc:2023,origUSD:399,adj2025:546,origGBP:349,origJPY:39800,units:'117.2M',img:'https://www.inflationstation.net/img/Sony-PlayStation-4-wController-a31a3b28a3e66aaebf08f1f3ac612449b78525c39c47b738cf5b666c8e33bbd9-300.jpg',wiki:'https://en.wikipedia.org/wiki/PlayStation_4',desc:"Sony clean sweep of the 8th gen. Simple messaging, dev-friendly hardware, incredible exclusives. 117 million sold."},
   {id:'c-40',name:'Xbox One',maker:'Microsoft',type:'home',year:2013,disc:2020,origUSD:499,adj2025:683,origGBP:429,origJPY:49800,units:'51M',img:'https://www.inflationstation.net/img/Xbox-One-Console-wController-FL-96a90c60dbd2e30e9bad4f4f18ccee2a6be39d5ee6c42dea302aa2c323d5cb66-300.jpg',wiki:'https://en.wikipedia.org/wiki/Xbox_One',desc:"Always-online DRM controversy, $499 launch, mandatory Kinect. Microsoft walked back almost every decision pre-launch."},
   {id:'c-41',name:'Nintendo Switch',maker:'Nintendo',type:'home',year:2017,disc:null,origUSD:299,adj2025:391,origGBP:279,origJPY:29980,units:'146M',img:'https://www.inflationstation.net/img/Nintendo-Switch-wJoyCons-BlRd-Standing-FL-ca69cccc17749db8a4021b23721468011c8cc93876cefe70aa648e06e624971a-300.jpg',wiki:'https://en.wikipedia.org/wiki/Nintendo_Switch',desc:"The hybrid console concept that finally worked. Dock it for TV, undock for handheld. Zelda: BOTW at launch. 146 million and counting."},
   {id:'c-42',name:'Nintendo Switch Lite',maker:'Nintendo',type:'handheld',year:2019,disc:null,origUSD:199,adj2025:247,origGBP:199,origJPY:19980,units:'22.82M',img:'https://www.inflationstation.net/img/Nintendo_Switch_Lite_representation-976fad24a1c074c1c862d5aa5c2edda08a9161480f73b9da9fc0c2f1c6cfccfc-300.jpg',wiki:'https://en.wikipedia.org/wiki/Nintendo_Switch_Lite',desc:"Handheld-only Switch at a lower price point. No TV mode, no removable Joy-Con. Perfect for dedicated portable gaming."},
@@ -938,7 +1098,7 @@ const CONSOLES=[
   {id:'c-47',name:'Steam Deck',maker:'Valve',type:'handheld',year:2021,disc:null,origUSD:399,adj2025:484,origGBP:349,origJPY:null,units:'null',img:'https://www.inflationstation.net/img/Steam-Deck-fbb06b3a13479461bd8413bc97f569422bdd14233043db59c4c69f52a884b7e2-300.jpg',wiki:'https://en.wikipedia.org/wiki/Steam_Deck',desc:"A full PC in handheld form. Runs your entire Steam library. Linux-based SteamOS. Changed the handheld market overnight."},
   {id:'c-48',name:'Nintendo Switch (OLED)',maker:'Nintendo',type:'home',year:2021,disc:null,origUSD:349,adj2025:403,origGBP:309,origJPY:37980,units:'null',img:'https://www.inflationstation.net/img/Nintendo-Switch-wJoyCons-BlRd-Standing-FL-ca69cccc17749db8a4021b23721468011c8cc93876cefe70aa648e06e624971a-300.jpg',wiki:'https://en.wikipedia.org/wiki/Nintendo_Switch#OLED_model',desc:"7-inch OLED screen, wider kickstand, improved speakers. Not the Pro model everyone expected, but a worthwhile upgrade."},
   {id:'c-49',name:'PlayStation 5 Pro',maker:'Sony',type:'home',year:2024,disc:null,origUSD:699,adj2025:707,origGBP:699,origJPY:null,units:'null',img:'https://www.inflationstation.net/img/ps5-pro-745b766392396b34f2a5d9f2cfbaf9aac8ab89fff8fa2f96c40fd14545a17e5b-300.jpg',wiki:'https://en.wikipedia.org/wiki/PlayStation_5',desc:"45% more GPU power, PlayStation Spectral Super Resolution upscaling. $699 with no disc drive and no stand included."},
-  {id:'c-50',name:'Nintendo Switch 2',maker:'Nintendo',type:'home',year:2025,disc:null,origUSD:449,adj2025:449,origGBP:395,origJPY:49980,units:'null',img:'https://www.inflationstation.net/img/radio-times-switch-2-size-comparison1-3ef5e14-a8e9a862b64a8f30cfb46bfb70d29b0fb76f037eef59538f93c3832d17b33f79-300.jpg',wiki:'https://en.wikipedia.org/wiki/Nintendo_Switch_2',desc:"Nintendo's follow-up to their biggest console ever. Backwards compatible with Switch games, new magnetic Joy-Con, GameChat."},
+  {id:'c-50',name:'Nintendo Switch 2',maker:'Nintendo',type:'home',year:2025,disc:null,origUSD:449,adj2025:449,origGBP:395,origJPY:49980,units:'null',img:'https://www.inflationstation.net/img/radio-times-switch-2-size-comparison1-3ef5e14-a8e9a862b64a8f30cfb46bfb70d29b0fb76f037eef59538f93c3832d17b33f79-300.jpg',wiki:'https://en.wikipedia.org/wiki/Nintendo_Switch_2',desc:"Nintendo follow-up to their biggest console ever. Backwards compatible with Switch games, new magnetic Joy-Con, GameChat."},
 ];
 
 
@@ -949,13 +1109,16 @@ function tooltipHTML(origUSD,year){const m=(inflationUSD[year]||1).toFixed(1);re
 function renderGames(games){const grid=document.getElementById('gamesGrid');grid.innerHTML='';if(!games.length){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px;font-size:10px;color:var(--text3)">NO GAMES FOUND</div>';return;}games.forEach(game=>{const adj=applyInflation(game.prices.USD,'USD',game.year);const hw=hoursWorked(game.prices.USD,game.prices.GBP,game.year);const stars='★'.repeat(game.rating)+'☆'.repeat(5-game.rating);const card=document.createElement('div');card.className='game-card';card.onclick=()=>openGameModal(game);const artId='art_'+game.id;card.innerHTML=`<div class="card-overlay">VIEW ▶</div><div class="box-art-wrap"><div id="${artId}" style="width:100%;height:100%">${fallbackHTML(game.console,game.title)}</div><div class="console-badge">${game.console} · ${game.year}</div></div><div class="card-info"><div class="card-title">${game.title}</div><div class="card-year"><span style="color:var(--text3)">${stars}</span></div><div class="price-table-mini"><div class="price-cell"><span class="price-cell-label">USD ${game.year}</span><span class="price-cell-val">${fmt(game.prices.USD,'USD')}</span></div><div class="price-cell"><span class="price-cell-label">GBP ${game.year}</span><span class="price-cell-val">${fmt(game.prices.GBP,'GBP')}</span></div><div class="price-cell adjusted"><span class="price-cell-label">🪙 2026 VALUE ${tooltipHTML(game.prices.USD,game.year)}</span><span class="price-cell-val">${fmt(adj,'USD')}</span></div><div class="hours-cell"><span class="hours-cell-label">⏱ HRS TO BUY</span><span class="hours-cell-vals">🇺🇸${hw.hUS}h &nbsp;🇬🇧${hw.hUK}h</span></div></div></div>`;grid.appendChild(card);if(game.art){const img=new Image();img.onload=()=>{const w=document.getElementById(artId);if(w)w.innerHTML=`<img src="${game.art}" alt="${game.title}" style="width:100%;height:100%;object-fit:cover;display:block">`;};img.src=game.art;}});}
 function populateFilters(){const sel=document.getElementById('consoleFilter');[...new Set(GAMES.map(g=>g.console))].sort().forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o);});}
 function filterGames(){const s=document.getElementById('searchInput').value.toLowerCase();const c=document.getElementById('consoleFilter').value;const e=document.getElementById('eraFilter').value;filteredGames=allGames.filter(g=>{const ms=!s||g.title.toLowerCase().includes(s)||g.console.toLowerCase().includes(s)||g.genre.toLowerCase().includes(s);const mc=!c||g.console===c;const me=!e||(e==='70s'&&g.year<1980||e==='80s'&&g.year>=1980&&g.year<1990||e==='90s'&&g.year>=1990&&g.year<2000||e==='00s'&&g.year>=2000);return ms&&mc&&me;});renderGames(filteredGames);}
+let chartsInited=false;
 function switchTab(tab,btn){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
   btn.classList.add('active');
-  const map={games:'gamesTab',byConsole:'byConsoleTab',consoles:'consolesTab',explainer:'explainerTab'};
+  const map={games:'gamesTab',byConsole:'byConsoleTab',consoles:'consolesTab',charts:'chartsTab',facts:'factsTab',explainer:'explainerTab'};
   document.getElementById(map[tab]).classList.add('active');
   document.getElementById('controls').style.display=tab==='games'?'flex':'none';
+  if(tab==='charts'&&!chartsInited){chartsInited=true;setTimeout(initFunCharts,50);}
+  if(tab==='facts')renderFacts();
 }
 function switchConsole(console_id,btn){
   document.querySelectorAll('.sub-tab').forEach(t=>t.classList.remove('active'));
@@ -1024,7 +1187,7 @@ function renderConsoles(){
     grid.appendChild(card);
   });
 }
-function openGameModal(game){document.getElementById('modalTitle').textContent=game.title;document.getElementById('modalBg').classList.add('open');document.body.style.overflow='hidden';const adjUSD=applyInflation(game.prices.USD,'USD',game.year);const adjGBP=applyInflation(game.prices.GBP,'GBP',game.year);const adjJPY=applyInflation(game.prices.JPY,'JPY',game.year);const mult=(inflationUSD[game.year]||1).toFixed(1);const hw=hoursWorked(game.prices.USD,game.prices.GBP,game.year);const stars='★'.repeat(game.rating)+'☆'.repeat(5-game.rating);const artHtml=game.art?`<img src="${game.art}" alt="${game.title}" style="width:100%;height:100%;object-fit:cover">`:fallbackHTML(game.console,game.title);document.getElementById('modalBody').innerHTML=`<div class="modal-layout"><div class="modal-box-art">${artHtml}</div><div class="modal-info"><h2>${game.title}</h2><div class="info-row"><span class="info-label">CONSOLE</span><span class="info-val">${game.console}</span></div><div class="info-row"><span class="info-label">YEAR</span><span class="info-val">${game.year}</span></div><div class="info-row"><span class="info-label">GENRE</span><span class="info-val">${game.genre}</span></div><div class="info-row"><span class="info-label">PUBLISHER</span><span class="info-val">${game.publisher}</span></div><div class="info-row"><span class="info-label">RATING</span><span class="info-val" style="color:var(--accent)">${stars}</span></div><div class="hours-block"><div class="hours-block-title">⏱ HOURS WORKED TO BUY AT LAUNCH</div><div class="hours-cols"><div class="hours-col"><div class="hours-col-lbl">🇺🇸 USA</div><div class="hours-col-val">${hw.hUS}h</div><div class="hours-col-sub">avg $${hw.wUS}/hr in ${game.year}</div></div><div class="hours-col"><div class="hours-col-lbl">🇬🇧 UK</div><div class="hours-col-val">${hw.hUK}h</div><div class="hours-col-sub">avg £${hw.wUK}/hr in ${game.year}</div></div></div></div></div></div><p class="modal-desc">${game.desc}</p><div class="price-breakdown"><div class="price-breakdown-header">💰 LAUNCH PRICE vs 2026 MONEY</div><div class="price-grid"><div class="price-col"><div class="price-currency">🇺🇸 USD</div><span class="price-original">${fmt(game.prices.USD,'USD')} in ${game.year}</span><span class="price-arrow">↓</span><span class="price-2026">${fmt(adjUSD,'USD')} today</span></div><div class="price-col"><div class="price-currency">🇬🇧 GBP</div><span class="price-original">${fmt(game.prices.GBP,'GBP')} in ${game.year}</span><span class="price-arrow">↓</span><span class="price-2026">${fmt(adjGBP,'GBP')} today</span></div><div class="price-col"><div class="price-currency">🇯🇵 JPY</div><span class="price-original">${fmt(game.prices.JPY,'JPY')} in ${game.year}</span><span class="price-arrow">↓</span><span class="price-2026">${fmt(adjJPY,'JPY')} today</span></div></div></div><div class="inflation-note">📊 Inflation factor: ${mult}× from ${game.year} to 2026 (US CPI). EUR didn't exist at this time.</div>`;}
+function openGameModal(game){document.getElementById('modalTitle').textContent=game.title;document.getElementById('modalBg').classList.add('open');document.body.style.overflow='hidden';const adjUSD=applyInflation(game.prices.USD,'USD',game.year);const adjGBP=applyInflation(game.prices.GBP,'GBP',game.year);const adjJPY=applyInflation(game.prices.JPY,'JPY',game.year);const mult=(inflationUSD[game.year]||1).toFixed(1);const hw=hoursWorked(game.prices.USD,game.prices.GBP,game.year);const stars='★'.repeat(game.rating)+'☆'.repeat(5-game.rating);const artHtml=game.art?`<img src="${game.art}" alt="${game.title}" style="width:100%;height:100%;object-fit:cover">`:fallbackHTML(game.console,game.title);document.getElementById('modalBody').innerHTML=`<div class="modal-layout"><div class="modal-box-art">${artHtml}</div><div class="modal-info"><h2>${game.title}</h2><div class="info-row"><span class="info-label">CONSOLE</span><span class="info-val">${game.console}</span></div><div class="info-row"><span class="info-label">YEAR</span><span class="info-val">${game.year}</span></div><div class="info-row"><span class="info-label">GENRE</span><span class="info-val">${game.genre}</span></div><div class="info-row"><span class="info-label">PUBLISHER</span><span class="info-val">${game.publisher}</span></div><div class="info-row"><span class="info-label">RATING</span><span class="info-val" style="color:var(--accent)">${stars}</span></div><div class="hours-block"><div class="hours-block-title">⏱ HOURS WORKED TO BUY AT LAUNCH</div><div class="hours-cols"><div class="hours-col"><div class="hours-col-lbl">🇺🇸 USA</div><div class="hours-col-val">${hw.hUS}h</div><div class="hours-col-sub">avg $${hw.wUS}/hr in ${game.year}</div></div><div class="hours-col"><div class="hours-col-lbl">🇬🇧 UK</div><div class="hours-col-val">${hw.hUK}h</div><div class="hours-col-sub">avg £${hw.wUK}/hr in ${game.year}</div></div></div></div></div></div><p class="modal-desc">${game.desc}</p><div class="price-breakdown"><div class="price-breakdown-header">💰 LAUNCH PRICE vs 2026 MONEY</div><div class="price-grid"><div class="price-col"><div class="price-currency">🇺🇸 USD</div><span class="price-original">${fmt(game.prices.USD,'USD')} in ${game.year}</span><span class="price-arrow">↓</span><span class="price-2026">${fmt(adjUSD,'USD')} today</span></div><div class="price-col"><div class="price-currency">🇬🇧 GBP</div><span class="price-original">${fmt(game.prices.GBP,'GBP')} in ${game.year}</span><span class="price-arrow">↓</span><span class="price-2026">${fmt(adjGBP,'GBP')} today</span></div><div class="price-col"><div class="price-currency">🇯🇵 JPY</div><span class="price-original">${fmt(game.prices.JPY,'JPY')} in ${game.year}</span><span class="price-arrow">↓</span><span class="price-2026">${fmt(adjJPY,'JPY')} today</span></div></div></div><div class="inflation-note">📊 Inflation factor: ${mult}× from ${game.year} to 2026 (US CPI). EUR did not exist at this time.</div>`;}
 function openConsoleModal(c){
   document.getElementById('modalTitle').textContent=c.name;
   document.getElementById('modalBg').classList.add('open');
@@ -1447,6 +1610,7 @@ function openSNESModal(game){
         <div class="info-row"><span class="info-label">GENRE</span><span class="info-val">${game.genre}</span></div>
         <div class="info-row"><span class="info-label">PUBLISHER</span><span class="info-val">${game.publisher}</span></div>
         <div class="info-row"><span class="info-label">RATING</span><span class="info-val" style="color:var(--accent)">${stars}</span></div>
+        <div class="info-row"><button onclick="shareGame('${game.title}','NES',${game.year},${game.prices.USD})" style="background:var(--border2);border:1px solid var(--border);color:var(--text2);font-family:var(--font-main);font-size:6px;padding:6px 10px;cursor:pointer;letter-spacing:1px;margin-top:4px">📤 SHARE THIS GAME</button></div>
         ${hw?`<div class="hours-block"><div class="hours-block-title">⏱ HOURS WORKED TO BUY AT LAUNCH</div><div class="hours-cols"><div class="hours-col"><div class="hours-col-lbl">🇺🇸 USA</div><div class="hours-col-val">${hw.hUS}h</div><div class="hours-col-sub">avg $${hw.wUS}/hr in ${game.year}</div></div><div class="hours-col"><div class="hours-col-lbl">🇬🇧 UK</div><div class="hours-col-val">${hw.hUK}h</div><div class="hours-col-sub">avg £${hw.wUK}/hr in ${game.year}</div></div></div></div>`:''}
       </div>
     </div>
@@ -1950,7 +2114,306 @@ function closeMobileNav(){
   document.getElementById('mobileNav').classList.remove('open');
   document.getElementById('hamburger').classList.remove('open');
 }
+
+function initFunCharts(){
+  const isDark = document.body.classList.contains('mode-pixel');
+  const gridColor = 'rgba(136,135,128,0.15)';
+  const textColor = '#888780';
+
+  // ── Chart 1: Avg by decade ──────────────────────────
+  new Chart(document.getElementById('chart-decade'),{
+    type:'bar',
+    data:{
+      labels:['1980s','1990s','2000s','2010s','2020s'],
+      datasets:[
+        {label:'Nominal',data:[29,49,49,59,69],backgroundColor:'#7F77DD',borderRadius:4,order:2},
+        {label:'2026 value',data:[87,91,80,75,74],type:'line',borderColor:'#1D9E75',borderWidth:2.5,borderDash:[6,3],pointRadius:5,pointBackgroundColor:'#1D9E75',fill:false,tension:0.3,order:1}
+      ]
+    },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'$'+c.parsed.y}}},scales:{x:{ticks:{color:textColor},grid:{display:false}},y:{beginAtZero:true,max:110,ticks:{color:textColor,callback:v=>'$'+v},grid:{color:gridColor}}}}
+  });
+
+  // ── Chart 2: Hours worked ───────────────────────────
+  // Avg hourly wage US: 1985=$8.57, 1987=$8.98, 1989=$9.66, 1991=$10.50, 1993=$11.03, 1995=$11.65, 1997=$12.49, 1999=$13.49
+  // Avg game price that year, hours = price/wage
+  new Chart(document.getElementById('chart-hours'),{
+    type:'line',
+    data:{
+      labels:['1985','1987','1989','1991','1993','1995','1997','1999','2001'],
+      datasets:[
+        {label:'USA',data:[3.5,4.5,4.2,4.8,5.4,5.1,4.8,3.7,3.9],borderColor:'#E24B4A',backgroundColor:'rgba(226,75,74,0.08)',borderWidth:2.5,pointRadius:4,pointBackgroundColor:'#E24B4A',fill:true,tension:0.3},
+        {label:'UK',data:[4.2,5.1,5.0,5.5,6.0,5.8,5.3,4.2,4.0],borderColor:'#378ADD',backgroundColor:'rgba(55,138,221,0.06)',borderWidth:2.5,pointRadius:4,pointBackgroundColor:'#378ADD',fill:true,tension:0.3}
+      ]
+    },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.parsed.y.toFixed(1)+'h'}}},scales:{x:{ticks:{color:textColor},grid:{display:false}},y:{beginAtZero:true,max:8,ticks:{color:textColor,callback:v=>v+'h'},grid:{color:gridColor}}}}
+  });
+
+  // ── Chart 3: By genre (horizontal) ─────────────────
+  const genreData = [
+    {g:'RPG',p:58},{g:'Strategy-RPG',p:65},{g:'Action-RPG',p:48},{g:"Run'n Gun",p:52},
+    {g:'Fighting',p:64},{g:'Action',p:46},{g:'Platformer',p:45},{g:"Beat'em Up",p:48},
+    {g:'Shooter',p:42},{g:'Sports',p:44},{g:'Racing',p:46},{g:'Puzzle',p:38},
+    {g:'Simulation',p:52},{g:'Adventure',p:44},{g:'Arcade',p:22}
+  ].sort((a,b)=>b.p-a.p);
+  new Chart(document.getElementById('chart-genre'),{
+    type:'bar',
+    data:{
+      labels:genreData.map(d=>d.g),
+      datasets:[{data:genreData.map(d=>d.p),backgroundColor:'#5DCAA5',borderRadius:3}]
+    },
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'avg $'+c.parsed.x}}},scales:{x:{beginAtZero:true,ticks:{color:textColor,callback:v=>'$'+v},grid:{color:gridColor}},y:{ticks:{color:textColor,font:{size:11}},grid:{display:false}}}}
+  });
+
+  // ── Chart 4: By publisher ───────────────────────────
+  const pubData = [
+    {p:'Square',v:63},{p:'Enix',v:58},{p:'Acclaim',v:62},{p:'Capcom',v:52},
+    {p:'Konami',v:47},{p:'Nintendo',v:46},{p:'Sega',v:50},{p:'EA',v:58},
+    {p:'Hudson',v:44},{p:'Rare/Nintendo',v:54}
+  ].sort((a,b)=>b.v-a.v);
+  new Chart(document.getElementById('chart-publisher'),{
+    type:'bar',
+    data:{
+      labels:pubData.map(d=>d.p),
+      datasets:[{data:pubData.map(d=>d.v),backgroundColor:pubData.map((_,i)=>`hsl(${200+i*15},60%,55%)`),borderRadius:4}]
+    },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'avg $'+c.parsed.y}}},scales:{x:{ticks:{color:textColor,maxRotation:35},grid:{display:false}},y:{beginAtZero:true,max:80,ticks:{color:textColor,callback:v=>'$'+v},grid:{color:gridColor}}}}
+  });
+
+  // ── Chart 5: Most expensive (inflation adjusted) ────
+  const expensiveGames = [
+    {t:"Phantasy Star IV",adj:212},{t:"Dragon Quest III",adj:164},{t:"Dragon Quest IV",adj:155},
+    {t:"Chrono Trigger",adj:148},{t:"Final Fantasy VI",adj:148},{t:"Dragon Quest V (JP)",adj:140},
+    {t:"Dragon Warrior III",adj:138},{t:"Little Samson",adj:136},{t:"Mega Man X3",adj:132},
+    {t:"DuckTales 2",adj:128},{t:"Contra: Hard Corps",adj:126},{t:"Ogre Battle",adj:122}
+  ];
+  new Chart(document.getElementById('chart-expensive'),{
+    type:'bar',
+    data:{
+      labels:expensiveGames.map(d=>d.t),
+      datasets:[{data:expensiveGames.map(d=>d.adj),backgroundColor:'#D85A30',borderRadius:3}]
+    },
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'$'+c.parsed.x+' in 2026 money'}}},scales:{x:{beginAtZero:true,ticks:{color:textColor,callback:v=>'$'+v},grid:{color:gridColor}},y:{ticks:{color:textColor,font:{size:11}},grid:{display:false}}}}
+  });
+
+  // ── Chart 6: Console launch price (live from CONSOLES array) ──
+  const homeCons = CONSOLES.filter(c=>c.type==='home'&&c.origUSD).sort((a,b)=>a.year-b.year);
+  new Chart(document.getElementById('chart-console'),{
+    type:'bar',
+    data:{
+      labels:homeCons.map(c=>c.name.replace('Nintendo Entertainment System','NES').replace('Super Nintendo','SNES').replace('Sega Genesis','Genesis').replace('Nintendo 64','N64')),
+      datasets:[
+        {label:'Launch price',data:homeCons.map(c=>c.origUSD),backgroundColor:'#7F77DD',borderRadius:4},
+        {label:'2026 value',data:homeCons.map(c=>Math.round(c.adj2025*1.01)),backgroundColor:'#EF9F27',borderRadius:4}
+      ]
+    },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+': $'+c.parsed.y}}},scales:{x:{ticks:{color:textColor,maxRotation:45,font:{size:10}},grid:{display:false}},y:{beginAtZero:true,ticks:{color:textColor,callback:v=>'$'+v},grid:{color:gridColor}}}}
+  });
+
+  // ── Chart 7: Games you could buy for price of console ──
+  const ratioData = CONSOLES.filter(c=>c.origUSD).map(c=>{
+    const avgGame = c.type==='handheld' ? 25 : 50;
+    return {name:c.name.length>18?c.name.substring(0,16)+'…':c.name, ratio:+(c.origUSD/avgGame).toFixed(1), year:c.year};
+  }).sort((a,b)=>b.ratio-a.ratio).slice(0,12);
+  new Chart(document.getElementById('chart-ratio'),{
+    type:'bar',
+    data:{
+      labels:ratioData.map(d=>d.name),
+      datasets:[{data:ratioData.map(d=>d.ratio),backgroundColor:ratioData.map(d=>d.ratio>10?'#E24B4A':d.ratio>5?'#EF9F27':'#1D9E75'),borderRadius:3}]
+    },
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.parsed.x.toFixed(1)+'× avg game price'}}},scales:{x:{beginAtZero:true,ticks:{color:textColor},grid:{color:gridColor}},y:{ticks:{color:textColor,font:{size:11}},grid:{display:false}}}}
+  });
+
+  // ── Chart 8: Price scatter by year ─────────────────
+  // Build data from all game arrays combined
+  const allGames = [
+    ...(typeof NES_GAMES!=='undefined'?NES_GAMES:[]),
+    ...(typeof SNES_GAMES!=='undefined'?SNES_GAMES:[]),
+    ...(typeof GENESIS_GAMES!=='undefined'?GENESIS_GAMES:[]),
+    ...(typeof N64_GAMES!=='undefined'?N64_GAMES:[]),
+    ...(typeof GB_GAMES!=='undefined'?GB_GAMES:[])
+  ];
+  const scatterData = allGames
+    .filter(g=>g.prices&&g.prices.USD&&g.year)
+    .map(g=>({x:g.year,y:g.prices.USD}));
+  new Chart(document.getElementById('chart-scatter'),{
+    type:'scatter',
+    data:{datasets:[{label:'Game',data:scatterData,backgroundColor:'rgba(127,119,221,0.4)',pointRadius:4,pointHoverRadius:6}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'$'+c.parsed.y+' ('+c.parsed.x+')'}}},scales:{x:{type:'linear',min:1984,max:2002,ticks:{color:textColor,callback:v=>v},grid:{color:gridColor}},y:{beginAtZero:true,max:110,ticks:{color:textColor,callback:v=>'$'+v},grid:{color:gridColor}}}}
+  });
+
+  // ── Chart 9: What $50 bought ────────────────────────
+  // How many games at avg price, and real value of $50 today
+  new Chart(document.getElementById('chart-fifty'),{
+    type:'bar',
+    data:{
+      labels:['1985','1990','1995','2000'],
+      datasets:[
+        {label:'Games you could buy',data:[2.5,1.4,1.0,1.0],backgroundColor:'#9FE1CB',borderRadius:4,yAxisID:'y'},
+        {label:'$50 worth today',data:[142,116,99,87],backgroundColor:'rgba(239,159,39,0.7)',borderRadius:4,yAxisID:'y2',type:'bar'}
+      ]
+    },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.datasetIndex===0?c.parsed.y.toFixed(1)+' games':'$'+c.parsed.y+' today'}}},scales:{x:{ticks:{color:textColor},grid:{display:false}},y:{beginAtZero:true,max:4,position:'left',ticks:{color:'#1D9E75',callback:v=>v+' games'},grid:{color:gridColor}},y2:{beginAtZero:true,max:160,position:'right',ticks:{color:'#EF9F27',callback:v=>'$'+v},grid:{display:false}}}}
+  });
+}
+
+// ── SORT ─────────────────────────────────────────────────────────
+const sortState={nes:'year',snes:'year',genesis:'year',n64:'year',gb:'year'};
+
+function sortGames(console_id, method, btn){
+  sortState[console_id]=method;
+  // Update active button
+  btn.closest('.sort-bar').querySelectorAll('.sort-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  // Re-apply sort to filtered array and re-render
+  const sortFn = getSortFn(method);
+  if(console_id==='nes'){nesFiltered.sort(sortFn);renderNES();}
+  else if(console_id==='snes'){snesFiltered.sort(sortFn);renderSNES();}
+  else if(console_id==='genesis'){genesisFiltered.sort(sortFn);renderGenesis();}
+  else if(console_id==='n64'){n64Filtered.sort(sortFn);renderN64();}
+  else if(console_id==='gb'){gbFiltered.sort(sortFn);renderGB();}
+}
+
+function getSortFn(method){
+  if(method==='year') return (a,b)=>a.year-b.year;
+  if(method==='price') return (a,b)=>(b.prices.USD||0)-(a.prices.USD||0);
+  if(method==='rating') return (a,b)=>b.rating-a.rating;
+  if(method==='title') return (a,b)=>a.title.localeCompare(b.title);
+  if(method==='inflation') return (a,b)=>{
+    const ma=a.prices.USD?(inflationUSD[a.year]||1):0;
+    const mb=b.prices.USD?(inflationUSD[b.year]||1):0;
+    return mb-ma;
+  };
+  return ()=>0;
+}
+
+// ── SHARE ─────────────────────────────────────────────────────────
+function shareGame(title, console_name, year, usd){
+  const text=`${title} (${console_name}, ${year}) launched at $${usd} — worth $${Math.round(usd*(inflationUSD[year]||1))} in 2026 money! 🎮 gameflation.netlify.app`;
+  if(navigator.share){
+    navigator.share({title:'Gameflation',text,url:'https://gameflation.netlify.app'}).catch(()=>{});
+  } else {
+    navigator.clipboard.writeText(text).then(()=>{
+      const el=document.getElementById('shareToast');
+      if(el){el.style.opacity='1';setTimeout(()=>el.style.opacity='0',2000);}
+    });
+  }
+}
+
+// ── CONSOLE PRICE HISTORY ─────────────────────────────────────────
+const CONSOLE_PRICE_HISTORY={
+  'Nintendo Entertainment System':[
+    {year:1985,price:199,note:'Launch — Action Set'},
+    {year:1988,price:149,note:'Price cut'},
+    {year:1990,price:129,note:'SNES incoming'},
+    {year:1992,price:99,note:'Budget range'},
+    {year:1993,price:89,note:'Final retail price'},
+  ],
+  'Super Nintendo':[
+    {year:1990,price:199,note:'Launch'},
+    {year:1992,price:179,note:'First cut'},
+    {year:1993,price:129,note:'Post-Genesis rivalry'},
+    {year:1995,price:99,note:'N64 incoming'},
+    {year:1997,price:79,note:'Final price'},
+  ],
+  'Sega Genesis':[
+    {year:1989,price:189,note:'Launch with Altered Beast'},
+    {year:1991,price:149,note:'Sonic bundle'},
+    {year:1993,price:129,note:'32X era'},
+    {year:1995,price:99,note:'Saturn launched'},
+    {year:1997,price:49,note:'Clearance'},
+  ],
+  'Nintendo 64':[
+    {year:1996,price:199,note:'Launch'},
+    {year:1997,price:149,note:'After holiday season'},
+    {year:1999,price:129,note:'Dreamcast pressure'},
+    {year:2001,price:99,note:'GameCube incoming'},
+    {year:2002,price:79,note:'Final price'},
+  ],
+  'Game Boy':[
+    {year:1989,price:89,note:'Launch with Tetris'},
+    {year:1992,price:79,note:'First cut'},
+    {year:1995,price:59,note:'Game Gear competition'},
+    {year:1997,price:49,note:'Game Boy Color incoming'},
+    {year:1998,price:29,note:'Final original GB price'},
+  ],
+  'PlayStation':[
+    {year:1995,price:299,note:'Launch'},
+    {year:1996,price:249,note:'First cut'},
+    {year:1998,price:149,note:'PS1 hits mainstream'},
+    {year:2000,price:99,note:'PS2 launched'},
+    {year:2002,price:49,note:'Final price'},
+  ],
+  'Sega Saturn':[
+    {year:1995,price:399,note:'Surprise E3 launch'},
+    {year:1996,price:299,note:'Price war with PS1'},
+    {year:1997,price:199,note:'Desperate cut'},
+    {year:1998,price:99,note:'Dreamcast incoming'},
+  ],
+};
+
+
+const FUN_FACTS=[
+  {icon:"💾",title:"Why cartridges cost so much",category:"TECHNOLOGY",color:"#7F77DD",
+   fact:"A ROM cartridge in the early 90s cost publishers $10-15 per unit to manufacture — before a single penny of development, marketing, or retailer margin. CD-ROMs cost under $1 to press. When the PlayStation arrived in 1995 with CD games, it immediately undercut Nintendo and Sega on retail price by $10-20 per title.",
+   impact:"The PS1 era halved the manufacturing cost of games overnight."},
+  {icon:"📉",title:"Games are cheaper now than ever — in real terms",category:"INFLATION",color:"#1D9E75",
+   fact:"A standard NES game in 1990 cost $49.99. Adjusted for inflation, that is over $115 in 2026 money. A standard PS5 game at $69.99 is genuinely cheaper in real purchasing power than an SNES cartridge was in 1992. The reason it does not feel that way is because wages have grown slower than we remember.",
+   impact:"You would need to earn $115 today to feel what a 1990 NES purchase felt like."},
+  {icon:"🏭",title:"The great Japanese price premium",category:"REGIONAL",color:"#EF9F27",
+   fact:"Japanese games frequently cost ¥8,800-¥11,400 at launch. At 1992 exchange rates, that is $70-$90 — significantly more than the US price for the same game. Dragon Quest V cost ¥9,600 in Japan in 1992 — equivalent to $75 USD at the time.",
+   impact:"Japanese gamers paid 40-60% more than American gamers for the same title."},
+  {icon:"🔋",title:"The Phantasy Star IV anomaly",category:"PRICING",color:"#E24B4A",
+   fact:"Phantasy Star IV launched at $99.99 in the USA in late 1993 — the most expensive mainstream game of the 16-bit era. The reason: a massive 24-megabit ROM chip that cost significantly more to manufacture than standard chips. Adjusted for inflation that is over $210 today. It sold half a million copies anyway.",
+   impact:"The biggest ROM meant the biggest price. Quality commanded a premium."},
+  {icon:"🎮",title:"The Konami Code saved Contra",category:"CULTURE",color:"#534AB7",
+   fact:"Contra cost $39.99 at launch in 1988 — $88 in 2026 money. It was genuinely hard, and many players struggled to get value from their purchase. The Konami Code (30 lives cheat) was deliberately left in the US version to make it more accessible and reduce returns. It became the most famous cheat code in history.",
+   impact:"A cheat code became a marketing strategy."},
+  {icon:"⏱️",title:"Hours worked: then vs now",category:"WAGES",color:"#D85A30",
+   fact:"The average US hourly wage in 1990 was $10.19. A $49.99 SNES game cost nearly 5 hours of work. The average US hourly wage in 2024 is around $34. A $69.99 PS5 game costs just over 2 hours of work. Despite games feeling more expensive, they represent significantly less of the average worker time.",
+   impact:"Games cost half as many hours of work today as they did in 1990."},
+  {icon:"📦",title:"The rental economy Nintendo hated",category:"INDUSTRY",color:"#0F6E56",
+   fact:"In the late 80s and early 90s, video rental stores like Blockbuster were renting NES games for $2-3 per night. Nintendo tried to ban this, arguing it damaged sales. The courts sided with rental stores. Publishers actually priced games higher partly to compensate for expected rental cannibalization of sales.",
+   impact:"Blockbuster may have added $5-10 to the price of every NES game."},
+  {icon:"🌊",title:"The PlayStation price war that broke Sega",category:"HISTORY",color:"#185FA5",
+   fact:"When Sony launched the PlayStation at E3 1995, they announced a $299 price — $100 less than the Sega Saturn which had surprise-launched at $399 just days earlier. Sony simply held up a sign saying $299. Sega burned retailer relationships and the price gap proved fatal. The Saturn never recovered.",
+   impact:"A $100 price difference ended one of gaming greatest console makers."},
+  {icon:"🇬🇧",title:"Why UK gamers paid so much more",category:"REGIONAL",color:"#AFA9EC",
+   fact:"British gamers consistently paid 30-50% more than Americans for the same games throughout the 8-bit and 16-bit era. A SNES game costing $49.99 in the USA often retailed for £49.99 in the UK — effectively double the price at 1992 exchange rates. High import duties, distribution costs, and smaller market size all contributed.",
+   impact:"UK gamers were paying American prices — in pounds."},
+  {icon:"📱",title:"The streaming effect on perceived value",category:"MODERN",color:"#639922",
+   fact:"Xbox Game Pass ($15/month) gives access to hundreds of games. If you play just two games a month via Game Pass, you are paying $7.50 per game — a fraction of the $69.99 launch price. This subscription model has fundamentally changed how consumers perceive game value, making $70 launches feel more expensive by comparison even though real-term prices are lower.",
+   impact:"Subscriptions have reset our expectations of what games should cost."},
+  {icon:"🥇",title:"The cartridge scarcity premium",category:"COLLECTING",color:"#BA7517",
+   fact:"Little Samson for NES launched at $54.99 in 1992. Today a complete-in-box copy sells for $2,000-4,000 on eBay. The game sold poorly at launch — Taito was already winding down NES support — meaning very few cartridges were manufactured. Adjusted for inflation the launch price was $136, but scarcity has added a 1,500% collector premium.",
+   impact:"Low sales at launch = high prices 30 years later."},
+  {icon:"🔄",title:"Why $70 became the new standard",category:"MODERN",color:"#888780",
+   fact:"Games were $60 from 2005 to 2020 — fifteen years with no price increase, despite significant inflation. Publishers absorbed rising development costs through DLC and microtransactions. When Take-Two raised NBA 2K21 to $70 for PS5 in 2020, others followed. In real terms, $70 in 2020 was worth less than $60 in 2005.",
+   impact:"The jump to $70 was publishers catching up on 15 years of frozen prices."},
+];
+
+function renderFacts(){
+  const grid=document.getElementById('factsGrid');
+  if(!grid||grid.children.length>0) return;
+  FUN_FACTS.forEach(f=>{
+    const card=document.createElement('div');
+    card.style.cssText='border:1px solid var(--border);border-radius:var(--radius);overflow:hidden';
+    card.innerHTML=`
+      <div style="background:${f.color}22;border-bottom:2px solid ${f.color}44;padding:12px 16px;display:flex;align-items:center;gap:12px">
+        <span style="font-size:24px">${f.icon}</span>
+        <div>
+          <div style="font-size:6px;color:${f.color};letter-spacing:2px;font-family:var(--font-main);margin-bottom:3px">${f.category}</div>
+          <div style="font-size:clamp(10px,1.8vw,14px);color:var(--text);font-family:var(--font-main);letter-spacing:.5px">${f.title}</div>
+        </div>
+      </div>
+      <div style="padding:16px">
+        <p style="font-size:clamp(11px,1.5vw,14px);color:var(--text2);line-height:1.7;margin-bottom:12px;font-family:${document.body.classList.contains('mode-smooth')?"'Inter',sans-serif":"'VT323',monospace"}">${f.fact}</p>
+        <div style="background:${f.color}18;border-left:3px solid ${f.color};padding:8px 12px;font-size:clamp(9px,1.3vw,12px);color:var(--text);font-family:var(--font-main);letter-spacing:.5px">💡 ${f.impact}</div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
 window.onload=()=>{populateFilters();renderConsoles();doCalc();initNESFilters();renderNES();initSNESFilters();renderSNES();initGenesisFilters();renderGenesis();initN64Filters();renderN64();initGBFilters();renderGB();setTimeout(()=>{document.getElementById('loadingState').style.display='none';document.getElementById('gamesGrid').style.display='grid';document.getElementById('footerStats').style.display='flex';document.getElementById('statGames').textContent=GAMES.length;document.getElementById('statConsoles').textContent=new Set(GAMES.map(g=>g.console)).size;document.getElementById('statEras').textContent='1977–2000';renderGames(allGames);},2000);};
 </script>
-</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script></body>
 </html>
