@@ -593,7 +593,7 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
     <button class="sub-tab active" onclick="switchConsole('nes',this)">🎮 NES</button>
     <button class="sub-tab" onclick="switchConsole('snes',this)">🕹️ SNES</button>
     <button class="sub-tab" onclick="switchConsole('genesis',this)">⚡ MEGA DRIVE</button>
-    <span class="sub-tab-coming">MEGA DRIVE ›</span>
+    <button class="sub-tab" onclick="switchConsole('n64',this)">🟡 N64</button>
     <span class="sub-tab-coming">N64 ›</span>
     <span class="sub-tab-coming">PLAYSTATION ›</span>
     <span class="sub-tab-coming">GAME BOY ›</span>
@@ -669,6 +669,28 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
     <div class="footer-stats">
       <div class="stat-item">MEGA DRIVE IN DB: <span>52</span></div>
       <div class="stat-item">INCLUDES: <span>ALL BEST SELLERS + CLASSICS</span></div>
+    </div>
+  </div>
+
+  <!-- N64 sub-panel -->
+  <div id="consolePanel-n64" class="console-panel">
+    <div style="background:var(--header-bg);border-bottom:2px solid var(--border2);padding:12px 16px;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+      <div class="controls-label">🔍</div>
+      <input class="pixel-input" type="text" id="n64Search" placeholder="SEARCH N64..." oninput="filterN64()">
+      <select class="pixel-select" id="n64Genre" onchange="filterN64()">
+        <option value="">ALL GENRES</option>
+      </select>
+      <div style="font-size:var(--font-size-small);color:var(--text3);margin-left:auto" id="n64Count"></div>
+    </div>
+    <div style="background:#001a00;border-bottom:1px solid var(--border2);padding:8px 16px;display:flex;align-items:center;gap:8px">
+      <span style="font-size:var(--font-size-small);color:var(--accent)">🖼️ ART:</span>
+      <span style="font-size:var(--font-size-small);color:var(--text3)">Loading from gameflation.netlify.app/art/n64/</span>
+    </div>
+    <div class="main">
+      <div id="n64Grid" class="games-grid"></div>
+    </div>
+    <div class="footer-stats">
+      <div class="stat-item">N64 IN DB: <span>52</span></div>
     </div>
   </div>
 
@@ -1555,7 +1577,169 @@ function openGenesisModal(game){
     ${mult?`<div class="inflation-note">📊 Inflation factor: ${mult}× from ${game.year} to 2026 (US CPI).</div>`:''}`;
 }
 
-window.onload=()=>{populateFilters();renderConsoles();doCalc();initNESFilters();renderNES();initSNESFilters();renderSNES();initGenesisFilters();renderGenesis();setTimeout(()=>{document.getElementById('loadingState').style.display='none';document.getElementById('gamesGrid').style.display='grid';document.getElementById('footerStats').style.display='flex';document.getElementById('statGames').textContent=GAMES.length;document.getElementById('statConsoles').textContent=new Set(GAMES.map(g=>g.console)).size;document.getElementById('statEras').textContent='1977–2000';renderGames(allGames);},2000);};
+const N64_ART_BASE='https://gameflation.netlify.app/art/n64/';
+const N64_GAMES=[
+  {id:'n64-001',title:'007: The World Is Not Enough',publisher:'EA',year:2000,genre:'FPS',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:3,driveFile:'007---The-World-is-Not-Enough--U-----.jpg',desc:'Licensed Bond shooter. Solid but overshadowed by GoldenEye.'},
+  {id:'n64-002',title:'1080° Snowboarding',publisher:'Nintendo',year:1998,genre:'Sports',prices:{USD:49.99,GBP:39.99,JPY:6800},rating:4,driveFile:'1080-Snowboarding--JU---M2-----.jpg',sales:'2.17M',desc:'Silky smooth snowboarding. HAL Laboratory at their finest.'},
+  {id:'n64-003',title:'Banjo-Kazooie',publisher:'Rare/Nintendo',year:1998,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:6800},rating:5,driveFile:'Banjo-Kazooie--U---V1.1-----.jpg',sales:'3.65M',desc:'Rare\'s 3D platformer masterpiece. Bear and bird team up to stop a witch.'},
+  {id:'n64-004',title:'Banjo-Tooie',publisher:'Rare/Nintendo',year:2000,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:5,driveFile:'Banjo-Tooie--U-----.jpg',sales:'3.49M',desc:'Bigger, bolder sequel. Interconnected worlds, more moves, unforgettable moments.'},
+  {id:'n64-005',title:'Bomberman 64',publisher:'Hudson',year:1997,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:3,driveFile:'Bomberman-64--U-----.jpg',desc:'3D Bomberman adventure mode alongside the classic multiplayer.'},
+  {id:'n64-006',title:'Bomberman Hero',publisher:'Hudson',year:1998,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:6800},rating:3,driveFile:'Bomberman-Hero--U-----.jpg',desc:'Solo 3D platformer Bomberman. Divisive but underrated.'},
+  {id:'n64-007',title:"Cruis'n USA",publisher:'Nintendo',year:1996,genre:'Racing',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:2,driveFile:'Cruis-n-USA--U---V1.2-----.jpg',sales:'1.49M',desc:'Arcade racer launch title. Fun but technically rough.'},
+  {id:'n64-008',title:'Diddy Kong Racing',publisher:'Rare/Nintendo',year:1997,genre:'Racing',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:5,driveFile:'Diddy-Kong-Racing--U---M2---V1.1-----.jpg',sales:'4.88M',desc:'Kart racing with planes and hovercrafts. Adventure mode, boss races — better than Mario Kart 64 say some.'},
+  {id:'n64-009',title:'Donkey Kong 64',publisher:'Rare/Nintendo',year:1999,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:4,driveFile:'Donkey-Kong-64--U-----.jpg',sales:'5.27M',desc:'The Expansion Pak game. Five Kongs, hundreds of collectibles.'},
+  {id:'n64-010',title:'Excitebike 64',publisher:'Nintendo',year:2000,genre:'Racing',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:4,driveFile:'Excitebike-64--U-----.jpg',desc:'Brilliant motocross racer. Track editor, great physics. Slept on.'},
+  {id:'n64-011',title:'F-1 World Grand Prix',publisher:'Nintendo',year:1998,genre:'Racing',prices:{USD:49.99,GBP:39.99,JPY:6800},rating:3,driveFile:'F-1-World-Grand-Prix--U-----.jpg',desc:'Licensed F1 racing. Solid sim for its time.'},
+  {id:'n64-012',title:'F-Zero X',publisher:'Nintendo',year:1998,genre:'Racing',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:5,driveFile:'F-ZERO-X--U-----.jpg',sales:'1.07M',desc:'30 racers at 60fps. Death Race mode. The fastest game on N64.'},
+  {id:'n64-013',title:'GoldenEye 007',publisher:'Rare/Nintendo',year:1997,genre:'FPS',prices:{USD:59.99,GBP:49.99,JPY:5800},rating:5,driveFile:'GoldenEye-007--U-----.jpg',sales:'8.09M',desc:'The FPS that proved consoles could do shooters. Four-player split-screen legends were made here.'},
+  {id:'n64-014',title:'Hey You, Pikachu!',publisher:'Nintendo',year:1998,genre:'Adventure',prices:{USD:69.99,GBP:59.99,JPY:5800},rating:2,driveFile:'Hey-You--Pikachu---U-----.jpg',sales:'1.08M',desc:'Talk to Pikachu with a microphone. A novelty that wore off quickly.'},
+  {id:'n64-015',title:'International Superstar Soccer 64',publisher:'Konami',year:1997,genre:'Sports',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:4,driveFile:'International-Superstar-Soccer-64--U-----.jpg',desc:'The rival to FIFA. Many preferred ISS for its gameplay.'},
+  {id:'n64-016',title:'Jet Force Gemini',publisher:'Rare/Nintendo',year:1999,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:4,driveFile:'Jet-Force-Gemini--U-----.jpg',sales:'1.06M',desc:'Rare\'s TPS with a dark twist. Three characters, interconnected worlds.'},
+  {id:'n64-017',title:'Kirby 64: The Crystal Shards',publisher:'HAL/Nintendo',year:2000,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:4,driveFile:'Kirby-64---The-Crystal-Shards--U-----.jpg',sales:'1.87M',desc:'Kirby\'s only N64 outing. Power combination system is brilliant.'},
+  {id:'n64-018',title:"Kobe Bryant's NBA Courtside",publisher:'Nintendo',year:1998,genre:'Sports',prices:{USD:49.99,GBP:39.99,JPY:6800},rating:3,driveFile:'Kobe-Bryant-s-NBA-Courtside--U-----.jpg',desc:'Kobe at his peak, in a surprisingly good NBA sim.'},
+  {id:'n64-019',title:"The Legend of Zelda: Majora's Mask",publisher:'Nintendo',year:2000,genre:'Action-Adventure',prices:{USD:59.99,GBP:49.99,JPY:7800},rating:5,driveFile:'Legend-of-Zelda--The---Majora-s-Mask--U-----.jpg',sales:'3.36M',desc:'Three-day loop, dark themes, 24 masks. Divisive at launch, beloved today.'},
+  {id:'n64-020',title:'The Legend of Zelda: Ocarina of Time',publisher:'Nintendo',year:1998,genre:'Action-Adventure',prices:{USD:59.99,GBP:49.99,JPY:5800},rating:5,driveFile:'Legend-of-Zelda--The---Ocarina-of-Time---Master-Quest--U---GC-----.jpg',sales:'7.6M',desc:'The greatest game ever made. Z-targeting, Hyrule Field, the Temple of Time. Changed everything.'},
+  {id:'n64-021',title:'Mario Golf',publisher:'Nintendo',year:1999,genre:'Sports',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:4,driveFile:'Mario-Golf--U-----.jpg',sales:'1.42M',desc:'Camelot bring their magic to the fairway. Brilliant golf RPG.'},
+  {id:'n64-022',title:'Mario Kart 64',publisher:'Nintendo',year:1996,genre:'Racing',prices:{USD:59.99,GBP:49.99,JPY:5800},rating:5,driveFile:'Mario-Kart-64--U-----.jpg',sales:'9.87M',desc:'Rainbow Road. Blue shells. Four-player chaos. The best-selling N64 racer.'},
+  {id:'n64-023',title:'Mario Party',publisher:'Nintendo',year:1998,genre:'Party',prices:{USD:49.99,GBP:39.99,JPY:6800},rating:4,driveFile:'Mario-Party--U----- (1).jpg',sales:'2.7M',desc:'The friendship destroyer. 50-turn boards, brutal minigames, blisters from rotating the stick.'},
+  {id:'n64-024',title:'Mario Party 2',publisher:'Nintendo',year:1999,genre:'Party',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:4,driveFile:'Mario-Party-2--U-----.jpg',sales:'2.49M',desc:'Themed boards, better minigames. Refined the formula significantly.'},
+  {id:'n64-025',title:'Mario Party 3',publisher:'Nintendo',year:2000,genre:'Party',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:4,driveFile:'Mario-Party-3--U-----.jpg',sales:'1.92M',desc:'The last N64 Mario Party. Duel mode added. Rare and expensive today.'},
+  {id:'n64-026',title:'Mario Tennis',publisher:'Nintendo',year:2000,genre:'Sports',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:5,driveFile:'Mario-Tennis--U-----.jpg',sales:'2.89M',desc:'Camelot perfects the formula. RPG mode, tight controls, still playable today.'},
+  {id:'n64-027',title:'Mission: Impossible',publisher:'Infogrames',year:1998,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:6800},rating:3,driveFile:'Mission-Impossible--U-----.jpg',desc:'Stealth action based on the film. Ambitious for its time.'},
+  {id:'n64-028',title:'Namco Museum 64',publisher:'Namco',year:1999,genre:'Arcade',prices:{USD:49.99,GBP:39.99,JPY:6800},rating:3,driveFile:'Namco-Museum-64--U-----.jpg',desc:'Classic Namco arcade games in one cartridge. Pac-Man, Galaga, Dig Dug.'},
+  {id:'n64-029',title:'Paper Mario',publisher:'Nintendo',year:2000,genre:'RPG',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:5,driveFile:'Paper-Mario--U-----.jpg',sales:'2.68M',desc:'Mario meets turn-based RPG. Charming, funny, and a genuine classic.'},
+  {id:'n64-030',title:'Perfect Dark',publisher:'Rare/Nintendo',year:2000,genre:'FPS',prices:{USD:59.99,GBP:49.99,JPY:7800},rating:5,driveFile:'Perfect-Dark--U---V1.1-----.jpg',sales:'3.2M',desc:'GoldenEye\'s spiritual successor. Joanna Dark, dual-wielding, incredible multiplayer bots.'},
+  {id:'n64-031',title:'Pilotwings 64',publisher:'Nintendo',year:1996,genre:'Simulation',prices:{USD:59.99,GBP:49.99,JPY:5800},rating:4,driveFile:'Pilotwings-64--U-----.jpg',sales:'1.12M',desc:'N64 launch title. Hang gliding, rocketbelt, gyrocopter — a serene showcase of the hardware.'},
+  {id:'n64-032',title:'Pokémon Stadium',publisher:'Nintendo',year:1999,genre:'Strategy',prices:{USD:49.99,GBP:39.99,JPY:6800},rating:4,driveFile:'Pokemon-Stadium--U---V1.1-----.jpg',sales:'5.45M',desc:'Your Game Boy Pokémon in 3D. Stadium Cup, Gym Leader Castle. Essential with a Transfer Pak.'},
+  {id:'n64-033',title:'Pokémon Stadium 2',publisher:'Nintendo',year:2000,genre:'Strategy',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:4,driveFile:'Pokemon-Stadium-2--U-----.jpg',sales:'3.28M',desc:'All 251 Pokémon, more modes, mini-games. The definitive Stadium experience.'},
+  {id:'n64-034',title:'Snowboard Kids',publisher:'Atlus',year:1997,genre:'Sports',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:4,driveFile:'Snowboard-Kids--U-----.jpg',desc:'Quirky snowboard racer with weapons. Cult classic charm.'},
+  {id:'n64-035',title:'South Park',publisher:'Acclaim',year:1998,genre:'FPS',prices:{USD:49.99,GBP:39.99,JPY:6800},rating:2,driveFile:'South-Park--U-----.jpg',desc:'South Park humour, FPS gameplay. Funny for fans, thin on substance.'},
+  {id:'n64-036',title:'South Park Rally',publisher:'Acclaim',year:1999,genre:'Racing',prices:{USD:49.99,GBP:39.99,JPY:6800},rating:2,driveFile:'South-Park-Rally--U-----.jpg',desc:'Kart racing in South Park. Decent licenced fun.'},
+  {id:'n64-037',title:'Star Fox 64',publisher:'Nintendo',year:1997,genre:'Rail Shooter',prices:{USD:59.99,GBP:49.99,JPY:5800},rating:5,driveFile:'Star-Fox-64--U---V1.1-----.jpg',sales:'4M',desc:'DO A BARREL ROLL! Rumble Pak pack-in. Multiple routes, expert path. A masterclass in rail shooting.'},
+  {id:'n64-038',title:'Star Wars: Rogue Squadron',publisher:'LucasArts/Factor 5',year:1998,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:6800},rating:4,driveFile:'Star-Wars---Rogue-Squadron--U---M3-----.jpg',sales:'3.01M',desc:'Tight starfighter action. Dogfights above Hoth, Tatooine, Endor. Great with Expansion Pak.'},
+  {id:'n64-039',title:'Star Wars: Shadows of the Empire',publisher:'LucasArts',year:1996,genre:'Action',prices:{USD:59.99,GBP:49.99,JPY:5800},rating:3,driveFile:'Star-Wars---Shadows-of-the-Empire--U---V1.2-----.jpg',sales:'1.5M',desc:'Launch title set between ESB and ROTJ. Hoth Battle of Echo Base opener was jaw-dropping in 1996.'},
+  {id:'n64-040',title:'Star Wars Episode I: Racer',publisher:'LucasArts',year:1999,genre:'Racing',prices:{USD:49.99,GBP:39.99,JPY:6800},rating:4,driveFile:'Star-Wars-Episode-I---Racer--U-----.jpg',sales:'3.12M',desc:'Pod racing from The Phantom Menace. Blistering speed. One of the best racing games on N64.'},
+  {id:'n64-041',title:'Super Mario 64',publisher:'Nintendo',year:1996,genre:'Platformer',prices:{USD:59.99,GBP:49.99,JPY:5800},rating:5,driveFile:'Super-Mario-64--U-----.jpg',sales:'11.91M',desc:'The game that invented 3D platforming. 120 stars, Bowser battles, Jolly Roger Bay. A perfect game.'},
+  {id:'n64-042',title:'Super Smash Bros.',publisher:'Nintendo',year:1999,genre:'Fighting',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:5,driveFile:'Super-Smash-Bros.--U-----.jpg',sales:'5.55M',desc:'The original crossover brawler. 12 fighters, simple controls, endless depth. A phenomenon.'},
+  {id:'n64-043',title:"Tony Hawk's Pro Skater",publisher:'Activision',year:1999,genre:'Sports',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:5,driveFile:'Tony-Hawk-s-Pro-Skater--U---V1.1-----.jpg',desc:'The game that made skateboarding cool. HORSE, 2-minute runs, Goldfinger soundtrack.'},
+  {id:'n64-044',title:'Turok: Dinosaur Hunter',publisher:'Acclaim',year:1997,genre:'FPS',prices:{USD:59.99,GBP:49.99,JPY:5800},rating:4,driveFile:'Turok---Dinosaur-Hunter--U---V1.2-----.jpg',sales:'1.5M',desc:'N64 launch title FPS. Cerebral Bore. Foggy but impressive for 1996.'},
+  {id:'n64-045',title:'Turok 2: Seeds of Evil',publisher:'Acclaim',year:1998,genre:'FPS',prices:{USD:59.99,GBP:49.99,JPY:6800},rating:4,driveFile:'Turok-2---Seeds-of-Evil--U-----.jpg',sales:'1.5M',desc:'Bigger, bloodier, more expansive. The Cerebral Bore returns. Demanding even by modern standards.'},
+  {id:'n64-046',title:'Waialae Country Club: True Golf Classics',publisher:'Nintendo',year:1997,genre:'Sports',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:3,driveFile:'Waialae-Country-Club---True-Golf-Classics--U---V1.0-----.jpg',desc:'Early N64 golf. Solid simulation, modest fun.'},
+  {id:'n64-047',title:'Wave Race 64',publisher:'Nintendo',year:1996,genre:'Racing',prices:{USD:59.99,GBP:49.99,JPY:5800},rating:5,driveFile:'Wave-Race-64--U---V1.1-----.jpg',sales:'2.16M',desc:'Jet-ski racing with stunning water physics. Still looks good. A forgotten gem.'},
+  {id:'n64-048',title:'WCW Nitro',publisher:'THQ',year:1998,genre:'Sports',prices:{USD:49.99,GBP:39.99,JPY:6800},rating:2,driveFile:'WCW-Nitro--U-----.jpg',desc:'WCW licensed wrestling. Limited roster, basic gameplay.'},
+  {id:'n64-049',title:'WCW/nWo Revenge',publisher:'THQ/AKI',year:1998,genre:'Sports',prices:{USD:49.99,GBP:39.99,JPY:6800},rating:4,driveFile:'WCW-nWo-Revenge--U-----.jpg',sales:'1.8M',desc:'AKI\'s wrestling engine at its peak pre-WWF. Hollywood Hogan, nWo at full force.'},
+  {id:'n64-050',title:'WWF No Mercy',publisher:'THQ/AKI',year:2000,genre:'Sports',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:5,driveFile:'WWF-No-Mercy--U---V1.0-----.jpg',sales:'1.5M',desc:'The greatest wrestling game ever made. AKI\'s engine perfected. Career mode, deep customisation.'},
+  {id:'n64-051',title:'WWF WrestleMania 2000',publisher:'THQ/AKI',year:1999,genre:'Sports',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:4,driveFile:'WWF-WrestleMania-2000--U-----.jpg',desc:'The precursor to No Mercy. The AKI engine arrives on WWF. The Rock, Stone Cold era.'},
+  {id:'n64-052',title:"Yoshi's Story",publisher:'Nintendo',year:1997,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:3,driveFile:'Yoshi-s-Story--U---M2-----.jpg',sales:'2.52M',desc:'Cute and short but charming. Yoshi collects fruit across storybook levels.'},
+];
+
+const N64_GENRE_COLORS={
+  'Platformer':'#001a4a','FPS':'#2a0000','Racing':'#1a1000',
+  'Sports':'#001a00','Action':'#2a0a00','RPG':'#1a001a',
+  'Action-Adventure':'#001530','Fighting':'#2a0015',
+  'Party':'#1a1a00','Strategy':'#001520','Simulation':'#001a1a',
+  'Rail Shooter':'#0a0a2a','Arcade':'#1a0a00','Adventure':'#0a1a0a'
+};
+
+let n64Filtered=[...N64_GAMES];
+
+function initN64Filters(){
+  const genres=[...new Set(N64_GAMES.map(g=>g.genre))].sort();
+  const gSel=document.getElementById('n64Genre');
+  if(!gSel) return;
+  genres.forEach(g=>{const o=document.createElement('option');o.value=g;o.textContent=g;gSel.appendChild(o);});
+}
+
+function filterN64(){
+  const s=document.getElementById('n64Search').value.toLowerCase().trim();
+  const g=document.getElementById('n64Genre').value;
+  n64Filtered=N64_GAMES.filter(n=>{
+    const searchIn=[n.title,n.publisher,n.genre].join(' ').toLowerCase();
+    const ms=!s||s.split(' ').every(w=>searchIn.includes(w));
+    const mg=!g||n.genre===g;
+    return ms&&mg;
+  });
+  renderN64();
+}
+
+function renderN64(){
+  const grid=document.getElementById('n64Grid');
+  if(!grid) return;
+  grid.innerHTML='';
+  const countEl=document.getElementById('n64Count');
+  if(countEl) countEl.textContent=n64Filtered.length+' of '+N64_GAMES.length+' games';
+  if(!n64Filtered.length){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px;font-size:10px;color:var(--text3)">NO GAMES FOUND</div>';return;}
+  n64Filtered.forEach(game=>{
+    const adj=game.prices.USD?applyInflation(game.prices.USD,'USD',game.year):null;
+    const hw=game.prices.USD&&game.prices.GBP?hoursWorked(game.prices.USD,game.prices.GBP,game.year):null;
+    const stars='★'.repeat(game.rating)+'☆'.repeat(5-game.rating);
+    const bg=N64_GENRE_COLORS[game.genre]||'#0a0a1a';
+    const card=document.createElement('div');
+    card.className='game-card';
+    card.onclick=()=>openN64Modal(game);
+    const priceUSD=game.prices.USD?fmt(game.prices.USD,'USD'):'N/A';
+    const priceGBP=game.prices.GBP?fmt(game.prices.GBP,'GBP'):'N/A';
+    const adjStr=adj?fmt(adj,'USD'):'N/A';
+    const hwStr=hw?`🇺🇸${hw.hUS}h 🇬🇧${hw.hUK}h`:'N/A';
+    card.innerHTML=`<div class="card-overlay">VIEW ▶</div>
+      <div class="box-art-wrap" style="background:${bg}">
+        ${game.driveFile?`<img src="${N64_ART_BASE}${game.driveFile}" alt="${game.title}" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.style.display='none'">`:``}
+        <div class="console-badge">N64 · ${game.year}${game.sales?' · '+game.sales:''}</div>
+      </div>
+      <div class="card-info">
+        <div class="card-title">${game.title}</div>
+        <div class="card-year"><span style="color:var(--text3)">${stars}</span></div>
+        <div class="price-table-mini">
+          <div class="price-cell"><span class="price-cell-label">USD ${game.year}</span><span class="price-cell-val">${priceUSD}</span></div>
+          <div class="price-cell"><span class="price-cell-label">GBP ${game.year}</span><span class="price-cell-val">${priceGBP}</span></div>
+          ${adj?`<div class="price-cell adjusted"><span class="price-cell-label">🪙 2026 VALUE ${tooltipHTML(game.prices.USD,game.year)}</span><span class="price-cell-val">${adjStr}</span></div>`:''}
+          ${hw?`<div class="hours-cell"><span class="hours-cell-label">⏱ HRS TO BUY</span><span class="hours-cell-vals">${hwStr}</span></div>`:''}
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+function openN64Modal(game){
+  document.getElementById('modalTitle').textContent=game.title;
+  document.getElementById('modalBg').classList.add('open');
+  document.body.style.overflow='hidden';
+  const adjUSD=game.prices.USD?applyInflation(game.prices.USD,'USD',game.year):null;
+  const adjGBP=game.prices.GBP?applyInflation(game.prices.GBP,'GBP',game.year):null;
+  const adjJPY=game.prices.JPY?applyInflation(game.prices.JPY,'JPY',game.year):null;
+  const mult=game.prices.USD?(inflationUSD[game.year]||1).toFixed(1):null;
+  const hw=game.prices.USD&&game.prices.GBP?hoursWorked(game.prices.USD,game.prices.GBP,game.year):null;
+  const stars='★'.repeat(game.rating)+'☆'.repeat(5-game.rating);
+  const bg=N64_GENRE_COLORS[game.genre]||'#0a0a1a';
+  document.getElementById('modalBody').innerHTML=`
+    <div class="modal-layout">
+      <div class="modal-box-art" style="background:${bg}">
+        ${game.driveFile?`<img src="${N64_ART_BASE}${game.driveFile}" alt="${game.title}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">`:``}
+      </div>
+      <div class="modal-info">
+        <h2>${game.title}</h2>
+        <div class="info-row"><span class="info-label">CONSOLE</span><span class="info-val">Nintendo 64</span></div>
+        <div class="info-row"><span class="info-label">YEAR</span><span class="info-val">${game.year}</span></div>
+        <div class="info-row"><span class="info-label">GENRE</span><span class="info-val">${game.genre}</span></div>
+        <div class="info-row"><span class="info-label">PUBLISHER</span><span class="info-val">${game.publisher}</span></div>
+        <div class="info-row"><span class="info-label">RATING</span><span class="info-val" style="color:var(--accent)">${stars}</span></div>
+        ${game.sales?`<div class="info-row"><span class="info-label">COPIES SOLD</span><span class="info-val" style="color:var(--green)">${game.sales}</span></div>`:''}
+        ${hw?`<div class="hours-block"><div class="hours-block-title">⏱ HOURS WORKED TO BUY AT LAUNCH</div><div class="hours-cols"><div class="hours-col"><div class="hours-col-lbl">🇺🇸 USA</div><div class="hours-col-val">${hw.hUS}h</div><div class="hours-col-sub">avg $${hw.wUS}/hr in ${game.year}</div></div><div class="hours-col"><div class="hours-col-lbl">🇬🇧 UK</div><div class="hours-col-val">${hw.hUK}h</div><div class="hours-col-sub">avg £${hw.wUK}/hr in ${game.year}</div></div></div></div>`:''}
+      </div>
+    </div>
+    <p class="modal-desc">${game.desc||''}</p>
+    <div class="price-breakdown">
+      <div class="price-breakdown-header">💰 LAUNCH PRICE vs 2026 MONEY</div>
+      <div class="price-grid">
+        ${adjUSD?`<div class="price-col"><div class="price-currency">🇺🇸 USD</div><span class="price-original">${fmt(game.prices.USD,'USD')} in ${game.year}</span><span class="price-arrow">↓</span><span class="price-2026">${fmt(adjUSD,'USD')} today</span></div>`:'<div class="price-col"><div class="price-currency">🇺🇸 USD</div><span style="font-size:11px;color:var(--text3)">N/A</span></div>'}
+        ${adjGBP?`<div class="price-col"><div class="price-currency">🇬🇧 GBP</div><span class="price-original">${fmt(game.prices.GBP,'GBP')} in ${game.year}</span><span class="price-arrow">↓</span><span class="price-2026">${fmt(adjGBP,'GBP')} today</span></div>`:'<div class="price-col"><div class="price-currency">🇬🇧 GBP</div><span style="font-size:11px;color:var(--text3)">N/A</span></div>'}
+        ${adjJPY?`<div class="price-col"><div class="price-currency">🇯🇵 JPY</div><span class="price-original">${fmt(game.prices.JPY,'JPY')} in ${game.year}</span><span class="price-arrow">↓</span><span class="price-2026">${fmt(adjJPY,'JPY')} today</span></div>`:'<div class="price-col"><div class="price-currency">🇯🇵 JPY</div><span style="font-size:11px;color:var(--text3)">N/A</span></div>'}
+      </div>
+    </div>
+    ${mult?`<div class="inflation-note">📊 Inflation factor: ${mult}× from ${game.year} to 2026 (US CPI).</div>`:''}`;
+}
+
+window.onload=()=>{populateFilters();renderConsoles();doCalc();initNESFilters();renderNES();initSNESFilters();renderSNES();initGenesisFilters();renderGenesis();initN64Filters();renderN64();setTimeout(()=>{document.getElementById('loadingState').style.display='none';document.getElementById('gamesGrid').style.display='grid';document.getElementById('footerStats').style.display='flex';document.getElementById('statGames').textContent=GAMES.length;document.getElementById('statConsoles').textContent=new Set(GAMES.map(g=>g.console)).size;document.getElementById('statEras').textContent='1977–2000';renderGames(allGames);},2000);};
 </script>
 </body>
 </html>
