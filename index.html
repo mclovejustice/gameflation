@@ -97,7 +97,20 @@ body.mode-smooth{
 /* Scanline overlay — pixel only */
 body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:var(--scanlines);pointer-events:none;z-index:9999}
 
-/* ══ THEME TOGGLE ══ */
+/* ══════════════════════════════════════════
+   HEADER
+══════════════════════════════════════════ */
+.header{background:var(--header-bg);border-bottom:3px solid var(--border2);position:relative;overflow:hidden}
+.mode-smooth .header{border-bottom:1px solid var(--border)}
+.header-clouds{padding:6px 16px;font-size:18px;color:rgba(255,255,255,0.15);letter-spacing:8px;user-select:none;min-height:32px}
+.mode-smooth .header-clouds{display:none}
+.header-ground{background:var(--header-bg);display:flex;align-items:center;justify-content:flex-start;gap:12px;min-height:48px}
+
+/* .console-badge-sales — inline sales badge inside card art */
+.console-badge-sales{position:absolute;top:6px;left:6px;background:rgba(0,0,0,0.75);border:1px solid var(--green);color:var(--green);font-size:var(--font-size-small);padding:3px 6px;letter-spacing:.5px;border-radius:var(--radius);z-index:2}
+.mode-smooth .console-badge-sales{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;border-radius:6px}
+
+
 .theme-toggle{position:absolute;top:12px;right:12px;display:flex;align-items:center;gap:8px;background:rgba(0,0,0,0.4);border:1px solid rgba(247,201,72,0.4);padding:6px 10px;cursor:pointer;z-index:10;border-radius:var(--radius);transition:all 0.2s}
 .mode-smooth .theme-toggle{border-radius:20px;background:rgba(255,255,255,0.08)}
 .theme-toggle:hover{border-color:var(--accent);background:rgba(247,201,72,0.15)}
@@ -560,11 +573,11 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
   <div class="hero-left">
     <div class="hero-stats">
       <div class="hero-stat">
-        <span class="hero-stat-num">309</span>
+        <span class="hero-stat-num" id="heroGames">-</span>
         <span class="hero-stat-lbl">GAMES IN DB</span>
       </div>
       <div class="hero-stat">
-        <span class="hero-stat-num">4</span>
+        <span class="hero-stat-num" id="heroConsoles">50</span>
         <span class="hero-stat-lbl">CONSOLES</span>
       </div>
       <div class="hero-stat">
@@ -642,9 +655,7 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
     <button class="sub-tab" onclick="switchConsole('genesis',this)">⚡ MEGA DRIVE</button>
     <button class="sub-tab" onclick="switchConsole('n64',this)">🟡 N64</button>
     <button class="sub-tab" onclick="switchConsole('gb',this)">🎯 GAME BOY</button>
-    <span class="sub-tab-coming">N64 ›</span>
     <span class="sub-tab-coming">PLAYSTATION ›</span>
-    <span class="sub-tab-coming">GAME BOY ›</span>
     <span class="sub-tab-coming">MORE SOON...</span>
   </div>
 
@@ -677,7 +688,7 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
       <div id="nesGrid" class="games-grid"></div>
     </div>
     <div class="footer-stats">
-      <div class="stat-item">NES IN DB: <span>75</span></div>
+      <div class="stat-item">NES IN DB: <span id="nesFooterCount">63</span></div>
       <div class="stat-item">FULL LIBRARY: <span>677</span></div>
       <div class="stat-item">ART: <span>PENDING</span></div>
     </div>
@@ -708,7 +719,7 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
       <div id="snesGrid" class="games-grid"></div>
     </div>
     <div class="footer-stats">
-      <div class="stat-item">SNES IN DB: <span>75</span></div>
+      <div class="stat-item">SNES IN DB: <span>80</span></div>
       <div class="stat-item">ART: <span>PENDING</span></div>
     </div>
   </div>
@@ -1129,25 +1140,34 @@ function switchConsole(console_id,btn){
 }
 function renderConsoles(){
   const grid=document.getElementById('consolesGrid');
-  // Filter controls
+  // Read current filter values BEFORE rebuilding the DOM
+  const prevType=(document.getElementById('consoleTypeFilter')||{}).value||'';
+  const prevMaker=(document.getElementById('consoleMakerFilter')||{}).value||'';
+
+  // Rebuild filter bar
   const filterBar=document.createElement('div');
   filterBar.style.cssText='grid-column:1/-1;display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:4px';
   filterBar.innerHTML=`
-    <select class="pixel-select" id="consoleTypeFilter" onchange="renderConsoles()" style="min-height:40px">
+    <select class="pixel-select" id="consoleTypeFilter" style="min-height:40px">
       <option value="">ALL TYPES</option>
-      <option value="home">🏠 HOME</option>
-      <option value="handheld">🎯 HANDHELD</option>
+      <option value="home"${prevType==='home'?' selected':''}>🏠 HOME</option>
+      <option value="handheld"${prevType==='handheld'?' selected':''}>🎯 HANDHELD</option>
     </select>
-    <select class="pixel-select" id="consoleMakerFilter" onchange="renderConsoles()" style="min-height:40px">
+    <select class="pixel-select" id="consoleMakerFilter" style="min-height:40px">
       <option value="">ALL MAKERS</option>
-      ${[...new Set(CONSOLES.map(c=>c.maker))].sort().map(m=>`<option value="${m}">${m}</option>`).join('')}
+      ${[...new Set(CONSOLES.map(c=>c.maker))].sort().map(m=>`<option value="${m}"${prevMaker===m?' selected':''}>${m}</option>`).join('')}
     </select>
     <div style="font-size:var(--font-size-small);color:var(--text3);margin-left:auto" id="consoleCount"></div>`;
   grid.innerHTML='';
   grid.appendChild(filterBar);
 
-  const typeF=(document.getElementById('consoleTypeFilter')||{}).value||'';
-  const makerF=(document.getElementById('consoleMakerFilter')||{}).value||'';
+  // Wire up change handlers AFTER appending so elements exist
+  document.getElementById('consoleTypeFilter').onchange=renderConsoles;
+  document.getElementById('consoleMakerFilter').onchange=renderConsoles;
+
+  // Use the values we captured before the rebuild
+  const typeF=prevType;
+  const makerF=prevMaker;
   const filtered=CONSOLES.filter(c=>(!typeF||c.type===typeF)&&(!makerF||c.maker===makerF));
   const countEl=document.getElementById('consoleCount');
   if(countEl) countEl.textContent=filtered.length+' consoles';
@@ -1187,7 +1207,8 @@ function renderConsoles(){
     grid.appendChild(card);
   });
 }
-function openGameModal(game){document.getElementById('modalTitle').textContent=game.title;document.getElementById('modalBg').classList.add('open');document.body.style.overflow='hidden';const adjUSD=applyInflation(game.prices.USD,'USD',game.year);const adjGBP=applyInflation(game.prices.GBP,'GBP',game.year);const adjJPY=applyInflation(game.prices.JPY,'JPY',game.year);const mult=(inflationUSD[game.year]||1).toFixed(1);const hw=hoursWorked(game.prices.USD,game.prices.GBP,game.year);const stars='★'.repeat(game.rating)+'☆'.repeat(5-game.rating);const artHtml=game.art?`<img src="${game.art}" alt="${game.title}" style="width:100%;height:100%;object-fit:cover">`:fallbackHTML(game.console,game.title);document.getElementById('modalBody').innerHTML=`<div class="modal-layout"><div class="modal-box-art">${artHtml}</div><div class="modal-info"><h2>${game.title}</h2><div class="info-row"><span class="info-label">CONSOLE</span><span class="info-val">${game.console}</span></div><div class="info-row"><span class="info-label">YEAR</span><span class="info-val">${game.year}</span></div><div class="info-row"><span class="info-label">GENRE</span><span class="info-val">${game.genre}</span></div><div class="info-row"><span class="info-label">PUBLISHER</span><span class="info-val">${game.publisher}</span></div><div class="info-row"><span class="info-label">RATING</span><span class="info-val" style="color:var(--accent)">${stars}</span></div><div class="hours-block"><div class="hours-block-title">⏱ HOURS WORKED TO BUY AT LAUNCH</div><div class="hours-cols"><div class="hours-col"><div class="hours-col-lbl">🇺🇸 USA</div><div class="hours-col-val">${hw.hUS}h</div><div class="hours-col-sub">avg $${hw.wUS}/hr in ${game.year}</div></div><div class="hours-col"><div class="hours-col-lbl">🇬🇧 UK</div><div class="hours-col-val">${hw.hUK}h</div><div class="hours-col-sub">avg £${hw.wUK}/hr in ${game.year}</div></div></div></div></div></div><p class="modal-desc">${game.desc}</p><div class="price-breakdown"><div class="price-breakdown-header">💰 LAUNCH PRICE vs 2026 MONEY</div><div class="price-grid"><div class="price-col"><div class="price-currency">🇺🇸 USD</div><span class="price-original">${fmt(game.prices.USD,'USD')} in ${game.year}</span><span class="price-arrow">↓</span><span class="price-2026">${fmt(adjUSD,'USD')} today</span></div><div class="price-col"><div class="price-currency">🇬🇧 GBP</div><span class="price-original">${fmt(game.prices.GBP,'GBP')} in ${game.year}</span><span class="price-arrow">↓</span><span class="price-2026">${fmt(adjGBP,'GBP')} today</span></div><div class="price-col"><div class="price-currency">🇯🇵 JPY</div><span class="price-original">${fmt(game.prices.JPY,'JPY')} in ${game.year}</span><span class="price-arrow">↓</span><span class="price-2026">${fmt(adjJPY,'JPY')} today</span></div></div></div><div class="inflation-note">📊 Inflation factor: ${mult}× from ${game.year} to 2026 (US CPI). EUR did not exist at this time.</div>`;}
+function openGameModal(game){document.getElementById('modalTitle').textContent=game.title;document.getElementById('modalBg').classList.add('open');document.body.style.overflow='hidden';const adjUSD=applyInflation(game.prices.USD,'USD',game.year);const adjGBP=applyInflation(game.prices.GBP,'GBP',game.year);const adjJPY=applyInflation(game.prices.JPY,'JPY',game.year);const mult=(inflationUSD[game.year]||1).toFixed(1);const hw=hoursWorked(game.prices.USD,game.prices.GBP,game.year);const stars='★'.repeat(game.rating)+'☆'.repeat(5-game.rating);const artHtml=game.art?`<img src="${game.art}" alt="${game.title}" style="width:100%;height:100%;object-fit:cover">`:fallbackHTML(game.console,game.title);document.getElementById('modalBody').innerHTML=`<div class="modal-layout"><div class="modal-box-art">${artHtml}</div><div class="modal-info"><h2>${game.title}</h2><div class="info-row"><span class="info-label">CONSOLE</span><span class="info-val">${game.console}</span></div><div class="info-row"><span class="info-label">YEAR</span><span class="info-val">${game.year}</span></div><div class="info-row"><span class="info-label">GENRE</span><span class="info-val">${game.genre}</span></div><div class="info-row"><span class="info-label">PUBLISHER</span><span class="info-val">${game.publisher}</span></div><div class="info-row"><span class="info-label">RATING</span><span class="info-val" style="color:var(--accent)">${stars}</span></div><div class="hours-block"><div class="hours-block-title">⏱ HOURS WORKED TO BUY AT LAUNCH</div><div class="hours-cols"><div class="hours-col"><div class="hours-col-lbl">🇺🇸 USA</div><div class="hours-col-val">${hw.hUS}h</div><div class="hours-col-sub">avg $${hw.wUS}/hr in ${game.year}</div></div><div class="hours-col"><div class="hours-col-lbl">🇬🇧 UK</div><div class="hours-col-val">${hw.hUK}h</div><div class="hours-col-sub">avg £${hw.wUK}/hr in ${game.year}</div></div></div></div></div></div><p class="modal-desc">${game.desc}
+    <div style="margin-top:12px"><button onclick="shareGame(game.title,game.console,game.year,game.prices.USD)" style="background:var(--border2);border:1px solid var(--border);color:var(--text2);font-family:var(--font-main);font-size:6px;padding:6px 10px;cursor:pointer;letter-spacing:1px;border-radius:var(--radius)">📤 SHARE THIS GAME</button></div></p><div class="price-breakdown"><div class="price-breakdown-header">💰 LAUNCH PRICE vs 2026 MONEY</div><div class="price-grid"><div class="price-col"><div class="price-currency">🇺🇸 USD</div><span class="price-original">${fmt(game.prices.USD,'USD')} in ${game.year}</span><span class="price-arrow">↓</span><span class="price-2026">${fmt(adjUSD,'USD')} today</span></div><div class="price-col"><div class="price-currency">🇬🇧 GBP</div><span class="price-original">${fmt(game.prices.GBP,'GBP')} in ${game.year}</span><span class="price-arrow">↓</span><span class="price-2026">${fmt(adjGBP,'GBP')} today</span></div><div class="price-col"><div class="price-currency">🇯🇵 JPY</div><span class="price-original">${fmt(game.prices.JPY,'JPY')} in ${game.year}</span><span class="price-arrow">↓</span><span class="price-2026">${fmt(adjJPY,'JPY')} today</span></div></div></div><div class="inflation-note">📊 Inflation factor: ${mult}× from ${game.year} to 2026 (US CPI). EUR did not exist at this time.</div>`;}
 function openConsoleModal(c){
   document.getElementById('modalTitle').textContent=c.name;
   document.getElementById('modalBg').classList.add('open');
@@ -1414,6 +1435,7 @@ function openNESModal(game){
         <div class="info-row"><span class="info-label">GENRE</span><span class="info-val">${game.genre}</span></div>
         <div class="info-row"><span class="info-label">PUBLISHER</span><span class="info-val">${game.publisher}</span></div>
         <div class="info-row"><span class="info-label">RATING</span><span class="info-val" style="color:var(--accent)">${stars}</span></div>
+        <div class="info-row"><button onclick="shareGame('${game.title}','NES',${game.year},${game.prices.USD})" style="background:var(--border2);border:1px solid var(--border);color:var(--text2);font-family:var(--font-main);font-size:6px;padding:6px 10px;cursor:pointer;letter-spacing:1px;margin-top:4px;border-radius:var(--radius)">📤 SHARE THIS GAME</button></div>
         <div class="hours-block">
           <div class="hours-block-title">⏱ HOURS WORKED TO BUY AT LAUNCH</div>
           <div class="hours-cols">
@@ -1610,7 +1632,7 @@ function openSNESModal(game){
         <div class="info-row"><span class="info-label">GENRE</span><span class="info-val">${game.genre}</span></div>
         <div class="info-row"><span class="info-label">PUBLISHER</span><span class="info-val">${game.publisher}</span></div>
         <div class="info-row"><span class="info-label">RATING</span><span class="info-val" style="color:var(--accent)">${stars}</span></div>
-        <div class="info-row"><button onclick="shareGame('${game.title}','NES',${game.year},${game.prices.USD})" style="background:var(--border2);border:1px solid var(--border);color:var(--text2);font-family:var(--font-main);font-size:6px;padding:6px 10px;cursor:pointer;letter-spacing:1px;margin-top:4px">📤 SHARE THIS GAME</button></div>
+        <div class="info-row"><button onclick="shareGame('${game.title}','SNES',${game.year},${game.prices.USD})" style="background:var(--border2);border:1px solid var(--border);color:var(--text2);font-family:var(--font-main);font-size:6px;padding:6px 10px;cursor:pointer;letter-spacing:1px;margin-top:4px;border-radius:var(--radius)">📤 SHARE THIS GAME</button></div>
         ${hw?`<div class="hours-block"><div class="hours-block-title">⏱ HOURS WORKED TO BUY AT LAUNCH</div><div class="hours-cols"><div class="hours-col"><div class="hours-col-lbl">🇺🇸 USA</div><div class="hours-col-val">${hw.hUS}h</div><div class="hours-col-sub">avg $${hw.wUS}/hr in ${game.year}</div></div><div class="hours-col"><div class="hours-col-lbl">🇬🇧 UK</div><div class="hours-col-val">${hw.hUK}h</div><div class="hours-col-sub">avg £${hw.wUK}/hr in ${game.year}</div></div></div></div>`:''}
       </div>
     </div>
@@ -1767,6 +1789,7 @@ function openGenesisModal(game){
         <div class="info-row"><span class="info-label">GENRE</span><span class="info-val">${game.genre}</span></div>
         <div class="info-row"><span class="info-label">PUBLISHER</span><span class="info-val">${game.publisher}</span></div>
         <div class="info-row"><span class="info-label">RATING</span><span class="info-val" style="color:var(--accent)">${stars}</span></div>
+        <div class="info-row"><button onclick="shareGame('${game.title}','Mega Drive',${game.year},${game.prices.USD})" style="background:var(--border2);border:1px solid var(--border);color:var(--text2);font-family:var(--font-main);font-size:6px;padding:6px 10px;cursor:pointer;letter-spacing:1px;margin-top:4px;border-radius:var(--radius)">📤 SHARE THIS GAME</button></div>
         ${game.sales?`<div class="info-row"><span class="info-label">COPIES SOLD</span><span class="info-val" style="color:var(--green)">${game.sales}</span></div>`:''}
         ${hw?`<div class="hours-block"><div class="hours-block-title">⏱ HOURS WORKED TO BUY AT LAUNCH</div><div class="hours-cols"><div class="hours-col"><div class="hours-col-lbl">🇺🇸 USA</div><div class="hours-col-val">${hw.hUS}h</div><div class="hours-col-sub">avg $${hw.wUS}/hr in ${game.year}</div></div><div class="hours-col"><div class="hours-col-lbl">🇬🇧 UK</div><div class="hours-col-val">${hw.hUK}h</div><div class="hours-col-sub">avg £${hw.wUK}/hr in ${game.year}</div></div></div></div>`:''}
       </div>
@@ -1929,6 +1952,7 @@ function openN64Modal(game){
         <div class="info-row"><span class="info-label">GENRE</span><span class="info-val">${game.genre}</span></div>
         <div class="info-row"><span class="info-label">PUBLISHER</span><span class="info-val">${game.publisher}</span></div>
         <div class="info-row"><span class="info-label">RATING</span><span class="info-val" style="color:var(--accent)">${stars}</span></div>
+        <div class="info-row"><button onclick="shareGame('${game.title}','N64',${game.year},${game.prices.USD})" style="background:var(--border2);border:1px solid var(--border);color:var(--text2);font-family:var(--font-main);font-size:6px;padding:6px 10px;cursor:pointer;letter-spacing:1px;margin-top:4px;border-radius:var(--radius)">📤 SHARE THIS GAME</button></div>
         ${game.sales?`<div class="info-row"><span class="info-label">COPIES SOLD</span><span class="info-val" style="color:var(--green)">${game.sales}</span></div>`:''}
         ${hw?`<div class="hours-block"><div class="hours-block-title">⏱ HOURS WORKED TO BUY AT LAUNCH</div><div class="hours-cols"><div class="hours-col"><div class="hours-col-lbl">🇺🇸 USA</div><div class="hours-col-val">${hw.hUS}h</div><div class="hours-col-sub">avg $${hw.wUS}/hr in ${game.year}</div></div><div class="hours-col"><div class="hours-col-lbl">🇬🇧 UK</div><div class="hours-col-val">${hw.hUK}h</div><div class="hours-col-sub">avg £${hw.wUK}/hr in ${game.year}</div></div></div></div>`:''}
       </div>
@@ -2087,6 +2111,7 @@ function openGBModal(game){
         <div class="info-row"><span class="info-label">GENRE</span><span class="info-val">${game.genre}</span></div>
         <div class="info-row"><span class="info-label">PUBLISHER</span><span class="info-val">${game.publisher}</span></div>
         <div class="info-row"><span class="info-label">RATING</span><span class="info-val" style="color:var(--accent)">${stars}</span></div>
+        <div class="info-row"><button onclick="shareGame('${game.title}','Game Boy',${game.year},${game.prices.USD})" style="background:var(--border2);border:1px solid var(--border);color:var(--text2);font-family:var(--font-main);font-size:6px;padding:6px 10px;cursor:pointer;letter-spacing:1px;margin-top:4px;border-radius:var(--radius)">📤 SHARE THIS GAME</button></div>
         ${game.sales?`<div class="info-row"><span class="info-label">COPIES SOLD</span><span class="info-val" style="color:var(--green)">${game.sales}</span></div>`:''}
         ${hw?`<div class="hours-block"><div class="hours-block-title">⏱ HOURS WORKED TO BUY AT LAUNCH</div><div class="hours-cols"><div class="hours-col"><div class="hours-col-lbl">🇺🇸 USA</div><div class="hours-col-val">${hw.hUS}h</div><div class="hours-col-sub">avg $${hw.wUS}/hr in ${game.year}</div></div><div class="hours-col"><div class="hours-col-lbl">🇬🇧 UK</div><div class="hours-col-val">${hw.hUK}h</div><div class="hours-col-sub">avg £${hw.wUK}/hr in ${game.year}</div></div></div></div>`:''}
       </div>
@@ -2413,7 +2438,54 @@ function renderFacts(){
   });
 }
 
-window.onload=()=>{populateFilters();renderConsoles();doCalc();initNESFilters();renderNES();initSNESFilters();renderSNES();initGenesisFilters();renderGenesis();initN64Filters();renderN64();initGBFilters();renderGB();setTimeout(()=>{document.getElementById('loadingState').style.display='none';document.getElementById('gamesGrid').style.display='grid';document.getElementById('footerStats').style.display='flex';document.getElementById('statGames').textContent=GAMES.length;document.getElementById('statConsoles').textContent=new Set(GAMES.map(g=>g.console)).size;document.getElementById('statEras').textContent='1977–2000';renderGames(allGames);},2000);};
+window.onload=()=>{
+  populateFilters();
+  renderConsoles();
+  doCalc();
+  initNESFilters();renderNES();
+  initSNESFilters();renderSNES();
+  initGenesisFilters();renderGenesis();
+  initN64Filters();renderN64();
+  initGBFilters();renderGB();
+
+  // Compute total games across all arrays
+  const totalGames=GAMES.length+NES_GAMES.length+SNES_GAMES.length+GENESIS_GAMES.length+N64_GAMES.length+GB_GAMES.length;
+
+  // Update hero stats
+  const heroGamesEl=document.getElementById('heroGames');
+  if(heroGamesEl) heroGamesEl.textContent=totalGames;
+
+  setTimeout(()=>{
+    document.getElementById('loadingState').style.display='none';
+    document.getElementById('gamesGrid').style.display='grid';
+    document.getElementById('footerStats').style.display='flex';
+    // Footer shows curated GAMES tab stats
+    document.getElementById('statGames').textContent=GAMES.length;
+    document.getElementById('statConsoles').textContent=CONSOLES.length; // 50 total consoles
+    document.getElementById('statEras').textContent='1977–2000';
+    renderGames(allGames);
+  },2000);
+};
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script></body>
+<script>
+// Chart.js CDN with fallback message if unavailable
+(function(){
+  const s=document.createElement('script');
+  s.src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js';
+  s.onerror=function(){
+    // CDN failed — show a friendly note inside the charts tab
+    document.querySelectorAll('.chart-card').forEach(card=>{
+      if(!card.querySelector('.chart-cdn-error')){
+        const note=document.createElement('div');
+        note.className='chart-cdn-error';
+        note.style.cssText='padding:16px;color:var(--text3);font-size:var(--font-size-small);text-align:center;letter-spacing:.5px';
+        note.textContent='⚠ Chart.js could not be loaded. Check your connection and reload.';
+        card.appendChild(note);
+      }
+    });
+    chartsInited=false; // allow retry on next tab visit
+  };
+  document.head.appendChild(s);
+})();
+</script></body>
 </html>
