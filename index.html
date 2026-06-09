@@ -425,6 +425,8 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
   .tabs{display:none}
   .hamburger{display:flex}
   .header-ground{position:relative;min-height:44px}
+  .theme-toggle{right:58px;padding:5px 8px}
+  .theme-toggle-label{display:none}
 }
 .sub-tabs{display:flex;background:var(--card2);border-bottom:2px solid var(--border2);overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:0 4px}
 .sub-tabs::-webkit-scrollbar{display:none}
@@ -586,6 +588,8 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
 .franchise-price-bar{height:100%;border-radius:var(--radius);transition:width 0.7s cubic-bezier(.4,0,.2,1)}
 .franchise-price-val{font-size:var(--font-size-small);color:var(--accent);min-width:42px;text-align:right;letter-spacing:.5px;flex-shrink:0}
 .mode-smooth .franchise-price-val{font-family:'Inter',sans-serif;font-size:11px;font-weight:700}
+.franchise-price-mult{font-size:var(--font-size-small);color:var(--sky);letter-spacing:.5px;text-align:right;padding:2px 0}
+.mode-smooth .franchise-price-mult{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:var(--accent2)}
 
 /* Games chips */
 .franchise-games-row{display:flex;flex-wrap:wrap;gap:4px}
@@ -2600,7 +2604,7 @@ const FRANCHISES=[
   {
     name:'Super Mario',maker:'Nintendo',emoji:'🍄',
     color:'#c84c0c',color2:'#e52222',
-    art:'https://gameflation.netlify.app/art/franchises/super-mario.jpg',
+    art:'https://gameflation.netlify.app/art/franchises/mario.jpg',
     years:'1985–present',
     games:[
       {t:'Super Mario Bros.',y:1985,usd:29.99},
@@ -2642,7 +2646,7 @@ const FRANCHISES=[
   {
     name:'Final Fantasy',maker:'Square',emoji:'⚗️',
     color:'#001a8b',color2:'#5bc8f5',
-    art:'https://gameflation.netlify.app/art/franchises/final-fantasy.jpg',
+    art:'https://gameflation.netlify.app/art/franchises/final fantasy.jpg',
     years:'1987–present',
     games:[
       {t:'Final Fantasy',y:1990,usd:49.99},
@@ -2684,7 +2688,7 @@ const FRANCHISES=[
   {
     name:'Mega Man',maker:'Capcom',emoji:'🤖',
     color:'#00308f',color2:'#5bc8f5',
-    art:'https://gameflation.netlify.app/art/franchises/mega-man.jpg',
+    art:'https://gameflation.netlify.app/art/franchises/megaman.jpg',
     years:'1987–present',
     games:[
       {t:'Mega Man',y:1987,usd:34.99},
@@ -2726,7 +2730,7 @@ const FRANCHISES=[
   {
     name:'Street Fighter',maker:'Capcom',emoji:'🥊',
     color:'#8b0000',color2:'#f7c948',
-    art:'https://gameflation.netlify.app/art/franchises/street-fighter.jpg',
+    art:'https://gameflation.netlify.app/art/franchises/street fighter.jpg',
     years:'1987–present',
     games:[
       {t:'Street Fighter II',y:1992,usd:69.99},
@@ -2747,7 +2751,7 @@ const FRANCHISES=[
   {
     name:'Mortal Kombat',maker:'Midway / NetherRealm',emoji:'💀',
     color:'#1a0000',color2:'#e52222',
-    art:'https://gameflation.netlify.app/art/franchises/mortal-kombat.jpg',
+    art:'https://gameflation.netlify.app/art/franchises/mortal kombat.jpg',
     years:'1993–present',
     games:[
       {t:'Mortal Kombat',y:1993,usd:59.99},
@@ -2768,7 +2772,7 @@ const FRANCHISES=[
   {
     name:'Resident Evil',maker:'Capcom',emoji:'🧟',
     color:'#0d0d0d',color2:'#e52222',
-    art:'https://gameflation.netlify.app/art/franchises/resident-evil.jpg',
+    art:'https://gameflation.netlify.app/art/franchises/resident evil.jpg',
     years:'1996–present',
     games:[
       {t:'Resident Evil',y:1996,usd:49.99},
@@ -2789,7 +2793,7 @@ const FRANCHISES=[
   {
     name:'Gran Turismo',maker:'Sony / Polyphony',emoji:'🏎️',
     color:'#001a3a',color2:'#5bc8f5',
-    art:'https://gameflation.netlify.app/art/franchises/gran-turismo.jpg',
+    art:'https://gameflation.netlify.app/art/franchises/gran turismo.jpg',
     years:'1997–present',
     games:[
       {t:'Gran Turismo',y:1997,usd:49.99},
@@ -2810,7 +2814,7 @@ const FRANCHISES=[
   {
     name:'Crash Bandicoot',maker:'Naughty Dog / Sony',emoji:'🐨',
     color:'#b35c00',color2:'#f7c948',
-    art:'https://gameflation.netlify.app/art/franchises/crash-bandicoot.jpg',
+    art:'https://gameflation.netlify.app/art/franchises/Crash bandicoot.jpg',
     years:'1996–present',
     games:[
       {t:'Crash Bandicoot',y:1996,usd:49.99},
@@ -2831,7 +2835,7 @@ const FRANCHISES=[
   {
     name:'Metal Gear',maker:'Konami',emoji:'🐍',
     color:'#0a1a0a',color2:'#3abf3a',
-    art:'https://gameflation.netlify.app/art/franchises/metal-gear.jpg',
+    art:'https://gameflation.netlify.app/art/franchises/metal gear solid.jpg',
     years:'1987–2018',
     games:[
       {t:'Metal Gear',y:1988,usd:39.99},
@@ -2877,7 +2881,7 @@ const FRANCHISES=[
   {
     name:'Grand Theft Auto',maker:'Rockstar Games',emoji:'🚗',
     color:'#1a1a00',color2:'#f7c948',
-    art:'https://gameflation.netlify.app/art/franchises/gta.jpg',
+    art:'https://gameflation.netlify.app/art/franchises/Grand theft auto.jpg',
     years:'1997–present',
     games:[
       {t:'Grand Theft Auto',y:1997,usd:29.99},
@@ -2898,7 +2902,7 @@ const FRANCHISES=[
   {
     name:'Tomb Raider',maker:'Core Design / Crystal Dynamics',emoji:'🏛️',
     color:'#1a0f00',color2:'#c84c0c',
-    art:'https://gameflation.netlify.app/art/franchises/tomb-raider.jpg',
+    art:'https://gameflation.netlify.app/art/franchises/tomb raider.jpg',
     years:'1996–present',
     games:[
       {t:'Tomb Raider',y:1996,usd:49.99},
@@ -2940,7 +2944,7 @@ const FRANCHISES=[
   {
     name:'Donkey Kong',maker:'Nintendo',emoji:'🦍',
     color:'#3a1a00',color2:'#c84c0c',
-    art:'https://gameflation.netlify.app/art/franchises/donkey-kong.jpg',
+    art:'https://gameflation.netlify.app/art/franchises/donkey kong.jpg',
     years:'1981–present',
     games:[
       {t:'Donkey Kong',y:1986,usd:24.99},
@@ -3022,7 +3026,7 @@ const FRANCHISES=[
   {
     name:"Tony Hawk's",maker:'Activision / Neversoft',emoji:'🛹',
     color:'#0a0a00',color2:'#f7c948',
-    art:'https://gameflation.netlify.app/art/franchises/tony-hawks.jpg',
+    art:'https://gameflation.netlify.app/art/franchises/tony hawks.jpg',
     years:'1999–present',
     games:[
       {t:"Tony Hawk's Pro Skater",y:1999,usd:49.99},
@@ -3064,7 +3068,7 @@ const FRANCHISES=[
   {
     name:'Call of Duty',maker:'Activision / Infinity Ward',emoji:'🎖️',
     color:'#0a0800',color2:'#888780',
-    art:'https://gameflation.netlify.app/art/franchises/call-of-duty.jpg',
+    art:'https://gameflation.netlify.app/art/franchises/call of duty.jpg',
     years:'2003–present',
     games:[
       {t:'Call of Duty',y:2003,usd:49.99},
@@ -3106,7 +3110,7 @@ const FRANCHISES=[
   {
     name:"Assassin's Creed",maker:'Ubisoft',emoji:'🦅',
     color:'#0a0a00',color2:'#f7c948',
-    art:'https://gameflation.netlify.app/art/franchises/assassins-creed.jpg',
+    art:'https://gameflation.netlify.app/art/franchises/assasins creed.jpg',
     years:'2007–present',
     games:[
       {t:"Assassin's Creed",y:2007,usd:59.99},
@@ -3127,7 +3131,7 @@ const FRANCHISES=[
   {
     name:'Far Cry',maker:'Ubisoft',emoji:'🌿',
     color:'#001a00',color2:'#3abf3a',
-    art:'https://gameflation.netlify.app/art/franchises/far-cry.jpg',
+    art:'https://gameflation.netlify.app/art/franchises/far cry.jpg',
     years:'2004–present',
     games:[
       {t:'Far Cry',y:2004,usd:49.99},
@@ -3168,7 +3172,7 @@ const FRANCHISES=[
   {
     name:'Fire Emblem',maker:'Nintendo / Intelligent Systems',emoji:'🔥',
     color:'#1a0000',color2:'#e52222',
-    art:'https://gameflation.netlify.app/art/franchises/fire-emblem.jpg',
+    art:'https://gameflation.netlify.app/art/franchises/fire emblem.jpg',
     years:'1990–present',
     games:[
       {t:'Fire Emblem: Genealogy of the Holy War',y:1996,usd:null},
@@ -3189,7 +3193,7 @@ const FRANCHISES=[
   {
     name:'God of War',maker:'Sony / Santa Monica Studio',emoji:'⚡',
     color:'#1a0000',color2:'#e52222',
-    art:'https://gameflation.netlify.app/art/franchises/god-of-war.jpg',
+    art:'https://gameflation.netlify.app/art/franchises/god of war.jpg',
     years:'2005–present',
     games:[
       {t:'God of War',y:2005,usd:49.99},
@@ -3227,7 +3231,7 @@ const FRANCHISES=[
   {
     name:'Streets of Rage',maker:'Sega / Dotemu',emoji:'🥋',
     color:'#1a0a00',color2:'#c84c0c',
-    art:'https://gameflation.netlify.app/art/franchises/streets-of-rage.jpg',
+    art:'https://gameflation.netlify.app/art/franchises/streets of rage.jpg',
     years:'1991–present',
     games:[
       {t:'Streets of Rage',y:1991,usd:49.99},
@@ -3304,6 +3308,7 @@ function renderFranchises(){
             </div>
             <div class="franchise-price-val">$${avgAdj}</div>
           </div>
+          <div class="franchise-price-mult">📈 avg inflation multiplier: <b>${((avgAdj/avgNom)).toFixed(1)}×</b> — a $${avgNom} game cost the equivalent of <b>$${avgAdj}</b> in today's money</div>
         </div>
         <div class="franchise-games-row">${gamesHtml}</div>
         ${factsHtml}
@@ -3655,11 +3660,13 @@ function getSortFn(method){
 
 // ── SHARE ─────────────────────────────────────────────────────────
 function shareGame(title, console_name, year, usd){
-  const text=`${title} (${console_name}, ${year}) launched at $${usd} — worth $${Math.round(usd*(inflationUSD[year]||1))} in 2026 money! 🎮 gameflation.netlify.app`;
+  const adj=Math.round(usd*(inflationUSD[year]||1));
+  const gameUrl=`https://gameflation.netlify.app/?game=${encodeURIComponent(title)}&console=${encodeURIComponent(console_name)}`;
+  const text=`${title} (${console_name}, ${year}) launched at $${usd} — worth $${adj} in 2026 money! 🎮`;
   if(navigator.share){
-    navigator.share({title:'Gameflation',text,url:'https://gameflation.netlify.app'}).catch(()=>{});
+    navigator.share({title:`${title} — Gameflation`,text,url:gameUrl}).catch(()=>{});
   } else {
-    navigator.clipboard.writeText(text).then(()=>{
+    navigator.clipboard.writeText(`${text}\n${gameUrl}`).then(()=>{
       const el=document.getElementById('shareToast');
       if(el){el.style.opacity='1';setTimeout(()=>el.style.opacity='0',2000);}
     });
