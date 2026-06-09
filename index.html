@@ -7,7 +7,7 @@
 <meta name="description" content="Discover what classic NES, SNES and Mega Drive games cost at launch — adjusted for inflation to 2026. See real launch prices in USD, GBP and JPY with hours-worked comparisons.">
 <meta name="keywords" content="retro games price, NES price history, SNES inflation, Mega Drive prices, video game inflation, retro gaming cost, classic games price adjusted, gameflation">
 <meta name="author" content="Gameflation">
-<link rel="icon" type="image/png" href="favicon.png">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>">
 <link rel="apple-touch-icon" href="favicon.png">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://gameflation.netlify.app/">
@@ -542,6 +542,162 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
 .mode-smooth .calc-result-val{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px}
 .calc-ctx{font-family:var(--font-vt);font-size:15px;color:var(--text2);margin-top:8px;letter-spacing:.5px;line-height:1.6}
 .mode-smooth .calc-ctx{font-family:'Inter',sans-serif;font-size:13px;letter-spacing:0}
+
+/* ══════════════════════════════════════════
+   FRANCHISES TAB
+══════════════════════════════════════════ */
+.franchise-grid{display:grid;grid-template-columns:1fr;gap:12px;max-width:1000px;margin:0 auto;padding:0 4px}
+@media(min-width:640px){.franchise-grid{grid-template-columns:1fr 1fr;gap:14px}}
+@media(min-width:1050px){.franchise-grid{grid-template-columns:1fr 1fr 1fr;gap:16px}}
+
+.franchise-card{background:var(--card);border:2px solid var(--border);display:flex;flex-direction:column;cursor:default;transition:border-color 0.15s;position:relative;overflow:hidden;border-radius:var(--radius)}
+.mode-smooth .franchise-card{border:1px solid var(--border);box-shadow:0 2px 16px rgba(0,0,0,0.3)}
+.franchise-card:hover{border-color:var(--accent)}
+.mode-smooth .franchise-card:hover{box-shadow:0 8px 32px rgba(0,0,0,0.5)}
+
+/* ── Top section: square art left + header right ── */
+.franchise-top{display:flex;flex-direction:row;gap:0}
+
+/* Square art — fixed size, contains anything */
+.franchise-art{width:120px;height:120px;flex-shrink:0;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+@media(min-width:480px){.franchise-art{width:130px;height:130px}}
+.franchise-art img{width:100%;height:100%;object-fit:contain;display:block;padding:8px}
+.franchise-art-placeholder{font-size:52px;line-height:1;filter:drop-shadow(0 0 8px rgba(0,0,0,0.9))}
+
+/* Header panel beside the art */
+.franchise-header{flex:1;padding:12px 12px 10px;display:flex;flex-direction:column;justify-content:space-between;min-width:0;border-bottom:1px solid var(--border2)}
+.franchise-name{font-family:var(--font-main);font-size:var(--font-size-card);color:var(--accent);letter-spacing:.5px;line-height:1.5;margin-bottom:4px}
+.mode-smooth .franchise-name{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;color:var(--accent)}
+.franchise-maker-badge{font-size:var(--font-size-small);color:var(--text3);letter-spacing:.5px;margin-bottom:8px}
+.mode-smooth .franchise-maker-badge{font-family:'Inter',sans-serif;font-size:10px;font-weight:600}
+.franchise-meta-pills{display:flex;gap:4px;flex-wrap:wrap}
+.franchise-pill{font-size:var(--font-size-small);padding:2px 7px;border:1px solid var(--border2);color:var(--text2);letter-spacing:.3px;border-radius:var(--radius)}
+.mode-smooth .franchise-pill{font-family:'Inter',sans-serif;font-size:10px;border-radius:10px}
+
+/* ── Body: price bars, games, facts ── */
+.franchise-body{padding:12px 14px 0;flex:1;display:flex;flex-direction:column;gap:10px}
+
+/* Price comparison bar */
+.franchise-prices{display:flex;flex-direction:column;gap:5px}
+.franchise-price-row{display:flex;align-items:center;gap:8px}
+.franchise-price-lbl{font-size:var(--font-size-small);color:var(--text3);min-width:52px;letter-spacing:.5px;flex-shrink:0}
+.mode-smooth .franchise-price-lbl{font-family:'Inter',sans-serif;font-size:10px;font-weight:600}
+.franchise-price-bar-wrap{flex:1;height:8px;background:var(--price-bg);border:1px solid var(--border2);border-radius:var(--radius);overflow:hidden}
+.franchise-price-bar{height:100%;border-radius:var(--radius);transition:width 0.7s cubic-bezier(.4,0,.2,1)}
+.franchise-price-val{font-size:var(--font-size-small);color:var(--accent);min-width:42px;text-align:right;letter-spacing:.5px;flex-shrink:0}
+.mode-smooth .franchise-price-val{font-family:'Inter',sans-serif;font-size:11px;font-weight:700}
+
+/* Games chips */
+.franchise-games-row{display:flex;flex-wrap:wrap;gap:4px}
+.franchise-game-chip{background:var(--price-bg);border:1px solid var(--border2);font-size:var(--font-size-small);color:var(--text2);padding:2px 6px;border-radius:var(--radius);letter-spacing:.3px}
+.mode-smooth .franchise-game-chip{font-family:'Inter',sans-serif;font-size:10px;border-radius:6px}
+
+/* Fun facts */
+.franchise-fact{background:var(--header-bg);border-left:3px solid var(--accent);padding:7px 10px;border-radius:0 var(--radius) var(--radius) 0}
+.mode-smooth .franchise-fact{background:rgba(247,201,72,0.06);border-radius:0 8px 8px 0}
+.franchise-fact-text{font-family:var(--font-vt);font-size:14px;color:var(--text2);line-height:1.5;letter-spacing:.3px}
+.mode-smooth .franchise-fact-text{font-family:'Inter',sans-serif;font-size:12px;line-height:1.6;letter-spacing:0}
+.franchise-fact-text b{color:var(--accent)}
+
+/* Stats footer */
+.franchise-stats{display:flex;gap:0;border-top:1px solid var(--border2);background:var(--card2)}
+.franchise-stat{display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;padding:8px 4px;border-right:1px solid var(--border2)}
+.franchise-stat:last-child{border-right:none}
+.franchise-stat-val{font-size:var(--font-size-small);color:var(--sky);letter-spacing:.3px;text-align:center}
+.mode-smooth .franchise-stat-val{font-family:'Inter',sans-serif;font-size:12px;font-weight:700;color:var(--accent2)}
+.franchise-stat-lbl{font-size:var(--font-size-small);color:var(--text3);letter-spacing:.5px;text-align:center}
+.mode-smooth .franchise-stat-lbl{font-family:'Inter',sans-serif;font-size:9px;font-weight:600}
+
+/* ── Franchise modal ── */
+.fr-modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:1100;align-items:flex-end;justify-content:center;padding:0;overflow:hidden}
+@media(min-width:640px){.fr-modal-bg{align-items:center;padding:16px}}
+.fr-modal-bg.open{display:flex}
+.fr-modal{background:var(--card2);width:100%;max-width:860px;max-height:95vh;overflow-y:auto;position:relative;border-top:3px solid var(--accent);border-radius:var(--radius) var(--radius) 0 0;display:flex;flex-direction:column}
+@media(min-width:640px){.fr-modal{border:2px solid var(--accent);border-radius:var(--radius);box-shadow:6px 6px 0 #000;max-height:88vh}}
+.mode-smooth .fr-modal{border-top:none;border-radius:20px 20px 0 0;border:none;box-shadow:0 -8px 60px rgba(0,0,0,0.7)}
+@media(min-width:640px){.mode-smooth .fr-modal{border-radius:20px}}
+
+.fr-modal-head{background:var(--accent);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10;gap:12px;border-radius:var(--radius) var(--radius) 0 0}
+.mode-smooth .fr-modal-head{background:linear-gradient(135deg,var(--yellow),var(--brick));border-radius:20px 20px 0 0}
+.fr-modal-title{font-family:var(--font-main);font-size:var(--font-size-card);color:#000;letter-spacing:1px}
+.mode-smooth .fr-modal-title{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px}
+.fr-modal-close{font-family:var(--font-main);font-size:10px;background:var(--red);border:2px solid #000;color:#fff;padding:6px 10px;cursor:pointer;border-radius:var(--radius);min-height:36px;min-width:36px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.mode-smooth .fr-modal-close{font-family:'Inter',sans-serif;font-size:13px;font-weight:700;border-radius:8px;border:none}
+
+.fr-modal-body{padding:16px;display:flex;flex-direction:column;gap:20px}
+@media(min-width:640px){.fr-modal-body{padding:20px 24px}}
+
+/* Hero strip inside modal */
+.fr-hero{display:flex;gap:16px;align-items:flex-start;padding-bottom:16px;border-bottom:1px solid var(--border2)}
+.fr-hero-art{width:80px;height:80px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:2px solid var(--border2);border-radius:var(--radius);overflow:hidden}
+.fr-hero-art img{width:100%;height:100%;object-fit:contain;padding:4px}
+.fr-hero-art-emoji{font-size:36px;line-height:1}
+.fr-hero-info{flex:1;min-width:0}
+.fr-hero-name{font-family:var(--font-main);font-size:var(--font-size-title);color:var(--accent);letter-spacing:1px;margin-bottom:4px}
+.mode-smooth .fr-hero-name{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px}
+.fr-hero-sub{font-size:var(--font-size-small);color:var(--text2);letter-spacing:.5px;line-height:1.6}
+.mode-smooth .fr-hero-sub{font-family:'Inter',sans-serif;font-size:12px}
+.fr-hero-pills{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+
+/* Section headers */
+.fr-section-title{font-family:var(--font-main);font-size:var(--font-size-label);color:var(--accent);letter-spacing:1px;margin-bottom:10px;padding-bottom:4px;border-bottom:1px solid var(--border2)}
+.mode-smooth .fr-section-title{font-family:'Inter',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+
+/* Game rows table */
+.fr-game-table{display:flex;flex-direction:column;gap:6px}
+.fr-game-row{display:grid;grid-template-columns:1fr auto auto auto;gap:8px;align-items:center;padding:7px 10px;background:var(--price-bg);border:1px solid var(--border2);border-radius:var(--radius)}
+.mode-smooth .fr-game-row{border-radius:8px}
+.fr-game-row:hover{border-color:var(--border)}
+.fr-game-title{font-size:var(--font-size-small);color:var(--text);letter-spacing:.3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mode-smooth .fr-game-title{font-family:'Inter',sans-serif;font-size:12px;font-weight:500}
+.fr-game-year{font-size:var(--font-size-small);color:var(--text3);letter-spacing:.5px;text-align:right;white-space:nowrap}
+.mode-smooth .fr-game-year{font-family:'Inter',sans-serif;font-size:11px}
+.fr-game-price{font-size:var(--font-size-small);color:var(--text2);letter-spacing:.5px;text-align:right;white-space:nowrap;min-width:44px}
+.mode-smooth .fr-game-price{font-family:'Inter',sans-serif;font-size:11px}
+.fr-game-adj{font-size:var(--font-size-small);color:var(--accent);letter-spacing:.5px;text-align:right;white-space:nowrap;min-width:44px;font-weight:700}
+.mode-smooth .fr-game-adj{font-family:'Inter',sans-serif;font-size:11px}
+
+/* Chart container */
+.fr-chart-wrap{position:relative;width:100%;height:260px}
+@media(min-width:640px){.fr-chart-wrap{height:300px}}
+
+/* Facts in modal */
+.fr-facts{display:flex;flex-direction:column;gap:10px}
+.fr-fact{background:var(--header-bg);border-left:3px solid var(--accent);padding:10px 12px;border-radius:0 var(--radius) var(--radius) 0}
+.mode-smooth .fr-fact{background:rgba(247,201,72,0.06);border-radius:0 10px 10px 0}
+.fr-fact-text{font-family:var(--font-vt);font-size:16px;color:var(--text2);line-height:1.6;letter-spacing:.3px}
+.mode-smooth .fr-fact-text{font-family:'Inter',sans-serif;font-size:13px;line-height:1.7;letter-spacing:0}
+.fr-fact-text b{color:var(--accent)}
+
+/* Price comparison bar */
+.franchise-prices{display:flex;flex-direction:column;gap:6px}
+.franchise-price-row{display:flex;align-items:center;gap:8px}
+.franchise-price-lbl{font-size:var(--font-size-small);color:var(--text3);min-width:52px;letter-spacing:.5px;flex-shrink:0}
+.mode-smooth .franchise-price-lbl{font-family:'Inter',sans-serif;font-size:10px;font-weight:600}
+.franchise-price-bar-wrap{flex:1;height:10px;background:var(--price-bg);border:1px solid var(--border2);border-radius:var(--radius);overflow:hidden}
+.franchise-price-bar{height:100%;border-radius:var(--radius);transition:width 0.6s ease}
+.franchise-price-val{font-size:var(--font-size-small);color:var(--accent);min-width:44px;text-align:right;letter-spacing:.5px;flex-shrink:0}
+.mode-smooth .franchise-price-val{font-family:'Inter',sans-serif;font-size:11px;font-weight:700}
+
+/* Games list */
+.franchise-games-row{display:flex;flex-wrap:wrap;gap:4px}
+.franchise-game-chip{background:var(--price-bg);border:1px solid var(--border2);font-size:var(--font-size-small);color:var(--text2);padding:3px 6px;border-radius:var(--radius);letter-spacing:.3px}
+.mode-smooth .franchise-game-chip{font-family:'Inter',sans-serif;font-size:10px;border-radius:6px}
+
+/* Fun fact */
+.franchise-fact{background:var(--header-bg);border-left:3px solid var(--accent);padding:8px 10px;margin:0;border-radius:0 var(--radius) var(--radius) 0}
+.mode-smooth .franchise-fact{background:rgba(247,201,72,0.06);border-radius:0 8px 8px 0}
+.franchise-fact-text{font-family:var(--font-vt);font-size:15px;color:var(--text2);line-height:1.5;letter-spacing:.3px}
+.mode-smooth .franchise-fact-text{font-family:'Inter',sans-serif;font-size:12px;line-height:1.6;letter-spacing:0}
+.franchise-fact-text b{color:var(--accent)}
+
+/* Stats row */
+.franchise-stats{display:flex;gap:8px;flex-wrap:wrap;padding:10px 14px;border-top:1px solid var(--border2);background:var(--card2)}
+.franchise-stat{display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;min-width:60px}
+.franchise-stat-val{font-size:var(--font-size-label);color:var(--accent);letter-spacing:.5px}
+.mode-smooth .franchise-stat-val{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px}
+.franchise-stat-lbl{font-size:var(--font-size-small);color:var(--text3);letter-spacing:.5px;text-align:center}
+.mode-smooth .franchise-stat-lbl{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;letter-spacing:.5px}
 </style>
 </head>
 <body class="mode-smooth"><div id="shareToast" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--accent);color:var(--dark);padding:8px 18px;font-size:10px;font-family:var(--font-main);letter-spacing:1px;opacity:0;transition:opacity 0.3s;z-index:9999;pointer-events:none">COPIED TO CLIPBOARD ✓</div>
@@ -558,6 +714,7 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
     <button class="tab" onclick="switchTab('byConsole',this);closeMobileNav()">🕹️ GAMES BY CONSOLE</button>
     <button class="tab" onclick="switchTab('consoles',this);closeMobileNav()">📺 CONSOLES</button>
     <button class="tab" onclick="switchTab('charts',this);closeMobileNav()">📊 FUN CHARTS</button>
+    <button class="tab" onclick="switchTab('franchises',this);closeMobileNav()">🏆 FRANCHISES</button>
     <button class="tab" onclick="switchTab('facts',this);closeMobileNav()">💡 FUN FACTS</button>
     <button class="tab" onclick="switchTab('explainer',this);closeMobileNav()">❓ HOW IT WORKS</button>
   </div>
@@ -603,6 +760,7 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
   <button class="tab" onclick="switchTab('byConsole',this)">🕹️ GAMES BY CONSOLE</button>
   <button class="tab" onclick="switchTab('consoles',this)">📺 CONSOLES</button>
   <button class="tab" onclick="switchTab('charts',this)">📊 FUN CHARTS</button>
+  <button class="tab" onclick="switchTab('franchises',this)">🏆 FRANCHISES</button>
   <button class="tab" onclick="switchTab('facts',this)">💡 FUN FACTS</button>
   <button class="tab" onclick="switchTab('explainer',this)">❓ HOW IT WORKS</button>
 </div>
@@ -655,7 +813,7 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
     <button class="sub-tab" onclick="switchConsole('genesis',this)">⚡ MEGA DRIVE</button>
     <button class="sub-tab" onclick="switchConsole('n64',this)">🟡 N64</button>
     <button class="sub-tab" onclick="switchConsole('gb',this)">🎯 GAME BOY</button>
-    <span class="sub-tab-coming">PLAYSTATION ›</span>
+    <button class="sub-tab" onclick="switchConsole('ps1',this)">🔵 PLAYSTATION</button>
     <span class="sub-tab-coming">MORE SOON...</span>
   </div>
 
@@ -815,6 +973,38 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
     </div>
   </div>
 
+  <!-- PLAYSTATION sub-panel -->
+  <div id="consolePanel-ps1" class="console-panel">
+    <div style="background:var(--header-bg);border-bottom:2px solid var(--border2);padding:12px 16px;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+      <div class="controls-label">🔍</div>
+      <input class="pixel-input" type="text" id="ps1Search" placeholder="SEARCH PLAYSTATION..." oninput="filterPS1()">
+      <select class="pixel-select" id="ps1Genre" onchange="filterPS1()">
+        <option value="">ALL GENRES</option>
+      </select>
+      <div style="font-size:var(--font-size-small);color:var(--text3);margin-left:auto" id="ps1Count"></div>
+    </div>
+    <div class="sort-bar">
+      <span class="sort-label">SORT:</span>
+      <button class="sort-btn active" onclick="sortGames('ps1','year',this)">YEAR</button>
+      <button class="sort-btn" onclick="sortGames('ps1','price',this)">PRICE</button>
+      <button class="sort-btn" onclick="sortGames('ps1','rating',this)">RATING</button>
+      <button class="sort-btn" onclick="sortGames('ps1','inflation',this)">INFLATION ×</button>
+      <button class="sort-btn" onclick="sortGames('ps1','title',this)">A–Z</button>
+    </div>
+    <div style="background:#000a1a;border-bottom:1px solid var(--border2);padding:8px 16px;display:flex;align-items:center;gap:8px">
+      <span style="font-size:var(--font-size-small);color:var(--accent)">🖼️ ART:</span>
+      <span style="font-size:var(--font-size-small);color:var(--text3)">Loading from gameflation.netlify.app/art/ps1/</span>
+    </div>
+    <div class="main">
+      <div id="ps1Grid" class="games-grid"></div>
+    </div>
+    <div class="footer-stats">
+      <div class="stat-item">PS1 IN DB: <span>134</span></div>
+      <div class="stat-item">FULL LIBRARY: <span>~7,900</span></div>
+      <div class="stat-item">ART: <span>PENDING</span></div>
+    </div>
+  </div>
+
 </div>
 
 
@@ -901,6 +1091,17 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
 </div>
 
 
+<!-- FRANCHISES TAB -->
+<div id="franchisesTab" class="tab-content">
+  <div class="main" style="padding:24px 12px 40px">
+    <div style="max-width:960px;margin:0 auto 24px">
+      <div class="chart-title" style="font-size:clamp(11px,2vw,20px);margin-bottom:8px">🏆 Classic Gaming Franchises</div>
+      <div class="chart-sub">Average launch prices across every entry — adjusted to 2026 money. Some franchises cost the same for 20 years. Others quietly got more expensive.</div>
+    </div>
+    <div class="franchise-grid" id="franchiseGrid"></div>
+  </div>
+</div>
+
 <!-- FUN FACTS TAB -->
 <div id="factsTab" class="tab-content">
   <div class="main" style="max-width:800px;margin:0 auto;padding:24px 16px">
@@ -986,6 +1187,17 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
       <button class="modal-close" onclick="closeModalBtn()">✕</button>
     </div>
     <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- FRANCHISE MODAL -->
+<div class="fr-modal-bg" id="frModalBg" onclick="closeFrModal(event)">
+  <div class="fr-modal" id="frModal">
+    <div class="fr-modal-head">
+      <div class="fr-modal-title" id="frModalTitle">FRANCHISE</div>
+      <button class="fr-modal-close" onclick="closeFrModalBtn()">✕</button>
+    </div>
+    <div class="fr-modal-body" id="frModalBody"></div>
   </div>
 </div>
 
@@ -1125,10 +1337,11 @@ function switchTab(tab,btn){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
   btn.classList.add('active');
-  const map={games:'gamesTab',byConsole:'byConsoleTab',consoles:'consolesTab',charts:'chartsTab',facts:'factsTab',explainer:'explainerTab'};
+  const map={games:'gamesTab',byConsole:'byConsoleTab',consoles:'consolesTab',charts:'chartsTab',franchises:'franchisesTab',facts:'factsTab',explainer:'explainerTab'};
   document.getElementById(map[tab]).classList.add('active');
   document.getElementById('controls').style.display=tab==='games'?'flex':'none';
   if(tab==='charts'&&!chartsInited){chartsInited=true;setTimeout(initFunCharts,50);}
+  if(tab==='franchises')renderFranchises();
   if(tab==='facts')renderFacts();
 }
 function switchConsole(console_id,btn){
@@ -2129,6 +2342,1133 @@ function openGBModal(game){
 }
 
 
+// ══════════════════════════════════════════
+// PLAYSTATION
+// ══════════════════════════════════════════
+const PS1_ART_BASE='https://gameflation.netlify.app/art/ps1/';
+const PS1_GAMES=[
+  {id:'ps1-001',title:'Gran Turismo',publisher:'Sony CE',year:1997,genre:'Racing',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:5,driveFile:'Gran Turismo (USA) (v1.1).png',sales:'10.85M',desc:'The best-selling PS1 game ever. 140 cars, 11 tracks. Defined PlayStation as the adult console.'},
+  {id:'ps1-002',title:'Final Fantasy VII',publisher:'Square / Sony CE',year:1997,genre:'RPG',prices:{USD:49.99,GBP:39.99,JPY:6800},rating:5,driveFile:'Final Fantasy VII (USA) (Disc 1).png',sales:'10.02M',desc:'Aerith. Sephiroth. Midgar. The JRPG that conquered the West and made RPGs mainstream worldwide.'},
+  {id:'ps1-003',title:'Gran Turismo 2',publisher:'Sony CE',year:1999,genre:'Racing',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:5,driveFile:'Gran Turismo 2 (USA) (v1.1) (Disc 1) (Arcade Mode Disc).png',sales:'9.37M',desc:'500 cars, 27 tracks. The PS1 definitive driving experience — a technical marvel on a disc.'},
+  {id:'ps1-004',title:'Final Fantasy VIII',publisher:'Square / Square EA',year:1999,genre:'RPG',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:4,driveFile:'Final Fantasy VIII (USA) (Disc 1).png',sales:'8.6M',desc:'Junction system, Gunblade, that opening FMV. Divisive but beloved — outsold FF7 on launch week.'},
+  {id:'ps1-005',title:'Tekken 3',publisher:'Namco / Sony CE',year:1998,genre:'Fighting',prices:{USD:49.99,GBP:44.99,JPY:6800},rating:5,driveFile:'Tekken 3 (USA).png',sales:'8.3M',desc:'The best 3D fighter of its generation. Hwoarang, Jin, Eddie. Still plays perfectly.'},
+  {id:'ps1-006',title:'Harry Potter and the Philosopher\'s Stone',publisher:'Electronic Arts',year:2001,genre:'Action-Adventure',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:3,driveFile:'Harry Potter and the Sorcerer_s Stone (USA).png',sales:'8M',desc:'Licensed adaptation of the first book. Sold on brand power alone — 8 million copies worldwide.'},
+  {id:'ps1-007',title:'Crash Bandicoot 2: Cortex Strikes Back',publisher:'Sony CE',year:1997,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:5,driveFile:'Crash Bandicoot 2 - Cortex Strikes Back (USA).png',sales:'7.58M',desc:'Naughty Dog perfected the formula. 25 levels, better controls. PS1\'s answer to Mario.'},
+  {id:'ps1-008',title:'Crash Bandicoot: Warped',publisher:'Sony CE',year:1998,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:5,driveFile:'Crash Bandicoot - Warped (USA).png',sales:'7.13M',desc:'Vehicles, time travel, 105% completion. The best Crash Bandicoot game by almost every measure.'},
+  {id:'ps1-009',title:'Metal Gear Solid',publisher:'Konami',year:1998,genre:'Stealth',prices:{USD:49.99,GBP:39.99,JPY:6800},rating:5,driveFile:'Metal Gear Solid (USA) (v1.1) (Disc 1).png',sales:'7M',desc:'Tactical espionage action. Shadow Moses, Meryl, Psycho Mantis. Changed what games could be.'},
+  {id:'ps1-010',title:'Crash Bandicoot',publisher:'Sony CE',year:1996,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:4,driveFile:'Crash Bandicoot (USA).png',sales:'6.82M',desc:'Sony\'s mascot contender. Naughty Dog\'s technical masterpiece that launched the PS1.'},
+  {id:'ps1-011',title:'Driver',publisher:'GT Interactive',year:1999,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:4,driveFile:'Driver - You Are the Wheelman (USA).png',sales:'6.27M',desc:'Pre-GTA open-world driving. Cinematic car chases, that brutal Miami level 1. Hugely ambitious for 1999.'},
+  {id:'ps1-012',title:'Resident Evil 2',publisher:'Capcom / Virgin Interactive',year:1998,genre:'Survival Horror',prices:{USD:49.99,GBP:44.99,JPY:6800},rating:5,driveFile:'Resident Evil 2 (Dual Shock Version) (USA) (Disc 1) (Leon Disc).png',sales:'5.77M',desc:'Leon and Claire. Raccoon City. Two full campaigns, the G-virus. Peak original RE formula.'},
+  {id:'ps1-013',title:'Tekken 2',publisher:'Namco / Sony CE',year:1996,genre:'Fighting',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:4,driveFile:'Tekken 2 (USA).png',sales:'5.7M',desc:'The fighter that proved PS1 could do arcade quality at home. 25 characters, great endings.'},
+  {id:'ps1-014',title:'Final Fantasy IX',publisher:'Square / Square EA',year:2000,genre:'RPG',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:5,driveFile:'Final Fantasy IX (USA) (v1.1) (Disc 1).png',sales:'5.5M',desc:'A love letter to classic Final Fantasy. Zidane, Vivi. The last PS1 Final Fantasy.'},
+  {id:'ps1-015',title:'Tomb Raider II',publisher:'Eidos Interactive',year:1997,genre:'Action-Adventure',prices:{USD:49.99,GBP:39.99,JPY:6800},rating:4,driveFile:'Tomb Raider II - Starring Lara Croft (USA) (v1.1).png',sales:'5.2M',desc:'Lara goes to Venice and the Great Wall of China. Bigger and more cinematic than the original.'},
+  {id:'ps1-016',title:'Resident Evil',publisher:'Capcom / Virgin Interactive',year:1996,genre:'Survival Horror',prices:{USD:49.99,GBP:44.99,JPY:5800},rating:5,driveFile:'Resident Evil (USA).png',sales:'5.08M',desc:'The game that invented survival horror. Jill sandwich. The first zombie dog. Pre-rendered masterpiece.'},
+  {id:'ps1-017',title:'Spyro the Dragon',publisher:'Sony CE',year:1998,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:5,driveFile:'Spyro the Dragon (USA).png',sales:'4.83M',desc:'Insomniac\'s purple dragon. Colourful open worlds, perfect controls, Stewart Copeland soundtrack.'},
+  {id:'ps1-018',title:'Crash Team Racing',publisher:'Sony CE',year:1999,genre:'Racing',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:5,driveFile:'CTR - Crash Team Racing (USA).png',sales:'4.79M',desc:'Better than Mario Kart 64, say many. Adventure mode, boosting system, brilliant track design.'},
+  {id:'ps1-019',title:'Dragon Quest VII',publisher:'Enix',year:2000,genre:'RPG',prices:{USD:49.99,GBP:null,JPY:7800},rating:4,driveFile:'Dragon Quest VII.png',sales:'4.11M',desc:'The seventh mainline Dragon Quest. Japan\'s most beloved RPG series at its PS1 peak.'},
+  {id:'ps1-020',title:'Rayman',publisher:'Ubi Soft',year:1995,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:4,driveFile:'Rayman.jpg',sales:'4M',desc:'Limbless platformer with a painterly art style. Famously difficult final world. Ubisoft\'s first icon.'},
+  {id:'ps1-021',title:'Oddworld: Abe\'s Oddysee',publisher:'GT Interactive',year:1997,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:4,driveFile:'Oddworld - Abe_s Oddysee (USA) (v1.1).png',sales:'3.5M',desc:'Rescue 99 Mudokons from a meat-processing factory. Dark, funny, brutally difficult. GameSpeak system.'},
+  {id:'ps1-022',title:'Tony Hawk\'s Pro Skater',publisher:'Activision',year:1999,genre:'Sports',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:5,driveFile:'Tony Hawk_s Pro Skater (USA).png',sales:'3.5M',desc:'Two-minute runs, combo chains, Goldfinger. Changed games forever. The definitive PS1 sports game.'},
+  {id:'ps1-023',title:'Resident Evil 3: Nemesis',publisher:'Capcom / Eidos Interactive',year:1999,genre:'Survival Horror',prices:{USD:49.99,GBP:44.99,JPY:6800},rating:4,driveFile:'Resident Evil 3 - Nemesis (USA).png',sales:'3.5M',desc:'S.T.A.R.S.! Nemesis pursuing Jill through a burning Raccoon City. Fear redefined.'},
+  {id:'ps1-024',title:'Spyro 2: Ripto\'s Rage',publisher:'Sony CE',year:1999,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:4,driveFile:'Spyro 2 - Ripto_s Rage (USA).png',sales:'3.45M',desc:'Bigger worlds, more NPCs, better mini-games. A worthy follow-up that improved on every element.'},
+  {id:'ps1-025',title:'Frogger',publisher:'Hasbro Interactive',year:1997,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:4800},rating:3,driveFile:'Frogger (USA).png',sales:'3.37M',desc:'3D reimagining of the arcade classic. Sold entirely on nostalgia and massive marketing spend.'},
+  {id:'ps1-026',title:'Spyro: Year of the Dragon',publisher:'Sony CE',year:2000,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:5,driveFile:'Spyro - Year of the Dragon (USA) (v1.1).png',sales:'3.28M',desc:'The trilogy finale. Dragon eggs, Sheila the kangaroo. Insomniac\'s most ambitious PS1 title.'},
+  {id:'ps1-027',title:'Tony Hawk\'s Pro Skater 2',publisher:'Activision',year:2000,genre:'Sports',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:5,driveFile:'Tony Hawk_s Pro Skater 2 (USA).png',sales:'3.15M',desc:'Manual trick, Create-a-Park, Rage Against the Machine. Often called the greatest game ever made.'},
+  {id:'ps1-028',title:'Croc: Legend of the Gobbos',publisher:'Fox Interactive',year:1997,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:3,driveFile:'Croc - Legend of the Gobbos (USA).png',sales:'3M',desc:'Croc the crocodile saves his friends. Early 3D platformer that sold well on marketing muscle.'},
+  {id:'ps1-029',title:'Driver 2',publisher:'Infogrames',year:2000,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:3,driveFile:'Driver 2 (USA) (v1.1) (Disc 1).png',sales:'2.85M',desc:'Bigger sequel with Chicago, Havana, Rio. Added on-foot sections that nobody asked for.'},
+  {id:'ps1-030',title:'Yu-Gi-Oh! Forbidden Memories',publisher:'Konami',year:1999,genre:'Strategy',prices:{USD:39.99,GBP:29.99,JPY:4800},rating:3,driveFile:'Yu-Gi-Oh Forbidden Memories.png',sales:'2.51M',desc:'Ancient Egypt card duelling. Brutally difficult and completely addictive for fans of the anime.'},
+  {id:'ps1-031',title:'Dino Crisis',publisher:'Capcom',year:1999,genre:'Survival Horror',prices:{USD:49.99,GBP:39.99,JPY:6800},rating:4,driveFile:'Dino Crisis (USA) (v1.1).png',sales:'2.4M',desc:'Resident Evil but with dinosaurs. Regina vs the T-Rex. Terrifying and brilliantly paced.'},
+  {id:'ps1-032',title:'Namco Museum Vol. 3',publisher:'Namco / Sony CE',year:1996,genre:'Compilation',prices:{USD:29.99,GBP:24.99,JPY:3800},rating:3,driveFile:'Namco Museum Vol. 3 (USA).png',sales:'2.39M',desc:'Classic Namco arcade collection. Pac-Man, Galaga and others brought to PlayStation.'},
+  {id:'ps1-033',title:'Everybody\'s Golf',publisher:'Sony CE',year:1997,genre:'Sports',prices:{USD:39.99,GBP:34.99,JPY:4800},rating:4,driveFile:'Everybodys Golf.png',sales:'2.36M',desc:'Known as Hot Shots Golf in North America. Deceptively deep golf game. Camelot at their best.'},
+  {id:'ps1-034',title:'Final Fantasy Tactics',publisher:'Square / Sony CE',year:1997,genre:'Strategy-RPG',prices:{USD:49.99,GBP:39.99,JPY:6800},rating:5,driveFile:'Final Fantasy Tactics (USA).png',sales:'2.27M',desc:'The deepest strategy RPG on PS1. Ivalice, job system, the War of the Lions. A masterpiece.'},
+  {id:'ps1-035',title:'Air Combat',publisher:'Namco',year:1995,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:3,driveFile:'Air Combat (USA).png',sales:'2.23M',desc:'PS1 launch-era flight combat. Namco\'s first air ace series entry on PlayStation.'},
+  {id:'ps1-036',title:'WWF War Zone',publisher:'Acclaim Entertainment',year:1998,genre:'Sports',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:3,driveFile:'WWF War Zone (USA) (v1.1).png',sales:'2.2M',desc:'WWE wrestling from the Attitude Era. Stone Cold Steve Austin on the cover.'},
+  {id:'ps1-037',title:'Tony Hawk\'s Pro Skater 3',publisher:'Activision',year:2001,genre:'Sports',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:4,driveFile:'Tony Hawk_s Pro Skater 3 (USA).png',sales:'2.11M',desc:'Revert move, online play on PS2. The last genuinely great entry in the original run.'},
+  {id:'ps1-038',title:'Mortal Kombat Trilogy',publisher:'Midway / GT Interactive',year:1996,genre:'Fighting',prices:{USD:59.99,GBP:49.99,JPY:6800},rating:3,driveFile:'Mortal Kombat Trilogy (USA) (v1.1).png',sales:'2.01M',desc:'Every MK fighter in one place. Fatalities, Babalities, the works. Ultimate fan service.'},
+  {id:'ps1-039',title:'Derby Stallion',publisher:'ASCII Corporation',year:1994,genre:'Sports',prices:{USD:null,GBP:null,JPY:7800},rating:3,driveFile:'Derby Stallion.png',sales:'2M',desc:'Japan-only horse racing management sim. Massive in Japan, completely unknown elsewhere.'},
+  {id:'ps1-040',title:'Silent Hill',publisher:'Konami',year:1999,genre:'Survival Horror',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:5,driveFile:'Silent Hill (USA) (v1.1).png',sales:'2M',desc:'The fog, the rust, the radio static. Harry Mason searching for his daughter. Horror redefined.'},
+  {id:'ps1-041',title:'Frogger 2: Swampy\'s Revenge',publisher:'Hasbro Interactive',year:2000,genre:'Action',prices:{USD:39.99,GBP:29.99,JPY:4800},rating:3,driveFile:'Frogger 2 - Swampy_s Revenge (USA).png',sales:'2M',desc:'Follow-up to the surprise PS1 hit. Swamps, lily pads, more nostalgic arcade action.'},
+  {id:'ps1-042',title:'Parasite Eve',publisher:'Square',year:1998,genre:'Action-RPG',prices:{USD:49.99,GBP:39.99,JPY:6800},rating:4,driveFile:'Parasite Eve (USA) (Disc 1).png',sales:'1.94M',desc:'Square\'s cinematic action-RPG. New York, mitochondria, Aya Brea. A unique genre hybrid.'},
+  {id:'ps1-043',title:'WWF SmackDown!',publisher:'THQ',year:2000,genre:'Sports',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:4,driveFile:'WWF Smackdown! (USA) [SLUS-00927].png',sales:'1.94M',desc:'The wrestling game that defined the Attitude Era. Brilliant create-a-superstar and story mode.'},
+  {id:'ps1-044',title:'WWF SmackDown! 2: Know Your Role',publisher:'THQ',year:2000,genre:'Sports',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:4,driveFile:'WWF SmackDown! 2 - Know Your Role (USA).png',sales:'1.92M',desc:'Bigger roster, deeper season mode. The definitive SmackDown game on PS1.'},
+  {id:'ps1-045',title:'Crash Bash',publisher:'Sony CE',year:2000,genre:'Party',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:3,driveFile:'Crash Bash (USA).png',sales:'1.9M',desc:'Crash Bandicoot takes on Mario Party. Mini-game collection with the whole cast.'},
+  {id:'ps1-046',title:'Spider-Man',publisher:'Activision',year:2000,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:4,driveFile:'Spider-Man (USA).png',sales:'1.85M',desc:'Web-slinging through New York. Neversoft fresh off THPS. Stan Lee narrates. Brilliant fun.'},
+  {id:'ps1-047',title:'Namco Museum Vol. 1',publisher:'Namco / Sony CE',year:1995,genre:'Compilation',prices:{USD:29.99,GBP:24.99,JPY:3800},rating:3,driveFile:'Namco Museum Vol. 1 (USA).png',sales:'1.82M',desc:'The first Namco Museum collection. Pac-Man, Galaga, Dig Dug. Sold to nostalgic parents everywhere.'},
+  {id:'ps1-048',title:'Tetris Plus',publisher:'Jaleco / JVC',year:1996,genre:'Puzzle',prices:{USD:29.99,GBP:24.99,JPY:3800},rating:3,driveFile:'Tetris Plus (USA).png',sales:'1.77M',desc:'Tetris with an added puzzle mode. Solid but unremarkable — sold on the Tetris brand alone.'},
+  {id:'ps1-049',title:'Syphon Filter',publisher:'989 Studios / Sony CE',year:1999,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:4,driveFile:'Syphon Filter (USA) (v1.1).png',sales:'1.75M',desc:'Gabe Logan vs the Agency. Taser kills, cinematic missions. PS1\'s answer to Splinter Cell.'},
+  {id:'ps1-050',title:'Twisted Metal 2',publisher:'Sony CE',year:1996,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:4,driveFile:'Twisted Metal 2 (USA).png',sales:'1.74M',desc:'Vehicular combat carnage. Calypso\'s wish-granting, Sweet Tooth\'s ice cream truck. Iconic.'},
+  {id:'ps1-051',title:'Tekken',publisher:'Namco / Sony CE',year:1995,genre:'Fighting',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:4,driveFile:'Tekken (USA).png',sales:'1.73M',desc:'The first Tekken. The first PS1 game to sell a million copies. Eight fighters, a revelation.'},
+  {id:'ps1-052',title:'007: Tomorrow Never Dies',publisher:'Electronic Arts',year:1999,genre:'FPS',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:3,driveFile:'007 - Tomorrow Never Dies (USA).png',sales:'1.72M',desc:'Licensed Bond shooter. Solid movie tie-in FPS that sold on the GoldenEye halo effect.'},
+  {id:'ps1-053',title:'Formula 1',publisher:'Psygnosis',year:1996,genre:'Racing',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:3,driveFile:'Formula 1 (USA) [SCUS-94353].png',sales:'1.7M',desc:'Official F1 game with all teams and drivers. Psygnosis\' technical showcase for PS1 hardware.'},
+  {id:'ps1-054',title:'Need for Speed III: Hot Pursuit',publisher:'Electronic Arts',year:1998,genre:'Racing',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:4,driveFile:'Need for Speed III - Hot Pursuit (USA).png',sales:'1.7M',desc:'Police pursuits, exotic cars, Hot Pursuit mode. The NFS entry that defined the series.'},
+  {id:'ps1-055',title:'PaRappa the Rapper',publisher:'Sony CE',year:1996,genre:'Rhythm',prices:{USD:39.99,GBP:34.99,JPY:4800},rating:4,driveFile:'Parappa the Rapper (USA) [SCUS-94183].png',sales:'1.68M',desc:'I gotta believe! The game that invented rhythm games. Chop Chop Master Onion. A cultural milestone.'},
+  {id:'ps1-056',title:'Medal of Honor',publisher:'Electronic Arts',year:1999,genre:'FPS',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:4,driveFile:'Medal of Honor (USA).png',sales:'1.64M',desc:'Steven Spielberg\'s WWII FPS. Before Call of Duty, this set the template for the genre.'},
+  {id:'ps1-057',title:'Everybody\'s Golf 2',publisher:'Sony CE',year:1999,genre:'Sports',prices:{USD:39.99,GBP:34.99,JPY:4800},rating:4,driveFile:'Everybodys Golf 2.png',sales:'1.6M',desc:'Hot Shots Golf 2 in North America. Deeper, more polished. Camelot\'s best PS1 sports title.'},
+  {id:'ps1-058',title:'Arc the Lad',publisher:'Sony CE',year:1995,genre:'Strategy-RPG',prices:{USD:null,GBP:null,JPY:7800},rating:4,driveFile:'Arc the Lad Collection - Arc the Lad II (USA).png',sales:'1.59M',desc:'Japan-only PS1 SRPG that spawned a series. Hugely influential on the Japanese market.'},
+  {id:'ps1-059',title:'Madden NFL 99',publisher:'EA Sports',year:1998,genre:'Sports',prices:{USD:49.99,GBP:null,JPY:null},rating:3,driveFile:'Madden NFL 99 (USA).png',sales:'1.5M',desc:'The annual Madden machine. Franchise mode improvements made this the definitive 99 entry.'},
+  {id:'ps1-060',title:'A Bug\'s Life',publisher:'Sony CE',year:1998,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:3,driveFile:'A Bugs Life.png',sales:'1.5M',desc:'Pixar tie-in platformer. Sold millions on the back of the film. A competent licensed game.'},
+  {id:'ps1-061',title:'007: The World Is Not Enough',publisher:'Electronic Arts',year:2000,genre:'FPS',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:3,driveFile:'007 - The World Is Not Enough (USA).png',sales:'1.5M',desc:'Second Bond FPS from Black Ops. Riding the post-GoldenEye 64 wave. Decent but unexceptional.'},
+  {id:'ps1-062',title:'Legacy of Kain: Soul Reaver',publisher:'Eidos Interactive',year:1999,genre:'Action-Adventure',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:4,driveFile:'Legacy of Kain - Soul Reaver (USA).png',sales:'1.5M',desc:'Raziel pursuing Kain through a crumbling vampire world. Dark, gothic, brilliantly written.'},
+  {id:'ps1-063',title:'Chrono Cross',publisher:'Square',year:2000,genre:'RPG',prices:{USD:49.99,GBP:39.99,JPY:6800},rating:5,driveFile:'Chrono Cross (USA) (Disc 1).png',sales:'1.5M',desc:'Yasunori Mitsuda\'s masterpiece score, 45 recruitable characters, two timelines. A legend.'},
+  {id:'ps1-064',title:'Madden NFL 2000',publisher:'EA Sports',year:1999,genre:'Sports',prices:{USD:49.99,GBP:null,JPY:null},rating:3,driveFile:'Madden NFL 2000 (USA).png',sales:'1.48M',desc:'Franchise mode, Create-a-Player. The annual football juggernaut keeps rolling.'},
+  {id:'ps1-065',title:'NFL GameDay 98',publisher:'Sony CE',year:1997,genre:'Sports',prices:{USD:49.99,GBP:null,JPY:null},rating:3,driveFile:'NFL GameDay 98 (USA).png',sales:'1.47M',desc:'Sony\'s own NFL game competing head-to-head with Madden. Strong in its era.'},
+  {id:'ps1-066',title:'Ridge Racer',publisher:'Namco',year:1994,genre:'Racing',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:4,driveFile:'Ridge Racer (USA).png',sales:'1.47M',desc:'The PS1 launch title. Namco used the loading screen as a playable Galaxian game. Iconic.'},
+  {id:'ps1-067',title:'Rugrats: Search for Reptar',publisher:'THQ',year:1998,genre:'Platformer',prices:{USD:39.99,GBP:29.99,JPY:4800},rating:3,driveFile:'Rugrats - Search for Reptar (USA).png',sales:'1.46M',desc:'TV tie-in platformer for the Rugrats animated series. Surprisingly competent for a licensed game.'},
+  {id:'ps1-068',title:'Grand Theft Auto 2',publisher:'Rockstar Games',year:1999,genre:'Action',prices:{USD:29.99,GBP:24.99,JPY:4800},rating:3,driveFile:'Grand Theft Auto 2 (USA).png',sales:'1.45M',desc:'Top-down open world crime before GTA3 changed everything. Still brilliant in its own right.'},
+  {id:'ps1-069',title:'Cool Boarders 3',publisher:'989 Studios / Sony CE',year:1998,genre:'Sports',prices:{USD:39.99,GBP:34.99,JPY:4800},rating:3,driveFile:'Cool Boarders 3.png',sales:'1.43M',desc:'Third entry in Sony\'s snowboarding series. Refined tricks and courses over its predecessors.'},
+  {id:'ps1-070',title:'Syphon Filter 2',publisher:'989 Studios / Sony CE',year:2000,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:4,driveFile:'Syphon Filter 2 (USA) (Disc 2).png',sales:'1.42M',desc:'Bigger, longer sequel. Gabe Logan goes global. Two discs of cinematic third-person action.'},
+  {id:'ps1-071',title:'Dance Dance Revolution',publisher:'Konami',year:1998,genre:'Rhythm',prices:{USD:39.99,GBP:34.99,JPY:4800},rating:4,driveFile:'Dance Dance Revolution - Konamix (USA).png',sales:'1.41M',desc:'The game that installed dance floors in arcades worldwide. Arrow pads, Eurobeat, the mat controller.'},
+  {id:'ps1-072',title:'Ape Escape',publisher:'Sony CE',year:1999,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:4,driveFile:'Ape Escape (USA).png',sales:'1.4M',desc:'First game to require the DualShock — both sticks used simultaneously. Catching monkeys with gadgets.'},
+  {id:'ps1-073',title:'Need for Speed: High Stakes',publisher:'Electronic Arts',year:1999,genre:'Racing',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:3,driveFile:'Need for Speed - High Stakes (USA).png',sales:'1.39M',desc:'Police pursuits return. The last NFS before Underground changed the series direction forever.'},
+  {id:'ps1-074',title:'The Legend of Dragoon',publisher:'Sony CE',year:1999,genre:'RPG',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:4,driveFile:'Legend of Dragoon, The (USA) (Disc 1).png',sales:'1.32M',desc:'Sony\'s answer to Final Fantasy. Four discs, cinematic additions system, epic story.'},
+  {id:'ps1-075',title:'Pac-Man World',publisher:'Namco / Sony CE',year:1999,genre:'Platformer',prices:{USD:39.99,GBP:29.99,JPY:4800},rating:3,driveFile:'Pac-Man World 20th Anniversary (USA) [SLUS-00439].png',sales:'1.31M',desc:'Pac-Man\'s 3D adventure for his 20th anniversary. Surprisingly decent platformer for a legacy IP.'},
+  {id:'ps1-076',title:'Jet Moto 2',publisher:'Sony CE',year:1997,genre:'Racing',prices:{USD:39.99,GBP:34.99,JPY:4800},rating:3,driveFile:'Jet Moto (USA).png',sales:'1.31M',desc:'Futuristic hover-bike racing. Sequel improved on the original\'s handling and course design.'},
+  {id:'ps1-077',title:'WCW Nitro',publisher:'THQ',year:1998,genre:'Sports',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:3,driveFile:'WCW Nitro (USA).png',sales:'1.3M',desc:'WCW\'s Monday Night Wars era on PS1. Hollywood Hogan, Goldberg. Decent wrestling sim.'},
+  {id:'ps1-078',title:'Twisted Metal III',publisher:'989 Studios / Sony CE',year:1998,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:3,driveFile:'Twisted Metal III (USA) (v1.1).png',sales:'1.29M',desc:'Divisive third entry. SingleTrac was gone — 989 Studios took over and fans felt the difference.'},
+  {id:'ps1-079',title:'Battle Arena Toshinden',publisher:'Takara / Sony CE',year:1994,genre:'Fighting',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:3,driveFile:'Battle Arena Toshinden (USA).png',sales:'1.29M',desc:'One of the first 3D fighting games on PS1. Weapon-based combat. A landmark despite its age.'},
+  {id:'ps1-080',title:'Jet Moto',publisher:'Sony CE',year:1996,genre:'Racing',prices:{USD:39.99,GBP:34.99,JPY:4800},rating:3,driveFile:'Jet Moto (USA).png',sales:'1.27M',desc:'The original hover-bike racer. Launched with the PS1 and showed what the hardware could do.'},
+  {id:'ps1-081',title:'Spec Ops: Stealth Patrol',publisher:'Take-Two / TalonSoft',year:2000,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:null},rating:2,driveFile:'Spec Ops - Stealth Patrol (USA).png',sales:'1.27M',desc:'Military tactical shooter. Solid sales on the Spec Ops brand despite mixed reviews.'},
+  {id:'ps1-082',title:'Madden NFL 98',publisher:'EA Sports',year:1997,genre:'Sports',prices:{USD:49.99,GBP:null,JPY:null},rating:3,driveFile:'Madden NFL 98 (USA).png',sales:'1.25M',desc:'The annual NFL machine. Tiburon\'s first Madden entry set the template for years to come.'},
+  {id:'ps1-083',title:'Dragon Quest IV',publisher:'Enix',year:2001,genre:'RPG',prices:{USD:null,GBP:null,JPY:7800},rating:4,driveFile:'Dragon Quest IV.png',sales:'1.23M',desc:'PS1 remake of the NES classic. Five chapters, five heroes. The Dragon Quest machine keeps rolling.'},
+  {id:'ps1-084',title:'Tenchu: Stealth Assassins',publisher:'Activision',year:1998,genre:'Stealth',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:4,driveFile:'Tenchu - Stealth Assassins (USA).png',sales:'1.23M',desc:'Ninja stealth before Metal Gear went 3D. Rikimaru and Ayame in feudal Japan. Atmosphere to spare.'},
+  {id:'ps1-085',title:'SaGa Frontier',publisher:'Square / Sony CE',year:1997,genre:'RPG',prices:{USD:49.99,GBP:39.99,JPY:6800},rating:3,driveFile:'SaGa Frontier (USA).png',sales:'1.21M',desc:'Seven separate stories with different battle systems. Divisive but ambitious Square RPG.'},
+  {id:'ps1-086',title:'Cool Boarders 2',publisher:'Sony CE',year:1997,genre:'Sports',prices:{USD:39.99,GBP:34.99,JPY:4800},rating:3,driveFile:'Cool Boarders 2 (USA).png',sales:'1.21M',desc:'The snowboarding game PS1 players remember. Trick system, halfpipe, night courses.'},
+  {id:'ps1-087',title:'Xenogears',publisher:'Square',year:1998,genre:'RPG',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:5,driveFile:'Xenogears.png',sales:'1.21M',desc:'Giant mechs, Nietzsche, religion and memory. Square\'s most ambitious and controversial RPG.'},
+  {id:'ps1-088',title:'Dino Crisis 2',publisher:'Capcom / Virgin Interactive',year:2000,genre:'Survival Horror',prices:{USD:49.99,GBP:39.99,JPY:6800},rating:3,driveFile:'Dino Crisis 2 (USA).png',sales:'1.2M',desc:'More action-oriented sequel. Running and gunning through dinosaur-infested environments.'},
+  {id:'ps1-089',title:'Monopoly',publisher:'Hasbro Interactive',year:1997,genre:'Board Game',prices:{USD:29.99,GBP:24.99,JPY:3800},rating:3,driveFile:'Monopoly (USA) [SLUS-00507].png',sales:'1.19M',desc:'Digital Monopoly for PlayStation. Sold entirely to families. Competent board game adaptation.'},
+  {id:'ps1-090',title:'Arc the Lad II',publisher:'Sony CE',year:1996,genre:'Strategy-RPG',prices:{USD:null,GBP:null,JPY:7800},rating:4,driveFile:'Arc the Lad Collection - Arc the Lad II (USA).png',sales:'1.18M',desc:'Japan-only sequel. Larger scale, more characters, carried save data from the first game.'},
+  {id:'ps1-091',title:'Metal Gear Solid: VR Missions',publisher:'Konami',year:1999,genre:'Stealth',prices:{USD:29.99,GBP:24.99,JPY:4800},rating:3,driveFile:'Metal Gear Solid - VR Missions (USA).png',sales:'1.18M',desc:'Standalone VR training missions from MGS. For hardcore fans who wanted more Snake.'},
+  {id:'ps1-092',title:'Chocobo\'s Mysterious Dungeon',publisher:'Square',year:1997,genre:'RPG',prices:{USD:null,GBP:null,JPY:6800},rating:3,driveFile:'Chocobo_s Magical Dungeon 2 (USA) [SLUS-00814].png',sales:'1.17M',desc:'Japan-only roguelike spin-off. Chocobo navigates procedurally generated dungeons. Cute and charming.'},
+  {id:'ps1-093',title:'Ace Combat 3: Electrosphere',publisher:'Namco',year:1999,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:4,driveFile:'Ace Combat 3 - Electrosphere (USA) [SLUS-00972].png',sales:'1.16M',desc:'Futuristic fighter combat with a cyberpunk story. The most ambitious Ace Combat on PS1.'},
+  {id:'ps1-094',title:'NASCAR 98',publisher:'EA Sports',year:1997,genre:'Racing',prices:{USD:49.99,GBP:null,JPY:null},rating:3,driveFile:'NASCAR _98 (USA) [SLUS-00521].png',sales:'1.16M',desc:'Official NASCAR licence on PS1. Sold well to American racing fans in the Dale Earnhardt era.'},
+  {id:'ps1-095',title:'NBA Live 98',publisher:'EA Sports',year:1997,genre:'Sports',prices:{USD:49.99,GBP:null,JPY:null},rating:3,driveFile:'NBA Live 98 (USA).png',sales:'1.15M',desc:'The annual NBA Live machine. Michael Jordan era basketball at its PS1 finest.'},
+  {id:'ps1-096',title:'Devil Dice',publisher:'Sony CE / THQ',year:1998,genre:'Puzzle',prices:{USD:29.99,GBP:24.99,JPY:4800},rating:3,driveFile:'Devil Dice (USA) [SLUS-00672].png',sales:'1.14M',desc:'Abstract dice puzzle game. Understated gem that developed a cult following. Cheap and brilliant.'},
+  {id:'ps1-097',title:'NASCAR 99',publisher:'EA Sports',year:1998,genre:'Racing',prices:{USD:49.99,GBP:null,JPY:null},rating:3,driveFile:'NASCAR _99 Legacy (USA) [SLUS-00883].png',sales:'1.14M',desc:'Annual NASCAR follow-up. Incremental improvements over NASCAR 98.'},
+  {id:'ps1-098',title:'Tales of Destiny',publisher:'Namco',year:1997,genre:'RPG',prices:{USD:49.99,GBP:39.99,JPY:6800},rating:4,driveFile:'Tales of Destiny (USA).png',sales:'1.14M',desc:'The Tales series arrives on PlayStation. Real-time action RPG battle system. Hugely popular in Japan.'},
+  {id:'ps1-099',title:'NFL GameDay 99',publisher:'Sony CE',year:1998,genre:'Sports',prices:{USD:49.99,GBP:null,JPY:null},rating:3,driveFile:'NFL GameDay 99 (USA) (v1.1).png',sales:'1.12M',desc:'Third NFL GameDay entry. Sony\'s NFL franchise competing strongly in the market.'},
+  {id:'ps1-100',title:'I.Q.: Intelligent Qube',publisher:'Sony CE',year:1997,genre:'Puzzle',prices:{USD:29.99,GBP:24.99,JPY:4800},rating:4,driveFile:'I.Q - Intelligent Qube (USA).png',sales:'1.11M',desc:'Rolling cubes puzzle game with a haunting soundtrack. Abstract, brilliant, deeply Japanese.'},
+  {id:'ps1-101',title:'Doko Demo Issyo',publisher:'Sony CE',year:1999,genre:'Adventure',prices:{USD:null,GBP:null,JPY:4800},rating:3,driveFile:'Doko Demo Issyo.png',sales:'1.1M',desc:'Japan-only virtual pet/companion game. Toro the cat became a PlayStation mascot in Japan.'},
+  {id:'ps1-102',title:'beatmania',publisher:'Konami',year:1998,genre:'Rhythm',prices:{USD:39.99,GBP:null,JPY:4800},rating:3,driveFile:'beatmania.png',sales:'1.1M',desc:'DJ rhythm game that spawned a massive arcade and PS1 series. Influential on the music game genre.'},
+  {id:'ps1-103',title:'Derby Stallion 99',publisher:'ASCII Corporation',year:1999,genre:'Sports',prices:{USD:null,GBP:null,JPY:7800},rating:3,driveFile:'Derby Stallion 99.png',sales:'1.1M',desc:'Japan-only horse racing management sequel. Annual update to the hugely popular Derby Stallion series.'},
+  {id:'ps1-104',title:'Star Ocean: The Second Story',publisher:'Enix / Sony CE',year:1998,genre:'RPG',prices:{USD:49.99,GBP:39.99,JPY:6800},rating:4,driveFile:'Star Ocean - The Second Story (USA) (Disc 1).png',sales:'1.09M',desc:'Massive RPG with 86 possible endings. tri-Ace\'s most ambitious title. A cult classic RPG.'},
+  {id:'ps1-105',title:'Ace Combat 2',publisher:'Namco',year:1997,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:4,driveFile:'Ace Combat 2.png',sales:'1.09M',desc:'Aerial combat sequel. Namco refined the formula. Excellent mission variety and tight controls.'},
+  {id:'ps1-106',title:'2Xtreme',publisher:'Sony CE',year:1996,genre:'Sports',prices:{USD:39.99,GBP:34.99,JPY:null},rating:3,driveFile:'2Xtreme (USA).png',sales:'1.09M',desc:'Extreme sports racing. Skating, biking, rollerblading. Sony\'s multi-sport action title.'},
+  {id:'ps1-107',title:'Parasite Eve II',publisher:'Square',year:1999,genre:'Action-RPG',prices:{USD:49.99,GBP:39.99,JPY:6800},rating:4,driveFile:'Parasite Eve II (USA) (Disc 1).png',sales:'1.09M',desc:'More action-oriented than the original. Neo Mitochondrial Creatures in the Nevada desert.'},
+  {id:'ps1-108',title:'Twisted Metal',publisher:'Sony CE',year:1995,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:4,driveFile:'Twisted Metal (USA).png',sales:'1.08M',desc:'The original vehicular combat game. Calypso\'s tournament, Sweet Tooth\'s debut. A PS1 classic.'},
+  {id:'ps1-109',title:'Test Drive 5',publisher:'Accolade',year:1998,genre:'Racing',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:3,driveFile:'Test Drive 5 (USA).png',sales:'1.08M',desc:'Licensed exotic cars and illegal street racing. The Test Drive series in its PS1 prime.'},
+  {id:'ps1-110',title:'Twisted Metal 4',publisher:'Sony CE',year:1999,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:3,driveFile:'Twisted Metal 4 (USA).png',sales:'1.08M',desc:'Fourth Twisted Metal entry. Create-a-car mode. 989 Studios continues without SingleTrac.'},
+  {id:'ps1-111',title:'SpongeBob SquarePants: SuperSponge',publisher:'THQ',year:2001,genre:'Platformer',prices:{USD:39.99,GBP:29.99,JPY:4800},rating:3,driveFile:'SpongeBob SquarePants - SuperSponge (USA).png',sales:'1.07M',desc:'SpongeBob\'s first console adventure. Sold enormous numbers on the strength of the TV show alone.'},
+  {id:'ps1-112',title:'R4: Ridge Racer Type 4',publisher:'Namco / Sony CE',year:1998,genre:'Racing',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:5,driveFile:'Ridge Racer Type 4 (USA) [SLUS-00797].png',sales:'1.05M',desc:'The most beautiful PS1 racing game. Tearful ending, 321 car variants, Hiroshi Okubo soundtrack. Perfect.'},
+  {id:'ps1-113',title:'Densha de Go!',publisher:'Taito',year:1997,genre:'Simulation',prices:{USD:null,GBP:null,JPY:4800},rating:3,driveFile:'Densha de Go.png',sales:'1.04M',desc:'Japan-only train driving simulation. Massive hit in Japan — spawned a long-running series.'},
+  {id:'ps1-114',title:'Dance Dance Revolution 2nd ReMix',publisher:'Konami',year:1999,genre:'Rhythm',prices:{USD:39.99,GBP:null,JPY:4800},rating:3,driveFile:'Dance Dance Revolution - Konamix (USA).png',sales:'1.03M',desc:'Second DDR home release. New songs, refined timing windows. Still the mat game everyone remembers.'},
+  {id:'ps1-115',title:'NFL GameDay',publisher:'Sony CE',year:1995,genre:'Sports',prices:{USD:49.99,GBP:null,JPY:null},rating:3,driveFile:'NFL GameDay (USA).png',sales:'1M',desc:'Sony\'s original NFL game. The first entry in the GameDay series, launching with PS1.'},
+  {id:'ps1-116',title:'Monster Rancher',publisher:'Tecmo',year:1997,genre:'Strategy',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:3,driveFile:'Monster Rancher (USA) [SLUS-00568].png',sales:'1M',desc:'Generate monsters from CDs. The CD-reading gimmick made this a PS1 exclusive by nature.'},
+  {id:'ps1-117',title:'Fighting Force',publisher:'Eidos Interactive',year:1997,genre:'Action',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:3,driveFile:'Fighting Force (USA).png',sales:'1M',desc:'3D beat-em-up from the Tomb Raider studio. Fun four-player brawling, modest critical reception.'},
+  {id:'ps1-118',title:'Colin McRae Rally',publisher:'Codemasters',year:1998,genre:'Racing',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:4,driveFile:'Colin McRae Rally (USA) [SCUS-94474].png',sales:'1M',desc:'The rally game that changed everything. Codemasters\' simulation masterpiece. Still revered today.'},
+  {id:'ps1-119',title:'Simple 1500 Series Vol. 1: The Mahjong',publisher:'D3 Publisher',year:1999,genre:'Board Game',prices:{USD:14.99,GBP:null,JPY:1500},rating:2,driveFile:'Simple 1500 Series Vol 1 The Mahjong.png',sales:'1M',desc:'Japan-only budget Mahjong game. Part of D3\'s ultra-cheap Simple series — massive in Japan.'},
+  {id:'ps1-120',title:'Street Fighter Alpha 3',publisher:'Capcom',year:1998,genre:'Fighting',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:4,driveFile:'Street Fighter Alpha 3 (USA).png',sales:'1M',desc:'The definitive Street Fighter Alpha. Massive roster, three different gameplay modes. Arcade-perfect.'},
+  {id:'ps1-121',title:'WCW/nWo Thunder',publisher:'THQ',year:1998,genre:'Sports',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:3,driveFile:'WCW - NWO Thunder (USA) [SLUS-00779].png',sales:'1M',desc:'WCW wrestling spin-off. The Monday Night Wars at their peak on PS1.'},
+  {id:'ps1-122',title:'NBA Live 2000',publisher:'EA Sports',year:1999,genre:'Sports',prices:{USD:49.99,GBP:null,JPY:null},rating:3,driveFile:'NBA Live 2000 (USA) [SLUS-00998].png',sales:'1M',desc:'The annual NBA Live series. Kobe Bryant era basketball. EA\'s basketball franchise at its PS1 peak.'},
+  {id:'ps1-123',title:'Dancing Stage Party Edition',publisher:'Konami',year:2002,genre:'Rhythm',prices:{USD:39.99,GBP:34.99,JPY:4800},rating:3,driveFile:'Dancing Stage - Party Edition (Europe).png',sales:'1M',desc:'European DDR release. The last million-seller on PS1, launched when PS2 had been out two years.'},
+  {id:'ps1-124',title:'Castlevania: Symphony of the Night',publisher:'Konami',year:1997,genre:'Action-RPG',prices:{USD:49.99,GBP:39.99,JPY:6800},rating:5,driveFile:'Castlevania - Symphony of the Night (USA).png',desc:'What is a man? Alucard, the inverted castle, RPG levelling in a side-scroller. A perfect 10/10 game.'},
+  {id:'ps1-125',title:'Grand Theft Auto',publisher:'Rockstar Games',year:1997,genre:'Action',prices:{USD:29.99,GBP:24.99,JPY:4800},rating:4,driveFile:'Grand Theft Auto (USA).png',desc:'Top-down open-world crime that started it all. DMA Design\'s chaotic sandbox. The blueprint for a dynasty.'},
+  {id:'ps1-126',title:'Harry Potter and the Chamber of Secrets',publisher:'Electronic Arts',year:2002,genre:'Action-Adventure',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:3,driveFile:'Harry Potter and the Chamber of Secrets (USA) (En,Fr,Es).png',desc:'Second HP game. Hogwarts explored more fully. Sold enormous numbers entirely on the film franchise halo.'},
+  {id:'ps1-127',title:'Medievil',publisher:'Sony CE',year:1998,genre:'Action-Adventure',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:4,driveFile:'MediEvil (USA).png',desc:'Sir Daniel Fortesque\'s skeletal adventure. Gallowmere, gargoyles, the Hall of Heroes. A PS1 exclusive gem.'},
+  {id:'ps1-128',title:"Oddworld: Abe's Exoddus",publisher:'GT Interactive',year:1998,genre:'Platformer',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:4,driveFile:"Oddworld - Abe_s Exoddus (USA) (Disc 1).png",desc:'300 Mudokons to rescue, SoulStorm Brewery, fart possession. Bigger and darker than Oddysee.'},
+  {id:'ps1-129',title:'Tomb Raider',publisher:'Eidos Interactive',year:1996,genre:'Action-Adventure',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:4,driveFile:'Tomb Raider (USA) (v1.3).png',desc:'Lara Croft invented the 3D action-adventure template. Peru, Greece, Egypt. PS1\'s biggest new IP.'},
+  {id:'ps1-130',title:'Tomb Raider III',publisher:'Eidos Interactive',year:1998,genre:'Action-Adventure',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:3,driveFile:'Tomb Raider III - Adventures of Lara Croft (USA).png',desc:'India, Nevada, London, Antarctica. Core Design pushing harder but cracks starting to show.'},
+  {id:'ps1-131',title:'Tomb Raider: Chronicles',publisher:'Eidos Interactive',year:2000,genre:'Action-Adventure',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:3,driveFile:'Tomb Raider Chronicles (USA).png',desc:'Four stories, four settings. Released while everyone thought Lara was dead. A farewell to the PS1 era.'},
+  {id:'ps1-132',title:'Vagrant Story',publisher:'Square',year:2000,genre:'Action-RPG',prices:{USD:49.99,GBP:39.99,JPY:6800},rating:5,driveFile:'Vagrant Story (USA).png',desc:'Yasumi Matsuno\'s masterpiece. The Risk System, Break Arts, chaining combos in the Great Cathedral.'},
+  {id:'ps1-133',title:'Wipeout',publisher:'Sony CE',year:1995,genre:'Racing',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:4,driveFile:'WipEout (USA).png',desc:'Anti-gravity racing that defined PlayStation\'s cool aesthetic. Chemical Brothers, The Prodigy, perfection.'},
+];
+
+const PS1_GENRE_COLORS={
+  'Racing':'#001a3a','RPG':'#1a0030','Fighting':'#3a0000',
+  'Platformer':'#001a1a','Action-Adventure':'#001a10','Stealth':'#0a0a20',
+  'Survival Horror':'#1a0010','Strategy-RPG':'#0a001a','Action-RPG':'#001030',
+  'Action':'#1a0a00','Rhythm':'#001a00','Sports':'#1a1000',
+  'Party':'#0a0a00','FPS':'#1a0a0a','Puzzle':'#0a001a',
+  'Compilation':'#0a0a0a','Board Game':'#0a0800','Simulation':'#001a0a',
+  'Strategy':'#001a0a',
+};
+
+let ps1Filtered=[...PS1_GAMES];
+
+function initPS1Filters(){
+  const genres=[...new Set(PS1_GAMES.map(g=>g.genre))].sort();
+  const gSel=document.getElementById('ps1Genre');
+  genres.forEach(g=>{const o=document.createElement('option');o.value=g;o.textContent=g;gSel.appendChild(o);});
+}
+
+function filterPS1(){
+  const s=document.getElementById('ps1Search').value.toLowerCase().trim();
+  const g=document.getElementById('ps1Genre').value;
+  ps1Filtered=PS1_GAMES.filter(n=>{
+    const searchIn=[n.title,n.publisher,n.genre].join(' ').toLowerCase();
+    const ms=!s||s.split(' ').every(w=>searchIn.includes(w));
+    const mg=!g||n.genre===g;
+    return ms&&mg;
+  });
+  renderPS1();
+}
+
+function renderPS1(){
+  const grid=document.getElementById('ps1Grid');
+  if(!grid) return;
+  grid.innerHTML='';
+  const countEl=document.getElementById('ps1Count');
+  if(countEl) countEl.textContent=ps1Filtered.length+' of '+PS1_GAMES.length+' games';
+  if(!ps1Filtered.length){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px;font-size:10px;color:var(--text3)">NO GAMES FOUND — GAME OVER</div>';return;}
+  ps1Filtered.forEach(game=>{
+    const adj=game.prices.USD?applyInflation(game.prices.USD,'USD',game.year):null;
+    const hw=game.prices.USD&&game.prices.GBP?hoursWorked(game.prices.USD,game.prices.GBP,game.year):null;
+    const stars='★'.repeat(game.rating)+'☆'.repeat(5-game.rating);
+    const bg=PS1_GENRE_COLORS[game.genre]||'#0a0a1a';
+    const card=document.createElement('div');
+    card.className='game-card';
+    card.onclick=()=>openPS1Modal(game);
+    const priceUSD=game.prices.USD?fmt(game.prices.USD,'USD'):'N/A';
+    const priceGBP=game.prices.GBP?fmt(game.prices.GBP,'GBP'):'N/A';
+    const adjStr=adj?fmt(adj,'USD'):'N/A';
+    const hwStr=hw?`🇺🇸${hw.hUS}h 🇬🇧${hw.hUK}h`:'N/A';
+    const salesStr=game.sales?`<div class="console-badge-sales">${game.sales}</div>`:'';
+    card.innerHTML=`<div class="card-overlay">VIEW ▶</div>
+      <div class="box-art-wrap" style="background:${bg}">
+        ${salesStr}
+        ${game.driveFile?`<img src="${PS1_ART_BASE}${game.driveFile}" alt="${game.title}" style="width:100%;height:100%;object-fit:contain;padding:4px;display:block" onerror="this.style.display='none'">`:``}
+        <div class="console-badge">PS1 · ${game.year}</div>
+      </div>
+      <div class="card-info">
+        <div class="card-title">${game.title}</div>
+        <div class="card-year"><span style="color:var(--text3)">${stars}</span></div>
+        <div class="price-table-mini">
+          <div class="price-cell"><span class="price-cell-label">USD ${game.year}</span><span class="price-cell-val">${priceUSD}</span></div>
+          <div class="price-cell"><span class="price-cell-label">GBP ${game.year}</span><span class="price-cell-val">${priceGBP}</span></div>
+          ${adj?`<div class="price-cell adjusted"><span class="price-cell-label">🪙 2026 VALUE ${tooltipHTML(game.prices.USD,game.year)}</span><span class="price-cell-val">${adjStr}</span></div>`:''}
+          ${hw?`<div class="hours-cell"><span class="hours-cell-label">⏱ HRS TO BUY</span><span class="hours-cell-vals">${hwStr}</span></div>`:''}
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+function openPS1Modal(game){
+  document.getElementById('modalTitle').textContent=game.title;
+  document.getElementById('modalBg').classList.add('open');
+  document.body.style.overflow='hidden';
+  const adjUSD=game.prices.USD?applyInflation(game.prices.USD,'USD',game.year):null;
+  const adjGBP=game.prices.GBP?applyInflation(game.prices.GBP,'GBP',game.year):null;
+  const adjJPY=game.prices.JPY?applyInflation(game.prices.JPY,'JPY',game.year):null;
+  const mult=game.prices.USD?(inflationUSD[game.year]||1).toFixed(1):null;
+  const hw=game.prices.USD&&game.prices.GBP?hoursWorked(game.prices.USD,game.prices.GBP,game.year):null;
+  const stars='★'.repeat(game.rating)+'☆'.repeat(5-game.rating);
+  const bg=PS1_GENRE_COLORS[game.genre]||'#0a0a1a';
+  document.getElementById('modalBody').innerHTML=`
+    <div class="modal-layout">
+      <div class="modal-box-art" style="background:${bg}">
+        ${game.driveFile?`<img src="${PS1_ART_BASE}${game.driveFile}" alt="${game.title}" style="width:100%;height:100%;object-fit:contain;padding:8px" onerror="this.style.display='none'">`:``}
+      </div>
+      <div class="modal-info">
+        <h2>${game.title}</h2>
+        <div class="info-row"><span class="info-label">CONSOLE</span><span class="info-val">PlayStation</span></div>
+        <div class="info-row"><span class="info-label">YEAR</span><span class="info-val">${game.year}</span></div>
+        <div class="info-row"><span class="info-label">GENRE</span><span class="info-val">${game.genre}</span></div>
+        <div class="info-row"><span class="info-label">PUBLISHER</span><span class="info-val">${game.publisher}</span></div>
+        <div class="info-row"><span class="info-label">RATING</span><span class="info-val" style="color:var(--accent)">${stars}</span></div>
+        <div class="info-row"><button onclick="shareGame('${game.title.replace(/'/g,"\\'")}','PlayStation',${game.year},${game.prices.USD})" style="background:var(--border2);border:1px solid var(--border);color:var(--text2);font-family:var(--font-main);font-size:6px;padding:6px 10px;cursor:pointer;letter-spacing:1px;margin-top:4px;border-radius:var(--radius)">📤 SHARE THIS GAME</button></div>
+        ${game.sales?`<div class="info-row"><span class="info-label">COPIES SOLD</span><span class="info-val" style="color:var(--green)">${game.sales}</span></div>`:''}
+        ${hw?`<div class="hours-block"><div class="hours-block-title">⏱ HOURS WORKED TO BUY AT LAUNCH</div><div class="hours-cols"><div class="hours-col"><div class="hours-col-lbl">🇺🇸 USA</div><div class="hours-col-val">${hw.hUS}h</div><div class="hours-col-sub">avg $${hw.wUS}/hr in ${game.year}</div></div><div class="hours-col"><div class="hours-col-lbl">🇬🇧 UK</div><div class="hours-col-val">${hw.hUK}h</div><div class="hours-col-sub">avg £${hw.wUK}/hr in ${game.year}</div></div></div></div>`:''}
+      </div>
+    </div>
+    <p class="modal-desc">${game.desc||''}</p>
+    <div class="price-breakdown">
+      <div class="price-breakdown-header">💰 LAUNCH PRICE vs 2026 MONEY</div>
+      <div class="price-grid">
+        ${adjUSD?`<div class="price-col"><div class="price-currency">🇺🇸 USD</div><span class="price-original">${fmt(game.prices.USD,'USD')} in ${game.year}</span><span class="price-arrow">↓</span><span class="price-2026">${fmt(adjUSD,'USD')} today</span></div>`:''}
+        ${adjGBP?`<div class="price-col"><div class="price-currency">🇬🇧 GBP</div><span class="price-original">${fmt(game.prices.GBP,'GBP')} in ${game.year}</span><span class="price-arrow">↓</span><span class="price-2026">${fmt(adjGBP,'GBP')} today</span></div>`:''}
+        ${adjJPY?`<div class="price-col"><div class="price-currency">🇯🇵 JPY</div><span class="price-original">${fmt(game.prices.JPY,'JPY')} in ${game.year}</span><span class="price-arrow">↓</span><span class="price-2026">${fmt(adjJPY,'JPY')} today</span></div>`:''}
+      </div>
+    </div>
+    ${mult?`<div class="inflation-note">📊 Inflation factor: ${mult}× from ${game.year} to 2026 (US CPI).</div>`:''}`;
+}
+
+
+// ══════════════════════════════════════════
+// FRANCHISES
+// ══════════════════════════════════════════
+const FRANCHISES=[
+  {
+    name:'Super Mario',maker:'Nintendo',emoji:'🍄',
+    color:'#c84c0c',color2:'#e52222',
+    art:'https://gameflation.netlify.app/art/franchises/super-mario.jpg',
+    years:'1985–present',
+    games:[
+      {t:'Super Mario Bros.',y:1985,usd:29.99},
+      {t:'Super Mario Bros. 2',y:1988,usd:34.99},
+      {t:'Super Mario Bros. 3',y:1990,usd:44.99},
+      {t:'Super Mario World',y:1990,usd:49.99},
+      {t:'Super Mario 64',y:1996,usd:59.99},
+      {t:'Super Mario Sunshine',y:2002,usd:49.99},
+      {t:'New Super Mario Bros.',y:2006,usd:34.99},
+      {t:'Super Mario Galaxy',y:2007,usd:49.99},
+    ],
+    facts:[
+      {icon:'💰',text:'Super Mario Bros. launched at <b>$29.99</b> in 1985 — that\'s <b>$96</b> in today\'s money. Nintendo kept the same game on shelves for nearly a decade.'},
+      {icon:'📦',text:'Super Mario Bros. has sold over <b>40 million copies</b> — still one of the best-selling games of all time, bundled with 40% of all NES units sold.'},
+    ],
+    totalSales:'800M+',genres:'Platformer',entries:'200+',
+  },
+  {
+    name:'The Legend of Zelda',maker:'Nintendo',emoji:'⚔️',
+    color:'#1a6b00',color2:'#3abf3a',
+    art:'https://gameflation.netlify.app/art/franchises/zelda.jpg',
+    years:'1986–present',
+    games:[
+      {t:'The Legend of Zelda',y:1986,usd:49.99},
+      {t:'Zelda II: The Adventure of Link',y:1988,usd:39.99},
+      {t:'A Link to the Past',y:1991,usd:49.99},
+      {t:"Link's Awakening",y:1993,usd:29.99},
+      {t:'Ocarina of Time',y:1998,usd:59.99},
+      {t:"Majora's Mask",y:2000,usd:59.99},
+      {t:'Wind Waker',y:2002,usd:49.99},
+      {t:'Twilight Princess',y:2006,usd:49.99},
+    ],
+    facts:[
+      {icon:'🥇',text:'The original Zelda\'s <b>$49.99</b> price tag in 1986 equals about <b>$148</b> today — it cost more than the NES launch price in inflation-adjusted terms.'},
+      {icon:'💾',text:'Zelda was one of the <b>first console games</b> to ship with an internal battery for saves — that battery added ~$10 to the manufacturing cost per cartridge.'},
+    ],
+    totalSales:'125M+',genres:'Action-RPG',entries:'19',
+  },
+  {
+    name:'Final Fantasy',maker:'Square',emoji:'⚗️',
+    color:'#001a8b',color2:'#5bc8f5',
+    art:'https://gameflation.netlify.app/art/franchises/final-fantasy.jpg',
+    years:'1987–present',
+    games:[
+      {t:'Final Fantasy',y:1990,usd:49.99},
+      {t:'Final Fantasy IV',y:1991,usd:59.99},
+      {t:'Final Fantasy VI',y:1994,usd:69.99},
+      {t:'Final Fantasy VII',y:1997,usd:49.99},
+      {t:'Final Fantasy VIII',y:1999,usd:49.99},
+      {t:'Final Fantasy IX',y:2000,usd:49.99},
+      {t:'Final Fantasy X',y:2001,usd:49.99},
+      {t:'Final Fantasy XII',y:2006,usd:49.99},
+    ],
+    facts:[
+      {icon:'🎰',text:'Final Fantasy VI launched at <b>$69.99</b> in 1994 — equivalent to <b>$148</b> today. The massive 24-megabit ROM was one of the most expensive cartridges ever pressed.'},
+      {icon:'📼',text:'The jump to PlayStation <b>cut costs dramatically</b>. FF7\'s three-disc CD set cost far less to manufacture than FF6\'s single cartridge — yet both retailed at around $50.'},
+    ],
+    totalSales:'180M+',genres:'RPG',entries:'16 mainline',
+  },
+  {
+    name:'Sonic the Hedgehog',maker:'Sega',emoji:'💨',
+    color:'#003fa3',color2:'#5bc8f5',
+    art:'https://gameflation.netlify.app/art/franchises/sonic.jpg',
+    years:'1991–present',
+    games:[
+      {t:'Sonic the Hedgehog',y:1991,usd:49.99},
+      {t:'Sonic the Hedgehog 2',y:1992,usd:49.99},
+      {t:'Sonic CD',y:1993,usd:49.99},
+      {t:'Sonic the Hedgehog 3',y:1994,usd:54.99},
+      {t:'Sonic & Knuckles',y:1994,usd:54.99},
+      {t:'Sonic Adventure',y:1999,usd:49.99},
+      {t:'Sonic Adventure 2',y:2001,usd:49.99},
+      {t:'Sonic Heroes',y:2003,usd:49.99},
+    ],
+    facts:[
+      {icon:'⚡',text:'Sonic the Hedgehog shipped as the <b>pack-in game</b> with the Mega Drive, replacing the Altered Beast bundle. This single decision is credited with doubling Sega\'s market share.'},
+      {icon:'📊',text:'At their 1992 peak, Sega held <b>55% of the US console market</b> — a feat achieved partly by pricing the Genesis $30 below the SNES and letting Sonic do the rest.'},
+    ],
+    totalSales:'160M+',genres:'Platformer',entries:'30+',
+  },
+  {
+    name:'Mega Man',maker:'Capcom',emoji:'🤖',
+    color:'#00308f',color2:'#5bc8f5',
+    art:'https://gameflation.netlify.app/art/franchises/mega-man.jpg',
+    years:'1987–present',
+    games:[
+      {t:'Mega Man',y:1987,usd:34.99},
+      {t:'Mega Man 2',y:1989,usd:39.99},
+      {t:'Mega Man 3',y:1990,usd:44.99},
+      {t:'Mega Man 4',y:1992,usd:44.99},
+      {t:'Mega Man X',y:1993,usd:54.99},
+      {t:'Mega Man X2',y:1994,usd:59.99},
+      {t:'Mega Man 7',y:1995,usd:59.99},
+      {t:'Mega Man X4',y:1997,usd:39.99},
+    ],
+    facts:[
+      {icon:'📈',text:'Mega Man\'s average launch price <b>climbed from $35 to $60</b> between 1987 and 1995 — a 70% nominal rise. In real terms it roughly doubled the hours of work to buy one.'},
+      {icon:'🎨',text:'Mega Man\'s notorious US box art was painted in two days by a freelancer who <b>had never played the game</b>. The Japanese Famicom art was a futuristic anime hero instead.'},
+    ],
+    totalSales:'40M+',genres:'Platformer',entries:'50+',
+  },
+  {
+    name:'Castlevania',maker:'Konami',emoji:'🧛',
+    color:'#3a0040',color2:'#e52222',
+    art:'https://gameflation.netlify.app/art/franchises/castlevania.jpg',
+    years:'1987–present',
+    games:[
+      {t:'Castlevania',y:1987,usd:39.99},
+      {t:'Castlevania II: Simon\'s Quest',y:1988,usd:39.99},
+      {t:'Castlevania III',y:1990,usd:44.99},
+      {t:'Super Castlevania IV',y:1991,usd:59.99},
+      {t:'Castlevania: Bloodlines',y:1994,usd:59.99},
+      {t:'Symphony of the Night',y:1997,usd:49.99},
+      {t:'Castlevania 64',y:1999,usd:49.99},
+      {t:'Circle of the Moon',y:2001,usd:29.99},
+    ],
+    facts:[
+      {icon:'🎵',text:'Symphony of the Night shipped at <b>$49.99</b> in 1997 but sold poorly at launch — Konami barely marketed it. Today original copies sell for <b>$80–$150</b> on eBay.'},
+      {icon:'🕹️',text:'Super Castlevania IV at <b>$59.99</b> in 1991 cost the equivalent of <b>$134</b> today — it was one of the priciest SNES launch titles, justified by its massive Mode 7 showpiece levels.'},
+    ],
+    totalSales:'40M+',genres:'Action / Metroidvania',entries:'30+',
+  },
+  {
+    name:'Street Fighter',maker:'Capcom',emoji:'🥊',
+    color:'#8b0000',color2:'#f7c948',
+    art:'https://gameflation.netlify.app/art/franchises/street-fighter.jpg',
+    years:'1987–present',
+    games:[
+      {t:'Street Fighter II',y:1992,usd:69.99},
+      {t:'Street Fighter II Turbo',y:1992,usd:69.99},
+      {t:'Super Street Fighter II',y:1994,usd:69.99},
+      {t:'Street Fighter Alpha',y:1996,usd:49.99},
+      {t:'Street Fighter Alpha 2',y:1996,usd:49.99},
+      {t:'Street Fighter Alpha 3',y:1998,usd:49.99},
+      {t:'Street Fighter III: 3rd Strike',y:1999,usd:49.99},
+      {t:'Street Fighter IV',y:2009,usd:59.99},
+    ],
+    facts:[
+      {icon:'💸',text:'Street Fighter II on SNES launched at <b>$69.99</b> in 1992 — the equivalent of <b>$154</b> today. Capcom charged the premium because everyone wanted it and nothing else competed.'},
+      {icon:'🏬',text:'SF2 was so popular that <b>rental stores</b> reportedly stocked 8–10 copies per store vs 1–2 for most titles. Capcom used the rental demand as justification for the high price point.'},
+    ],
+    totalSales:'50M+',genres:'Fighting',entries:'8 mainline',
+  },
+  {
+    name:'Mortal Kombat',maker:'Midway / NetherRealm',emoji:'💀',
+    color:'#1a0000',color2:'#e52222',
+    art:'https://gameflation.netlify.app/art/franchises/mortal-kombat.jpg',
+    years:'1993–present',
+    games:[
+      {t:'Mortal Kombat',y:1993,usd:59.99},
+      {t:'Mortal Kombat II',y:1994,usd:64.99},
+      {t:'Mortal Kombat 3',y:1995,usd:64.99},
+      {t:'Ultimate Mortal Kombat 3',y:1996,usd:59.99},
+      {t:'Mortal Kombat Trilogy',y:1996,usd:59.99},
+      {t:'Mortal Kombat 4',y:1998,usd:49.99},
+      {t:'Deadly Alliance',y:2002,usd:49.99},
+      {t:'Deception',y:2004,usd:49.99},
+    ],
+    facts:[
+      {icon:'⚖️',text:'Mortal Kombat\'s blood and fatalities directly caused the <b>1993 Senate hearings</b> on video game violence, which led to the creation of the ESRB ratings board in 1994.'},
+      {icon:'🩸',text:'The SNES version shipped with <b>sweat instead of blood</b> by Nintendo\'s order. The Genesis version kept the blood via the ABACABB cheat — and outsold the SNES version 3-to-1.'},
+    ],
+    totalSales:'80M+',genres:'Fighting',entries:'12 mainline',
+  },
+  {
+    name:'Resident Evil',maker:'Capcom',emoji:'🧟',
+    color:'#0d0d0d',color2:'#e52222',
+    art:'https://gameflation.netlify.app/art/franchises/resident-evil.jpg',
+    years:'1996–present',
+    games:[
+      {t:'Resident Evil',y:1996,usd:49.99},
+      {t:'Resident Evil 2',y:1998,usd:49.99},
+      {t:'Resident Evil 3: Nemesis',y:1999,usd:49.99},
+      {t:'Resident Evil: Code Veronica',y:2000,usd:49.99},
+      {t:'Resident Evil 0',y:2002,usd:49.99},
+      {t:'Resident Evil 4',y:2005,usd:49.99},
+      {t:'Resident Evil 5',y:2009,usd:59.99},
+      {t:'Resident Evil 7',y:2017,usd:59.99},
+    ],
+    facts:[
+      {icon:'🎬',text:'RE1 famously had <b>live-action FMV cutscenes</b> in the original Japanese version that were replaced with in-engine cutscenes for international release — partly to cut disc costs.'},
+      {icon:'📀',text:'Resident Evil 2 shipped on <b>two CDs</b> with two full separate campaigns — Leon\'s and Claire\'s — for the standard $49.99 price. It remains one of the best value packages of the PS1 era.'},
+    ],
+    totalSales:'160M+',genres:'Survival Horror',entries:'9 mainline',
+  },
+  {
+    name:'Gran Turismo',maker:'Sony / Polyphony',emoji:'🏎️',
+    color:'#001a3a',color2:'#5bc8f5',
+    art:'https://gameflation.netlify.app/art/franchises/gran-turismo.jpg',
+    years:'1997–present',
+    games:[
+      {t:'Gran Turismo',y:1997,usd:49.99},
+      {t:'Gran Turismo 2',y:1999,usd:49.99},
+      {t:'Gran Turismo 3',y:2001,usd:49.99},
+      {t:'Gran Turismo 4',y:2004,usd:49.99},
+      {t:'Gran Turismo 5 Prologue',y:2008,usd:39.99},
+      {t:'Gran Turismo 5',y:2010,usd:59.99},
+      {t:'Gran Turismo 6',y:2013,usd:59.99},
+      {t:'Gran Turismo 7',y:2022,usd:69.99},
+    ],
+    facts:[
+      {icon:'🚗',text:'Gran Turismo is the <b>best-selling PlayStation franchise</b> ever with over 90 million copies sold. GT1 alone sold 10.85 million — more than any other PS1 game.'},
+      {icon:'⏱️',text:'GT4 was developed over <b>5 years</b> with a team of 150 people, yet launched at the same $49.99 as GT1 in 1997. Development costs had risen 10x while prices stayed flat.'},
+    ],
+    totalSales:'90M+',genres:'Sim Racing',entries:'8 mainline',
+  },
+  {
+    name:'Crash Bandicoot',maker:'Naughty Dog / Sony',emoji:'🐨',
+    color:'#b35c00',color2:'#f7c948',
+    art:'https://gameflation.netlify.app/art/franchises/crash-bandicoot.jpg',
+    years:'1996–present',
+    games:[
+      {t:'Crash Bandicoot',y:1996,usd:49.99},
+      {t:'Crash Bandicoot 2',y:1997,usd:49.99},
+      {t:'Crash Bandicoot: Warped',y:1998,usd:49.99},
+      {t:'Crash Team Racing',y:1999,usd:49.99},
+      {t:'Crash Bash',y:2000,usd:49.99},
+      {t:'Crash Bandicoot: The Wrath of Cortex',y:2001,usd:49.99},
+      {t:'Crash Twinsanity',y:2004,usd:39.99},
+      {t:'Crash N. Sane Trilogy',y:2017,usd:39.99},
+    ],
+    facts:[
+      {icon:'🎭',text:'Crash was Sony\'s deliberate answer to Mario and Sonic — Naughty Dog were given an <b>open brief to create a mascot</b>. They chose a bandicoot specifically because no other franchise had used one.'},
+      {icon:'📺',text:'During the PS1 era Sony ran <b>billboard ads in Seattle and New York</b> with Crash taunting "Hey plumber boy — bring it on!" — a direct jab at Mario that Nintendo never officially responded to.'},
+    ],
+    totalSales:'50M+',genres:'Platformer',entries:'18',
+  },
+  {
+    name:'Metal Gear',maker:'Konami',emoji:'🐍',
+    color:'#0a1a0a',color2:'#3abf3a',
+    art:'https://gameflation.netlify.app/art/franchises/metal-gear.jpg',
+    years:'1987–2018',
+    games:[
+      {t:'Metal Gear',y:1988,usd:39.99},
+      {t:'Metal Gear 2: Solid Snake',y:1990,usd:null},
+      {t:'Metal Gear Solid',y:1998,usd:49.99},
+      {t:'Metal Gear Solid 2',y:2001,usd:49.99},
+      {t:'Metal Gear Solid 3',y:2004,usd:49.99},
+      {t:'Metal Gear Solid 4',y:2008,usd:59.99},
+      {t:'Metal Gear Rising',y:2013,usd:49.99},
+      {t:'MGSV: The Phantom Pain',y:2015,usd:59.99},
+    ],
+    facts:[
+      {icon:'📡',text:'Metal Gear Solid famously told you to <b>look on the back of the CD case</b> to find Meryl\'s codec frequency — a piece of information stored in the real world, not the game. Genre-defining.'},
+      {icon:'🧠',text:'MGS broke the fourth wall by having Psycho Mantis <b>read your memory card</b> and comment on your other Konami save files — a trick that literally could not be done on any other console.'},
+    ],
+    totalSales:'58M+',genres:'Stealth / Action',entries:'12+',
+  },
+  {
+    name:'Pokémon',maker:'Nintendo / Game Freak',emoji:'⚡',
+    color:'#f7c948',color2:'#f7c948',
+    art:'https://gameflation.netlify.app/art/franchises/pokemon.jpg',
+    years:'1996–present',
+    games:[
+      {t:'Pokémon Red & Blue',y:1998,usd:29.99},
+      {t:'Pokémon Yellow',y:1999,usd:29.99},
+      {t:'Pokémon Gold & Silver',y:2000,usd:29.99},
+      {t:'Pokémon Crystal',y:2001,usd:29.99},
+      {t:'Pokémon Ruby & Sapphire',y:2003,usd:34.99},
+      {t:'Pokémon FireRed & LeafGreen',y:2004,usd:34.99},
+      {t:'Pokémon Diamond & Pearl',y:2007,usd:34.99},
+      {t:'Pokémon Black & White',y:2011,usd:34.99},
+      {t:'Pokémon X & Y',y:2013,usd:39.99},
+      {t:'Pokémon Sun & Moon',y:2016,usd:39.99},
+      {t:'Pokémon Sword & Shield',y:2019,usd:59.99},
+      {t:'Pokémon Scarlet & Violet',y:2022,usd:59.99},
+    ],
+    facts:[
+      {icon:'🌍',text:'Pokémon is the <b>highest-grossing media franchise of all time</b> — over $150 billion across games, cards, anime and merchandise. The games alone have sold over 480 million copies.'},
+      {icon:'💸',text:'Red & Blue launched at just <b>$29.99</b> in 1998 — nearly $20 less than a standard N64 game. Nintendo priced Game Boy titles lower deliberately, knowing kids bought them with pocket money. In 2026 money that\'s about <b>$62</b> — still cheaper than a modern Switch game.'},
+    ],
+    totalSales:'480M+',genres:'RPG',entries:'9 generations',
+  },
+  {
+    name:'Grand Theft Auto',maker:'Rockstar Games',emoji:'🚗',
+    color:'#1a1a00',color2:'#f7c948',
+    art:'https://gameflation.netlify.app/art/franchises/gta.jpg',
+    years:'1997–present',
+    games:[
+      {t:'Grand Theft Auto',y:1997,usd:29.99},
+      {t:'Grand Theft Auto 2',y:1999,usd:29.99},
+      {t:'Grand Theft Auto III',y:2001,usd:49.99},
+      {t:'GTA: Vice City',y:2002,usd:49.99},
+      {t:'GTA: San Andreas',y:2004,usd:49.99},
+      {t:'Grand Theft Auto IV',y:2008,usd:59.99},
+      {t:'Grand Theft Auto V',y:2013,usd:59.99},
+      {t:'Grand Theft Auto VI',y:2025,usd:69.99},
+    ],
+    facts:[
+      {icon:'💰',text:'GTA V launched at <b>$59.99</b> in 2013 and has since generated over <b>$8 billion</b> in revenue — making it one of the most profitable entertainment products in history. In 2026 money that launch price is about <b>$78</b>.'},
+      {icon:'📈',text:'The original GTA sold for just <b>$29.99</b> in 1997 — the equivalent of <b>$60</b> today. Rockstar\'s pricing stayed flat for 16 years while development budgets grew from ~$1M to over $250M.'},
+    ],
+    totalSales:'415M+',genres:'Action-Adventure',entries:'6 mainline',
+  },
+  {
+    name:'Tomb Raider',maker:'Core Design / Crystal Dynamics',emoji:'🏛️',
+    color:'#1a0f00',color2:'#c84c0c',
+    art:'https://gameflation.netlify.app/art/franchises/tomb-raider.jpg',
+    years:'1996–present',
+    games:[
+      {t:'Tomb Raider',y:1996,usd:49.99},
+      {t:'Tomb Raider II',y:1997,usd:49.99},
+      {t:'Tomb Raider III',y:1998,usd:49.99},
+      {t:'Tomb Raider: The Last Revelation',y:1999,usd:49.99},
+      {t:'Tomb Raider: Chronicles',y:2000,usd:49.99},
+      {t:'Tomb Raider: Legend',y:2006,usd:49.99},
+      {t:'Tomb Raider (2013)',y:2013,usd:59.99},
+      {t:'Rise of the Tomb Raider',y:2015,usd:59.99},
+    ],
+    facts:[
+      {icon:'🎮',text:'The original Tomb Raider was one of the <b>first 3D action-adventure games</b> — its tank controls and fixed camera were the template every rival copied for the next five years.'},
+      {icon:'📦',text:'Core Design released a new Tomb Raider <b>every single year</b> from 1996–2000, shipping five full games in four years. The annual crunch broke the studio and killed the original series.'},
+    ],
+    totalSales:'95M+',genres:'Action-Adventure',entries:'12',
+  },
+  {
+    name:'Tekken',maker:'Namco / Bandai Namco',emoji:'👊',
+    color:'#1a0000',color2:'#e52222',
+    art:'https://gameflation.netlify.app/art/franchises/tekken.jpg',
+    years:'1994–present',
+    games:[
+      {t:'Tekken',y:1995,usd:49.99},
+      {t:'Tekken 2',y:1996,usd:49.99},
+      {t:'Tekken 3',y:1998,usd:49.99},
+      {t:'Tekken Tag Tournament',y:2000,usd:49.99},
+      {t:'Tekken 4',y:2002,usd:49.99},
+      {t:'Tekken 5',y:2005,usd:49.99},
+      {t:'Tekken 6',y:2009,usd:59.99},
+      {t:'Tekken 7',y:2017,usd:59.99},
+    ],
+    facts:[
+      {icon:'🥇',text:'Tekken was the <b>first PlayStation game to sell one million copies</b> — a milestone that proved the PS1 had the audience to build a business on. It shipped in 1995 and hit the mark within months.'},
+      {icon:'🎭',text:'Tekken 3 remains one of the <b>best-reviewed fighting games ever made</b>, with an arcade-perfect PS1 port that helped it sell 8.3 million copies — making it the fifth best-selling PS1 game of all time.'},
+    ],
+    totalSales:'55M+',genres:'Fighting',entries:'8 mainline',
+  },
+  {
+    name:'Donkey Kong',maker:'Nintendo',emoji:'🦍',
+    color:'#3a1a00',color2:'#c84c0c',
+    art:'https://gameflation.netlify.app/art/franchises/donkey-kong.jpg',
+    years:'1981–present',
+    games:[
+      {t:'Donkey Kong',y:1986,usd:24.99},
+      {t:'Donkey Kong Jr.',y:1986,usd:24.99},
+      {t:'Donkey Kong Country',y:1994,usd:59.99},
+      {t:'Donkey Kong Country 2',y:1995,usd:59.99},
+      {t:'Donkey Kong Country 3',y:1996,usd:59.99},
+      {t:'Donkey Kong 64',y:1999,usd:49.99},
+      {t:'Donkey Kong Country Returns',y:2010,usd:49.99},
+      {t:'Donkey Kong Country: Tropical Freeze',y:2014,usd:49.99},
+    ],
+    facts:[
+      {icon:'🏗️',text:'Donkey Kong Country\'s <b>pre-rendered 3D graphics</b> in 1994 were so impressive that Nintendo kept them secret until three weeks before release, then used the shock to batter the Sega Genesis in the press.'},
+      {icon:'💵',text:'DKC launched at <b>$59.99</b> in 1994 — about <b>$127</b> today — one of the most expensive SNES games at launch. It still sold 9 million copies, becoming the third best-selling SNES game ever.'},
+    ],
+    totalSales:'65M+',genres:'Platformer',entries:'20+',
+  },
+  {
+    name:'Metroid',maker:'Nintendo',emoji:'🌌',
+    color:'#001a1a',color2:'#3abf3a',
+    art:'https://gameflation.netlify.app/art/franchises/metroid.jpg',
+    years:'1987–present',
+    games:[
+      {t:'Metroid',y:1987,usd:29.99},
+      {t:'Metroid II: Return of Samus',y:1991,usd:29.99},
+      {t:'Super Metroid',y:1994,usd:59.99},
+      {t:'Metroid Fusion',y:2002,usd:29.99},
+      {t:'Metroid Prime',y:2002,usd:49.99},
+      {t:'Metroid Prime 2: Echoes',y:2004,usd:49.99},
+      {t:'Metroid Prime 3: Corruption',y:2007,usd:49.99},
+      {t:'Metroid Dread',y:2021,usd:59.99},
+    ],
+    facts:[
+      {icon:'👾',text:'Super Metroid at <b>$59.99</b> in 1994 is widely considered the greatest game ever made — yet it sold only 1.4 million copies at launch, a commercial disappointment Nintendo used to justify shelving the series for 8 years.'},
+      {icon:'🎨',text:'Metroid invented the <b>Metroidvania genre</b> — a term that now describes hundreds of games. The irony is that Nintendo barely released new Metroid games for 19 years between 2007 and 2021\'s Dread.'},
+    ],
+    totalSales:'20M+',genres:'Action-Adventure',entries:'13',
+  },
+  {
+    name:'Doom',maker:'id Software',emoji:'💥',
+    color:'#1a0000',color2:'#e52222',
+    art:'https://gameflation.netlify.app/art/franchises/doom.jpg',
+    years:'1993–present',
+    games:[
+      {t:'Doom',y:1993,usd:39.99},
+      {t:'Doom II',y:1994,usd:44.99},
+      {t:'Doom 64',y:1997,usd:59.99},
+      {t:'Doom 3',y:2004,usd:54.99},
+      {t:'Doom (2016)',y:2016,usd:59.99},
+      {t:'Doom Eternal',y:2020,usd:59.99},
+    ],
+    facts:[
+      {icon:'💻',text:'The original Doom was <b>shareware</b> — the first episode was free. id Software estimated 10 million people played it that way. The paid version at $39.99 still became one of the best-selling PC games of the 90s.'},
+      {icon:'⚖️',text:'Doom was <b>cited alongside Mortal Kombat</b> in the 1993 Senate hearings on video game violence. Unlike MK, it was PC-only at the time — making it the first game Congress tried to regulate before it even reached consoles.'},
+    ],
+    totalSales:'10M+',genres:'FPS',entries:'6 mainline',
+  },
+  {
+    name:'Halo',maker:'Bungie / 343 Industries',emoji:'🪖',
+    color:'#001a0a',color2:'#3abf3a',
+    art:'https://gameflation.netlify.app/art/franchises/halo.jpg',
+    years:'2001–present',
+    games:[
+      {t:'Halo: Combat Evolved',y:2001,usd:49.99},
+      {t:'Halo 2',y:2004,usd:49.99},
+      {t:'Halo 3',y:2007,usd:59.99},
+      {t:'Halo 3: ODST',y:2009,usd:59.99},
+      {t:'Halo: Reach',y:2010,usd:59.99},
+      {t:'Halo 4',y:2012,usd:59.99},
+      {t:'Halo 5: Guardians',y:2015,usd:59.99},
+      {t:'Halo Infinite',y:2021,usd:59.99},
+    ],
+    facts:[
+      {icon:'🎯',text:'Halo: Combat Evolved essentially <b>launched the Xbox</b>. Microsoft\'s console sold ~1.5 million units in its first month — analysts credited Halo as the sole reason anyone bought one at $299 instead of a PS2.'},
+      {icon:'🌐',text:'Halo 2\'s Xbox Live multiplayer in 2004 at <b>$49.99</b> changed console gaming forever — it was the first mainstream console game to make <b>online multiplayer the main event</b>, not a bonus feature.'},
+    ],
+    totalSales:'82M+',genres:'FPS',entries:'6 mainline',
+  },
+  {
+    name:"Tony Hawk's",maker:'Activision / Neversoft',emoji:'🛹',
+    color:'#0a0a00',color2:'#f7c948',
+    art:'https://gameflation.netlify.app/art/franchises/tony-hawks.jpg',
+    years:'1999–present',
+    games:[
+      {t:"Tony Hawk's Pro Skater",y:1999,usd:49.99},
+      {t:"Tony Hawk's Pro Skater 2",y:2000,usd:49.99},
+      {t:"Tony Hawk's Pro Skater 3",y:2001,usd:49.99},
+      {t:"Tony Hawk's Pro Skater 4",y:2002,usd:49.99},
+      {t:"Tony Hawk's Underground",y:2003,usd:49.99},
+      {t:"Tony Hawk's Underground 2",y:2004,usd:49.99},
+      {t:"Tony Hawk's American Wasteland",y:2005,usd:49.99},
+      {t:"Tony Hawk's Pro Skater 1+2",y:2020,usd:39.99},
+    ],
+    facts:[
+      {icon:'🎵',text:'THPS2\'s soundtrack — Rage Against the Machine, Dead Kennedys, Naughty by Nature — <b>sold more copies</b> as a standalone CD than most dedicated music albums that year. The game made punk rock mainstream.'},
+      {icon:'📉',text:'The franchise peaked with THPS2 at <b>$49.99</b> in 2000. By 2007 it had released <b>14 games in 8 years</b>, utterly exhausting the audience. Annual milking killed one of gaming\'s strongest brands.'},
+    ],
+    totalSales:'30M+',genres:'Sports',entries:'18',
+  },
+  {
+    name:'Kirby',maker:'HAL Laboratory / Nintendo',emoji:'🩷',
+    color:'#3a001a',color2:'#f7c948',
+    art:'https://gameflation.netlify.app/art/franchises/kirby.jpg',
+    years:'1992–present',
+    games:[
+      {t:"Kirby's Dream Land",y:1992,usd:19.99},
+      {t:"Kirby's Adventure",y:1993,usd:49.99},
+      {t:"Kirby's Dream Land 2",y:1995,usd:29.99},
+      {t:"Kirby Super Star",y:1996,usd:49.99},
+      {t:"Kirby 64: The Crystal Shards",y:2000,usd:49.99},
+      {t:"Kirby: Nightmare in Dream Land",y:2002,usd:29.99},
+      {t:"Kirby's Epic Yarn",y:2010,usd:49.99},
+      {t:'Kirby and the Forgotten Land',y:2022,usd:59.99},
+    ],
+    facts:[
+      {icon:'💡',text:"Kirby's Dream Land was deliberately designed to be <b>easy enough for anyone to finish</b> — HAL's Masahiro Sakurai was 19 when he made it. It shipped at just <b>$19.99</b> in 1992, one of the cheapest Game Boy games ever."},
+      {icon:'🎮',text:"Kirby's Adventure at <b>$49.99</b> in 1993 was one of the last and largest NES cartridges ever made — 6 megabytes, launched in the SNES era when Nintendo had already moved on. A farewell gift to the NES."},
+    ],
+    totalSales:'50M+',genres:'Platformer',entries:'20+',
+  },
+  {
+    name:'Call of Duty',maker:'Activision / Infinity Ward',emoji:'🎖️',
+    color:'#0a0800',color2:'#888780',
+    art:'https://gameflation.netlify.app/art/franchises/call-of-duty.jpg',
+    years:'2003–present',
+    games:[
+      {t:'Call of Duty',y:2003,usd:49.99},
+      {t:'Call of Duty 2',y:2005,usd:49.99},
+      {t:'Call of Duty 4: Modern Warfare',y:2007,usd:59.99},
+      {t:'Call of Duty: World at War',y:2008,usd:59.99},
+      {t:'Modern Warfare 2',y:2009,usd:59.99},
+      {t:'Black Ops',y:2010,usd:59.99},
+      {t:'Modern Warfare 3',y:2011,usd:59.99},
+      {t:'Black Ops II',y:2012,usd:59.99},
+    ],
+    facts:[
+      {icon:'📊',text:'Call of Duty 4: Modern Warfare at <b>$59.99</b> in 2007 was the turning point — it shifted the genre from WWII to modern combat and became the <b>template every shooter copied for a decade</b>.'},
+      {icon:'💵',text:'The franchise has grossed over <b>$30 billion</b> since 2003. Black Ops II made $1 billion in its <b>first 15 days</b> — faster than any film at that point. The $59.99 price held flat for 15 years of peak earnings.'},
+    ],
+    totalSales:'425M+',genres:'FPS',entries:'20+ mainline',
+  },
+  {
+    name:'FIFA / EA Sports FC',maker:'EA Sports',emoji:'⚽',
+    color:'#001a00',color2:'#3abf3a',
+    art:'https://gameflation.netlify.app/art/franchises/fifa.jpg',
+    years:'1993–present',
+    games:[
+      {t:'FIFA International Soccer',y:1993,usd:49.99},
+      {t:'FIFA 96',y:1995,usd:49.99},
+      {t:'FIFA 98',y:1997,usd:49.99},
+      {t:'FIFA 2000',y:1999,usd:49.99},
+      {t:'FIFA Football 2004',y:2003,usd:49.99},
+      {t:'FIFA 07',y:2006,usd:49.99},
+      {t:'FIFA 14',y:2013,usd:59.99},
+      {t:'FIFA 22',y:2021,usd:59.99},
+    ],
+    facts:[
+      {icon:'🤝',text:'EA paid FIFA <b>$150 million every four years</b> for the licence — a fee that eventually became so large that EA walked away in 2023 and rebranded as EA Sports FC. The name cost more than most game budgets.'},
+      {icon:'💳',text:'FIFA Ultimate Team, introduced in 2009, turned a <b>$49.99 game into a live-service machine</b>. By 2022 FUT was generating over $1.6 billion per year in microtransaction revenue — more than the game sales themselves.'},
+    ],
+    totalSales:'325M+',genres:'Sports / Football',entries:'30+',
+  },
+  {
+    name:"Assassin's Creed",maker:'Ubisoft',emoji:'🦅',
+    color:'#0a0a00',color2:'#f7c948',
+    art:'https://gameflation.netlify.app/art/franchises/assassins-creed.jpg',
+    years:'2007–present',
+    games:[
+      {t:"Assassin's Creed",y:2007,usd:59.99},
+      {t:"Assassin's Creed II",y:2009,usd:59.99},
+      {t:"Assassin's Creed: Brotherhood",y:2010,usd:59.99},
+      {t:"Assassin's Creed III",y:2012,usd:59.99},
+      {t:"Assassin's Creed IV: Black Flag",y:2013,usd:59.99},
+      {t:"Assassin's Creed: Origins",y:2017,usd:59.99},
+      {t:"Assassin's Creed: Odyssey",y:2018,usd:59.99},
+      {t:"Assassin's Creed: Valhalla",y:2020,usd:59.99},
+    ],
+    facts:[
+      {icon:'📅',text:'Ubisoft released a new Assassin\'s Creed <b>every single year from 2007 to 2015</b> — eight games in eight years. By Unity in 2014 the formula was so exhausted they took a two-year break to rebuild.'},
+      {icon:'💰',text:'Assassin\'s Creed II at <b>$59.99</b> in 2009 is widely regarded as the peak of the series — yet the price never moved. Every sequel from 2007 to 2020 launched at exactly <b>$59.99</b>, 13 years of frozen pricing.'},
+    ],
+    totalSales:'200M+',genres:'Action-Adventure',entries:'12 mainline',
+  },
+  {
+    name:'Far Cry',maker:'Ubisoft',emoji:'🌿',
+    color:'#001a00',color2:'#3abf3a',
+    art:'https://gameflation.netlify.app/art/franchises/far-cry.jpg',
+    years:'2004–present',
+    games:[
+      {t:'Far Cry',y:2004,usd:49.99},
+      {t:'Far Cry 2',y:2008,usd:59.99},
+      {t:'Far Cry 3',y:2012,usd:59.99},
+      {t:'Far Cry 4',y:2014,usd:59.99},
+      {t:'Far Cry Primal',y:2016,usd:59.99},
+      {t:'Far Cry 5',y:2018,usd:59.99},
+      {t:'Far Cry 6',y:2021,usd:59.99},
+    ],
+    facts:[
+      {icon:'🎮',text:'Far Cry 3 at <b>$59.99</b> in 2012 redefined open-world shooters and introduced the Ubisoft tower formula that would define AAA gaming for a decade — climb tower, reveal map, clear outposts. Copied everywhere.'},
+      {icon:'🦈',text:'The original Far Cry in 2004 launched at <b>$49.99</b> — the last entry below $60. Its CryEngine tech was so impressive it launched an entire engine licensing business that funded Crytek for years.'},
+    ],
+    totalSales:'80M+',genres:'FPS / Open World',entries:'6 mainline',
+  },
+  {
+    name:'Hitman',maker:'IO Interactive',emoji:'🎯',
+    color:'#0a0000',color2:'#e52222',
+    art:'https://gameflation.netlify.app/art/franchises/hitman.jpg',
+    years:'2000–present',
+    games:[
+      {t:'Hitman: Codename 47',y:2000,usd:39.99},
+      {t:'Hitman 2: Silent Assassin',y:2002,usd:49.99},
+      {t:'Hitman: Contracts',y:2004,usd:49.99},
+      {t:'Hitman: Blood Money',y:2006,usd:49.99},
+      {t:'Hitman: Absolution',y:2012,usd:59.99},
+      {t:'Hitman (2016)',y:2016,usd:59.99},
+      {t:'Hitman 2',y:2018,usd:59.99},
+      {t:'Hitman 3',y:2021,usd:59.99},
+    ],
+    facts:[
+      {icon:'🧳',text:'Hitman: Blood Money at <b>$49.99</b> in 2006 is the fan-favourite entry — its open-ended sandbox murders and newspaper-front-page consequence system set a standard the series spent 10 years trying to recapture.'},
+      {icon:'📦',text:'The 2016 episodic Hitman launched at <b>$59.99</b> but sold individual levels for $10 each — the first major AAA game to experiment with episodic pricing. IO Interactive later re-released it as a complete package.'},
+    ],
+    totalSales:'50M+',genres:'Stealth',entries:'7 mainline',
+  },
+  {
+    name:'Fire Emblem',maker:'Nintendo / Intelligent Systems',emoji:'🔥',
+    color:'#1a0000',color2:'#e52222',
+    art:'https://gameflation.netlify.app/art/franchises/fire-emblem.jpg',
+    years:'1990–present',
+    games:[
+      {t:'Fire Emblem: Genealogy of the Holy War',y:1996,usd:null},
+      {t:'Fire Emblem (GBA)',y:2003,usd:34.99},
+      {t:'Fire Emblem: The Sacred Stones',y:2005,usd:34.99},
+      {t:'Fire Emblem: Path of Radiance',y:2005,usd:49.99},
+      {t:'Fire Emblem: Radiant Dawn',y:2007,usd:49.99},
+      {t:'Fire Emblem: Awakening',y:2013,usd:39.99},
+      {t:'Fire Emblem Fates',y:2016,usd:39.99},
+      {t:'Fire Emblem: Three Houses',y:2019,usd:59.99},
+    ],
+    facts:[
+      {icon:'💀',text:'Fire Emblem\'s defining feature is <b>permadeath</b> — when a unit dies, they\'re gone forever. Nintendo nearly cancelled the series in 2003 before Awakening\'s handheld revival sold 1.9 million and saved it entirely.'},
+      {icon:'📉',text:'Fire Emblem: Awakening at <b>$39.99</b> in 2013 was Nintendo\'s last roll of the dice — they decided internally it would be the <b>final entry</b> if it failed. It sold 1.9 million and became the series\' best seller.'},
+    ],
+    totalSales:'30M+',genres:'Strategy-RPG',entries:'17 mainline',
+  },
+  {
+    name:'God of War',maker:'Sony / Santa Monica Studio',emoji:'⚡',
+    color:'#1a0000',color2:'#e52222',
+    art:'https://gameflation.netlify.app/art/franchises/god-of-war.jpg',
+    years:'2005–present',
+    games:[
+      {t:'God of War',y:2005,usd:49.99},
+      {t:'God of War II',y:2007,usd:49.99},
+      {t:'God of War III',y:2010,usd:59.99},
+      {t:'God of War: Ascension',y:2013,usd:59.99},
+      {t:'God of War (2018)',y:2018,usd:59.99},
+      {t:'God of War: Ragnarök',y:2022,usd:69.99},
+    ],
+    facts:[
+      {icon:'🏛️',text:'The original God of War at <b>$49.99</b> in 2005 was a PS2 technical showpiece — running at near-PS3 quality on aging hardware. Santa Monica pushed the console so hard it became a showcase title at Sony events.'},
+      {icon:'🪓',text:'God of War (2018) at <b>$59.99</b> took 5 years to make and won Game of the Year. It sold 23 million copies — making it one of Sony\'s best-selling exclusives ever. Ragnarök raised the price to <b>$69.99</b>.'},
+    ],
+    totalSales:'60M+',genres:'Action-Adventure',entries:'8',
+  },
+  {
+    name:'Fallout',maker:'Bethesda / Black Isle',emoji:'☢️',
+    color:'#1a1400',color2:'#f7c948',
+    art:'https://gameflation.netlify.app/art/franchises/fallout.jpg',
+    years:'1997–present',
+    games:[
+      {t:'Fallout',y:1997,usd:44.99},
+      {t:'Fallout 2',y:1998,usd:44.99},
+      {t:'Fallout 3',y:2008,usd:59.99},
+      {t:'Fallout: New Vegas',y:2010,usd:59.99},
+      {t:'Fallout 4',y:2015,usd:59.99},
+      {t:'Fallout 76',y:2018,usd:59.99},
+    ],
+    facts:[
+      {icon:'🎲',text:'The original Fallout launched at <b>$44.99</b> in 1997 — a top-down isometric RPG that sold modestly but built a devoted fanbase. Bethesda bought the IP for $5.75 million in 2007 and turned it into a blockbuster.'},
+      {icon:'📺',text:'Fallout 4 at <b>$59.99</b> sold 1.2 million copies in <b>its first day</b> — but the real explosion came from the Amazon Prime TV series in 2024, which brought 5 million new players back to Fallout 76 in one week.'},
+    ],
+    totalSales:'60M+',genres:'RPG',entries:'6 mainline',
+  },
+  {
+    name:'Streets of Rage',maker:'Sega / Dotemu',emoji:'🥋',
+    color:'#1a0a00',color2:'#c84c0c',
+    art:'https://gameflation.netlify.app/art/franchises/streets-of-rage.jpg',
+    years:'1991–present',
+    games:[
+      {t:'Streets of Rage',y:1991,usd:49.99},
+      {t:'Streets of Rage 2',y:1992,usd:54.99},
+      {t:'Streets of Rage 3',y:1994,usd:59.99},
+      {t:'Streets of Rage 4',y:2020,usd:24.99},
+    ],
+    facts:[
+      {icon:'🎵',text:'Streets of Rage 2 at <b>$54.99</b> in 1992 featured a soundtrack by Yuzo Koshiro widely regarded as the greatest video game music ever written — composed on a computer in his bedroom using self-coded sequencing software.'},
+      {icon:'⏳',text:'Streets of Rage 4 launched at just <b>$24.99</b> in 2020 — <b>26 years</b> after Streets of Rage 3. That gap is longer than most gamers\' entire lives. Dotemu\'s revival sold over 2.5 million copies and proved the series still had fans.'},
+    ],
+    totalSales:'5M+',genres:"Beat'em Up",entries:'4',
+  },
+];
+
+let franchisesInited=false;
+function renderFranchises(){
+  if(franchisesInited) return;
+  franchisesInited=true;
+  const grid=document.getElementById('franchiseGrid');
+  if(!grid) return;
+
+  const maxAdj=120;
+
+  FRANCHISES.forEach(fr=>{
+    const priced=fr.games.filter(g=>g.usd);
+    const avgNom=priced.length?Math.round(priced.reduce((s,g)=>s+g.usd,0)/priced.length):0;
+    const avgAdj=priced.length?Math.round(priced.reduce((s,g)=>s+applyInflation(g.usd,'USD',g.year),0)/priced.length):0;
+    const nomPct=Math.min(100,Math.round(avgNom/maxAdj*100));
+    const adjPct=Math.min(100,Math.round(avgAdj/maxAdj*100));
+
+    const card=document.createElement('div');
+    card.className='franchise-card';
+    card.style.cursor='pointer';
+    card.onclick=()=>openFranchiseModal(fr);
+
+    const gamesHtml=fr.games.map(g=>`<span class="franchise-game-chip">${g.t} (${g.y})</span>`).join('');
+    const factsHtml=fr.facts.map(f=>`
+      <div class="franchise-fact">
+        <div class="franchise-fact-text">${f.icon} ${f.text}</div>
+      </div>`).join('');
+
+    card.innerHTML=`
+      <div class="franchise-top">
+        <div class="franchise-art" style="background:${fr.color}22">
+          <img src="${fr.art}" alt="${fr.name}" onerror="this.style.display='none'">
+          <div class="franchise-art-placeholder" id="fp-${fr.name.replace(/[^a-zA-Z0-9]/g,'')}">${fr.emoji}</div>
+        </div>
+        <div class="franchise-header">
+          <div>
+            <div class="franchise-name">${fr.name}</div>
+            <div class="franchise-maker-badge">${fr.maker} · ${fr.years}</div>
+          </div>
+          <div class="franchise-meta-pills">
+            <span class="franchise-pill" style="border-color:${fr.color2}44;color:var(--text)">${fr.genres}</span>
+            <span class="franchise-pill">${fr.entries} entries</span>
+            <span class="franchise-pill" style="color:var(--green)">${fr.totalSales}</span>
+          </div>
+        </div>
+      </div>
+      <div class="franchise-body">
+        <div class="franchise-prices">
+          <div class="franchise-price-row">
+            <div class="franchise-price-lbl">AVG LAUNCH</div>
+            <div class="franchise-price-bar-wrap">
+              <div class="franchise-price-bar" style="width:${nomPct}%;background:${fr.color2}66"></div>
+            </div>
+            <div class="franchise-price-val" style="color:var(--text2)">$${avgNom}</div>
+          </div>
+          <div class="franchise-price-row">
+            <div class="franchise-price-lbl">2026 VALUE</div>
+            <div class="franchise-price-bar-wrap">
+              <div class="franchise-price-bar" style="width:${adjPct}%;background:${fr.color2}"></div>
+            </div>
+            <div class="franchise-price-val">$${avgAdj}</div>
+          </div>
+        </div>
+        <div class="franchise-games-row">${gamesHtml}</div>
+        ${factsHtml}
+      </div>
+      <div class="franchise-stats">
+        <div class="franchise-stat">
+          <div class="franchise-stat-val">$${avgNom}</div>
+          <div class="franchise-stat-lbl">AVG PRICE</div>
+        </div>
+        <div class="franchise-stat">
+          <div class="franchise-stat-val">$${avgAdj}</div>
+          <div class="franchise-stat-lbl">2026 AVG</div>
+        </div>
+        <div class="franchise-stat">
+          <div class="franchise-stat-val">${fr.totalSales}</div>
+          <div class="franchise-stat-lbl">SOLD</div>
+        </div>
+        <div class="franchise-stat">
+          <div class="franchise-stat-val">${fr.entries}</div>
+          <div class="franchise-stat-lbl">ENTRIES</div>
+        </div>
+      </div>
+      <div style="text-align:center;padding:6px;font-size:var(--font-size-small);color:var(--text3);border-top:1px solid var(--border2);background:var(--card2);letter-spacing:.5px">TAP FOR FULL BREAKDOWN ▶</div>`;
+
+    const img=card.querySelector('img');
+    const ph=card.querySelector(`#fp-${fr.name.replace(/[^a-zA-Z0-9]/g,'')}`);
+    if(img&&ph){
+      img.onload=()=>{if(ph)ph.style.display='none';};
+      img.onerror=()=>{img.style.display='none';if(ph)ph.style.display='block';};
+    }
+    grid.appendChild(card);
+  });
+}
+
+let frChartInst=null;
+function openFranchiseModal(fr){
+  document.getElementById('frModalTitle').textContent=fr.name.toUpperCase();
+  document.getElementById('frModalBg').classList.add('open');
+  document.body.style.overflow='hidden';
+
+  const priced=fr.games.filter(g=>g.usd);
+  const avgNom=priced.length?Math.round(priced.reduce((s,g)=>s+g.usd,0)/priced.length):0;
+  const avgAdj=priced.length?Math.round(priced.reduce((s,g)=>s+applyInflation(g.usd,'USD',g.year),0)/priced.length):0;
+  const mostExpNom=priced.length?priced.reduce((a,b)=>b.usd>a.usd?b:a):null;
+  const mostExpAdj=priced.length?priced.reduce((a,b)=>applyInflation(b.usd,'USD',b.year)>applyInflation(a.usd,'USD',a.year)?b:a):null;
+
+  // Build game rows
+  const rowsHtml=fr.games.map(g=>{
+    const adj=g.usd?applyInflation(g.usd,'USD',g.year):null;
+    return `<div class="fr-game-row">
+      <div class="fr-game-title">${g.t}</div>
+      <div class="fr-game-year">${g.y}</div>
+      <div class="fr-game-price">${g.usd?'$'+g.usd.toFixed(2):'N/A'}</div>
+      <div class="fr-game-adj">${adj?'$'+adj:'—'}</div>
+    </div>`;
+  }).join('');
+
+  // Column headers for table
+  const tableHeader=`<div class="fr-game-row" style="background:var(--card);border-color:var(--border)">
+    <div class="fr-game-title" style="color:var(--text3)">TITLE</div>
+    <div class="fr-game-year" style="color:var(--text3)">YEAR</div>
+    <div class="fr-game-price" style="color:var(--text3)">LAUNCH</div>
+    <div class="fr-game-adj" style="color:var(--accent)">2026 $</div>
+  </div>`;
+
+  const factsHtml=fr.facts.map(f=>`
+    <div class="fr-fact"><div class="fr-fact-text">${f.icon} ${f.text}</div></div>`).join('');
+
+  document.getElementById('frModalBody').innerHTML=`
+    <div class="fr-hero">
+      <div class="fr-hero-art" style="background:${fr.color}22">
+        <img src="${fr.art}" alt="${fr.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+        <div class="fr-hero-art-emoji" style="display:none">${fr.emoji}</div>
+      </div>
+      <div class="fr-hero-info">
+        <div class="fr-hero-name">${fr.name}</div>
+        <div class="fr-hero-sub">${fr.maker} · ${fr.years} · ${fr.genres}</div>
+        <div class="fr-hero-pills">
+          <span class="franchise-pill" style="color:var(--green)">${fr.totalSales} sold</span>
+          <span class="franchise-pill">${fr.entries} entries</span>
+          <span class="franchise-pill" style="color:var(--accent)">avg launch $${avgNom}</span>
+          <span class="franchise-pill" style="color:var(--sky)">avg 2026 $${avgAdj}</span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="fr-section-title">📊 LAUNCH PRICE vs 2026 VALUE — ALL ENTRIES</div>
+      <div class="fr-chart-wrap"><canvas id="frChart"></canvas></div>
+    </div>
+
+    <div>
+      <div class="fr-section-title">💰 EVERY GAME — LAUNCH PRICE + INFLATION</div>
+      ${tableHeader}
+      <div class="fr-game-table">${rowsHtml}</div>
+    </div>
+
+    <div>
+      <div class="fr-section-title">📌 KEY STATS</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div class="fr-game-row" style="grid-template-columns:1fr auto;gap:8px">
+          <div class="fr-game-title">Average launch price</div>
+          <div class="fr-game-adj">$${avgNom}</div>
+        </div>
+        <div class="fr-game-row" style="grid-template-columns:1fr auto;gap:8px">
+          <div class="fr-game-title">Average 2026 value</div>
+          <div class="fr-game-adj">$${avgAdj}</div>
+        </div>
+        ${mostExpNom?`<div class="fr-game-row" style="grid-template-columns:1fr auto;gap:8px">
+          <div class="fr-game-title">Most expensive (nominal)</div>
+          <div class="fr-game-adj" style="color:var(--red)">$${mostExpNom.usd}</div>
+        </div>`:''}
+        ${mostExpAdj?`<div class="fr-game-row" style="grid-template-columns:1fr auto;gap:8px">
+          <div class="fr-game-title">Most expensive (2026)</div>
+          <div class="fr-game-adj" style="color:var(--red)">$${applyInflation(mostExpAdj.usd,'USD',mostExpAdj.year)}</div>
+        </div>`:''}
+      </div>
+    </div>
+
+    <div>
+      <div class="fr-section-title">💡 FUN FACTS</div>
+      <div class="fr-facts">${factsHtml}</div>
+    </div>`;
+
+  // Build the chart once DOM is ready
+  requestAnimationFrame(()=>{
+    const canvas=document.getElementById('frChart');
+    if(!canvas||typeof Chart==='undefined') return;
+    if(frChartInst){frChartInst.destroy();frChartInst=null;}
+    const labels=fr.games.map(g=>g.t.length>22?g.t.substring(0,20)+'…':g.t);
+    const nomData=fr.games.map(g=>g.usd||null);
+    const adjData=fr.games.map(g=>g.usd?applyInflation(g.usd,'USD',g.year):null);
+    const tc='#888780';
+    frChartInst=new Chart(canvas,{
+      type:'bar',
+      data:{
+        labels,
+        datasets:[
+          {label:'Launch price',data:nomData,backgroundColor:fr.color2+'99',borderRadius:3,order:2},
+          {label:'2026 value',data:adjData,type:'line',borderColor:fr.color2,borderWidth:2.5,pointRadius:5,pointBackgroundColor:fr.color2,fill:false,tension:0.3,order:1},
+        ]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        plugins:{
+          legend:{display:false},
+          tooltip:{callbacks:{label:c=>(c.dataset.label||'')+': $'+c.parsed.y}}
+        },
+        scales:{
+          x:{ticks:{color:tc,maxRotation:35,font:{size:10}},grid:{display:false}},
+          y:{beginAtZero:true,ticks:{color:tc,callback:v=>'$'+v},grid:{color:'rgba(136,135,128,0.15)'}}
+        }
+      }
+    });
+  });
+}
+
+function closeFrModal(e){if(e.target===document.getElementById('frModalBg'))closeFrModalBtn();}
+function closeFrModalBtn(){
+  document.getElementById('frModalBg').classList.remove('open');
+  document.body.style.overflow='';
+  if(frChartInst){frChartInst.destroy();frChartInst=null;}
+}
+
+
 function toggleMobileNav(){
   const nav=document.getElementById('mobileNav');
   const btn=document.getElementById('hamburger');
@@ -2255,7 +3595,8 @@ function initFunCharts(){
     ...(typeof SNES_GAMES!=='undefined'?SNES_GAMES:[]),
     ...(typeof GENESIS_GAMES!=='undefined'?GENESIS_GAMES:[]),
     ...(typeof N64_GAMES!=='undefined'?N64_GAMES:[]),
-    ...(typeof GB_GAMES!=='undefined'?GB_GAMES:[])
+    ...(typeof GB_GAMES!=='undefined'?GB_GAMES:[]),
+    ...(typeof PS1_GAMES!=='undefined'?PS1_GAMES:[])
   ];
   const scatterData = allGames
     .filter(g=>g.prices&&g.prices.USD&&g.year)
@@ -2282,7 +3623,7 @@ function initFunCharts(){
 }
 
 // ── SORT ─────────────────────────────────────────────────────────
-const sortState={nes:'year',snes:'year',genesis:'year',n64:'year',gb:'year'};
+const sortState={nes:'year',snes:'year',genesis:'year',n64:'year',gb:'year',ps1:'year'};
 
 function sortGames(console_id, method, btn){
   sortState[console_id]=method;
@@ -2296,6 +3637,7 @@ function sortGames(console_id, method, btn){
   else if(console_id==='genesis'){genesisFiltered.sort(sortFn);renderGenesis();}
   else if(console_id==='n64'){n64Filtered.sort(sortFn);renderN64();}
   else if(console_id==='gb'){gbFiltered.sort(sortFn);renderGB();}
+  else if(console_id==='ps1'){ps1Filtered.sort(sortFn);renderPS1();}
 }
 
 function getSortFn(method){
@@ -2447,9 +3789,10 @@ window.onload=()=>{
   initGenesisFilters();renderGenesis();
   initN64Filters();renderN64();
   initGBFilters();renderGB();
+  initPS1Filters();renderPS1();
 
   // Compute total games across all arrays
-  const totalGames=GAMES.length+NES_GAMES.length+SNES_GAMES.length+GENESIS_GAMES.length+N64_GAMES.length+GB_GAMES.length;
+  const totalGames=GAMES.length+NES_GAMES.length+SNES_GAMES.length+GENESIS_GAMES.length+N64_GAMES.length+GB_GAMES.length+PS1_GAMES.length;
 
   // Update hero stats
   const heroGamesEl=document.getElementById('heroGames');
