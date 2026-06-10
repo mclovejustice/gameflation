@@ -3,31 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Gameflation — What Did Retro Games Actually Cost?</title>
-<meta name="description" content="Discover what classic NES, SNES and Mega Drive games cost at launch — adjusted for inflation to 2026. See real launch prices in USD, GBP and JPY with hours-worked comparisons.">
-<meta name="keywords" content="retro games price, NES price history, SNES inflation, Mega Drive prices, video game inflation, retro gaming cost, classic games price adjusted, gameflation">
+<title>Gameflation — Retro Game Prices Adjusted for Inflation</title>
+<meta name="description" content="What did retro games actually cost? See launch prices for 500+ classic NES, SNES, Mega Drive, N64, Game Boy and PlayStation games — adjusted for inflation to 2026 in USD, GBP and JPY. Compare how many hours you'd need to work to buy them then vs now.">
+<meta name="keywords" content="retro game prices inflation, NES game prices, SNES game prices, PlayStation game prices, N64 game prices, Game Boy prices, Mega Drive prices, video game inflation calculator, retro gaming cost history, classic game launch prices, game price history, inflation adjusted game prices, how much did games cost, retro game price guide">
 <meta name="author" content="Gameflation">
+<meta name="theme-color" content="#f7c948">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>">
 <link rel="apple-touch-icon" href="favicon.png">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://gameflation.netlify.app/">
+<link rel="canonical" href="https://gameflation.com/">
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://gameflation.netlify.app/">
-<meta property="og:title" content="Gameflation — What Did Retro Games Actually Cost?">
-<meta property="og:description" content="Discover what classic NES, SNES and Mega Drive games cost at launch adjusted for inflation to 2026. Real prices in USD, GBP and JPY.">
-<meta property="og:image" content="https://gameflation.netlify.app/banner.png">
+<meta property="og:url" content="https://gameflation.com/">
+<meta property="og:title" content="Gameflation — Retro Game Prices Adjusted for Inflation">
+<meta property="og:description" content="500+ classic games. Real launch prices in USD, GBP and JPY — adjusted for inflation to 2026. NES, SNES, PlayStation, N64, Game Boy and Mega Drive. How many hours did you have to work to buy them?">
+<meta property="og:image" content="https://gameflation.com/banner.png">
 <meta property="og:image:width" content="1851">
 <meta property="og:image:height" content="821">
 <meta property="og:site_name" content="Gameflation">
+<meta property="og:locale" content="en_US">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:url" content="https://gameflation.netlify.app/">
-<meta name="twitter:title" content="Gameflation — What Did Retro Games Actually Cost?">
-<meta name="twitter:description" content="What did Super Mario Bros. actually cost in today's money? Explore inflation-adjusted prices for 300+ retro games across NES, SNES and Mega Drive.">
-<meta name="twitter:image" content="https://gameflation.netlify.app/banner.png">
+<meta name="twitter:url" content="https://gameflation.com/">
+<meta name="twitter:title" content="Gameflation — Retro Game Prices Adjusted for Inflation">
+<meta name="twitter:description" content="Super Mario Bros. cost $29.99 in 1985 — that's $96 today. Explore 500+ retro game launch prices adjusted for inflation across NES, SNES, PlayStation, N64 and more.">
+<meta name="twitter:image" content="https://gameflation.com/banner.png">
 
 <!-- Schema.org structured data -->
 <script type="application/ld+json">
@@ -35,11 +37,11 @@
   "@context": "https://schema.org",
   "@type": "WebSite",
   "name": "Gameflation",
-  "url": "https://gameflation.netlify.app/",
-  "description": "Inflation-adjusted retro video game prices. See what classic NES, SNES and Mega Drive games cost at launch in today's money.",
+  "url": "https://gameflation.com/",
+  "description": "Inflation-adjusted retro video game prices. See what 500+ classic NES, SNES, PlayStation, N64, Game Boy and Mega Drive games cost at launch in today's money. Compare USD, GBP and JPY prices and hours-worked to buy.",
   "potentialAction": {
     "@type": "SearchAction",
-    "target": "https://gameflation.netlify.app/?search={search_term_string}",
+    "target": "https://gameflation.com/?q={search_term_string}",
     "query-input": "required name=search_term_string"
   }
 }
@@ -729,12 +731,12 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
 </div>
 
 <!-- HERO BANNER -->
-<div class="hero-banner" style="background-image:url('banner.png')">
+<div class="hero-banner" style="background-image:url('banner.png'),linear-gradient(135deg,#0a0a1a 0%,#1a0a2e 40%,#0a1a3a 100%)">
   <div class="hero-banner-inner">
   <div class="hero-left">
     <div class="hero-stats">
       <div class="hero-stat">
-        <span class="hero-stat-num" id="heroGames">-</span>
+        <span class="hero-stat-num" id="heroGames">385</span>
         <span class="hero-stat-lbl">GAMES IN DB</span>
       </div>
       <div class="hero-stat">
@@ -742,7 +744,7 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
         <span class="hero-stat-lbl">CONSOLES</span>
       </div>
       <div class="hero-stat">
-        <span class="hero-stat-num">1977</span>
+        <span class="hero-stat-num" id="heroEarliest">1977</span>
         <span class="hero-stat-lbl">EARLIEST GAME</span>
       </div>
       <div class="hero-stat">
@@ -1095,7 +1097,24 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
 </div>
 
 
-<!-- FRANCHISES TAB -->
+<!-- SEO: static content for search engine crawling -->
+<div style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap" aria-hidden="true">
+  <h1>Gameflation — Retro Video Game Prices Adjusted for Inflation</h1>
+  <h2>Classic game launch prices in USD, GBP and JPY adjusted to 2026</h2>
+  <p>Gameflation shows what retro video games cost at launch, adjusted for inflation to 2026. Browse over 500 games across NES, SNES, Sega Mega Drive, Nintendo 64, Game Boy and PlayStation. See original launch prices in US dollars, British pounds and Japanese yen, plus how many hours of work it took to buy each game at average wages of the time.</p>
+  <h2>Consoles covered</h2>
+  <p>Nintendo Entertainment System (NES), Super Nintendo (SNES), Sega Mega Drive (Genesis), Nintendo 64 (N64), Game Boy, Game Boy Color, Game Boy Advance, PlayStation, PlayStation 2, Sega Saturn, Sega Dreamcast, Atari 2600, Neo Geo and more.</p>
+  <h2>Featured NES games and launch prices</h2>
+  <p>Super Mario Bros. ($29.99, 1985), The Legend of Zelda ($49.99, 1986), Metroid ($29.99, 1987), Mega Man 2 ($39.99, 1989), Castlevania ($39.99, 1987), Contra ($39.99, 1988), Tecmo Super Bowl, Duck Tales, Ninja Gaiden, Battletoads.</p>
+  <h2>Featured SNES games and launch prices</h2>
+  <p>Super Mario World ($49.99, 1990), The Legend of Zelda: A Link to the Past ($49.99, 1991), Super Metroid ($59.99, 1994), Donkey Kong Country ($59.99, 1994), Street Fighter II ($69.99, 1992), Final Fantasy VI ($69.99, 1994), Chrono Trigger ($74.99, 1995), Secret of Mana ($54.99, 1993).</p>
+  <h2>Featured PlayStation games and launch prices</h2>
+  <p>Gran Turismo ($49.99, 1997), Final Fantasy VII ($49.99, 1997), Metal Gear Solid ($49.99, 1998), Tekken 3 ($49.99, 1998), Crash Bandicoot ($49.99, 1996), Resident Evil 2 ($49.99, 1998), Silent Hill ($49.99, 1999), Castlevania Symphony of the Night ($49.99, 1997).</p>
+  <h2>Video game franchise price history</h2>
+  <p>Super Mario, The Legend of Zelda, Final Fantasy, Sonic the Hedgehog, Mega Man, Castlevania, Street Fighter, Mortal Kombat, Resident Evil, Gran Turismo, Crash Bandicoot, Metal Gear, Pokemon, Grand Theft Auto, Tomb Raider, Tekken, Donkey Kong, Metroid, Doom, Halo, Call of Duty, FIFA, Assassin's Creed, God of War, Fallout, Fire Emblem.</p>
+</div>
+
+<!-- End SEO content -->
 <div id="franchisesTab" class="tab-content">
   <div class="main" style="padding:24px 12px 40px">
     <div style="max-width:960px;margin:0 auto 24px">
@@ -1345,8 +1364,15 @@ function switchTab(tab,btn){
   document.getElementById(map[tab]).classList.add('active');
   document.getElementById('controls').style.display=tab==='games'?'flex':'none';
   if(tab==='charts'&&!chartsInited){chartsInited=true;setTimeout(initFunCharts,50);}
-  if(tab==='franchises')renderFranchises();
+  if(tab==='franchises'){franchisesInited=false;renderFranchises();}
   if(tab==='facts')renderFacts();
+  // Push URL state — but not if we're in the middle of restoring from URL
+  if(!_restoringUrl){
+    const params=new URLSearchParams(window.location.search);
+    params.set('tab',tab);
+    params.delete('console');
+    try{history.pushState({tab},'',`?${params}`);}catch(e){}
+  }
 }
 function switchConsole(console_id,btn){
   document.querySelectorAll('.sub-tab').forEach(t=>t.classList.remove('active'));
@@ -1354,7 +1380,15 @@ function switchConsole(console_id,btn){
   btn.classList.add('active');
   const panel=document.getElementById('consolePanel-'+console_id);
   if(panel) panel.classList.add('active');
+  // Push URL state
+  if(!_restoringUrl){
+    const params=new URLSearchParams(window.location.search);
+    params.set('tab','byConsole');
+    params.set('console',console_id);
+    try{history.pushState({tab:'byConsole',console:console_id},'',`?${params}`);}catch(e){}
+  }
 }
+let _restoringUrl=false;
 function renderConsoles(){
   const grid=document.getElementById('consolesGrid');
   // Read current filter values BEFORE rebuilding the DOM
@@ -1424,8 +1458,8 @@ function renderConsoles(){
     grid.appendChild(card);
   });
 }
-function openGameModal(game){document.getElementById('modalTitle').textContent=game.title;document.getElementById('modalBg').classList.add('open');document.body.style.overflow='hidden';const adjUSD=applyInflation(game.prices.USD,'USD',game.year);const adjGBP=applyInflation(game.prices.GBP,'GBP',game.year);const adjJPY=applyInflation(game.prices.JPY,'JPY',game.year);const mult=(inflationUSD[game.year]||1).toFixed(1);const hw=hoursWorked(game.prices.USD,game.prices.GBP,game.year);const stars='★'.repeat(game.rating)+'☆'.repeat(5-game.rating);const artHtml=game.art?`<img src="${game.art}" alt="${game.title}" style="width:100%;height:100%;object-fit:cover">`:fallbackHTML(game.console,game.title);document.getElementById('modalBody').innerHTML=`<div class="modal-layout"><div class="modal-box-art">${artHtml}</div><div class="modal-info"><h2>${game.title}</h2><div class="info-row"><span class="info-label">CONSOLE</span><span class="info-val">${game.console}</span></div><div class="info-row"><span class="info-label">YEAR</span><span class="info-val">${game.year}</span></div><div class="info-row"><span class="info-label">GENRE</span><span class="info-val">${game.genre}</span></div><div class="info-row"><span class="info-label">PUBLISHER</span><span class="info-val">${game.publisher}</span></div><div class="info-row"><span class="info-label">RATING</span><span class="info-val" style="color:var(--accent)">${stars}</span></div><div class="hours-block"><div class="hours-block-title">⏱ HOURS WORKED TO BUY AT LAUNCH</div><div class="hours-cols"><div class="hours-col"><div class="hours-col-lbl">🇺🇸 USA</div><div class="hours-col-val">${hw.hUS}h</div><div class="hours-col-sub">avg $${hw.wUS}/hr in ${game.year}</div></div><div class="hours-col"><div class="hours-col-lbl">🇬🇧 UK</div><div class="hours-col-val">${hw.hUK}h</div><div class="hours-col-sub">avg £${hw.wUK}/hr in ${game.year}</div></div></div></div></div></div><p class="modal-desc">${game.desc}
-    <div style="margin-top:12px"><button onclick="shareGame(game.title,game.console,game.year,game.prices.USD)" style="background:var(--border2);border:1px solid var(--border);color:var(--text2);font-family:var(--font-main);font-size:6px;padding:6px 10px;cursor:pointer;letter-spacing:1px;border-radius:var(--radius)">📤 SHARE THIS GAME</button></div></p><div class="price-breakdown"><div class="price-breakdown-header">💰 LAUNCH PRICE vs 2026 MONEY</div><div class="price-grid"><div class="price-col"><div class="price-currency">🇺🇸 USD</div><span class="price-original">${fmt(game.prices.USD,'USD')} in ${game.year}</span><span class="price-arrow">↓</span><span class="price-2026">${fmt(adjUSD,'USD')} today</span></div><div class="price-col"><div class="price-currency">🇬🇧 GBP</div><span class="price-original">${fmt(game.prices.GBP,'GBP')} in ${game.year}</span><span class="price-arrow">↓</span><span class="price-2026">${fmt(adjGBP,'GBP')} today</span></div><div class="price-col"><div class="price-currency">🇯🇵 JPY</div><span class="price-original">${fmt(game.prices.JPY,'JPY')} in ${game.year}</span><span class="price-arrow">↓</span><span class="price-2026">${fmt(adjJPY,'JPY')} today</span></div></div></div><div class="inflation-note">📊 Inflation factor: ${mult}× from ${game.year} to 2026 (US CPI). EUR did not exist at this time.</div>`;}
+function openGameModal(game){pushGameUrl(game.id);document.getElementById('modalTitle').textContent=game.title;document.getElementById('modalBg').classList.add('open');document.body.style.overflow='hidden';const adjUSD=applyInflation(game.prices.USD,'USD',game.year);const adjGBP=applyInflation(game.prices.GBP,'GBP',game.year);const adjJPY=applyInflation(game.prices.JPY,'JPY',game.year);const mult=(inflationUSD[game.year]||1).toFixed(1);const hw=hoursWorked(game.prices.USD,game.prices.GBP,game.year);const stars='★'.repeat(game.rating)+'☆'.repeat(5-game.rating);const artHtml=game.art?`<img src="${game.art}" alt="${game.title}" style="width:100%;height:100%;object-fit:cover">`:fallbackHTML(game.console,game.title);document.getElementById('modalBody').innerHTML=`<div class="modal-layout"><div class="modal-box-art">${artHtml}</div><div class="modal-info"><h2>${game.title}</h2><div class="info-row"><span class="info-label">CONSOLE</span><span class="info-val">${game.console}</span></div><div class="info-row"><span class="info-label">YEAR</span><span class="info-val">${game.year}</span></div><div class="info-row"><span class="info-label">GENRE</span><span class="info-val">${game.genre}</span></div><div class="info-row"><span class="info-label">PUBLISHER</span><span class="info-val">${game.publisher}</span></div><div class="info-row"><span class="info-label">RATING</span><span class="info-val" style="color:var(--accent)">${stars}</span></div><div class="hours-block"><div class="hours-block-title">⏱ HOURS WORKED TO BUY AT LAUNCH</div><div class="hours-cols"><div class="hours-col"><div class="hours-col-lbl">🇺🇸 USA</div><div class="hours-col-val">${hw.hUS}h</div><div class="hours-col-sub">avg $${hw.wUS}/hr in ${game.year}</div></div><div class="hours-col"><div class="hours-col-lbl">🇬🇧 UK</div><div class="hours-col-val">${hw.hUK}h</div><div class="hours-col-sub">avg £${hw.wUK}/hr in ${game.year}</div></div></div></div></div></div><p class="modal-desc">${game.desc}
+    <div style="margin-top:12px"><button onclick="shareGame(game.title,game.console,game.year,game.prices.USD,game.id)" style="background:var(--border2);border:1px solid var(--border);color:var(--text2);font-family:var(--font-main);font-size:6px;padding:6px 10px;cursor:pointer;letter-spacing:1px;border-radius:var(--radius)">📤 SHARE THIS GAME</button></div></p><div class="price-breakdown"><div class="price-breakdown-header">💰 LAUNCH PRICE vs 2026 MONEY</div><div class="price-grid"><div class="price-col"><div class="price-currency">🇺🇸 USD</div><span class="price-original">${fmt(game.prices.USD,'USD')} in ${game.year}</span><span class="price-arrow">↓</span><span class="price-2026">${fmt(adjUSD,'USD')} today</span></div><div class="price-col"><div class="price-currency">🇬🇧 GBP</div><span class="price-original">${fmt(game.prices.GBP,'GBP')} in ${game.year}</span><span class="price-arrow">↓</span><span class="price-2026">${fmt(adjGBP,'GBP')} today</span></div><div class="price-col"><div class="price-currency">🇯🇵 JPY</div><span class="price-original">${fmt(game.prices.JPY,'JPY')} in ${game.year}</span><span class="price-arrow">↓</span><span class="price-2026">${fmt(adjJPY,'JPY')} today</span></div></div></div><div class="inflation-note">📊 Inflation factor: ${mult}× from ${game.year} to 2026 (US CPI). EUR did not exist at this time.</div>`;}
 function openConsoleModal(c){
   document.getElementById('modalTitle').textContent=c.name;
   document.getElementById('modalBg').classList.add('open');
@@ -1459,7 +1493,7 @@ function openConsoleModal(c){
     <div class="inflation-note">📊 Inflation factor: ~${mult}× from ${c.year} to 2026 (US CPI data via inflationstation.net).<br>Source: <span style="color:var(--sky)">inflationstation.net</span> · ${c.disc?'':'Still available today.'}</div>`;
 }
 function closeModal(e){if(e.target===document.getElementById('modalBg'))closeModalBtn();}
-function closeModalBtn(){document.getElementById('modalBg').classList.remove('open');document.body.style.overflow='';}
+function closeModalBtn(){document.getElementById('modalBg').classList.remove('open');document.body.style.overflow='';clearGameUrl();}
 function doCalc(){const amt=parseFloat(document.getElementById('calcAmt').value)||0;const year=parseInt(document.getElementById('calcYear').value);const cur=document.getElementById('calcCur').value;const table=cur==='USD'?inflationUSD:cur==='GBP'?inflationGBP:inflationJPY;const mult=table[year]||1;const result=Math.round(amt*mult);const sym=cur==='USD'?'$':cur==='GBP'?'£':'¥';document.getElementById('calcRes').textContent=sym+result.toLocaleString();document.getElementById('calcMul').textContent=mult.toFixed(1)+'×';document.getElementById('calcCtx').textContent=`That ${sym}${amt} in ${year} had the same buying power as ${sym}${result.toLocaleString()} in 2026.`;}
 const NES_ART_BASE='https://gameflation.netlify.app/art/nes/';
 const NES_GAMES=[
@@ -1629,7 +1663,7 @@ function renderNES(){
 }
 
 
-function openNESModal(game){
+function openNESModal(game){pushGameUrl(game.id);
   document.getElementById('modalTitle').textContent=game.title;
   document.getElementById('modalBg').classList.add('open');
   document.body.style.overflow='hidden';
@@ -1652,7 +1686,7 @@ function openNESModal(game){
         <div class="info-row"><span class="info-label">GENRE</span><span class="info-val">${game.genre}</span></div>
         <div class="info-row"><span class="info-label">PUBLISHER</span><span class="info-val">${game.publisher}</span></div>
         <div class="info-row"><span class="info-label">RATING</span><span class="info-val" style="color:var(--accent)">${stars}</span></div>
-        <div class="info-row"><button onclick="shareGame('${game.title}','NES',${game.year},${game.prices.USD})" style="background:var(--border2);border:1px solid var(--border);color:var(--text2);font-family:var(--font-main);font-size:6px;padding:6px 10px;cursor:pointer;letter-spacing:1px;margin-top:4px;border-radius:var(--radius)">📤 SHARE THIS GAME</button></div>
+        <div class="info-row"><button onclick="shareGame('${game.title}','NES',${game.year},${game.prices.USD},'${game.id}')" style="background:var(--border2);border:1px solid var(--border);color:var(--text2);font-family:var(--font-main);font-size:6px;padding:6px 10px;cursor:pointer;letter-spacing:1px;margin-top:4px;border-radius:var(--radius)">📤 SHARE THIS GAME</button></div>
         <div class="hours-block">
           <div class="hours-block-title">⏱ HOURS WORKED TO BUY AT LAUNCH</div>
           <div class="hours-cols">
@@ -1823,7 +1857,7 @@ function renderSNES(){
   });
 }
 
-function openSNESModal(game){
+function openSNESModal(game){pushGameUrl(game.id);
   document.getElementById('modalTitle').textContent=game.title;
   document.getElementById('modalBg').classList.add('open');
   document.body.style.overflow='hidden';
@@ -1849,7 +1883,7 @@ function openSNESModal(game){
         <div class="info-row"><span class="info-label">GENRE</span><span class="info-val">${game.genre}</span></div>
         <div class="info-row"><span class="info-label">PUBLISHER</span><span class="info-val">${game.publisher}</span></div>
         <div class="info-row"><span class="info-label">RATING</span><span class="info-val" style="color:var(--accent)">${stars}</span></div>
-        <div class="info-row"><button onclick="shareGame('${game.title}','SNES',${game.year},${game.prices.USD})" style="background:var(--border2);border:1px solid var(--border);color:var(--text2);font-family:var(--font-main);font-size:6px;padding:6px 10px;cursor:pointer;letter-spacing:1px;margin-top:4px;border-radius:var(--radius)">📤 SHARE THIS GAME</button></div>
+        <div class="info-row"><button onclick="shareGame('${game.title}','SNES',${game.year},${game.prices.USD},'${game.id}')" style="background:var(--border2);border:1px solid var(--border);color:var(--text2);font-family:var(--font-main);font-size:6px;padding:6px 10px;cursor:pointer;letter-spacing:1px;margin-top:4px;border-radius:var(--radius)">📤 SHARE THIS GAME</button></div>
         ${hw?`<div class="hours-block"><div class="hours-block-title">⏱ HOURS WORKED TO BUY AT LAUNCH</div><div class="hours-cols"><div class="hours-col"><div class="hours-col-lbl">🇺🇸 USA</div><div class="hours-col-val">${hw.hUS}h</div><div class="hours-col-sub">avg $${hw.wUS}/hr in ${game.year}</div></div><div class="hours-col"><div class="hours-col-lbl">🇬🇧 UK</div><div class="hours-col-val">${hw.hUK}h</div><div class="hours-col-sub">avg £${hw.wUK}/hr in ${game.year}</div></div></div></div>`:''}
       </div>
     </div>
@@ -1982,7 +2016,7 @@ function renderGenesis(){
   });
 }
 
-function openGenesisModal(game){
+function openGenesisModal(game){pushGameUrl(game.id);
   document.getElementById('modalTitle').textContent=game.title;
   document.getElementById('modalBg').classList.add('open');
   document.body.style.overflow='hidden';
@@ -2006,7 +2040,7 @@ function openGenesisModal(game){
         <div class="info-row"><span class="info-label">GENRE</span><span class="info-val">${game.genre}</span></div>
         <div class="info-row"><span class="info-label">PUBLISHER</span><span class="info-val">${game.publisher}</span></div>
         <div class="info-row"><span class="info-label">RATING</span><span class="info-val" style="color:var(--accent)">${stars}</span></div>
-        <div class="info-row"><button onclick="shareGame('${game.title}','Mega Drive',${game.year},${game.prices.USD})" style="background:var(--border2);border:1px solid var(--border);color:var(--text2);font-family:var(--font-main);font-size:6px;padding:6px 10px;cursor:pointer;letter-spacing:1px;margin-top:4px;border-radius:var(--radius)">📤 SHARE THIS GAME</button></div>
+        <div class="info-row"><button onclick="shareGame('${game.title}','Mega Drive',${game.year},${game.prices.USD},'${game.id}')" style="background:var(--border2);border:1px solid var(--border);color:var(--text2);font-family:var(--font-main);font-size:6px;padding:6px 10px;cursor:pointer;letter-spacing:1px;margin-top:4px;border-radius:var(--radius)">📤 SHARE THIS GAME</button></div>
         ${game.sales?`<div class="info-row"><span class="info-label">COPIES SOLD</span><span class="info-val" style="color:var(--green)">${game.sales}</span></div>`:''}
         ${hw?`<div class="hours-block"><div class="hours-block-title">⏱ HOURS WORKED TO BUY AT LAUNCH</div><div class="hours-cols"><div class="hours-col"><div class="hours-col-lbl">🇺🇸 USA</div><div class="hours-col-val">${hw.hUS}h</div><div class="hours-col-sub">avg $${hw.wUS}/hr in ${game.year}</div></div><div class="hours-col"><div class="hours-col-lbl">🇬🇧 UK</div><div class="hours-col-val">${hw.hUK}h</div><div class="hours-col-sub">avg £${hw.wUK}/hr in ${game.year}</div></div></div></div>`:''}
       </div>
@@ -2146,7 +2180,7 @@ function renderN64(){
   });
 }
 
-function openN64Modal(game){
+function openN64Modal(game){pushGameUrl(game.id);
   document.getElementById('modalTitle').textContent=game.title;
   document.getElementById('modalBg').classList.add('open');
   document.body.style.overflow='hidden';
@@ -2169,7 +2203,7 @@ function openN64Modal(game){
         <div class="info-row"><span class="info-label">GENRE</span><span class="info-val">${game.genre}</span></div>
         <div class="info-row"><span class="info-label">PUBLISHER</span><span class="info-val">${game.publisher}</span></div>
         <div class="info-row"><span class="info-label">RATING</span><span class="info-val" style="color:var(--accent)">${stars}</span></div>
-        <div class="info-row"><button onclick="shareGame('${game.title}','N64',${game.year},${game.prices.USD})" style="background:var(--border2);border:1px solid var(--border);color:var(--text2);font-family:var(--font-main);font-size:6px;padding:6px 10px;cursor:pointer;letter-spacing:1px;margin-top:4px;border-radius:var(--radius)">📤 SHARE THIS GAME</button></div>
+        <div class="info-row"><button onclick="shareGame('${game.title}','N64',${game.year},${game.prices.USD},'${game.id}')" style="background:var(--border2);border:1px solid var(--border);color:var(--text2);font-family:var(--font-main);font-size:6px;padding:6px 10px;cursor:pointer;letter-spacing:1px;margin-top:4px;border-radius:var(--radius)">📤 SHARE THIS GAME</button></div>
         ${game.sales?`<div class="info-row"><span class="info-label">COPIES SOLD</span><span class="info-val" style="color:var(--green)">${game.sales}</span></div>`:''}
         ${hw?`<div class="hours-block"><div class="hours-block-title">⏱ HOURS WORKED TO BUY AT LAUNCH</div><div class="hours-cols"><div class="hours-col"><div class="hours-col-lbl">🇺🇸 USA</div><div class="hours-col-val">${hw.hUS}h</div><div class="hours-col-sub">avg $${hw.wUS}/hr in ${game.year}</div></div><div class="hours-col"><div class="hours-col-lbl">🇬🇧 UK</div><div class="hours-col-val">${hw.hUK}h</div><div class="hours-col-sub">avg £${hw.wUK}/hr in ${game.year}</div></div></div></div>`:''}
       </div>
@@ -2305,7 +2339,7 @@ function renderGB(){
   });
 }
 
-function openGBModal(game){
+function openGBModal(game){pushGameUrl(game.id);
   document.getElementById('modalTitle').textContent=game.title;
   document.getElementById('modalBg').classList.add('open');
   document.body.style.overflow='hidden';
@@ -2328,7 +2362,7 @@ function openGBModal(game){
         <div class="info-row"><span class="info-label">GENRE</span><span class="info-val">${game.genre}</span></div>
         <div class="info-row"><span class="info-label">PUBLISHER</span><span class="info-val">${game.publisher}</span></div>
         <div class="info-row"><span class="info-label">RATING</span><span class="info-val" style="color:var(--accent)">${stars}</span></div>
-        <div class="info-row"><button onclick="shareGame('${game.title}','Game Boy',${game.year},${game.prices.USD})" style="background:var(--border2);border:1px solid var(--border);color:var(--text2);font-family:var(--font-main);font-size:6px;padding:6px 10px;cursor:pointer;letter-spacing:1px;margin-top:4px;border-radius:var(--radius)">📤 SHARE THIS GAME</button></div>
+        <div class="info-row"><button onclick="shareGame('${game.title}','Game Boy',${game.year},${game.prices.USD},'${game.id}')" style="background:var(--border2);border:1px solid var(--border);color:var(--text2);font-family:var(--font-main);font-size:6px;padding:6px 10px;cursor:pointer;letter-spacing:1px;margin-top:4px;border-radius:var(--radius)">📤 SHARE THIS GAME</button></div>
         ${game.sales?`<div class="info-row"><span class="info-label">COPIES SOLD</span><span class="info-val" style="color:var(--green)">${game.sales}</span></div>`:''}
         ${hw?`<div class="hours-block"><div class="hours-block-title">⏱ HOURS WORKED TO BUY AT LAUNCH</div><div class="hours-cols"><div class="hours-col"><div class="hours-col-lbl">🇺🇸 USA</div><div class="hours-col-val">${hw.hUS}h</div><div class="hours-col-sub">avg $${hw.wUS}/hr in ${game.year}</div></div><div class="hours-col"><div class="hours-col-lbl">🇬🇧 UK</div><div class="hours-col-val">${hw.hUK}h</div><div class="hours-col-sub">avg £${hw.wUK}/hr in ${game.year}</div></div></div></div>`:''}
       </div>
@@ -2556,7 +2590,7 @@ function renderPS1(){
   });
 }
 
-function openPS1Modal(game){
+function openPS1Modal(game){pushGameUrl(game.id);
   document.getElementById('modalTitle').textContent=game.title;
   document.getElementById('modalBg').classList.add('open');
   document.body.style.overflow='hidden';
@@ -2579,7 +2613,7 @@ function openPS1Modal(game){
         <div class="info-row"><span class="info-label">GENRE</span><span class="info-val">${game.genre}</span></div>
         <div class="info-row"><span class="info-label">PUBLISHER</span><span class="info-val">${game.publisher}</span></div>
         <div class="info-row"><span class="info-label">RATING</span><span class="info-val" style="color:var(--accent)">${stars}</span></div>
-        <div class="info-row"><button onclick="shareGame('${game.title.replace(/'/g,"\\'")}','PlayStation',${game.year},${game.prices.USD})" style="background:var(--border2);border:1px solid var(--border);color:var(--text2);font-family:var(--font-main);font-size:6px;padding:6px 10px;cursor:pointer;letter-spacing:1px;margin-top:4px;border-radius:var(--radius)">📤 SHARE THIS GAME</button></div>
+        <div class="info-row"><button onclick="shareGame('${game.title.replace(/'/g,"\\'")}','PlayStation',${game.year},${game.prices.USD},'${game.id}')" style="background:var(--border2);border:1px solid var(--border);color:var(--text2);font-family:var(--font-main);font-size:6px;padding:6px 10px;cursor:pointer;letter-spacing:1px;margin-top:4px;border-radius:var(--radius)">📤 SHARE THIS GAME</button></div>
         ${game.sales?`<div class="info-row"><span class="info-label">COPIES SOLD</span><span class="info-val" style="color:var(--green)">${game.sales}</span></div>`:''}
         ${hw?`<div class="hours-block"><div class="hours-block-title">⏱ HOURS WORKED TO BUY AT LAUNCH</div><div class="hours-cols"><div class="hours-col"><div class="hours-col-lbl">🇺🇸 USA</div><div class="hours-col-val">${hw.hUS}h</div><div class="hours-col-sub">avg $${hw.wUS}/hr in ${game.year}</div></div><div class="hours-col"><div class="hours-col-lbl">🇬🇧 UK</div><div class="hours-col-val">${hw.hUK}h</div><div class="hours-col-sub">avg £${hw.wUK}/hr in ${game.year}</div></div></div></div>`:''}
       </div>
@@ -2608,19 +2642,22 @@ const FRANCHISES=[
     years:'1985–present',
     games:[
       {t:'Super Mario Bros.',y:1985,usd:29.99},
-      {t:'Super Mario Bros. 2',y:1988,usd:34.99},
       {t:'Super Mario Bros. 3',y:1990,usd:44.99},
       {t:'Super Mario World',y:1990,usd:49.99},
       {t:'Super Mario 64',y:1996,usd:59.99},
       {t:'Super Mario Sunshine',y:2002,usd:49.99},
       {t:'New Super Mario Bros.',y:2006,usd:34.99},
       {t:'Super Mario Galaxy',y:2007,usd:49.99},
+      {t:'Super Mario Galaxy 2',y:2010,usd:49.99},
+      {t:'Super Mario 3D World',y:2013,usd:59.99},
+      {t:'Super Mario Odyssey',y:2017,usd:59.99},
+      {t:'Super Mario Bros. Wonder',y:2023,usd:59.99},
     ],
     facts:[
-      {icon:'💰',text:'Super Mario Bros. launched at <b>$29.99</b> in 1985 — that\'s <b>$96</b> in today\'s money. Nintendo kept the same game on shelves for nearly a decade.'},
+      {icon:'💰',text:'Super Mario Bros. launched at <b>$29.99</b> in 1985 — that\'s about <b>$96</b> in today\'s money. By contrast, Super Mario Odyssey at $59.99 in 2017 is only <b>$80</b> today. Games got cheaper in real terms.'},
       {icon:'📦',text:'Super Mario Bros. has sold over <b>40 million copies</b> — still one of the best-selling games of all time, bundled with 40% of all NES units sold.'},
     ],
-    totalSales:'800M+',genres:'Platformer',entries:'200+',
+    totalSales:'800M+',genres:'Platformer',entries:'20+ mainline',
   },
   {
     name:'The Legend of Zelda',maker:'Nintendo',emoji:'⚔️',
@@ -2636,12 +2673,16 @@ const FRANCHISES=[
       {t:"Majora's Mask",y:2000,usd:59.99},
       {t:'Wind Waker',y:2002,usd:49.99},
       {t:'Twilight Princess',y:2006,usd:49.99},
+      {t:'Skyward Sword',y:2011,usd:49.99},
+      {t:'A Link Between Worlds',y:2013,usd:39.99},
+      {t:'Breath of the Wild',y:2017,usd:59.99},
+      {t:'Tears of the Kingdom',y:2023,usd:69.99},
     ],
     facts:[
-      {icon:'🥇',text:'The original Zelda\'s <b>$49.99</b> price tag in 1986 equals about <b>$148</b> today — it cost more than the NES launch price in inflation-adjusted terms.'},
+      {icon:'🥇',text:'The original Zelda\'s <b>$49.99</b> price tag in 1986 equals about <b>$155</b> today. Tears of the Kingdom at <b>$69.99</b> in 2023 is only <b>$72</b> in real terms — the most expensive Zelda ever was actually the cheapest in real money.'},
       {icon:'💾',text:'Zelda was one of the <b>first console games</b> to ship with an internal battery for saves — that battery added ~$10 to the manufacturing cost per cartridge.'},
     ],
-    totalSales:'125M+',genres:'Action-RPG',entries:'19',
+    totalSales:'125M+',genres:'Action-Adventure',entries:'20 mainline',
   },
   {
     name:'Final Fantasy',maker:'Square',emoji:'⚗️',
@@ -2657,9 +2698,13 @@ const FRANCHISES=[
       {t:'Final Fantasy IX',y:2000,usd:49.99},
       {t:'Final Fantasy X',y:2001,usd:49.99},
       {t:'Final Fantasy XII',y:2006,usd:49.99},
+      {t:'Final Fantasy XIII',y:2010,usd:59.99},
+      {t:'Final Fantasy XV',y:2016,usd:59.99},
+      {t:'Final Fantasy VII Remake',y:2020,usd:59.99},
+      {t:'Final Fantasy XVI',y:2023,usd:69.99},
     ],
     facts:[
-      {icon:'🎰',text:'Final Fantasy VI launched at <b>$69.99</b> in 1994 — equivalent to <b>$148</b> today. The massive 24-megabit ROM was one of the most expensive cartridges ever pressed.'},
+      {icon:'🎰',text:'Final Fantasy VI launched at <b>$69.99</b> in 1994 — equivalent to <b>$157</b> today. FF16 at $69.99 in 2023 is only <b>$72</b> in real terms. The series\' most expensive entry in nominal dollars was actually cheaper in real money.'},
       {icon:'📼',text:'The jump to PlayStation <b>cut costs dramatically</b>. FF7\'s three-disc CD set cost far less to manufacture than FF6\'s single cartridge — yet both retailed at around $50.'},
     ],
     totalSales:'180M+',genres:'RPG',entries:'16 mainline',
@@ -2678,6 +2723,9 @@ const FRANCHISES=[
       {t:'Sonic Adventure',y:1999,usd:49.99},
       {t:'Sonic Adventure 2',y:2001,usd:49.99},
       {t:'Sonic Heroes',y:2003,usd:49.99},
+      {t:'Sonic Generations',y:2011,usd:39.99},
+      {t:'Sonic Mania',y:2017,usd:19.99},
+      {t:'Sonic Frontiers',y:2022,usd:59.99},
     ],
     facts:[
       {icon:'⚡',text:'Sonic the Hedgehog shipped as the <b>pack-in game</b> with the Mega Drive, replacing the Altered Beast bundle. This single decision is credited with doubling Sega\'s market share.'},
@@ -2694,11 +2742,13 @@ const FRANCHISES=[
       {t:'Mega Man',y:1987,usd:34.99},
       {t:'Mega Man 2',y:1989,usd:39.99},
       {t:'Mega Man 3',y:1990,usd:44.99},
-      {t:'Mega Man 4',y:1992,usd:44.99},
       {t:'Mega Man X',y:1993,usd:54.99},
       {t:'Mega Man X2',y:1994,usd:59.99},
       {t:'Mega Man 7',y:1995,usd:59.99},
       {t:'Mega Man X4',y:1997,usd:39.99},
+      {t:'Mega Man 9',y:2008,usd:9.99},
+      {t:'Mega Man 10',y:2010,usd:9.99},
+      {t:'Mega Man 11',y:2018,usd:29.99},
     ],
     facts:[
       {icon:'📈',text:'Mega Man\'s average launch price <b>climbed from $35 to $60</b> between 1987 and 1995 — a 70% nominal rise. In real terms it roughly doubled the hours of work to buy one.'},
@@ -2720,6 +2770,10 @@ const FRANCHISES=[
       {t:'Symphony of the Night',y:1997,usd:49.99},
       {t:'Castlevania 64',y:1999,usd:49.99},
       {t:'Circle of the Moon',y:2001,usd:29.99},
+      {t:'Aria of Sorrow',y:2003,usd:29.99},
+      {t:'Dawn of Sorrow',y:2005,usd:34.99},
+      {t:'Order of Ecclesia',y:2008,usd:34.99},
+      {t:'Lords of Shadow',y:2010,usd:59.99},
     ],
     facts:[
       {icon:'🎵',text:'Symphony of the Night shipped at <b>$49.99</b> in 1997 but sold poorly at launch — Konami barely marketed it. Today original copies sell for <b>$80–$150</b> on eBay.'},
@@ -2741,6 +2795,8 @@ const FRANCHISES=[
       {t:'Street Fighter Alpha 3',y:1998,usd:49.99},
       {t:'Street Fighter III: 3rd Strike',y:1999,usd:49.99},
       {t:'Street Fighter IV',y:2009,usd:59.99},
+      {t:'Street Fighter V',y:2016,usd:59.99},
+      {t:'Street Fighter 6',y:2023,usd:59.99},
     ],
     facts:[
       {icon:'💸',text:'Street Fighter II on SNES launched at <b>$69.99</b> in 1992 — the equivalent of <b>$154</b> today. Capcom charged the premium because everyone wanted it and nothing else competed.'},
@@ -2762,6 +2818,10 @@ const FRANCHISES=[
       {t:'Mortal Kombat 4',y:1998,usd:49.99},
       {t:'Deadly Alliance',y:2002,usd:49.99},
       {t:'Deception',y:2004,usd:49.99},
+      {t:'Mortal Kombat (2011)',y:2011,usd:59.99},
+      {t:'Mortal Kombat X',y:2015,usd:59.99},
+      {t:'Mortal Kombat 11',y:2019,usd:59.99},
+      {t:'Mortal Kombat 1',y:2023,usd:69.99},
     ],
     facts:[
       {icon:'⚖️',text:'Mortal Kombat\'s blood and fatalities directly caused the <b>1993 Senate hearings</b> on video game violence, which led to the creation of the ESRB ratings board in 1994.'},
@@ -2783,6 +2843,10 @@ const FRANCHISES=[
       {t:'Resident Evil 4',y:2005,usd:49.99},
       {t:'Resident Evil 5',y:2009,usd:59.99},
       {t:'Resident Evil 7',y:2017,usd:59.99},
+      {t:'Resident Evil 2 Remake',y:2019,usd:59.99},
+      {t:'Resident Evil Village',y:2021,usd:59.99},
+      {t:'Resident Evil 4 Remake',y:2023,usd:59.99},
+      {t:'Resident Evil 9: Requiem',y:2025,usd:69.99},
     ],
     facts:[
       {icon:'🎬',text:'RE1 famously had <b>live-action FMV cutscenes</b> in the original Japanese version that were replaced with in-engine cutscenes for international release — partly to cut disc costs.'},
@@ -2825,6 +2889,7 @@ const FRANCHISES=[
       {t:'Crash Bandicoot: The Wrath of Cortex',y:2001,usd:49.99},
       {t:'Crash Twinsanity',y:2004,usd:39.99},
       {t:'Crash N. Sane Trilogy',y:2017,usd:39.99},
+      {t:"Crash Bandicoot 4: It's About Time",y:2020,usd:59.99},
     ],
     facts:[
       {icon:'🎭',text:'Crash was Sony\'s deliberate answer to Mario and Sonic — Naughty Dog were given an <b>open brief to create a mascot</b>. They chose a bandicoot specifically because no other franchise had used one.'},
@@ -2913,6 +2978,7 @@ const FRANCHISES=[
       {t:'Tomb Raider: Legend',y:2006,usd:49.99},
       {t:'Tomb Raider (2013)',y:2013,usd:59.99},
       {t:'Rise of the Tomb Raider',y:2015,usd:59.99},
+      {t:'Shadow of the Tomb Raider',y:2018,usd:59.99},
     ],
     facts:[
       {icon:'🎮',text:'The original Tomb Raider was one of the <b>first 3D action-adventure games</b> — its tank controls and fixed camera were the template every rival copied for the next five years.'},
@@ -2934,6 +3000,7 @@ const FRANCHISES=[
       {t:'Tekken 5',y:2005,usd:49.99},
       {t:'Tekken 6',y:2009,usd:59.99},
       {t:'Tekken 7',y:2017,usd:59.99},
+      {t:'Tekken 8',y:2024,usd:69.99},
     ],
     facts:[
       {icon:'🥇',text:'Tekken was the <b>first PlayStation game to sell one million copies</b> — a milestone that proved the PS1 had the audience to build a business on. It shipped in 1995 and hit the mark within months.'},
@@ -2958,7 +3025,7 @@ const FRANCHISES=[
     ],
     facts:[
       {icon:'🏗️',text:'Donkey Kong Country\'s <b>pre-rendered 3D graphics</b> in 1994 were so impressive that Nintendo kept them secret until three weeks before release, then used the shock to batter the Sega Genesis in the press.'},
-      {icon:'💵',text:'DKC launched at <b>$59.99</b> in 1994 — about <b>$127</b> today — one of the most expensive SNES games at launch. It still sold 9 million copies, becoming the third best-selling SNES game ever.'},
+      {icon:'💵',text:'DKC launched at <b>$59.99</b> in 1994 — about <b>$135</b> today — one of the most expensive SNES games at launch. It still sold 9 million copies, becoming the third best-selling SNES game ever.'},
     ],
     totalSales:'65M+',genres:'Platformer',entries:'20+',
   },
@@ -3058,6 +3125,7 @@ const FRANCHISES=[
       {t:"Kirby: Nightmare in Dream Land",y:2002,usd:29.99},
       {t:"Kirby's Epic Yarn",y:2010,usd:49.99},
       {t:'Kirby and the Forgotten Land',y:2022,usd:59.99},
+      {t:"Kirby's Return to Dream Land Deluxe",y:2023,usd:59.99},
     ],
     facts:[
       {icon:'💡',text:"Kirby's Dream Land was deliberately designed to be <b>easy enough for anyone to finish</b> — HAL's Masahiro Sakurai was 19 when he made it. It shipped at just <b>$19.99</b> in 1992, one of the cheapest Game Boy games ever."},
@@ -3079,6 +3147,10 @@ const FRANCHISES=[
       {t:'Black Ops',y:2010,usd:59.99},
       {t:'Modern Warfare 3',y:2011,usd:59.99},
       {t:'Black Ops II',y:2012,usd:59.99},
+      {t:'Advanced Warfare',y:2014,usd:59.99},
+      {t:'Modern Warfare (2019)',y:2019,usd:59.99},
+      {t:'Black Ops Cold War',y:2020,usd:69.99},
+      {t:'Modern Warfare III',y:2023,usd:69.99},
     ],
     facts:[
       {icon:'📊',text:'Call of Duty 4: Modern Warfare at <b>$59.99</b> in 2007 was the turning point — it shifted the genre from WWII to modern combat and became the <b>template every shooter copied for a decade</b>.'},
@@ -3100,6 +3172,8 @@ const FRANCHISES=[
       {t:'FIFA 07',y:2006,usd:49.99},
       {t:'FIFA 14',y:2013,usd:59.99},
       {t:'FIFA 22',y:2021,usd:59.99},
+      {t:'EA Sports FC 24',y:2023,usd:69.99},
+      {t:'EA Sports FC 25',y:2024,usd:69.99},
     ],
     facts:[
       {icon:'🤝',text:'EA paid FIFA <b>$150 million every four years</b> for the licence — a fee that eventually became so large that EA walked away in 2023 and rebranded as EA Sports FC. The name cost more than most game budgets.'},
@@ -3121,6 +3195,8 @@ const FRANCHISES=[
       {t:"Assassin's Creed: Origins",y:2017,usd:59.99},
       {t:"Assassin's Creed: Odyssey",y:2018,usd:59.99},
       {t:"Assassin's Creed: Valhalla",y:2020,usd:59.99},
+      {t:"Assassin's Creed Mirage",y:2023,usd:49.99},
+      {t:"Assassin's Creed Shadows",y:2025,usd:69.99},
     ],
     facts:[
       {icon:'📅',text:'Ubisoft released a new Assassin\'s Creed <b>every single year from 2007 to 2015</b> — eight games in eight years. By Unity in 2014 the formula was so exhausted they took a two-year break to rebuild.'},
@@ -3141,6 +3217,7 @@ const FRANCHISES=[
       {t:'Far Cry Primal',y:2016,usd:59.99},
       {t:'Far Cry 5',y:2018,usd:59.99},
       {t:'Far Cry 6',y:2021,usd:59.99},
+      {t:'Far Cry New Dawn',y:2019,usd:39.99},
     ],
     facts:[
       {icon:'🎮',text:'Far Cry 3 at <b>$59.99</b> in 2012 redefined open-world shooters and introduced the Ubisoft tower formula that would define AAA gaming for a decade — climb tower, reveal map, clear outposts. Copied everywhere.'},
@@ -3259,7 +3336,7 @@ function renderFranchises(){
   FRANCHISES.forEach(fr=>{
     const priced=fr.games.filter(g=>g.usd);
     const avgNom=priced.length?Math.round(priced.reduce((s,g)=>s+g.usd,0)/priced.length):0;
-    const avgAdj=priced.length?Math.round(priced.reduce((s,g)=>s+applyInflation(g.usd,'USD',g.year),0)/priced.length):0;
+    const avgAdj=priced.length?Math.round(priced.reduce((s,g)=>s+applyInflation(g.usd,'USD',g.y),0)/priced.length):0;
     const nomPct=Math.min(100,Math.round(avgNom/maxAdj*100));
     const adjPct=Math.min(100,Math.round(avgAdj/maxAdj*100));
 
@@ -3351,13 +3428,13 @@ function openFranchiseModal(fr){
 
   const priced=fr.games.filter(g=>g.usd);
   const avgNom=priced.length?Math.round(priced.reduce((s,g)=>s+g.usd,0)/priced.length):0;
-  const avgAdj=priced.length?Math.round(priced.reduce((s,g)=>s+applyInflation(g.usd,'USD',g.year),0)/priced.length):0;
+  const avgAdj=priced.length?Math.round(priced.reduce((s,g)=>s+applyInflation(g.usd,'USD',g.y),0)/priced.length):0;
   const mostExpNom=priced.length?priced.reduce((a,b)=>b.usd>a.usd?b:a):null;
-  const mostExpAdj=priced.length?priced.reduce((a,b)=>applyInflation(b.usd,'USD',b.year)>applyInflation(a.usd,'USD',a.year)?b:a):null;
+  const mostExpAdj=priced.length?priced.reduce((a,b)=>applyInflation(b.usd,'USD',b.y)>applyInflation(a.usd,'USD',a.y)?b:a):null;
 
   // Build game rows
   const rowsHtml=fr.games.map(g=>{
-    const adj=g.usd?applyInflation(g.usd,'USD',g.year):null;
+    const adj=g.usd?applyInflation(g.usd,'USD',g.y):null;
     return `<div class="fr-game-row">
       <div class="fr-game-title">${g.t}</div>
       <div class="fr-game-year">${g.y}</div>
@@ -3423,7 +3500,7 @@ function openFranchiseModal(fr){
         </div>`:''}
         ${mostExpAdj?`<div class="fr-game-row" style="grid-template-columns:1fr auto;gap:8px">
           <div class="fr-game-title">Most expensive (2026)</div>
-          <div class="fr-game-adj" style="color:var(--red)">$${applyInflation(mostExpAdj.usd,'USD',mostExpAdj.year)}</div>
+          <div class="fr-game-adj" style="color:var(--red)">$${applyInflation(mostExpAdj.usd,'USD',mostExpAdj.y)}</div>
         </div>`:''}
       </div>
     </div>
@@ -3440,7 +3517,7 @@ function openFranchiseModal(fr){
     if(frChartInst){frChartInst.destroy();frChartInst=null;}
     const labels=fr.games.map(g=>g.t.length>22?g.t.substring(0,20)+'…':g.t);
     const nomData=fr.games.map(g=>g.usd||null);
-    const adjData=fr.games.map(g=>g.usd?applyInflation(g.usd,'USD',g.year):null);
+    const adjData=fr.games.map(g=>g.usd?applyInflation(g.usd,'USD',g.y):null);
     const tc='#888780';
     frChartInst=new Chart(canvas,{
       type:'bar',
@@ -3659,9 +3736,11 @@ function getSortFn(method){
 }
 
 // ── SHARE ─────────────────────────────────────────────────────────
-function shareGame(title, console_name, year, usd){
+function shareGame(title, console_name, year, usd, id){
   const adj=Math.round(usd*(inflationUSD[year]||1));
-  const gameUrl=`https://gameflation.netlify.app/?game=${encodeURIComponent(title)}&console=${encodeURIComponent(console_name)}`;
+  const gameUrl=id
+    ? `https://gameflation.com/?game=${encodeURIComponent(id)}`
+    : `https://gameflation.com/?game=${encodeURIComponent(title)}&console=${encodeURIComponent(console_name)}`;
   const text=`${title} (${console_name}, ${year}) launched at $${usd} — worth $${adj} in 2026 money! 🎮`;
   if(navigator.share){
     navigator.share({title:`${title} — Gameflation`,text,url:gameUrl}).catch(()=>{});
@@ -3672,6 +3751,67 @@ function shareGame(title, console_name, year, usd){
     });
   }
 }
+
+// ── Deep linking ─────────────────────────────────────────────
+function pushGameUrl(id){
+  if(id) try{history.pushState({gameId:id},'',`?game=${encodeURIComponent(id)}`);}catch(e){}
+}
+function clearGameUrl(){
+  try{history.pushState({},'',window.location.pathname);}catch(e){}
+}
+
+// All game arrays in one flat lookup
+function buildGameIndex(){
+  const idx={};
+  const arrays=[
+    ...GAMES.map(g=>({...g,_openFn:'openGameModal'})),
+    ...NES_GAMES.map(g=>({...g,_openFn:'openNESModal'})),
+    ...SNES_GAMES.map(g=>({...g,_openFn:'openSNESModal'})),
+    ...GENESIS_GAMES.map(g=>({...g,_openFn:'openGenesisModal'})),
+    ...N64_GAMES.map(g=>({...g,_openFn:'openN64Modal'})),
+    ...GB_GAMES.map(g=>({...g,_openFn:'openGBModal'})),
+    ...PS1_GAMES.map(g=>({...g,_openFn:'openPS1Modal'})),
+  ];
+  arrays.forEach(g=>{if(g.id) idx[String(g.id)]=g;});
+  return idx;
+}
+
+let gameIndex={};
+
+function openGameById(id){
+  const game=gameIndex[String(id)];
+  if(!game) return false;
+  window[game._openFn](game);
+  return true;
+}
+
+// Handle browser back/forward
+window.addEventListener('popstate',e=>{
+  _restoringUrl=true;
+  const params=new URLSearchParams(window.location.search);
+  const gameId=params.get('game');
+  const tab=params.get('tab');
+  const console_id=params.get('console');
+
+  // Close any open modal first
+  document.getElementById('modalBg').classList.remove('open');
+  document.body.style.overflow='';
+
+  // Restore tab
+  if(tab){
+    const tabBtn=document.querySelector(`.tab[onclick*="switchTab('${tab}'"]`);
+    if(tabBtn) switchTab(tab,tabBtn);
+  }
+  // Restore console sub-tab
+  if(console_id){
+    const consoleBtn=document.querySelector(`.sub-tab[onclick*="switchConsole('${console_id}'"]`);
+    if(consoleBtn) switchConsole(console_id,consoleBtn);
+  }
+  // Re-open game modal if present
+  if(gameId) openGameById(gameId);
+
+  _restoringUrl=false;
+});
 
 // ── CONSOLE PRICE HISTORY ─────────────────────────────────────────
 const CONSOLE_PRICE_HISTORY={
@@ -3799,22 +3939,52 @@ window.onload=()=>{
   initPS1Filters();renderPS1();
 
   // Compute total games across all arrays
-  const totalGames=GAMES.length+NES_GAMES.length+SNES_GAMES.length+GENESIS_GAMES.length+N64_GAMES.length+GB_GAMES.length+PS1_GAMES.length;
+  const allGameArrays=[...GAMES,...NES_GAMES,...SNES_GAMES,...GENESIS_GAMES,...N64_GAMES,...GB_GAMES,...PS1_GAMES];
+  const totalGames=allGameArrays.length;
+  const earliestYear=Math.min(...allGameArrays.map(g=>g.year));
 
-  // Update hero stats
+  // Update hero stats from live data
   const heroGamesEl=document.getElementById('heroGames');
   if(heroGamesEl) heroGamesEl.textContent=totalGames;
+  const heroConsolesEl=document.getElementById('heroConsoles');
+  if(heroConsolesEl) heroConsolesEl.textContent=CONSOLES.length;
+  const heroEarliestEl=document.getElementById('heroEarliest');
+  if(heroEarliestEl) heroEarliestEl.textContent=earliestYear;
 
   setTimeout(()=>{
     document.getElementById('loadingState').style.display='none';
     document.getElementById('gamesGrid').style.display='grid';
     document.getElementById('footerStats').style.display='flex';
-    // Footer shows curated GAMES tab stats
     document.getElementById('statGames').textContent=GAMES.length;
-    document.getElementById('statConsoles').textContent=CONSOLES.length; // 50 total consoles
-    document.getElementById('statEras').textContent='1977–2000';
+    document.getElementById('statConsoles').textContent=CONSOLES.length;
+    document.getElementById('statEras').textContent=earliestYear+'–2000';
     renderGames(allGames);
-  },2000);
+    // Build game index for deep linking
+    gameIndex=buildGameIndex();
+
+    // Resolve URL params — tab, console, game, search
+    _restoringUrl=true;
+    const params=new URLSearchParams(window.location.search);
+    const urlTab=params.get('tab');
+    const urlConsole=params.get('console');
+    const urlGame=params.get('game');
+    const urlQ=params.get('q');
+
+    if(urlTab){
+      const tabBtn=document.querySelector(`.tab[onclick*="switchTab('${urlTab}'"]`);
+      if(tabBtn) switchTab(urlTab,tabBtn);
+    }
+    if(urlConsole){
+      const consoleBtn=document.querySelector(`.sub-tab[onclick*="switchConsole('${urlConsole}'"]`);
+      if(consoleBtn) switchConsole(urlConsole,consoleBtn);
+    }
+    if(urlGame) openGameById(urlGame);
+    if(urlQ){
+      const inp=document.getElementById('searchInput');
+      if(inp){inp.value=urlQ;filterGames();}
+    }
+    _restoringUrl=false;
+  },200);
 };
 </script>
 <script>
