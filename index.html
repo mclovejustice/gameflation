@@ -161,7 +161,7 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
 .game-card:hover .card-overlay{opacity:1}
 .card-overlay{position:absolute;top:6px;right:6px;background:var(--accent);color:#000;font-size:var(--font-size-small);padding:4px 6px;opacity:0;transition:opacity 0.15s;letter-spacing:.5px;z-index:2;border-radius:var(--radius);font-weight:700}
 .box-art-wrap{width:100%;aspect-ratio:3/4;background:var(--price-bg);position:relative;overflow:hidden;border-radius:var(--radius) var(--radius) 0 0}
-.box-art-wrap img{width:100%;height:100%;object-fit:cover;display:block}
+.box-art-wrap img{width:100%;height:100%;object-fit:contain;object-position:center;background:var(--price-bg);padding:4px;display:block}
 .box-art-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;padding:12px;text-align:center}
 .placeholder-icon{font-size:32px}
 .placeholder-text{font-size:var(--font-size-small);color:var(--text3);letter-spacing:.5px;line-height:1.4}
@@ -260,7 +260,7 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
 @media(min-width:480px){.modal-layout{grid-template-columns:170px 1fr}}
 .modal-box-art{border:2px solid var(--border);overflow:hidden;aspect-ratio:3/4;border-radius:var(--radius)}
 .mode-smooth .modal-box-art{border:none;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.5)}
-.modal-box-art img{width:100%;height:100%;object-fit:cover}
+.modal-box-art img{width:100%;height:100%;object-fit:contain;object-position:center;background:var(--price-bg)}
 .modal-info h2{font-size:10px;color:var(--accent);margin-bottom:8px;line-height:1.6;letter-spacing:.5px}
 .mode-smooth .modal-info h2{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px}
 .info-row{display:flex;gap:6px;align-items:flex-start;margin-bottom:6px;border-bottom:1px dashed var(--border2);padding-bottom:6px}
@@ -710,6 +710,14 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
 .franchise-stat-lbl{font-size:var(--font-size-small);color:var(--text3);letter-spacing:.5px;text-align:center}
 .mode-smooth .franchise-stat-lbl{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;letter-spacing:.5px}
 </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2XF7ED1Z60"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-2XF7ED1Z60');
+</script>
 </head>
 <body class="mode-smooth"><div id="shareToast" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--accent);color:var(--dark);padding:8px 18px;font-size:10px;font-family:var(--font-main);letter-spacing:1px;opacity:0;transition:opacity 0.3s;z-index:9999;pointer-events:none">COPIED TO CLIPBOARD ✓</div>
 
@@ -1360,7 +1368,7 @@ let allGames=[...GAMES],filteredGames=[...GAMES];
 const CONSOLE_COLORS={'NES':'#8b1a00','SNES':'#6a0080','Mega Drive':'#001a8b','N64':'#005500','PlayStation':'#00006b','Game Boy':'#3a4e1e','Atari 2600':'#6b3000','PC Engine':'#6b0000','Sega Saturn':'#350060'};
 function fallbackHTML(cons,title){const bg=CONSOLE_COLORS[cons]||'#1a3a12';return `<div class="box-art-placeholder" style="background:${bg}"><div class="placeholder-icon">🎮</div><div class="placeholder-text">${(title||'').substring(0,20)}</div></div>`;}
 function tooltipHTML(origUSD,year){const m=(inflationUSD[year]||1).toFixed(1);return `<span class="tooltip-wrap"><span class="tooltip-btn">?</span><span class="tooltip-box"><span class="tooltip-box-text">Original: $${origUSD} in ${year}. Multiplied by ${m}× using the US Consumer Price Index (CPI) — the official measure of how the cost of living has risen since then.</span></span></span>`;}
-function renderGames(games){const grid=document.getElementById('gamesGrid');grid.innerHTML='';if(!games.length){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px;font-size:10px;color:var(--text3)">NO GAMES FOUND</div>';return;}games.forEach(game=>{const adj=applyInflation(game.prices.USD,'USD',game.year);const hw=hoursWorked(game.prices.USD,game.prices.GBP,game.year);const stars='★'.repeat(game.rating)+'☆'.repeat(5-game.rating);const card=document.createElement('div');card.className='game-card';card.onclick=()=>openGameModal(game);const artId='art_'+game.id;card.innerHTML=`<div class="card-overlay">VIEW ▶</div><div class="box-art-wrap"><div id="${artId}" style="width:100%;height:100%">${fallbackHTML(game.console,game.title)}</div><div class="console-badge">${game.console} · ${game.year}</div></div><div class="card-info"><div class="card-title">${game.title}</div><div class="card-year"><span style="color:var(--text3)">${stars}</span></div><div class="price-table-mini"><div class="price-cell"><span class="price-cell-label">USD ${game.year}</span><span class="price-cell-val">${fmt(game.prices.USD,'USD')}</span></div><div class="price-cell"><span class="price-cell-label">GBP ${game.year}</span><span class="price-cell-val">${fmt(game.prices.GBP,'GBP')}</span></div><div class="price-cell adjusted"><span class="price-cell-label">🪙 2026 VALUE ${tooltipHTML(game.prices.USD,game.year)}</span><span class="price-cell-val">${fmt(adj,'USD')}</span></div><div class="hours-cell"><span class="hours-cell-label">⏱ HRS TO BUY</span><span class="hours-cell-vals">🇺🇸${hw.hUS}h &nbsp;🇬🇧${hw.hUK}h</span></div></div></div>`;grid.appendChild(card);if(game.art){const img=new Image();img.onload=()=>{const w=document.getElementById(artId);if(w)w.innerHTML=`<img loading="lazy" src="${game.art}" alt="${game.title}" style="width:100%;height:100%;object-fit:cover;display:block">`;};img.src=game.art;}});}
+function renderGames(games){const grid=document.getElementById('gamesGrid');grid.innerHTML='';if(!games.length){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px;font-size:10px;color:var(--text3)">NO GAMES FOUND</div>';return;}games.forEach(game=>{const adj=applyInflation(game.prices.USD,'USD',game.year);const hw=hoursWorked(game.prices.USD,game.prices.GBP,game.year);const stars='★'.repeat(game.rating)+'☆'.repeat(5-game.rating);const card=document.createElement('div');card.className='game-card';card.onclick=()=>openGameModal(game);const artId='art_'+game.id;card.innerHTML=`<div class="card-overlay">VIEW ▶</div><div class="box-art-wrap"><div id="${artId}" style="width:100%;height:100%">${fallbackHTML(game.console,game.title)}</div><div class="console-badge">${game.console} · ${game.year}</div></div><div class="card-info"><div class="card-title">${game.title}</div><div class="card-year"><span style="color:var(--text3)">${stars}</span></div><div class="price-table-mini"><div class="price-cell"><span class="price-cell-label">USD ${game.year}</span><span class="price-cell-val">${fmt(game.prices.USD,'USD')}</span></div><div class="price-cell"><span class="price-cell-label">GBP ${game.year}</span><span class="price-cell-val">${fmt(game.prices.GBP,'GBP')}</span></div><div class="price-cell adjusted"><span class="price-cell-label">🪙 2026 VALUE ${tooltipHTML(game.prices.USD,game.year)}</span><span class="price-cell-val">${fmt(adj,'USD')}</span></div><div class="hours-cell"><span class="hours-cell-label">⏱ HRS TO BUY</span><span class="hours-cell-vals">🇺🇸${hw.hUS}h &nbsp;🇬🇧${hw.hUK}h</span></div></div></div>`;grid.appendChild(card);if(game.art){const img=new Image();img.onload=()=>{const w=document.getElementById(artId);if(w)w.innerHTML=`<img loading="lazy" src="${game.art}" alt="${game.title}" style="width:100%;height:100%;object-fit:contain;object-position:center;background:var(--price-bg);padding:4px;display:block">`;};img.src=game.art;}});}
 function populateFilters(){const sel=document.getElementById('consoleFilter');[...new Set(GAMES.map(g=>g.console))].sort().forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o);});}
 function filterGames(){const s=document.getElementById('searchInput').value.toLowerCase();const c=document.getElementById('consoleFilter').value;const e=document.getElementById('eraFilter').value;filteredGames=allGames.filter(g=>{const ms=!s||g.title.toLowerCase().includes(s)||g.console.toLowerCase().includes(s)||g.genre.toLowerCase().includes(s);const mc=!c||g.console===c;const me=!e||(e==='70s'&&g.year<1980||e==='80s'&&g.year>=1980&&g.year<1990||e==='90s'&&g.year>=1990&&g.year<2000||e==='00s'&&g.year>=2000);return ms&&mc&&me;});renderGames(filteredGames);}
 let chartsInited=false;
@@ -1477,7 +1485,7 @@ function renderConsoles(){
     grid.appendChild(card);
   });
 }
-function openGameModal(game){pushGameUrl(game.id);currentModalGame=game;document.getElementById('modalTitle').textContent=game.title;document.getElementById('modalBg').classList.add('open');document.body.style.overflow='hidden';const adjUSD=applyInflation(game.prices.USD,'USD',game.year);const adjGBP=applyInflation(game.prices.GBP,'GBP',game.year);const adjJPY=applyInflation(game.prices.JPY,'JPY',game.year);const mult=(inflationUSD[game.year]||1).toFixed(1);const hw=hoursWorked(game.prices.USD,game.prices.GBP,game.year);const stars='★'.repeat(game.rating)+'☆'.repeat(5-game.rating);const artHtml=game.art?`<img loading="lazy" src="${game.art}" alt="${game.title}" style="width:100%;height:100%;object-fit:cover">`:fallbackHTML(game.console,game.title);document.getElementById('modalBody').innerHTML=`<div class="modal-layout"><div class="modal-box-art">${artHtml}</div><div class="modal-info"><h2>${game.title}</h2><div class="info-row"><span class="info-label">CONSOLE</span><span class="info-val">${game.console}</span></div><div class="info-row"><span class="info-label">YEAR</span><span class="info-val">${game.year}</span></div><div class="info-row"><span class="info-label">GENRE</span><span class="info-val">${game.genre}</span></div><div class="info-row"><span class="info-label">PUBLISHER</span><span class="info-val">${game.publisher}</span></div><div class="info-row"><span class="info-label">RATING</span><span class="info-val" style="color:var(--accent)">${stars}</span></div><div class="hours-block"><div class="hours-block-title">⏱ HOURS WORKED TO BUY AT LAUNCH</div><div class="hours-cols"><div class="hours-col"><div class="hours-col-lbl">🇺🇸 USA</div><div class="hours-col-val">${hw.hUS}h</div><div class="hours-col-sub">avg $${hw.wUS}/hr in ${game.year}</div></div><div class="hours-col"><div class="hours-col-lbl">🇬🇧 UK</div><div class="hours-col-val">${hw.hUK}h</div><div class="hours-col-sub">avg £${hw.wUK}/hr in ${game.year}</div></div></div></div></div></div><p class="modal-desc">${game.desc}
+function openGameModal(game){pushGameUrl(game.id);currentModalGame=game;document.getElementById('modalTitle').textContent=game.title;document.getElementById('modalBg').classList.add('open');document.body.style.overflow='hidden';const adjUSD=applyInflation(game.prices.USD,'USD',game.year);const adjGBP=applyInflation(game.prices.GBP,'GBP',game.year);const adjJPY=applyInflation(game.prices.JPY,'JPY',game.year);const mult=(inflationUSD[game.year]||1).toFixed(1);const hw=hoursWorked(game.prices.USD,game.prices.GBP,game.year);const stars='★'.repeat(game.rating)+'☆'.repeat(5-game.rating);const artHtml=game.art?`<img loading="lazy" src="${game.art}" alt="${game.title}" style="width:100%;height:100%;object-fit:contain;object-position:center;background:var(--price-bg)">`:fallbackHTML(game.console,game.title);document.getElementById('modalBody').innerHTML=`<div class="modal-layout"><div class="modal-box-art">${artHtml}</div><div class="modal-info"><h2>${game.title}</h2><div class="info-row"><span class="info-label">CONSOLE</span><span class="info-val">${game.console}</span></div><div class="info-row"><span class="info-label">YEAR</span><span class="info-val">${game.year}</span></div><div class="info-row"><span class="info-label">GENRE</span><span class="info-val">${game.genre}</span></div><div class="info-row"><span class="info-label">PUBLISHER</span><span class="info-val">${game.publisher}</span></div><div class="info-row"><span class="info-label">RATING</span><span class="info-val" style="color:var(--accent)">${stars}</span></div><div class="hours-block"><div class="hours-block-title">⏱ HOURS WORKED TO BUY AT LAUNCH</div><div class="hours-cols"><div class="hours-col"><div class="hours-col-lbl">🇺🇸 USA</div><div class="hours-col-val">${hw.hUS}h</div><div class="hours-col-sub">avg $${hw.wUS}/hr in ${game.year}</div></div><div class="hours-col"><div class="hours-col-lbl">🇬🇧 UK</div><div class="hours-col-val">${hw.hUK}h</div><div class="hours-col-sub">avg £${hw.wUK}/hr in ${game.year}</div></div></div></div></div></div><p class="modal-desc">${game.desc}
     <div style="margin-top:12px"><button onclick="shareGame(currentModalGame.title,currentModalGame.console,currentModalGame.year,currentModalGame.prices.USD,currentModalGame.id)" style="background:var(--border2);border:1px solid var(--border);color:var(--text2);font-family:var(--font-main);font-size:6px;padding:6px 10px;cursor:pointer;letter-spacing:1px;border-radius:var(--radius)">📤 SHARE THIS GAME</button></div></p><div class="price-breakdown"><div class="price-breakdown-header">💰 LAUNCH PRICE vs 2026 MONEY</div><div class="price-grid"><div class="price-col"><div class="price-currency">🇺🇸 USD</div><span class="price-original">${fmt(game.prices.USD,'USD')} in ${game.year}</span><span class="price-arrow">↓</span><span class="price-2026">${fmt(adjUSD,'USD')} today</span></div><div class="price-col"><div class="price-currency">🇬🇧 GBP</div><span class="price-original">${fmt(game.prices.GBP,'GBP')} in ${game.year}</span><span class="price-arrow">↓</span><span class="price-2026">${fmt(adjGBP,'GBP')} today</span></div><div class="price-col"><div class="price-currency">🇯🇵 JPY</div><span class="price-original">${fmt(game.prices.JPY,'JPY')} in ${game.year}</span><span class="price-arrow">↓</span><span class="price-2026">${fmt(adjJPY,'JPY')} today</span></div></div></div><div class="inflation-note">📊 Inflation factor: ${mult}× from ${game.year} to 2026 (US CPI). EUR did not exist at this time.</div>`;}
 function openConsoleModal(c){
   document.getElementById('modalTitle').textContent=c.name;
@@ -1664,7 +1672,7 @@ function renderNES(){
     const salesStr=game.sales?`<div class="console-badge-sales">${game.sales}</div>`:'';
     card.innerHTML=`<div class="card-overlay">VIEW ▶</div>
       <div class="box-art-wrap" style="background:${bg}">
-        ${game.driveFile?`<img src="${NES_ART_BASE}${game.driveFile}" alt="${game.title}" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy" loading="lazy" onerror="this.style.display='none'">`:``}
+        ${game.driveFile?`<img src="${NES_ART_BASE}${game.driveFile}" alt="${game.title}" style="width:100%;height:100%;object-fit:contain;object-position:center;background:var(--price-bg);padding:4px;display:block" loading="lazy" onerror="this.style.display='none'">`:``}
         <div class="console-badge">NES · ${game.year}</div>
       </div>
       <div class="card-info">
@@ -1696,7 +1704,7 @@ function openNESModal(game){pushGameUrl(game.id);
   document.getElementById('modalBody').innerHTML=`
     <div class="modal-layout">
       <div class="modal-box-art" style="background:${bg}">
-        ${game.driveFile?`<img loading="lazy" src="${NES_ART_BASE}${game.driveFile}" alt="${game.title}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.style.display='flex';this.parentElement.style.alignItems='center';this.parentElement.style.justifyContent='center';this.remove()">`:''}
+        ${game.driveFile?`<img loading="lazy" src="${NES_ART_BASE}${game.driveFile}" alt="${game.title}" style="width:100%;height:100%;object-fit:contain;object-position:center;background:var(--price-bg)" onerror="this.parentElement.style.display='flex';this.parentElement.style.alignItems='center';this.parentElement.style.justifyContent='center';this.remove()">`:''}
       </div>
       <div class="modal-info">
         <h2>${game.title}</h2>
@@ -1859,7 +1867,7 @@ function renderSNES(){
     const hwStr=hw?`🇺🇸${hw.hUS}h 🇬🇧${hw.hUK}h`:'N/A';
     card.innerHTML=`<div class="card-overlay">VIEW ▶</div>
       <div class="box-art-wrap" style="background:${bg}">
-        ${game.driveFile?`<img src="${SNES_ART_BASE}${game.driveFile}" alt="${game.title}" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy" loading="lazy" onerror="this.style.display='none'">`:''}
+        ${game.driveFile?`<img src="${SNES_ART_BASE}${game.driveFile}" alt="${game.title}" style="width:100%;height:100%;object-fit:contain;object-position:center;background:var(--price-bg);padding:4px;display:block" loading="lazy" onerror="this.style.display='none'">`:''}
         <div class="console-badge">SNES · ${game.year}</div>
       </div>
       <div class="card-info">
@@ -1893,7 +1901,7 @@ function openSNESModal(game){pushGameUrl(game.id);
   document.getElementById('modalBody').innerHTML=`
     <div class="modal-layout">
       <div class="modal-box-art" style="background:${bg}">
-        ${game.driveFile?`<img loading="lazy" src="${SNES_ART_BASE}${game.driveFile}" alt="${game.title}" style="width:100%;height:100%;object-fit:cover">`:''}
+        ${game.driveFile?`<img loading="lazy" src="${SNES_ART_BASE}${game.driveFile}" alt="${game.title}" style="width:100%;height:100%;object-fit:contain;object-position:center;background:var(--price-bg)">`:''}
       </div>
       <div class="modal-info">
         <h2>${game.title}</h2>
@@ -2018,7 +2026,7 @@ function renderGenesis(){
     card.onclick=()=>openGenesisModal(game);
     card.innerHTML=`<div class="card-overlay">VIEW ▶</div>
       <div class="box-art-wrap" style="background:${bg}">
-        ${game.driveFile?`<img src="${artUrl}" alt="${game.title}" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy" loading="lazy" onerror="this.style.display='none'">`:''}
+        ${game.driveFile?`<img src="${artUrl}" alt="${game.title}" style="width:100%;height:100%;object-fit:contain;object-position:center;background:var(--price-bg);padding:4px;display:block" loading="lazy" onerror="this.style.display='none'">`:''}
         <div class="console-badge">MEGA DRIVE · ${game.year}${game.sales?' · '+game.sales:''}</div>
       </div>
       <div class="card-info">
@@ -2050,7 +2058,7 @@ function openGenesisModal(game){pushGameUrl(game.id);
   document.getElementById('modalBody').innerHTML=`
     <div class="modal-layout">
       <div class="modal-box-art" style="background:${bg}">
-        ${game.driveFile?`<img loading="lazy" src="${artUrl}" alt="${game.title}" style="width:100%;height:100%;object-fit:cover">`:''}
+        ${game.driveFile?`<img loading="lazy" src="${artUrl}" alt="${game.title}" style="width:100%;height:100%;object-fit:contain;object-position:center;background:var(--price-bg)">`:''}
       </div>
       <div class="modal-info">
         <h2>${game.title}</h2>
@@ -2182,7 +2190,7 @@ function renderN64(){
     const hwStr=hw?`🇺🇸${hw.hUS}h 🇬🇧${hw.hUK}h`:'N/A';
     card.innerHTML=`<div class="card-overlay">VIEW ▶</div>
       <div class="box-art-wrap" style="background:${bg}">
-        ${game.driveFile?`<img src="${N64_ART_BASE}${game.driveFile}" alt="${game.title}" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy" loading="lazy" onerror="this.style.display='none'">`:``}
+        ${game.driveFile?`<img src="${N64_ART_BASE}${game.driveFile}" alt="${game.title}" style="width:100%;height:100%;object-fit:contain;object-position:center;background:var(--price-bg);padding:4px;display:block" loading="lazy" onerror="this.style.display='none'">`:``}
         <div class="console-badge">N64 · ${game.year}${game.sales?' · '+game.sales:''}</div>
       </div>
       <div class="card-info">
@@ -2213,7 +2221,7 @@ function openN64Modal(game){pushGameUrl(game.id);
   document.getElementById('modalBody').innerHTML=`
     <div class="modal-layout">
       <div class="modal-box-art" style="background:${bg}">
-        ${game.driveFile?`<img loading="lazy" src="${N64_ART_BASE}${game.driveFile}" alt="${game.title}" style="width:100%;height:100%;object-fit:cover" loading="lazy" loading="lazy" onerror="this.style.display='none'">`:``}
+        ${game.driveFile?`<img loading="lazy" src="${N64_ART_BASE}${game.driveFile}" alt="${game.title}" style="width:100%;height:100%;object-fit:contain;object-position:center;background:var(--price-bg)" loading="lazy" onerror="this.style.display='none'">`:``}
       </div>
       <div class="modal-info">
         <h2>${game.title}</h2>
@@ -2341,7 +2349,7 @@ function renderGB(){
     const hwStr=hw?`🇺🇸${hw.hUS}h 🇬🇧${hw.hUK}h`:'N/A';
     card.innerHTML=`<div class="card-overlay">VIEW ▶</div>
       <div class="box-art-wrap" style="background:${bg}">
-        ${game.driveFile?`<img loading="lazy" src="${GB_ART_BASE}${game.driveFile}" alt="${game.title}" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy" loading="lazy" onerror="this.style.display='none'">`:``}
+        ${game.driveFile?`<img loading="lazy" src="${GB_ART_BASE}${game.driveFile}" alt="${game.title}" style="width:100%;height:100%;object-fit:contain;object-position:center;background:var(--price-bg);padding:4px;display:block" loading="lazy" onerror="this.style.display='none'">`:``}
         <div class="console-badge">GAME BOY · ${game.year}${game.sales?' · '+game.sales:''}</div>
       </div>
       <div class="card-info">
@@ -2372,7 +2380,7 @@ function openGBModal(game){pushGameUrl(game.id);
   document.getElementById('modalBody').innerHTML=`
     <div class="modal-layout">
       <div class="modal-box-art" style="background:${bg}">
-        ${game.driveFile?`<img loading="lazy" src="${GB_ART_BASE}${game.driveFile}" alt="${game.title}" style="width:100%;height:100%;object-fit:cover" loading="lazy" loading="lazy" onerror="this.style.display='none'">`:``}
+        ${game.driveFile?`<img loading="lazy" src="${GB_ART_BASE}${game.driveFile}" alt="${game.title}" style="width:100%;height:100%;object-fit:contain;object-position:center;background:var(--price-bg)" loading="lazy" onerror="this.style.display='none'">`:``}
       </div>
       <div class="modal-info">
         <h2>${game.title}</h2>
