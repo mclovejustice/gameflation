@@ -749,7 +749,7 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
   <div class="hero-left">
     <div class="hero-stats">
       <div class="hero-stat">
-        <span class="hero-stat-num" id="heroGames">385</span>
+        <span class="hero-stat-num" id="heroGames">500+</span>
         <span class="hero-stat-lbl">GAMES IN DB</span>
       </div>
       <div class="hero-stat">
@@ -803,7 +803,7 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
 <div id="gamesTab" class="tab-content active">
   <div class="main">
     <div id="loadingState" class="loading-state">
-      <div><span class="coin">🪙</span> LOADING CARTRIDGE DATABASE <span class="blink">_</span></div>
+      <div aria-hidden="true"><span class="coin">🪙</span> LOADING CARTRIDGE DATABASE <span class="blink">_</span></div>
       <div class="pixel-bar-wrap"><div class="pixel-bar-fill"></div></div>
     </div>
     <div id="gamesGrid" class="games-grid" style="display:none"></div>
@@ -859,7 +859,7 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
     </div>
     <div style="background:#1a0500;border-bottom:1px solid var(--border2);padding:8px 16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
       <span style="font-size:var(--font-size-small);color:var(--accent)">🖼️ ART:</span>
-      <span style="font-size:var(--font-size-small);color:var(--text3)">🟢 Loading from gameflation.netlify.app/art/nes/</span>
+      <span style="font-size:var(--font-size-small);color:var(--text3)">🟢 Art served from /art/nes/</span>
     </div>
     <div class="main">
       <div id="nesGrid" class="games-grid"></div>
@@ -890,7 +890,7 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
     </div>
     <div style="background:#1a0500;border-bottom:1px solid var(--border2);padding:8px 16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
       <span style="font-size:var(--font-size-small);color:var(--accent)">🖼️ ART:</span>
-      <span style="font-size:var(--font-size-small);color:var(--text3)">🟢 Loading from gameflation.netlify.app/art/snes/</span>
+      <span style="font-size:var(--font-size-small);color:var(--text3)">🟢 Art served from /art/snes/</span>
     </div>
     <div class="main">
       <div id="snesGrid" class="games-grid"></div>
@@ -921,7 +921,7 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
     </div>
     <div style="background:#001a00;border-bottom:1px solid var(--border2);padding:8px 16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
       <span style="font-size:var(--font-size-small);color:var(--accent)">🖼️ ART:</span>
-      <span style="font-size:var(--font-size-small);color:var(--text3)">Upload art to <code style="font-size:10px;color:var(--sky)">art/genesis/</code> on Netlify</span>
+
     </div>
     <div class="main">
       <div id="genesisGrid" class="games-grid"></div>
@@ -952,7 +952,7 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
     </div>
     <div style="background:#001a00;border-bottom:1px solid var(--border2);padding:8px 16px;display:flex;align-items:center;gap:8px">
       <span style="font-size:var(--font-size-small);color:var(--accent)">🖼️ ART:</span>
-      <span style="font-size:var(--font-size-small);color:var(--text3)">Loading from gameflation.netlify.app/art/n64/</span>
+      <span style="font-size:var(--font-size-small);color:var(--text3)">Art served from /art/n64/</span>
     </div>
     <div class="main">
       <div id="n64Grid" class="games-grid"></div>
@@ -982,7 +982,7 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
     </div>
     <div style="background:#001a00;border-bottom:1px solid var(--border2);padding:8px 16px;display:flex;align-items:center;gap:8px">
       <span style="font-size:var(--font-size-small);color:var(--accent)">🖼️ ART:</span>
-      <span style="font-size:var(--font-size-small);color:var(--text3)">Loading from gameflation.netlify.app/art/gb/</span>
+      <span style="font-size:var(--font-size-small);color:var(--text3)">Art served from /art/gb/</span>
     </div>
     <div class="main">
       <div id="gbGrid" class="games-grid"></div>
@@ -1012,7 +1012,7 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
     </div>
     <div style="background:#000a1a;border-bottom:1px solid var(--border2);padding:8px 16px;display:flex;align-items:center;gap:8px">
       <span style="font-size:var(--font-size-small);color:var(--accent)">🖼️ ART:</span>
-      <span style="font-size:var(--font-size-small);color:var(--text3)">Loading from gameflation.netlify.app/art/ps1/</span>
+      <span style="font-size:var(--font-size-small);color:var(--text3)">Art served from /art/ps1/</span>
     </div>
     <div class="main">
       <div id="ps1Grid" class="games-grid"></div>
@@ -1219,7 +1219,7 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
 <div class="modal-bg" id="modalBg" onclick="closeModal(event)">
   <div class="modal" id="modal">
     <div class="modal-header">
-      <div class="modal-title" id="modalTitle">LOADING...</div>
+      <div class="modal-title" id="modalTitle" aria-hidden="true">LOADING...</div>
       <button class="modal-close" onclick="closeModalBtn()">✕</button>
     </div>
     <div class="modal-body" id="modalBody"></div>
@@ -1268,42 +1268,42 @@ function hoursWorked(usd,gbp,year){const us=hourlyUS[year]||hourlyUS[2009];const
 function tooltipHTML(origUSD,year){const m=(inflationUSD[year]||1).toFixed(1);return `<span class="tooltip-wrap"><span class="tooltip-btn">?</span><span class="tooltip-box"><span class="tooltip-box-text">Original: $${origUSD} in ${year}. Multiplied by ${m}× using the US Consumer Price Index (CPI) — the official measure of how the cost of living has risen since then.</span></span></span>`;}
 
 const GAMES=[
-  {id:1,title:'Super Mario Bros.',console:'NES',year:1985,genre:'Platformer',publisher:'Nintendo',prices:{USD:29.99,GBP:19.99,JPY:4900},rating:5,art:'https://gameflation.netlify.app/art/nes/Super Mario Bros. (USA).png',desc:'The game that changed everything. Mario\'s first side-scrolling adventure.'},
-  {id:2,title:'The Legend of Zelda',console:'NES',year:1986,genre:'Action-RPG',publisher:'Nintendo',prices:{USD:49.99,GBP:34.99,JPY:6500},rating:5,art:'https://gameflation.netlify.app/art/nes/Legend of Zelda, The (USA).png',desc:'Link\'s first quest. The gold cartridge that became iconic.'},
-  {id:3,title:'Mega Man 2',console:'NES',year:1988,genre:'Platformer',publisher:'Capcom',prices:{USD:39.99,GBP:27.99,JPY:5500},rating:5,art:'https://gameflation.netlify.app/art/nes/Mega Man 2 (USA).png',desc:'The pinnacle of the Mega Man series. Eight robot masters, unforgettable music.'},
-  {id:4,title:'Contra',console:'NES',year:1988,genre:"Run'n Gun",publisher:'Konami',prices:{USD:39.99,GBP:27.99,JPY:5500},rating:5,art:'https://gameflation.netlify.app/art/nes/Contra (USA).png',desc:'Up up down down left right left right B A. The Konami code was born here.'},
-  {id:5,title:'Castlevania',console:'NES',year:1987,genre:'Action',publisher:'Konami',prices:{USD:39.99,GBP:27.99,JPY:5500},rating:5,art:'https://gameflation.netlify.app/art/nes/Castlevania (USA).png',desc:'Simon Belmont\'s whip-cracking journey through Dracula\'s castle.'},
-  {id:6,title:'Duck Hunt',console:'NES',year:1985,genre:'Light Gun',publisher:'Nintendo',prices:{USD:14.99,GBP:12.99,JPY:3000},rating:3,art:'https://gameflation.netlify.app/art/nes/Duck Hunt (USA).png',desc:'That laughing dog. Bundled with the Zapper light gun.'},
-  {id:7,title:'Metroid',console:'NES',year:1987,genre:'Action-Adventure',publisher:'Nintendo',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:5,art:'https://gameflation.netlify.app/art/nes/Metroid (USA).png',desc:'Samus Aran arrives. One of the greatest adventures on the NES.'},
-  {id:8,title:'DuckTales',console:'NES',year:1989,genre:'Platformer',publisher:'Capcom',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:5,art:'https://gameflation.netlify.app/art/nes/DuckTales.jpg',desc:'Scrooge McDuck\'s pogo cane. One of the finest platformers on the NES.'},
-  {id:9,title:'Super Mario World',console:'SNES',year:1990,genre:'Platformer',publisher:'Nintendo',prices:{USD:49.99,GBP:39.99,JPY:8000},rating:5,art:'https://gameflation.netlify.app/art/snes/Super Mario World (USA).png',desc:'Mario\'s SNES debut introduced Yoshi and 96 exits.'},
-  {id:10,title:'A Link to the Past',console:'SNES',year:1991,genre:'Action-RPG',publisher:'Nintendo',prices:{USD:49.99,GBP:39.99,JPY:8000},rating:5,art:'https://gameflation.netlify.app/art/snes/Legend of Zelda, The - A Link to the Past (USA).png',desc:'The definitive Zelda blueprint. Dark World, Master Sword, six sages.'},
-  {id:11,title:'Super Metroid',console:'SNES',year:1994,genre:'Action-Adventure',publisher:'Nintendo',prices:{USD:59.99,GBP:49.99,JPY:9000},rating:5,art:'https://gameflation.netlify.app/art/snes/Super Metroid.png',desc:'The definitive 2D Metroid. Atmosphere, controls, ending — perfect.'},
-  {id:12,title:'Chrono Trigger',console:'SNES',year:1995,genre:'RPG',publisher:'Square',prices:{USD:69.99,GBP:54.99,JPY:11400},rating:5,art:'https://gameflation.netlify.app/art/snes/Chrono Trigger.png',desc:'The greatest JRPG ever made. Time travel, 13 endings.'},
-  {id:13,title:'Final Fantasy VI',console:'SNES',year:1994,genre:'RPG',publisher:'Square',prices:{USD:69.99,GBP:54.99,JPY:11400},rating:5,art:'https://gameflation.netlify.app/art/snes/Final Fantasy VI.jpg',desc:'Opera scene. Terra\'s theme. Kefka as the greatest villain in gaming.'},
-  {id:14,title:'Donkey Kong Country',console:'SNES',year:1994,genre:'Platformer',publisher:'Nintendo',prices:{USD:59.99,GBP:49.99,JPY:9000},rating:5,art:'https://gameflation.netlify.app/art/snes/Donkey Kong Country (USA).png',desc:'Pre-rendered 3D graphics that blew everyone\'s mind in 1994.'},
-  {id:15,title:'Street Fighter II Turbo',console:'SNES',year:1992,genre:'Fighting',publisher:'Capcom',prices:{USD:69.99,GBP:59.99,JPY:9800},rating:5,art:'https://gameflation.netlify.app/art/snes/Street Fighter II Turbo.png',desc:'The fighting game that defined a genre.'},
-  {id:16,title:'Mega Man X',console:'SNES',year:1993,genre:'Platformer',publisher:'Capcom',prices:{USD:54.99,GBP:44.99,JPY:8000},rating:5,art:'https://gameflation.netlify.app/art/snes/Mega Man X (USA).png',desc:'The reinvention of Mega Man. Wall-jumping, charge shots, perfect intro.'},
-  {id:17,title:'Secret of Mana',console:'SNES',year:1993,genre:'Action-RPG',publisher:'Square',prices:{USD:59.99,GBP:49.99,JPY:9800},rating:5,art:'https://gameflation.netlify.app/art/snes/Secret of Mana (USA).png',desc:'Real-time combat, co-op multiplayer, a soundtrack that still gives chills.'},
-  {id:18,title:'Sonic the Hedgehog',console:'Mega Drive',year:1991,genre:'Platformer',publisher:'Sega',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:5,art:'https://gameflation.netlify.app/art/genesis/Sonic the Hedgehog (USA).png',desc:'The blue blur arrives. Sonic vs Mario was THE console war of the early 90s.'},
-  {id:19,title:'Sonic the Hedgehog 2',console:'Mega Drive',year:1992,genre:'Platformer',publisher:'Sega',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:5,art:'https://gameflation.netlify.app/art/genesis/Sonic the Hedgehog 2 (USA).png',desc:'Tails joins the party. Chemical Plant Zone. The spin dash.'},
-  {id:20,title:'Streets of Rage 2',console:'Mega Drive',year:1992,genre:"Beat'em Up",publisher:'Sega',prices:{USD:54.99,GBP:44.99,JPY:8500},rating:5,art:'https://gameflation.netlify.app/art/genesis/Streets of Rage 2 (USA).png',desc:'The definitive beat\'em up. Yuzo Koshiro\'s best work.'},
-  {id:21,title:'Gunstar Heroes',console:'Mega Drive',year:1993,genre:"Run'n Gun",publisher:'Sega/Treasure',prices:{USD:59.99,GBP:49.99,JPY:8800},rating:5,art:'https://gameflation.netlify.app/art/genesis/Gunstar Heroes (USA).png',desc:'Treasure\'s debut. Insane action, combinable weapons.'},
-  {id:22,title:'Castlevania: Bloodlines',console:'Mega Drive',year:1994,genre:'Action',publisher:'Konami',prices:{USD:59.99,GBP:49.99,JPY:9800},rating:5,art:'https://gameflation.netlify.app/art/genesis/Castlevania - Bloodlines (USA).png',desc:'The only mainline Castlevania on Genesis. Superb soundtrack.'},
-  {id:23,title:"Disney's Aladdin",console:'Mega Drive',year:1993,genre:'Platformer',publisher:'Virgin/Sega',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:5,art:'https://gameflation.netlify.app/art/genesis/Aladdin (USA).png',desc:'Animated by Disney artists. The best movie tie-in game ever made.'},
-  {id:24,title:'Contra: Hard Corps',console:'Mega Drive',year:1994,genre:"Run'n Gun",publisher:'Konami',prices:{USD:64.99,GBP:54.99,JPY:9800},rating:5,art:'https://gameflation.netlify.app/art/genesis/Contra - Hard Corps (USA).png',desc:'The hardest, most chaotic Contra. Multiple endings, four characters.'},
-  {id:25,title:'Super Mario 64',console:'N64',year:1996,genre:'Platformer',publisher:'Nintendo',prices:{USD:59.99,GBP:49.99,JPY:5800},rating:5,art:'https://gameflation.netlify.app/art/n64/Super-Mario-64--U-----.jpg',desc:'The game that invented 3D platforming. 120 stars, Bowser battles. A perfect game.'},
-  {id:26,title:'GoldenEye 007',console:'N64',year:1997,genre:'FPS',publisher:'Rare/Nintendo',prices:{USD:59.99,GBP:49.99,JPY:5800},rating:5,art:'https://gameflation.netlify.app/art/n64/GoldenEye-007--U-----.jpg',desc:'Four-player split-screen legends were made here. The FPS that proved consoles could do shooters.'},
-  {id:27,title:'The Legend of Zelda: Ocarina of Time',console:'N64',year:1998,genre:'Action-Adventure',publisher:'Nintendo',prices:{USD:59.99,GBP:49.99,JPY:5800},rating:5,art:'https://gameflation.netlify.app/art/n64/Legend-of-Zelda--The---Ocarina-of-Time---Master-Quest--U---GC-----.jpg',desc:'The greatest game ever made. Z-targeting, Hyrule Field, the Temple of Time.'},
-  {id:28,title:'Super Smash Bros.',console:'N64',year:1999,genre:'Fighting',publisher:'Nintendo',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:5,art:'https://gameflation.netlify.app/art/n64/Super-Smash-Bros.--U-----.jpg',desc:'The original crossover brawler. 12 fighters, endless depth.'},
-  {id:29,title:'Banjo-Kazooie',console:'N64',year:1998,genre:'Platformer',publisher:'Rare/Nintendo',prices:{USD:49.99,GBP:39.99,JPY:6800},rating:5,art:'https://gameflation.netlify.app/art/n64/Banjo-Kazooie--U---V1.1-----.jpg',desc:'Rare\'s 3D platformer masterpiece. Bear and bird team up to stop a witch.'},
-  {id:30,title:'Mario Kart 64',console:'N64',year:1996,genre:'Racing',publisher:'Nintendo',prices:{USD:59.99,GBP:49.99,JPY:5800},rating:5,art:'https://gameflation.netlify.app/art/n64/Mario-Kart-64--U-----.jpg',desc:'Rainbow Road. Blue shells. Four-player chaos. 9.87 million sold.'},
-  {id:31,title:'Tetris',console:'Game Boy',year:1989,genre:'Puzzle',publisher:'Nintendo',prices:{USD:24.99,GBP:19.99,JPY:3200},rating:5,art:'https://gameflation.netlify.app/art/gb/Tetris--World---Rev-A-.png',desc:'The game that sold the Game Boy. The greatest puzzle game ever made.'},
-  {id:32,title:'Pokémon Red & Blue',console:'Game Boy',year:1998,genre:'RPG',publisher:'Nintendo',prices:{USD:29.99,GBP:24.99,JPY:2800},rating:5,art:'https://gameflation.netlify.app/art/gb/Pokemon---Red-Version--USA--Europe-.png',desc:'Gotta catch em all. 151 Pokémon, two versions, one obsession. 31 million sold.'},
-  {id:33,title:"The Legend of Zelda: Link's Awakening",console:'Game Boy',year:1993,genre:'Action-Adventure',publisher:'Nintendo',prices:{USD:29.99,GBP:24.99,JPY:3200},rating:5,art:"https://gameflation.netlify.app/art/gb/Link's_Awakening.png",desc:'A dream. Koholint Island, the Wind Fish. The best handheld Zelda.'},
-  {id:34,title:'Pokémon Gold & Silver',console:'Game Boy',year:2000,genre:'RPG',publisher:'Nintendo',prices:{USD:29.99,GBP:24.99,JPY:2800},rating:5,art:'https://gameflation.netlify.app/art/gb/pokemon gold and silver.jpg',desc:'Two regions, day/night cycle, 251 Pokémon. The greatest Pokémon games ever made.'},
-  {id:35,title:'Super Mario Land 2',console:'Game Boy',year:1992,genre:'Platformer',publisher:'Nintendo',prices:{USD:24.99,GBP:19.99,JPY:3200},rating:5,art:'https://gameflation.netlify.app/art/gb/Super-Mario-Land-2---6-Golden-Coins--USA--Europe---Rev-B-.png',desc:'Wario debuts. Six worlds across a massive castle.'},
-  {id:36,title:"Kirby's Dream Land",console:'Game Boy',year:1992,genre:'Platformer',publisher:'HAL/Nintendo',prices:{USD:19.99,GBP:14.99,JPY:2500},rating:4,art:'https://gameflation.netlify.app/art/gb/Kirby-s-Dream-Land--USA--Europe-.png',desc:'Kirby\'s debut. Charming, accessible and short enough to be perfect.'},
+  {id:1,title:'Super Mario Bros.',console:'NES',year:1985,genre:'Platformer',publisher:'Nintendo',prices:{USD:29.99,GBP:19.99,JPY:4900},rating:5,art:'/art/nes/Super Mario Bros. (USA).png',desc:'The game that changed everything. Mario\'s first side-scrolling adventure.'},
+  {id:2,title:'The Legend of Zelda',console:'NES',year:1986,genre:'Action-RPG',publisher:'Nintendo',prices:{USD:49.99,GBP:34.99,JPY:6500},rating:5,art:'/art/nes/Legend of Zelda, The (USA).png',desc:'Link\'s first quest. The gold cartridge that became iconic.'},
+  {id:3,title:'Mega Man 2',console:'NES',year:1988,genre:'Platformer',publisher:'Capcom',prices:{USD:39.99,GBP:27.99,JPY:5500},rating:5,art:'/art/nes/Mega Man 2 (USA).png',desc:'The pinnacle of the Mega Man series. Eight robot masters, unforgettable music.'},
+  {id:4,title:'Contra',console:'NES',year:1988,genre:"Run'n Gun",publisher:'Konami',prices:{USD:39.99,GBP:27.99,JPY:5500},rating:5,art:'/art/nes/Contra (USA).png',desc:'Up up down down left right left right B A. The Konami code was born here.'},
+  {id:5,title:'Castlevania',console:'NES',year:1987,genre:'Action',publisher:'Konami',prices:{USD:39.99,GBP:27.99,JPY:5500},rating:5,art:'/art/nes/Castlevania (USA).png',desc:'Simon Belmont\'s whip-cracking journey through Dracula\'s castle.'},
+  {id:6,title:'Duck Hunt',console:'NES',year:1985,genre:'Light Gun',publisher:'Nintendo',prices:{USD:14.99,GBP:12.99,JPY:3000},rating:3,art:'/art/nes/Duck Hunt (USA).png',desc:'That laughing dog. Bundled with the Zapper light gun.'},
+  {id:7,title:'Metroid',console:'NES',year:1987,genre:'Action-Adventure',publisher:'Nintendo',prices:{USD:29.99,GBP:22.99,JPY:4500},rating:5,art:'/art/nes/Metroid (USA).png',desc:'Samus Aran arrives. One of the greatest adventures on the NES.'},
+  {id:8,title:'DuckTales',console:'NES',year:1989,genre:'Platformer',publisher:'Capcom',prices:{USD:39.99,GBP:29.99,JPY:5800},rating:5,art:'/art/nes/DuckTales.jpg',desc:'Scrooge McDuck\'s pogo cane. One of the finest platformers on the NES.'},
+  {id:9,title:'Super Mario World',console:'SNES',year:1990,genre:'Platformer',publisher:'Nintendo',prices:{USD:49.99,GBP:39.99,JPY:8000},rating:5,art:'/art/snes/Super Mario World (USA).png',desc:'Mario\'s SNES debut introduced Yoshi and 96 exits.'},
+  {id:10,title:'A Link to the Past',console:'SNES',year:1991,genre:'Action-RPG',publisher:'Nintendo',prices:{USD:49.99,GBP:39.99,JPY:8000},rating:5,art:'/art/snes/Legend of Zelda, The - A Link to the Past (USA).png',desc:'The definitive Zelda blueprint. Dark World, Master Sword, six sages.'},
+  {id:11,title:'Super Metroid',console:'SNES',year:1994,genre:'Action-Adventure',publisher:'Nintendo',prices:{USD:59.99,GBP:49.99,JPY:9000},rating:5,art:'/art/snes/Super Metroid.png',desc:'The definitive 2D Metroid. Atmosphere, controls, ending — perfect.'},
+  {id:12,title:'Chrono Trigger',console:'SNES',year:1995,genre:'RPG',publisher:'Square',prices:{USD:69.99,GBP:54.99,JPY:11400},rating:5,art:'/art/snes/Chrono Trigger.png',desc:'The greatest JRPG ever made. Time travel, 13 endings.'},
+  {id:13,title:'Final Fantasy VI',console:'SNES',year:1994,genre:'RPG',publisher:'Square',prices:{USD:69.99,GBP:54.99,JPY:11400},rating:5,art:'/art/snes/Final Fantasy VI.jpg',desc:'Opera scene. Terra\'s theme. Kefka as the greatest villain in gaming.'},
+  {id:14,title:'Donkey Kong Country',console:'SNES',year:1994,genre:'Platformer',publisher:'Nintendo',prices:{USD:59.99,GBP:49.99,JPY:9000},rating:5,art:'/art/snes/Donkey Kong Country (USA).png',desc:'Pre-rendered 3D graphics that blew everyone\'s mind in 1994.'},
+  {id:15,title:'Street Fighter II Turbo',console:'SNES',year:1992,genre:'Fighting',publisher:'Capcom',prices:{USD:69.99,GBP:59.99,JPY:9800},rating:5,art:'/art/snes/Street Fighter II Turbo.png',desc:'The fighting game that defined a genre.'},
+  {id:16,title:'Mega Man X',console:'SNES',year:1993,genre:'Platformer',publisher:'Capcom',prices:{USD:54.99,GBP:44.99,JPY:8000},rating:5,art:'/art/snes/Mega Man X (USA).png',desc:'The reinvention of Mega Man. Wall-jumping, charge shots, perfect intro.'},
+  {id:17,title:'Secret of Mana',console:'SNES',year:1993,genre:'Action-RPG',publisher:'Square',prices:{USD:59.99,GBP:49.99,JPY:9800},rating:5,art:'/art/snes/Secret of Mana (USA).png',desc:'Real-time combat, co-op multiplayer, a soundtrack that still gives chills.'},
+  {id:18,title:'Sonic the Hedgehog',console:'Mega Drive',year:1991,genre:'Platformer',publisher:'Sega',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:5,art:'/art/genesis/Sonic the Hedgehog (USA).png',desc:'The blue blur arrives. Sonic vs Mario was THE console war of the early 90s.'},
+  {id:19,title:'Sonic the Hedgehog 2',console:'Mega Drive',year:1992,genre:'Platformer',publisher:'Sega',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:5,art:'/art/genesis/Sonic the Hedgehog 2 (USA).png',desc:'Tails joins the party. Chemical Plant Zone. The spin dash.'},
+  {id:20,title:'Streets of Rage 2',console:'Mega Drive',year:1992,genre:"Beat'em Up",publisher:'Sega',prices:{USD:54.99,GBP:44.99,JPY:8500},rating:5,art:'/art/genesis/Streets of Rage 2 (USA).png',desc:'The definitive beat\'em up. Yuzo Koshiro\'s best work.'},
+  {id:21,title:'Gunstar Heroes',console:'Mega Drive',year:1993,genre:"Run'n Gun",publisher:'Sega/Treasure',prices:{USD:59.99,GBP:49.99,JPY:8800},rating:5,art:'/art/genesis/Gunstar Heroes (USA).png',desc:'Treasure\'s debut. Insane action, combinable weapons.'},
+  {id:22,title:'Castlevania: Bloodlines',console:'Mega Drive',year:1994,genre:'Action',publisher:'Konami',prices:{USD:59.99,GBP:49.99,JPY:9800},rating:5,art:'/art/genesis/Castlevania - Bloodlines (USA).png',desc:'The only mainline Castlevania on Genesis. Superb soundtrack.'},
+  {id:23,title:"Disney's Aladdin",console:'Mega Drive',year:1993,genre:'Platformer',publisher:'Virgin/Sega',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:5,art:'/art/genesis/Aladdin (USA).png',desc:'Animated by Disney artists. The best movie tie-in game ever made.'},
+  {id:24,title:'Contra: Hard Corps',console:'Mega Drive',year:1994,genre:"Run'n Gun",publisher:'Konami',prices:{USD:64.99,GBP:54.99,JPY:9800},rating:5,art:'/art/genesis/Contra - Hard Corps (USA).png',desc:'The hardest, most chaotic Contra. Multiple endings, four characters.'},
+  {id:25,title:'Super Mario 64',console:'N64',year:1996,genre:'Platformer',publisher:'Nintendo',prices:{USD:59.99,GBP:49.99,JPY:5800},rating:5,art:'/art/n64/Super-Mario-64--U-----.jpg',desc:'The game that invented 3D platforming. 120 stars, Bowser battles. A perfect game.'},
+  {id:26,title:'GoldenEye 007',console:'N64',year:1997,genre:'FPS',publisher:'Rare/Nintendo',prices:{USD:59.99,GBP:49.99,JPY:5800},rating:5,art:'/art/n64/GoldenEye-007--U-----.jpg',desc:'Four-player split-screen legends were made here. The FPS that proved consoles could do shooters.'},
+  {id:27,title:'The Legend of Zelda: Ocarina of Time',console:'N64',year:1998,genre:'Action-Adventure',publisher:'Nintendo',prices:{USD:59.99,GBP:49.99,JPY:5800},rating:5,art:'/art/n64/Legend-of-Zelda--The---Ocarina-of-Time---Master-Quest--U---GC-----.jpg',desc:'The greatest game ever made. Z-targeting, Hyrule Field, the Temple of Time.'},
+  {id:28,title:'Super Smash Bros.',console:'N64',year:1999,genre:'Fighting',publisher:'Nintendo',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:5,art:'/art/n64/Super-Smash-Bros.--U-----.jpg',desc:'The original crossover brawler. 12 fighters, endless depth.'},
+  {id:29,title:'Banjo-Kazooie',console:'N64',year:1998,genre:'Platformer',publisher:'Rare/Nintendo',prices:{USD:49.99,GBP:39.99,JPY:6800},rating:5,art:'/art/n64/Banjo-Kazooie--U---V1.1-----.jpg',desc:'Rare\'s 3D platformer masterpiece. Bear and bird team up to stop a witch.'},
+  {id:30,title:'Mario Kart 64',console:'N64',year:1996,genre:'Racing',publisher:'Nintendo',prices:{USD:59.99,GBP:49.99,JPY:5800},rating:5,art:'/art/n64/Mario-Kart-64--U-----.jpg',desc:'Rainbow Road. Blue shells. Four-player chaos. 9.87 million sold.'},
+  {id:31,title:'Tetris',console:'Game Boy',year:1989,genre:'Puzzle',publisher:'Nintendo',prices:{USD:24.99,GBP:19.99,JPY:3200},rating:5,art:'/art/gb/Tetris--World---Rev-A-.png',desc:'The game that sold the Game Boy. The greatest puzzle game ever made.'},
+  {id:32,title:'Pokémon Red & Blue',console:'Game Boy',year:1998,genre:'RPG',publisher:'Nintendo',prices:{USD:29.99,GBP:24.99,JPY:2800},rating:5,art:'/art/gb/Pokemon---Red-Version--USA--Europe-.png',desc:'Gotta catch em all. 151 Pokémon, two versions, one obsession. 31 million sold.'},
+  {id:33,title:"The Legend of Zelda: Link's Awakening",console:'Game Boy',year:1993,genre:'Action-Adventure',publisher:'Nintendo',prices:{USD:29.99,GBP:24.99,JPY:3200},rating:5,art:"/art/gb/Link's_Awakening.png",desc:'A dream. Koholint Island, the Wind Fish. The best handheld Zelda.'},
+  {id:34,title:'Pokémon Gold & Silver',console:'Game Boy',year:2000,genre:'RPG',publisher:'Nintendo',prices:{USD:29.99,GBP:24.99,JPY:2800},rating:5,art:'/art/gb/pokemon gold and silver.jpg',desc:'Two regions, day/night cycle, 251 Pokémon. The greatest Pokémon games ever made.'},
+  {id:35,title:'Super Mario Land 2',console:'Game Boy',year:1992,genre:'Platformer',publisher:'Nintendo',prices:{USD:24.99,GBP:19.99,JPY:3200},rating:5,art:'/art/gb/Super-Mario-Land-2---6-Golden-Coins--USA--Europe---Rev-B-.png',desc:'Wario debuts. Six worlds across a massive castle.'},
+  {id:36,title:"Kirby's Dream Land",console:'Game Boy',year:1992,genre:'Platformer',publisher:'HAL/Nintendo',prices:{USD:19.99,GBP:14.99,JPY:2500},rating:4,art:'/art/gb/Kirby-s-Dream-Land--USA--Europe-.png',desc:'Kirby\'s debut. Charming, accessible and short enough to be perfect.'},
 ];
 
 
@@ -1522,7 +1522,7 @@ function openConsoleModal(c){
 function closeModal(e){if(e.target===document.getElementById('modalBg'))closeModalBtn();}
 function closeModalBtn(){document.getElementById('modalBg').classList.remove('open');document.body.style.overflow='';clearGameUrl();}
 function doCalc(){const amt=parseFloat(document.getElementById('calcAmt').value)||0;const year=parseInt(document.getElementById('calcYear').value);const cur=document.getElementById('calcCur').value;const table=cur==='USD'?inflationUSD:cur==='GBP'?inflationGBP:inflationJPY;const mult=table[year]||1;const result=Math.round(amt*mult);const sym=cur==='USD'?'$':cur==='GBP'?'£':'¥';document.getElementById('calcRes').textContent=sym+result.toLocaleString();document.getElementById('calcMul').textContent=mult.toFixed(1)+'×';document.getElementById('calcCtx').textContent=`That ${sym}${amt} in ${year} had the same buying power as ${sym}${result.toLocaleString()} in 2026.`;}
-const NES_ART_BASE='https://gameflation.netlify.app/art/nes/';
+const NES_ART_BASE='/art/nes/';
 const NES_GAMES=[
   {id:'nes-001',title:'Super Mario Bros.',publisher:'Nintendo',year:1985,genre:'Platformer',prices:{USD:29.99,GBP:19.99,JPY:4900},rating:5,driveFile:'Super Mario Bros. (USA).png',sales:'40.24M',facts:[{"icon":"🍄","text":"Super Mario Bros. shipped as the pack-in game with the NES in North America. Nintendo sold 40 million copies — one for nearly every console sold. It single-handedly revived the US games market after the 1983 crash."},{"icon":"💰","text":"At $29.99 in 1985, Mario was priced below the standard NES game to maximise reach. In 2026 money that is about $96 — still cheaper than a modern AAA title."}]},
   {id:'nes-002',title:'Duck Hunt',publisher:'Nintendo',year:1985,genre:'Light Gun',prices:{USD:14.99,GBP:12.99,JPY:3000},rating:3,driveFile:'Duck Hunt (USA).png',sales:'28.31M',facts:[{"icon":"🎮","text":"Super Mario Bros. 2 is a reskin of a Japanese game called Doki Doki Panic. Nintendo of America rejected the real SMB2 as too difficult for Western audiences and swapped characters into a different game."},{"icon":"🌎","text":"The original Japanese Super Mario Bros. 2 — known as The Lost Levels — was not released in the West until 1993 on the SNES. It was considered too punishing even by Nintendo own standards."}]},
@@ -1921,8 +1921,8 @@ function openSNESModal(game){pushGameUrl(game.id);
     ${mult?`<div class="inflation-note">📊 Inflation factor: ${mult}× from ${game.year} to 2026 (US CPI).<br>🖼️ Art file: <span style="color:var(--sky)">${game.driveFile}</span></div>`:''}`;
 }
 
-const SNES_ART_BASE='https://gameflation.netlify.app/art/snes/';
-const GENESIS_ART_BASE='https://gameflation.netlify.app/art/genesis/';
+const SNES_ART_BASE='/art/snes/';
+const GENESIS_ART_BASE='/art/genesis/';
 
 const GENESIS_GENRE_COLORS={
   'Platformer':'#003a00','Shooter':'#002a00','Action':'#3a0000',
@@ -2084,7 +2084,7 @@ function openGenesisModal(game){pushGameUrl(game.id);
     ${mult?`<div class="inflation-note">📊 Inflation factor: ${mult}× from ${game.year} to 2026 (US CPI).</div>`:''}`;
 }
 
-const N64_ART_BASE='https://gameflation.netlify.app/art/n64/';
+const N64_ART_BASE='/art/n64/';
 const N64_GAMES=[
   {id:'n64-001',title:'007: The World Is Not Enough',publisher:'EA',year:2000,genre:'FPS',prices:{USD:49.99,GBP:39.99,JPY:7800},rating:3,driveFile:'007---The-World-is-Not-Enough--U-----.jpg',desc:'Licensed Bond shooter. Solid but overshadowed by GoldenEye.',facts:[{"icon":"🏆","text":"Ocarina of Time holds the record for the highest-rated game ever reviewed on Metacritic — a 99/100 that has never been matched. It invented Z-targeting used in virtually every 3D action game since 1998."},{"icon":"💰","text":"At $59.99 in 1998 — $112 today — OoT sold 7.6 million copies on a console with a limited install base, making it one of the highest attach-rate games ever made."}]},
   {id:'n64-002',title:'1080° Snowboarding',publisher:'Nintendo',year:1998,genre:'Sports',prices:{USD:49.99,GBP:39.99,JPY:6800},rating:4,driveFile:'1080-Snowboarding--JU---M2-----.jpg',sales:'2.17M',desc:'Silky smooth snowboarding. HAL Laboratory at their finest.'},
@@ -2247,7 +2247,7 @@ function openN64Modal(game){pushGameUrl(game.id);
     ${mult?`<div class="inflation-note">📊 Inflation factor: ${mult}× from ${game.year} to 2026 (US CPI).</div>`:''}`;
 }
 
-const GB_ART_BASE='https://gameflation.netlify.app/art/gb/';
+const GB_ART_BASE='/art/gb/';
 const GB_GAMES=[
   {id:'gb-001',title:'Pokémon Red & Blue',publisher:'Nintendo',year:1998,genre:'RPG',prices:{USD:29.99,GBP:24.99,JPY:2800},rating:5,driveFile:'Pokemon---Red-Version--USA--Europe-.png',sales:'31.37M',desc:'Gotta catch em all. The phenomenon that swept the world. 151 Pokémon, two versions, one obsession.',facts:[{"icon":"🟩","text":"Tetris was bundled with the Game Boy at launch and is the primary reason the Game Boy won the handheld war against the technically superior Atari Lynx and Sega Game Gear."},{"icon":"📦","text":"Tetris on Game Boy has sold 35 million copies. Nintendo deal to secure the rights triggered an international legal dispute involving the Soviet government."}]},
   {id:'gb-002',title:'Pokémon Yellow',publisher:'Nintendo',year:1998,genre:'RPG',prices:{USD:29.99,GBP:24.99,JPY:2800},rating:5,driveFile:'pokemon yellow.jpeg',sales:'14.64M',desc:'Pikachu follows you like in the anime. All three starters obtainable. The definitive Gen 1 experience.'},
@@ -2410,7 +2410,7 @@ function openGBModal(game){pushGameUrl(game.id);
 // ══════════════════════════════════════════
 // PLAYSTATION
 // ══════════════════════════════════════════
-const PS1_ART_BASE='https://gameflation.netlify.app/art/ps1/';
+const PS1_ART_BASE='/art/ps1/';
 const PS1_GAMES=[
   {id:'ps1-001',title:'Gran Turismo',publisher:'Sony CE',year:1997,genre:'Racing',prices:{USD:49.99,GBP:39.99,JPY:5800},rating:5,driveFile:'Gran Turismo (USA) (v1.1).png',sales:'10.85M',desc:'The best-selling PS1 game ever. 140 cars, 11 tracks. Defined PlayStation as the adult console.',facts:[{"icon":"🏎️","text":"Gran Turismo took 5 years to develop — an eternity in 1990s game development. Kazunori Yamauchi obsession with automotive accuracy was so extreme that Sony nearly cancelled the project twice."},{"icon":"📦","text":"Gran Turismo is the best-selling PlayStation game ever with 10.85 million copies. It defined PlayStation as the adult console and established Sony dominance in the racing genre for a generation."}]},
   {id:'ps1-002',title:'Final Fantasy VII',publisher:'Square / Sony CE',year:1997,genre:'RPG',prices:{USD:49.99,GBP:39.99,JPY:6800},rating:5,driveFile:'Final Fantasy VII (USA) (Disc 1).png',sales:'10.02M',desc:'Aerith. Sephiroth. Midgar. The JRPG that conquered the West and made RPGs mainstream worldwide.',facts:[{"icon":"🗡️","text":"FF7 development team grew to 120 people — the largest in Square history. The move to PlayStation was driven by Sony offering CD-ROM storage, which allowed pre-rendered cutscenes impossible on cartridge."},{"icon":"🌍","text":"FF7 was the first Final Fantasy released simultaneously worldwide. Square launch transformed the JRPG from a niche import curiosity into a mainstream Western genre."}]},
@@ -2665,7 +2665,7 @@ const FRANCHISES=[
   {
     name:'Super Mario',maker:'Nintendo',emoji:'🍄',
     color:'#c84c0c',color2:'#e52222',
-    art:'https://gameflation.netlify.app/art/franchises/mario.jpg',
+    art:'/art/franchises/mario.jpg',
     years:'1985–present',
     games:[
       {t:'Super Mario Bros.',y:1985,usd:29.99},
@@ -2689,7 +2689,7 @@ const FRANCHISES=[
   {
     name:'The Legend of Zelda',maker:'Nintendo',emoji:'⚔️',
     color:'#1a6b00',color2:'#3abf3a',
-    art:'https://gameflation.netlify.app/art/franchises/zelda.jpg',
+    art:'/art/franchises/zelda.jpg',
     years:'1986–present',
     games:[
       {t:'The Legend of Zelda',y:1986,usd:49.99},
@@ -2714,7 +2714,7 @@ const FRANCHISES=[
   {
     name:'Final Fantasy',maker:'Square',emoji:'⚗️',
     color:'#001a8b',color2:'#5bc8f5',
-    art:'https://gameflation.netlify.app/art/franchises/final fantasy.jpg',
+    art:'/art/franchises/final fantasy.jpg',
     years:'1987–present',
     games:[
       {t:'Final Fantasy',y:1990,usd:49.99},
@@ -2739,7 +2739,7 @@ const FRANCHISES=[
   {
     name:'Sonic the Hedgehog',maker:'Sega',emoji:'💨',
     color:'#003fa3',color2:'#5bc8f5',
-    art:'https://gameflation.netlify.app/art/franchises/sonic.jpg',
+    art:'/art/franchises/sonic.jpg',
     years:'1991–present',
     games:[
       {t:'Sonic the Hedgehog',y:1991,usd:49.99},
@@ -2763,7 +2763,7 @@ const FRANCHISES=[
   {
     name:'Mega Man',maker:'Capcom',emoji:'🤖',
     color:'#00308f',color2:'#5bc8f5',
-    art:'https://gameflation.netlify.app/art/franchises/megaman.jpg',
+    art:'/art/franchises/megaman.jpg',
     years:'1987–present',
     games:[
       {t:'Mega Man',y:1987,usd:34.99},
@@ -2786,7 +2786,7 @@ const FRANCHISES=[
   {
     name:'Castlevania',maker:'Konami',emoji:'🧛',
     color:'#3a0040',color2:'#e52222',
-    art:'https://gameflation.netlify.app/art/franchises/castlevania.jpg',
+    art:'/art/franchises/castlevania.jpg',
     years:'1987–present',
     games:[
       {t:'Castlevania',y:1987,usd:39.99},
@@ -2811,7 +2811,7 @@ const FRANCHISES=[
   {
     name:'Street Fighter',maker:'Capcom',emoji:'🥊',
     color:'#8b0000',color2:'#f7c948',
-    art:'https://gameflation.netlify.app/art/franchises/street fighter.jpg',
+    art:'/art/franchises/street fighter.jpg',
     years:'1987–present',
     games:[
       {t:'Street Fighter II',y:1992,usd:69.99},
@@ -2834,7 +2834,7 @@ const FRANCHISES=[
   {
     name:'Mortal Kombat',maker:'Midway / NetherRealm',emoji:'💀',
     color:'#1a0000',color2:'#e52222',
-    art:'https://gameflation.netlify.app/art/franchises/mortal kombat.jpg',
+    art:'/art/franchises/mortal kombat.jpg',
     years:'1993–present',
     games:[
       {t:'Mortal Kombat',y:1993,usd:59.99},
@@ -2859,7 +2859,7 @@ const FRANCHISES=[
   {
     name:'Resident Evil',maker:'Capcom',emoji:'🧟',
     color:'#0d0d0d',color2:'#e52222',
-    art:'https://gameflation.netlify.app/art/franchises/resident evil.jpg',
+    art:'/art/franchises/resident evil.jpg',
     years:'1996–present',
     games:[
       {t:'Resident Evil',y:1996,usd:49.99},
@@ -2884,7 +2884,7 @@ const FRANCHISES=[
   {
     name:'Gran Turismo',maker:'Sony / Polyphony',emoji:'🏎️',
     color:'#001a3a',color2:'#5bc8f5',
-    art:'https://gameflation.netlify.app/art/franchises/gran turismo.jpg',
+    art:'/art/franchises/gran turismo.jpg',
     years:'1997–present',
     games:[
       {t:'Gran Turismo',y:1997,usd:49.99},
@@ -2905,7 +2905,7 @@ const FRANCHISES=[
   {
     name:'Crash Bandicoot',maker:'Naughty Dog / Sony',emoji:'🐨',
     color:'#b35c00',color2:'#f7c948',
-    art:'https://gameflation.netlify.app/art/franchises/Crash bandicoot.jpg',
+    art:'/art/franchises/Crash bandicoot.jpg',
     years:'1996–present',
     games:[
       {t:'Crash Bandicoot',y:1996,usd:49.99},
@@ -2927,7 +2927,7 @@ const FRANCHISES=[
   {
     name:'Metal Gear',maker:'Konami',emoji:'🐍',
     color:'#0a1a0a',color2:'#3abf3a',
-    art:'https://gameflation.netlify.app/art/franchises/metal gear solid.jpg',
+    art:'/art/franchises/metal gear solid.jpg',
     years:'1987–2018',
     games:[
       {t:'Metal Gear',y:1988,usd:39.99},
@@ -2948,7 +2948,7 @@ const FRANCHISES=[
   {
     name:'Pokémon',maker:'Nintendo / Game Freak',emoji:'⚡',
     color:'#f7c948',color2:'#f7c948',
-    art:'https://gameflation.netlify.app/art/franchises/pokemon.jpg',
+    art:'/art/franchises/pokemon.jpg',
     years:'1996–present',
     games:[
       {t:'Pokémon Red & Blue',y:1998,usd:29.99},
@@ -2973,7 +2973,7 @@ const FRANCHISES=[
   {
     name:'Grand Theft Auto',maker:'Rockstar Games',emoji:'🚗',
     color:'#1a1a00',color2:'#f7c948',
-    art:'https://gameflation.netlify.app/art/franchises/Grand theft auto.jpg',
+    art:'/art/franchises/Grand theft auto.jpg',
     years:'1997–present',
     games:[
       {t:'Grand Theft Auto',y:1997,usd:29.99},
@@ -2994,7 +2994,7 @@ const FRANCHISES=[
   {
     name:'Tomb Raider',maker:'Core Design / Crystal Dynamics',emoji:'🏛️',
     color:'#1a0f00',color2:'#c84c0c',
-    art:'https://gameflation.netlify.app/art/franchises/tomb raider.jpg',
+    art:'/art/franchises/tomb raider.jpg',
     years:'1996–present',
     games:[
       {t:'Tomb Raider',y:1996,usd:49.99},
@@ -3016,7 +3016,7 @@ const FRANCHISES=[
   {
     name:'Tekken',maker:'Namco / Bandai Namco',emoji:'👊',
     color:'#1a0000',color2:'#e52222',
-    art:'https://gameflation.netlify.app/art/franchises/tekken.jpg',
+    art:'/art/franchises/tekken.jpg',
     years:'1994–present',
     games:[
       {t:'Tekken',y:1995,usd:49.99},
@@ -3038,7 +3038,7 @@ const FRANCHISES=[
   {
     name:'Donkey Kong',maker:'Nintendo',emoji:'🦍',
     color:'#3a1a00',color2:'#c84c0c',
-    art:'https://gameflation.netlify.app/art/franchises/donkey kong.jpg',
+    art:'/art/franchises/donkey kong.jpg',
     years:'1981–present',
     games:[
       {t:'Donkey Kong',y:1986,usd:24.99},
@@ -3059,7 +3059,7 @@ const FRANCHISES=[
   {
     name:'Metroid',maker:'Nintendo',emoji:'🌌',
     color:'#001a1a',color2:'#3abf3a',
-    art:'https://gameflation.netlify.app/art/franchises/metroid.jpg',
+    art:'/art/franchises/metroid.jpg',
     years:'1987–present',
     games:[
       {t:'Metroid',y:1987,usd:29.99},
@@ -3080,7 +3080,7 @@ const FRANCHISES=[
   {
     name:'Doom',maker:'id Software',emoji:'💥',
     color:'#1a0000',color2:'#e52222',
-    art:'https://gameflation.netlify.app/art/franchises/doom.jpg',
+    art:'/art/franchises/doom.jpg',
     years:'1993–present',
     games:[
       {t:'Doom',y:1993,usd:39.99},
@@ -3099,7 +3099,7 @@ const FRANCHISES=[
   {
     name:'Halo',maker:'Bungie / 343 Industries',emoji:'🪖',
     color:'#001a0a',color2:'#3abf3a',
-    art:'https://gameflation.netlify.app/art/franchises/halo.jpg',
+    art:'/art/franchises/halo.jpg',
     years:'2001–present',
     games:[
       {t:'Halo: Combat Evolved',y:2001,usd:49.99},
@@ -3120,7 +3120,7 @@ const FRANCHISES=[
   {
     name:"Tony Hawk's",maker:'Activision / Neversoft',emoji:'🛹',
     color:'#0a0a00',color2:'#f7c948',
-    art:'https://gameflation.netlify.app/art/franchises/tony hawks.jpg',
+    art:'/art/franchises/tony hawks.jpg',
     years:'1999–present',
     games:[
       {t:"Tony Hawk's Pro Skater",y:1999,usd:49.99},
@@ -3141,7 +3141,7 @@ const FRANCHISES=[
   {
     name:'Kirby',maker:'HAL Laboratory / Nintendo',emoji:'🩷',
     color:'#3a001a',color2:'#f7c948',
-    art:'https://gameflation.netlify.app/art/franchises/kirby.jpg',
+    art:'/art/franchises/kirby.jpg',
     years:'1992–present',
     games:[
       {t:"Kirby's Dream Land",y:1992,usd:19.99},
@@ -3163,7 +3163,7 @@ const FRANCHISES=[
   {
     name:'Call of Duty',maker:'Activision / Infinity Ward',emoji:'🎖️',
     color:'#0a0800',color2:'#888780',
-    art:'https://gameflation.netlify.app/art/franchises/call of duty.jpg',
+    art:'/art/franchises/call of duty.jpg',
     years:'2003–present',
     games:[
       {t:'Call of Duty',y:2003,usd:49.99},
@@ -3188,7 +3188,7 @@ const FRANCHISES=[
   {
     name:'FIFA / EA Sports FC',maker:'EA Sports',emoji:'⚽',
     color:'#001a00',color2:'#3abf3a',
-    art:'https://gameflation.netlify.app/art/franchises/fifa.jpg',
+    art:'/art/franchises/fifa.jpg',
     years:'1993–present',
     games:[
       {t:'FIFA International Soccer',y:1993,usd:49.99},
@@ -3211,7 +3211,7 @@ const FRANCHISES=[
   {
     name:"Assassin's Creed",maker:'Ubisoft',emoji:'🦅',
     color:'#0a0a00',color2:'#f7c948',
-    art:'https://gameflation.netlify.app/art/franchises/assasins creed.jpg',
+    art:'/art/franchises/assasins creed.jpg',
     years:'2007–present',
     games:[
       {t:"Assassin's Creed",y:2007,usd:59.99},
@@ -3234,7 +3234,7 @@ const FRANCHISES=[
   {
     name:'Far Cry',maker:'Ubisoft',emoji:'🌿',
     color:'#001a00',color2:'#3abf3a',
-    art:'https://gameflation.netlify.app/art/franchises/far cry.jpg',
+    art:'/art/franchises/far cry.jpg',
     years:'2004–present',
     games:[
       {t:'Far Cry',y:2004,usd:49.99},
@@ -3255,7 +3255,7 @@ const FRANCHISES=[
   {
     name:'Hitman',maker:'IO Interactive',emoji:'🎯',
     color:'#0a0000',color2:'#e52222',
-    art:'https://gameflation.netlify.app/art/franchises/hitman.jpg',
+    art:'/art/franchises/hitman.jpg',
     years:'2000–present',
     games:[
       {t:'Hitman: Codename 47',y:2000,usd:39.99},
@@ -3276,7 +3276,7 @@ const FRANCHISES=[
   {
     name:'Fire Emblem',maker:'Nintendo / Intelligent Systems',emoji:'🔥',
     color:'#1a0000',color2:'#e52222',
-    art:'https://gameflation.netlify.app/art/franchises/fire emblem.jpg',
+    art:'/art/franchises/fire emblem.jpg',
     years:'1990–present',
     games:[
       {t:'Fire Emblem: Genealogy of the Holy War',y:1996,usd:null},
@@ -3297,7 +3297,7 @@ const FRANCHISES=[
   {
     name:'God of War',maker:'Sony / Santa Monica Studio',emoji:'⚡',
     color:'#1a0000',color2:'#e52222',
-    art:'https://gameflation.netlify.app/art/franchises/god of war.jpg',
+    art:'/art/franchises/god of war.jpg',
     years:'2005–present',
     games:[
       {t:'God of War',y:2005,usd:49.99},
@@ -3316,7 +3316,7 @@ const FRANCHISES=[
   {
     name:'Fallout',maker:'Bethesda / Black Isle',emoji:'☢️',
     color:'#1a1400',color2:'#f7c948',
-    art:'https://gameflation.netlify.app/art/franchises/fallout.jpg',
+    art:'/art/franchises/fallout.jpg',
     years:'1997–present',
     games:[
       {t:'Fallout',y:1997,usd:44.99},
@@ -3335,7 +3335,7 @@ const FRANCHISES=[
   {
     name:'Streets of Rage',maker:'Sega / Dotemu',emoji:'🥋',
     color:'#1a0a00',color2:'#c84c0c',
-    art:'https://gameflation.netlify.app/art/franchises/streets of rage.jpg',
+    art:'/art/franchises/streets of rage.jpg',
     years:'1991–present',
     games:[
       {t:'Streets of Rage',y:1991,usd:49.99},
