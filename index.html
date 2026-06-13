@@ -1130,9 +1130,13 @@ body.mode-pixel::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
 <!-- End SEO content -->
 <div id="franchisesTab" class="tab-content">
   <div class="main" style="padding:24px 12px 40px">
-    <div style="max-width:960px;margin:0 auto 24px">
+    <div style="max-width:1000px;margin:0 auto 20px">
       <div class="chart-title" style="font-size:clamp(11px,2vw,20px);margin-bottom:8px">🏆 Classic Gaming Franchises</div>
-      <div class="chart-sub">Average launch prices across every entry — adjusted to 2026 money. Some franchises cost the same for 20 years. Others quietly got more expensive.</div>
+      <div class="chart-sub" style="margin-bottom:14px">Average launch prices across every entry — adjusted to 2026 money. Some franchises cost the same for 20 years. Others quietly got more expensive.</div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <input class="pixel-input" type="text" id="franchiseSearch" placeholder="SEARCH FRANCHISES..." oninput="filterFranchises()" style="flex:1;min-width:200px;max-width:400px">
+        <div id="franchiseCount" style="font-size:var(--font-size-small);color:var(--text3);letter-spacing:.5px"></div>
+      </div>
     </div>
     <div class="franchise-grid" id="franchiseGrid"></div>
   </div>
@@ -3352,15 +3356,32 @@ const FRANCHISES=[
 ];
 
 let franchisesInited=false;
+
+function filterFranchises(){
+  const s=document.getElementById('franchiseSearch').value.toLowerCase().trim();
+  const filtered=s?FRANCHISES.filter(fr=>[fr.name,fr.maker,fr.genres].join(' ').toLowerCase().includes(s)):FRANCHISES;
+  const countEl=document.getElementById('franchiseCount');
+  if(countEl) countEl.textContent=filtered.length+' of '+FRANCHISES.length+' franchises';
+  renderFranchiseCards(filtered);
+}
+
 function renderFranchises(){
   if(franchisesInited) return;
   franchisesInited=true;
+  const countEl=document.getElementById('franchiseCount');
+  if(countEl) countEl.textContent=FRANCHISES.length+' franchises';
+  renderFranchiseCards(FRANCHISES);
+}
+
+function renderFranchiseCards(list){
   const grid=document.getElementById('franchiseGrid');
   if(!grid) return;
+  grid.innerHTML='';
 
   const maxAdj=120;
 
-  FRANCHISES.forEach(fr=>{
+  if(!list.length){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px;font-size:10px;color:var(--text3)">NO FRANCHISES FOUND</div>';return;}
+  list.forEach(fr=>{
     const priced=fr.games.filter(g=>g.usd);
     const avgNom=priced.length?Math.round(priced.reduce((s,g)=>s+g.usd,0)/priced.length):0;
     const avgAdj=priced.length?Math.round(priced.reduce((s,g)=>s+applyInflation(g.usd,'USD',g.y),0)/priced.length):0;
